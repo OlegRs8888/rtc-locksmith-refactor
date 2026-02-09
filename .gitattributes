@@ -1,0 +1,24 @@
+# По умолчанию: все текстовые файлы нормализуем в LF в репозитории
+* text=auto eol=lf
+
+# Скрипты Lua — явно текст с LF
+*.lua text eol=lf
+
+# Bash / shell (если появятся)
+*.sh  text eol=lf
+
+# Windows-скрипты — оставляем CRLF, если они реально нужны системе
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# SCADA / aubope файлы, если они по сути текстовые — можно добавить по расширениям
+*.tsp*  text eol=lf
+*.tspscreen text eol=lf
+*.xml  text eol=lf
+
+# Явно бинарные форматы помечаем как binary, чтобы git не трогал окончания строк
+*.exe  binary
+*.dll  binary
+*.png  binary
+*.jpg  binary
+*.pdf  binary

@@ -1,0 +1,181 @@
+package.path = "/root/AuboRobotWorkSpace/teachpendant/share/teachpendant/script/?.aubo"
+faska_m = require("faska_module")
+s_m = require("service_module")
+detect_m = require("detect_module")
+mill_m = require("milling_module")
+
+-- параметры системы координат поворотки
+calMet, jP1, jP2, jP3, tP = get_user_coord_param("povorotnayaOsReal")
+-- параметры системы координат инструмента
+posDiscTool, oriDiscTool = get_tool_kinematics_param("drillDisc")
+-- vzyal tekushuyu posiziyu
+wpCurr = get_current_waypoint()
+jntCurr = {wpCurr.joint.j1, wpCurr.joint.j2, wpCurr.joint.j3, wpCurr.joint.j4, wpCurr.joint.j5, wpCurr.joint.j6}
+posCurr, oriCurr = base_to_user(jntCurr, posDiscTool, oriDiscTool, calMet, jP1, jP2, jP3, tP)
+set_modbus_io_status("M_F_faskaR26Ah", posCurr[1]*1000)
+set_modbus_io_status("M_F_faskaR26Ch", posCurr[2]*1000)
+set_modbus_io_status("M_F_faskaR26Eh", posCurr[3]*1000)
+
+-- chitayu dop parametry
+P182_offsetSimY = get_modbus_io_status("M_F_faskaR270h")
+
+-- флаги выбора стороны венца и стороны зуба
+Storona1Left_genesis_select = get_modbus_io_status("manSc_c1B4h") -- 
+Storona1Right_select = get_modbus_io_status("manSc_c1B5h") -- 
+Storona2Left_select = get_modbus_io_status("manSc_c1B6h") -- 
+Storona2Right_select = get_modbus_io_status("manSc_c1B7h") -- 
+
+satellitSelectNumber = get_modbus_io_status("globalR1A9h") -- номер сателлита, который выбрал пользователь
+operationSelectNumber = get_modbus_io_status("globalR1AEh") -- nomer operacii obrabotki который выбрал пользователь 5 - заусенец, 8 - фаска боковые венцы, 12 - фаска центральные венцы
+
+-- флаги pereezdov
+pereezd_nadStartPointOperationX = get_modbus_io_status("manSc_c1B8h") -- knopka pereezda - позиция над точкой основания зуба Y=отвод по Y : Z=P167 : X на уровне плоскости операции
+pereezd_StartPoint = get_modbus_io_status("manSc_c1B9h") -- knopka pereezda - позиция точки Genesis или симметричной ей
+pereezd_nadStartPointSaftyX = get_modbus_io_status("manSc_c1BAh") -- knopka pereezda - позиция над точкой основания зуба Y=отвод по Y : Z=P167 : X на уровне плоскости безопасности
+pereezd_initPoint_razvorotyX = get_modbus_io_status("manSc_c1BBh") -- knopka pereezda - na razvorot
+man11_oneZub = get_modbus_io_status("manSc_c1BCh") -- knopka - frezernut` odin zub
+man12_vseZuby = get_modbus_io_status("manSc_c1BDh") -- knopka - frezernut` vse zuby storony
+
+if man11_oneZub==1 then
+    -- инициализация переменных и профиля движения
+    init_global_variables()
+    init_global_move_profile()    
+    -- параметры системы координат инструмента
+    posDiscTool, oriDiscTool = get_tool_kinematics_param("drillDisc")
+  -- данные операции притупления фаски
+    P150_Ddisc, P151_offsetDisc, P152_offsetTime, P153_printDbgFlag, P154_backDisk, P155_zausDisk, P156_operationX, P157_glavUgolX, P158_glavUgolY, P159_glavUgolZ, P160_perevorotyX, P161_saftyX, P162_velcRotate, P163_reykaZubleft, P164_reykaZubright, P165_V1S1Zleft_linX, P166_V1S1Zleft_linY, P167_V1S1Zleft_linZ, P168_operationY, P170_povorotZuba, P171_R_circleMin, P172_R_circleMax, P173_R_dugaEvolvent, P174_venec1Storona, P175_venec2Storona, P176_venec3Storona, P177_IDstring, P178_velcDuga = faska_m.getDataFaska()
+end
+if (pereezd_nadStartPointOperationX==1 or pereezd_nadStartPointSaftyX==1 or pereezd_StartPoint==1) and operationSelectNumber==8 then
+    -- инициализация переменных и профиля движения
+    init_global_variables()
+    init_global_move_profile()    
+    -- параметры системы координат инструмента
+    posDiscTool, oriDiscTool = get_tool_kinematics_param("drillDisc")
+  -- данные операции притупления фаски
+    P150_Ddisc, P151_offsetDisc, P152_offsetTime, P153_printDbgFlag, P154_backDisk, P155_zausDisk, P156_operationX, P157_glavUgolX, P158_glavUgolY, P159_glavUgolZ, P160_perevorotyX, P161_saftyX, P162_velcRotate, P163_reykaZubleft, P164_reykaZubright, P165_V1S1Zleft_linX, P166_V1S1Zleft_linY, P167_V1S1Zleft_linZ, P168_operationY, P170_povorotZuba, P171_R_circleMin, P172_R_circleMax, P173_R_dugaEvolvent, P174_venec1Storona, P175_venec2Storona, P176_venec3Storona, P177_IDstring, P178_velcDuga = faska_m.getDataFaska()
+    -- чтение параметров детали и обмера из AuboSlave
+P19_ven1storona, P20_ven2storona, P21_ven3storona, P1_ven1corrX, P2_ven1corrZ, P3_ven2corrX, P4_ven2corrZ, P5_ven3corrX, P6_ven3corrZ, P7_ven1long, P8_ven2long, P9_ven3long, P10_ven1off, P11_ven2off, P12_ven3off, P13_saftyZ, P14_operationZ, P15_ServoStartPos, P22_velcSaftyZ, P23_accSaftyZ, P24_velcOperationZ, P25_accOperationZ, P26_ven1Table, P27_ven2Table, P28_ven3Table, out1_ven1_izmerenFlag, out2_ven2_izmerenFlag, out3_ven3_izmerenFlag, printDbg_Flag, R_probe, P_34saftyZdownshift, P30_ven1Brak, P30_ven2Brak, P32_ven3Brak = detect_m.GetParamDetect()
+    manualLinSpeed = get_modbus_io_status("manSR25Bh") -- skorost` ruchnyx line`nyx pereezdov
+    -- читаю корректоры к торцам венцов
+    ven1s1_realKorrektor = get_modbus_io_status("M_F_detectR14Ah")
+    ven2s1_realKorrektor = get_modbus_io_status("M_F_detectR14Ch")
+    ven3s1_realKorrektor = get_modbus_io_status("M_F_detectR14Eh")
+    ven1s2_realKorrektor = get_modbus_io_status("M_F_detectR156h")
+    ven2s2_realKorrektor = get_modbus_io_status("M_F_detectR158h")
+    ven3s2_realKorrektor = get_modbus_io_status("M_F_detectR15Ah")
+    -- читаю флаги измерений торцев венцов
+    ven1S1_izmerenFlag = get_modbus_io_status("detec_c11Bh")
+    ven1S2_izmerenFlag = get_modbus_io_status("detec_c118h")
+    ven2S1_izmerenFlag = get_modbus_io_status("detec_c11Ch")
+    ven2S2_izmerenFlag = get_modbus_io_status("detec_c119h")
+    ven3S1_izmerenFlag = get_modbus_io_status("detec_c11Dh")
+    ven3S2_izmerenFlag = get_modbus_io_status("detec_c11Ah")
+    -- читаю X координату точек касания(BASE, tool - flange center)
+    v1s1_Ztorca, v1s2_Ztorca, v2s1_Ztorca, v2s2_Ztorca, v3s1_Ztorca, v3s2_Ztorca = mill_m.getXcoordObmera()
+    -- смотрим какую координату X просит пользователь
+    if pereezd_nadStartPointOperationX == 1 then
+        tPos = {P156_operationX, 0, 0}
+    elseif pereezd_nadStartPointSaftyX == 1 then
+        tPos = {P161_saftyX, 0, 0}
+    elseif pereezd_StartPoint == 1 then
+        tPos = {P165_V1S1Zleft_linX, 0, 0}
+    end
+    -- смотрим какая из 4-ёх сторон выбрана
+    if Storona1Left_genesis_select==1 then
+        -- стартовая позиция рейки
+        detect_m.ServoPos(P163_reykaZubleft)
+        if pereezd_StartPoint == 1 then
+            tPos[2] = P166_V1S1Zleft_linY
+        else
+            -- Storona1Left - Y coordinata v pluse
+            tPos[2] = P168_operationY 
+        end
+        if ven1S1_izmerenFlag==1 then -- esli torec izmeren, podstavlyayu izmerennuyu coordinatu
+            tPos[3] = v1s1_Ztorca + P167_V1S1Zleft_linZ
+        else -- esli torec ne izmeren, raschityvayu coordinatu po cepochke razmerov
+            tPos[3] = P10_ven1off + P167_V1S1Zleft_linZ
+        end
+    end
+    if Storona1Right_select==1 then
+        -- стартовая позиция рейки
+        detect_m.ServoPos(P164_reykaZubright)
+        if pereezd_StartPoint == 1 then
+            tPos[2] = -(P166_V1S1Zleft_linY + P182_offsetSimY*2)
+        else
+            -- Storona1Right - Y coordinata v minuse
+            tPos[2] = -(P168_operationY + P182_offsetSimY*2)
+        end
+        if ven1S1_izmerenFlag==1 then -- esli torec izmeren, podstavlyayu izmerennuyu coordinatu
+            tPos[3] = v1s1_Ztorca + P167_V1S1Zleft_linZ
+        else -- esli torec ne izmeren, raschityvayu coordinatu po cepochke razmerov
+            tPos[3] = P10_ven1off + P167_V1S1Zleft_linZ
+        end
+    end
+    if Storona2Left_select==1 then
+        -- стартовая позиция рейки
+        detect_m.ServoPos(P163_reykaZubleft)
+        if pereezd_StartPoint == 1 then
+            tPos[2] = P166_V1S1Zleft_linY
+        else
+            -- Y coordinata v pluse
+            tPos[2] = P168_operationY 
+        end
+        if ven1S2_izmerenFlag==1 then -- esli torec izmeren, podstavlyayu izmerennuyu coordinatu
+            tPos[3] = v1s2_Ztorca - P167_V1S1Zleft_linZ
+        else -- esli torec ne izmeren, raschityvayu coordinatu po cepochke razmerov
+            tPos[3] = P10_ven1off + P7_ven1long - P167_V1S1Zleft_linZ
+        end
+    end
+    if Storona2Right_select==1 then
+        -- стартовая позиция рейки
+        detect_m.ServoPos(P164_reykaZubright)
+        if pereezd_StartPoint == 1 then
+            tPos[2] = -(P166_V1S1Zleft_linY + P182_offsetSimY*2)
+        else
+            -- Y coordinata v minuse
+            tPos[2] = -(P168_operationY + P182_offsetSimY*2) 
+        end
+        if ven1S2_izmerenFlag==1 then -- esli torec izmeren, podstavlyayu izmerennuyu coordinatu
+            tPos[3] = v1s2_Ztorca - P167_V1S1Zleft_linZ
+        else -- esli torec ne izmeren, raschityvayu coordinatu po cepochke razmerov
+            tPos[3] = P10_ven1off + P7_ven1long - P167_V1S1Zleft_linZ
+        end
+    end
+    -- переезд на точку
+    faska_m.moveLine_go(manualLinSpeed*60, manualLinSpeed*3*60, tPos, posDiscTool, oriDiscTool)
+end
+
+-- если пользователь хочет покрутиться в точке init при операции фаска боковой венец
+if pereezd_initPoint_razvorotyX==1 and operationSelectNumber==8  then
+    -- инициализация переменных и профиля движения
+    init_global_variables()
+    init_global_move_profile()    
+    -- данные операции притупления фаски
+    P150_Ddisc, P151_offsetDisc, P152_offsetTime, P153_printDbgFlag, P154_backDisk, P155_zausDisk, P156_operationX, P157_glavUgolX, P158_glavUgolY, P159_glavUgolZ, P160_perevorotyX, P161_saftyX, P162_velcRotate, P163_reykaZubleft, P164_reykaZubright, P165_V1S1Zleft_linX, P166_V1S1Zleft_linY, P167_V1S1Zleft_linZ, P168_operationY, P170_povorotZuba, P171_R_circleMin, P172_R_circleMax, P173_R_dugaEvolvent, P174_venec1Storona, P175_venec2Storona, P176_venec3Storona, P177_IDstring, P178_velcDuga = faska_m.getDataFaska()
+    -- смотрим какая из 4-ёх сторон выбрана
+    if Storona1Left_genesis_select==1 then
+        -- стартовая позиция рейки
+        detect_m.ServoPos(P163_reykaZubleft)
+        -- переезд на точку
+        faska_m.S1left_position(P157_glavUgolX, P158_glavUgolY, P159_glavUgolZ, P160_perevorotyX, P162_velcRotate/2)
+    end
+    if Storona2Left_select==1 then
+        -- стартовая позиция рейки
+        detect_m.ServoPos(P163_reykaZubleft)
+        -- переезд на точку
+        faska_m.S2left_position(P157_glavUgolX, P158_glavUgolY, P159_glavUgolZ, P160_perevorotyX, P162_velcRotate/2)
+    end
+    if Storona1Right_select==1 then
+        -- стартовая позиция рейки
+        detect_m.ServoPos(P164_reykaZubright)
+        -- переезд на точку
+        faska_m.S1right_position(P157_glavUgolX, P158_glavUgolY, P159_glavUgolZ, P160_perevorotyX, P162_velcRotate/2)
+    end
+    if Storona2Right_select==1 then
+        -- стартовая позиция рейки
+        detect_m.ServoPos(P164_reykaZubright)
+        -- переезд на точку
+        faska_m.S2right_position(P157_glavUgolX, P158_glavUgolY, P159_glavUgolZ, P160_perevorotyX, P162_velcRotate/2)
+    end
+end
+

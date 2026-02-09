@@ -1,0 +1,377 @@
+local mod_table={}
+package.path = "/root/AuboRobotWorkSpace/teachpendant/share/teachpendant/script/?.aubo"
+s_m = require("service_module")
+
+local function GetParamProbe()-- чтение данных из AuboSlave
+    -- регистры
+    probeSelect = get_modbus_io_status("probe_r100h") -- выбор датчика
+    probeSelect = math.abs(probeSelect) -- нормализация, убираю знак
+    probeSelect = math.floor(probeSelect) -- нормализация, только целая часть
+    timeBig = get_modbus_io_status("probe_r101h") -- повторения грубых шагов
+    timeBig = math.abs(timeBig) -- нормализация, убираю знак
+    math.floor() -- нормализация, 
+    stepBig = get_modbus_io_status("M_F_probe_r102h") -- величина грубого шага
+    otvodDistance = get_modbus_io_status("M_F_probe_r104h") -- дистанция отвода после касания
+    otvodDistance = math.abs(otvodDistance) -- нормализация, убираю знак
+    stepSmall = get_modbus_io_status("M_F_probe_r106h") -- точный шаг
+    waitProbe = get_modbus_io_status("M_F_probe_r108h") -- длительность ожидания сигнала от датчика
+    waitProbe = math.abs(waitProbe) -- нормализация, убираю знак
+    timeSmall = get_modbus_io_status("probe_r10Ah") -- повторения точных шагов
+    timeSmall = math.abs(timeSmall) -- нормализация, убираю знак
+    timeSmall = math.floor(timeSmall) -- нормализация, только целая часть
+    velcLineBig = get_modbus_io_status("probe_r10Bh") -- скорость грубых шагов
+    velcLineBig = math.abs(velcLineBig) -- нормализация, убираю знак
+    velcLineBig = math.floor(velcLineBig) -- нормализация, только целая часть
+    accLineBig = get_modbus_io_status("probe_r10Ch") -- ускорение грубых шагов
+    accLineBig = math.abs(accLineBig) -- нормализация, убираю знак
+    accLineBig = math.floor(accLineBig) -- нормализация, только целая часть
+    velcLineSmall = get_modbus_io_status("probe_r10Dh") -- скорость точных шагов
+    velcLineSmall = math.abs(velcLineSmall) -- нормализация, убираю знак
+    velcLineSmall = math.floor(velcLineSmall) -- нормализация, только целая часть
+    accLineSmall = get_modbus_io_status("probe_r10Eh") -- 40 mm/s^2 - ускорение точных шагов
+    accLineSmall = math.abs(accLineSmall) -- нормализация, убираю знак
+    accLineSmall = math.floor(accLineSmall) -- нормализация, только целая часть
+    repeatToch = get_modbus_io_status("probe_r10Fh") -- количество точных измерений(не реализованно)
+    repeatToch = math.abs(repeatToch) -- нормализация, убираю знак
+    repeatToch = math.floor(repeatToch) -- нормализация, только целая часть
+    Rprobe = get_modbus_io_status("M_F_probe_r110h") -- радиус наконечника стилуса
+    Rprobe = math.abs(Rprobe) -- нормализация, убираю знак
+    -- флаги
+    printDbgFlag = get_modbus_io_status("probe_c100h") -- флаг вывода отладочной информации
+    axisX = get_modbus_io_status("probe_c101h") -- флаг выбора оси движения; Х
+    axisY = get_modbus_io_status("probe_c102h") -- флаг выбора оси движения; Y
+    axisZ = get_modbus_io_status("probe_c103h") -- флаг выбора оси движения; Z
+    if printDbgFlag == 1 then -- вывод в консоль, если разрешён
+        print("probeSelect = "..tostring(probeSelect))
+        print("timeBig = "..tostring(timeBig))
+        print(string.format("stepBig = %6.6f", stepBig))
+        print("otvodDistance = "..tostring(otvodDistance))
+        print("timeSmall = "..tostring(timeSmall))
+        print("stepSmall = "..tostring(stepSmall))
+        print("waitProbe = "..tostring(waitProbe))
+        print("velcLineBig = "..tostring(velcLineBig))
+        print("accLineBig = "..tostring(accLineBig))
+        print("velcLineSmall = "..tostring(velcLineSmall))
+        print("accLineSmall = "..tostring(accLineSmall))
+        print("printDbgFlag = "..tostring(printDbgFlag))
+        print("axisX = "..tostring(axisX))
+        print("axisY = "..tostring(axisY))
+        print("axisZ = "..tostring(axisZ))
+        print("repeatToch = "..tostring(repeatToch))
+        print("repeatToch = "..tostring(Rprobe))
+    end
+    return probeSelect, timeBig, stepBig, otvodDistance, timeSmall, stepSmall, waitProbe, velcLineBig, accLineBig, velcLineSmall, accLineSmall, printDbgFlag, axisX, axisY, axisZ, repeatToch, Rprobe
+end
+local function checkDataCorrectProbe(probeSelect, timeBig, stepBig, otvodDistance, timeSmall, stepSmall, waitProbe, velcLineBig, accLineBig, velcLineSmall, accLineSmall, printDbgFlag, axisX, axisY, axisZ, repeatToch, Rprobe)
+--*******************критические проверки************************************
+    if math.abs(stepBig)>1.5 or math.abs(stepSmall)>1.5 then
+        print("probeMoveRus: !!!!!!!!!!!!!!!!!!!!!!!! слишком большой шаг !!!!!!!!!!!!!!!!!!!!!")
+        return -1 -- если величина шагов больше 1,5мм!!!что бы не сломать датчик!!!
+   end
+--*******************критические проверки************************************
+    if  velcLineBig<=0 or accLineBig<=0 or velcLineSmall<=0 or accLineSmall<=0 or repeatToch >10 then
+        print("probeMoveRus: скорости и ускорения некорректные")
+        return -1 -- если скорости и ускорения = 0
+    end
+    if Rprobe==0 then
+        print("probeMoveRus: radius stilusa ne mojet = 0")
+        return -1 -- radius stilusa ne mojet = 0
+    end
+    if (axisX + axisY + axisZ)~=1 then
+        print("probeMoveRus: не выбрана ось движения")
+        return -1 -- если не обозначенна ни одна ось вдоль которой нужно проводить измерения
+    end
+    if timeSmall==0 or stepSmall==0 or waitProbe>3 or timeSmall>256 then
+        print("probeMoveRus: количество или величина шагов некорректные или время ожидания сигнала датчика слишком большое")
+        return -1 -- если длинна или количество точных шагов = 0 или время ожидания сигнала больше трёх сек или количество точных шагов больше 256
+    end
+    if probeSelect~=1 and probeSelect~=2 then
+        print("probeMoveRus: не выбран датчик")
+        return -1 -- если зачение выбора датчика не 1 или не 2
+   end
+    if (stepSmall>0 and stepBig<0) or (stepSmall<0 and stepBig>0) then
+        print("probeMoveRus: знаки грубого и точного шагов в разных направлениях")
+        return -1 -- если знаки грубого и точного шагов в разных направлениях
+   end
+    if otvodDistance>100 then
+        print("probeMoveRus: слишком большая дистанция отвода")
+        return -1 -- если дистанция отвода больше 100мм
+   end
+return 0
+end
+local function stepGrubo(tmBig, stBig, accLnBig, velcLnBig, otvDistance, waitProbe, flagPrint, axisX, axisY, axisZ, probeSel) -- grubiye shagi    
+    if axisX==1 then
+        indexArr = 1
+    elseif axisY ==1 then
+        indexArr=2
+    elseif axisZ ==1 then
+        indexArr=3
+    end
+    wpStart = get_current_waypoint()
+    jntStart = {wpStart.joint.j1,wpStart.joint.j2,wpStart.joint.j3,wpStart.joint.j4,wpStart.joint.j5,wpStart.joint.j6}
+    pos_wpStart, ori_wpStart = base_to_user(jntStart,{0,0,0},{1,0,0,0})
+    if flagPrint == 1 then
+        print("<<<<<<<<<< probeMoveRus: координаты стартовой точки >>>>>>>>>>")
+        print(string.format("X_base = %6.6f", pos_wpStart[1]*1000)..string.format(" | Y_base = %6.6f", pos_wpStart[2]*1000)..string.format(" | Z_base = %6.6f", pos_wpStart[3]*1000))
+        print("<<<<<<<<<< грубый шаг >>>>>>>>>>")
+    end
+    cnt = get_modbus_io_status("M_F_probe_r11Eh")
+    i = 1
+    while(i<=tmBig)do
+        wpPrev = get_current_waypoint()
+        jntPrev = {wpPrev.joint.j1, wpPrev.joint.j2, wpPrev.joint.j3, wpPrev.joint.j4, wpPrev.joint.j5, wpPrev.joint.j6}
+        pos_wpPrev, ori_wpPrev = base_to_user(jntPrev,{0,0,0},{1,0,0,0})
+
+        set_relative_offset({i*(stBig/1000)*axisX,i*(stBig/1000)*axisY,i*(stBig/1000)*axisZ})
+        set_end_maxacc(accLnBig/1000) -- mm/s^2
+        set_end_maxvelc(velcLnBig/1000) -- mm/s
+        move_line(jntStart, true) -- грубый шаг
+        wpCurrent = get_current_waypoint()
+        jntCurrent = {wpCurrent.joint.j1, wpCurrent.joint.j2, wpCurrent.joint.j3, wpCurrent.joint.j4, wpCurrent.joint.j5, wpCurrent.joint.j6}
+        pos_wpCurrent, ori_wpCurrent = base_to_user(jntCurrent,{0,0,0},{1,0,0,0})
+        realStep = (pos_wpCurrent[indexArr]*1000)-(pos_wpPrev[indexArr]*1000) -- facticheskiy shag
+        cnt = math.abs((pos_wpCurrent[indexArr]*1000)-(pos_wpStart[indexArr]*1000))
+        set_modbus_io_status("M_F_probe_r11Eh", cnt)
+        if flagPrint == 1 then
+            print(string.format("X_offset = %6.6f", pos_wpCurrent[1]*1000)..string.format(" | Y_offset = %6.6f", pos_wpCurrent[2]*1000)..string.format(" | Z_offset = %6.6f", pos_wpCurrent[3]*1000))
+            print("шаг - "..tostring(i)..string.format(" | смещение шага = %6.6f", realStep)..string.format(" | накопленное смещение = %6.6f", math.abs((pos_wpCurrent[indexArr]*1000)-(pos_wpStart[indexArr]*1000))))
+        end
+        sleep(waitProbe) -- задержка перед опросом датчиков
+        if probeSel == 1 then -- выбор источника сигнала; датчик на столе
+            probeModbus = s_m.hasbit(get_modbus_io_status("mk312_DI") , s_m.bit(3))
+            probeAubo = get_robot_io_status(RobotIOType.RobotBoardUserDI, "U_DI_00")
+            -- запомнить состояние второго датчика
+            probeModbusRevers = s_m.hasbit(get_modbus_io_status("mk312_DI") , s_m.bit(2))
+            probeAuboRevers = get_robot_io_status(RobotIOType.RobotBoardUserDI, "U_DI_01")
+        elseif probeSel == 2 then -- выбор источника сигнала; датчик на роботе
+            probeModbus = s_m.hasbit(get_modbus_io_status("mk312_DI") , s_m.bit(2))
+            probeAubo = get_robot_io_status(RobotIOType.RobotBoardUserDI, "U_DI_01")
+            -- запомнить состояние первого датчика
+            probeModbusRevers = s_m.hasbit(get_modbus_io_status("mk312_DI") , s_m.bit(3))
+            probeAuboRevers = get_robot_io_status(RobotIOType.RobotBoardUserDI, "U_DI_00")
+        end
+        if  probeModbus == true or probeAubo ==1 then -- если сработал датчик
+            s_m.beep(0.3)
+            if stBig>0 then -- если направление грубого шага в плюс, то отвод от точки касания в минус
+                otvDistance = 0 - otvDistance
+            end
+            set_relative_offset({(otvDistance/1000)*axisX,(otvDistance/1000)*axisY,(otvDistance/1000)*axisZ})
+            set_end_maxacc(accLnBig/1000) -- mm/s^2
+            set_end_maxvelc(velcLnBig/1000) -- mm/s
+            move_line(jntCurrent, true) -- отвод от точки касания
+            wpCurrent = get_current_waypoint()
+            jntCurrent = {wpCurrent.joint.j1, wpCurrent.joint.j2, wpCurrent.joint.j3, wpCurrent.joint.j4, wpCurrent.joint.j5, wpCurrent.joint.j6}
+            pos_wpCurrent, ori_wpCurrent = base_to_user(jntCurrent,{0,0,0},{1,0,0,0})
+            cnt = math.abs((pos_wpCurrent[indexArr]*1000)-(pos_wpStart[indexArr]*1000))
+            set_modbus_io_status("M_F_probe_r11Eh", cnt)
+            if flagPrint == 1 then
+                print("<<<<<<<<<<probeMoveRus:  отвод от точки касания >>>>>>>>>>")
+                print(string.format("X_offset = %6.6f", pos_wpCurrent[1]*1000)..string.format(" | Y_offset = %6.6f", pos_wpCurrent[2]*1000)..string.format(" | Z_offset = %6.6f", pos_wpCurrent[3]*1000))
+                print(string.format(" | накопленное смещение грубых шагов = %6.6f", cnt))
+            end
+            break
+        else -- если нет сигнала от датчика
+            if  probeModbusRevers == true or probeAuboRevers ==1 then -- если сработал датчик противоположный выбору probeSel, скорее всего оператор перепутал параметр
+                if stBig>0 then -- если направление грубого шага в плюс, то отвод от точки касания в минус
+                    otvDistance = 0 - otvDistance
+                end
+                set_relative_offset({(otvDistance/1000)*axisX,(otvDistance/1000)*axisY,(otvDistance/1000)*axisZ})
+                set_end_maxacc(accLnBig/1000) -- mm/s^2
+                set_end_maxvelc(velcLnBig/1000) -- mm/s
+                move_line(jntCurrent, true) -- отвод от точки касания
+                i = -1
+                break
+            end
+            i = i + 1
+        end
+    end
+    return i, cnt
+end
+local function stepTochno(tmSmall, stSmall, accLnSmall, velcLnSmall, otvDistance, waitProbe, flagPrint, grubSt, axisX, axisY, axisZ, probeSel, Rprobe) -- tochiye shagi
+    if axisX==1 then
+        indexArr = 1
+    elseif axisY ==1 then
+        indexArr=2
+    elseif axisZ ==1 then
+        indexArr=3
+    end
+    wpStart = get_current_waypoint()
+    jntStart = {wpStart.joint.j1,wpStart.joint.j2,wpStart.joint.j3,wpStart.joint.j4,wpStart.joint.j5,wpStart.joint.j6}
+    pos_wpStart, ori_wpStart = base_to_user(jntStart,{0,0,0},{1,0,0,0})
+    if flagPrint == 1 then
+        print("<<<<<<<<<<probeMoveRus: точный шаг>>>>>>>>>>")
+    end
+    i = 1
+    while(i<=tmSmall)do
+        wpPrev = get_current_waypoint()
+        jntPrev = {wpPrev.joint.j1, wpPrev.joint.j2, wpPrev.joint.j3, wpPrev.joint.j4, wpPrev.joint.j5, wpPrev.joint.j6}
+        pos_wpPrev, ori_wpPrev = base_to_user(jntPrev,{0,0,0},{1,0,0,0})
+
+        set_relative_offset({i*(stSmall/1000)*axisX,i*(stSmall/1000)*axisY,i*(stSmall/1000)*axisZ})
+        set_end_maxacc(accLnSmall/1000) -- mm/s^2
+        set_end_maxvelc(velcLnSmall/1000) -- mm/s
+        move_line(jntStart, true) -- точный шаг
+        wpCurrent = get_current_waypoint()
+        jntCurrent = {wpCurrent.joint.j1, wpCurrent.joint.j2, wpCurrent.joint.j3, wpCurrent.joint.j4, wpCurrent.joint.j5, wpCurrent.joint.j6}
+        pos_wpCurrent, ori_wpCurrent = base_to_user(jntCurrent,{0,0,0},{1,0,0,0})
+        -- soxranyayu coordinaty tochki kasaniya(BASE, tool - flange center)
+        if stSmall<0 then
+            korRpr = -Rprobe
+        else
+            korRpr = Rprobe
+        end
+        -- lineynye coordinaty
+        set_modbus_io_status("M_F_probe_r116h", pos_wpCurrent[1]*1000+korRpr)
+        set_modbus_io_status("M_F_probe_r118h", pos_wpCurrent[2]*1000+korRpr)
+        set_modbus_io_status("M_F_probe_r11Ah", pos_wpCurrent[3]*1000+korRpr)
+        -- J1-J6
+        set_modbus_io_status("M_F_detectR1E0h", wpCurrent.joint.j1)
+        set_modbus_io_status("M_F_detectR1E2h", wpCurrent.joint.j2)
+        set_modbus_io_status("M_F_detectR1E4h", wpCurrent.joint.j3)
+        set_modbus_io_status("M_F_detectR1E6h", wpCurrent.joint.j4)
+        set_modbus_io_status("M_F_detectR1E8h", wpCurrent.joint.j5)
+        set_modbus_io_status("M_F_detectR1EAh", wpCurrent.joint.j6)
+        -- фактический шаг
+        realStep = (pos_wpCurrent[indexArr]*1000)-(pos_wpPrev[indexArr]*1000)
+        cnt = math.abs((pos_wpCurrent[indexArr]*1000)-(pos_wpStart[indexArr]*1000))
+        pr = get_modbus_io_status("M_F_probe_r11Eh")
+        pr = pr + realStep
+        set_modbus_io_status("M_F_probe_r11Eh", pr)
+        if flagPrint == 1 then
+            print(string.format("X_offset = %6.6f", pos_wpCurrent[1]*1000)..string.format(" | Y_offset = %6.6f", pos_wpCurrent[2]*1000)..string.format(" | Z_offset = %6.6f", pos_wpCurrent[3]*1000))
+            print("шаг - "..tostring(i)..string.format(" | смещение = %6.6f", realStep)..string.format(" | накопленное смещение = %6.6f", math.abs((pos_wpCurrent[indexArr]*1000)-(pos_wpStart[indexArr]*1000))))
+        end
+        sleep(waitProbe) -- задержка перед опросом датчиков
+        if probeSel == 1 then -- выбор источника сигнала; датчик стола
+            probeModbus = s_m.hasbit(get_modbus_io_status("mk312_DI") , s_m.bit(3))
+            probeAubo = get_robot_io_status(RobotIOType.RobotBoardUserDI, "U_DI_00")
+        elseif probeSel == 2 then -- выбор источника сигнала; датчик на роботе
+            probeModbus = s_m.hasbit(get_modbus_io_status("mk312_DI") , s_m.bit(2))
+            probeAubo = get_robot_io_status(RobotIOType.RobotBoardUserDI, "U_DI_01")
+        end
+        if  probeModbus == true or probeAubo ==1 then -- если сработал датчик
+            s_m.beep(0.3)
+            if stSmall>0 then -- если направление точного шага в плюс, то отвод от точки касания в минус
+                otvDistance = 0 - otvDistance
+            end
+            set_relative_offset({(otvDistance/1000)*axisX,(otvDistance/1000)*axisY,(otvDistance/1000)*axisZ})
+            set_end_maxacc(accLnSmall/1000) -- mm/s^2
+            set_end_maxvelc(velcLnSmall/1000) -- mm/s
+            move_line(jntCurrent, true) -- отвод от точки касания
+            pr = grubSt + cnt
+            set_modbus_io_status("M_F_probe_r11Eh", pr)
+            if flagPrint == 1 then
+                print("<<<<<<<<<<probeMoveRus: отвод от точки касания>>>>>>>>>>")
+                print(string.format("X_offset = %6.6f", pos_wpCurrent[1]*1000)..string.format(" | Y_offset = %6.6f", pos_wpCurrent[2]*1000)..string.format(" | Z_offset = %6.6f", pos_wpCurrent[3]*1000))
+                print(string.format(" | накопленное смещение точных шагов = %6.6f", cnt))
+            end
+            break
+        else
+            i = i + 1
+        end
+    end
+    return i, pr
+end
+local function StartProbe()
+--*************************основной код************************************
+    -- установка флага RealTime работы
+    set_modbus_io_status("probe_c10Fh", 1)
+     -- сброс статуса выполнения
+    set_modbus_io_status("probe_r11Dh", 0)
+    -- обнуление выходных данных
+    set_modbus_io_status("M_F_probe_r11Eh", 0.0)
+    -- чтение данных из AuboSlave
+    probeSelect, timeBig, stepBig, otvodDistance, timeSmall, stepSmall, waitProbe, velcLineBig, accLineBig, velcLineSmall, accLineSmall, printDbgFlag, axisX, axisY, axisZ, repeatToch, Rprobe = GetParamProbe()
+    -- проверка корректности данных
+    checkStatus = checkDataCorrectProbe(probeSelect, timeBig, stepBig, otvodDistance, timeSmall, stepSmall, waitProbe, velcLineBig, accLineBig, velcLineSmall, accLineSmall, printDbgFlag, axisX, axisY, axisZ, repeatToch, Rprobe)
+    -- если данные не корректные, то выход с кодом -1
+    if checkStatus ~= 0 then
+        s_m.beep(1.5)
+        set_modbus_io_status("probe_r11Dh", -1) -- статус выполнения -1
+        set_modbus_io_status("M_F_probe_r11Eh", -1.11) -- izmerennoe znachenie
+        print("")
+        print("<<<<<<<<<<<<< probeMoveRus >>>>>>>>>>>>>")
+        print("<<<<< некорректные входные данные. kод выхода -1 >>>>>>>>>>")
+        print("<<<<<<<<<<<<< probeMoveRus >>>>>>>>>>>>>")
+        print("")
+    -- сброс флага RealTime работы
+        set_modbus_io_status("probe_c10Fh", 0)
+        return -1, 0, 0
+    end
+    init_global_variables()
+    init_global_move_profile()
+
+    grubSt = 0
+    -- грубые шаги, если надо
+    if timeBig~=0 or stepBig~=0 then
+        i, grubSt = stepGrubo(timeBig, stepBig, accLineBig, velcLineBig, otvodDistance, waitProbe, printDbgFlag, axisX, axisY, axisZ, probeSelect) 
+        -- obyazatel`niy sbros znacheniy otnositel`nyx peremesheniy
+        set_relative_offset({0,0,0})
+    -- если не встретили щуп, то выходим с ошибкой
+        if i == timeBig+1 then
+            s_m.beep(1.5)
+            set_modbus_io_status("probe_r11Dh", -2) -- статус выполнения -2
+            set_modbus_io_status("M_F_probe_r11Eh", -2.22)
+            print("")
+            print("<<<<<<<<<<<<< probeMoveRus >>>>>>>>>>>>>")
+            print("<<<<< нет контакта с датчиком при грубых шагах. код выхода -2 >>>>>>>>>>")
+            print("<<<<<<<<<<<<< probeMoveRus >>>>>>>>>>>>>")
+            print("")
+            -- сброс флага RealTime работы
+            set_modbus_io_status("probe_c10Fh", 0)
+            return -2, 0, 0
+        -- если оператор напутал с выбором датчика, то выходим с ошибкой
+        elseif i == -1 then
+            s_m.beep(1.5)
+            set_modbus_io_status("probe_r11Dh", -4) -- статус выполнения -4
+            set_modbus_io_status("M_F_probe_r11Eh", -4.44)
+            print("")
+            print("<<<<<<<<<<<<< probeMoveRus >>>>>>>>>>>>>")
+            print("<<<<< оператор перепутал параметр выбора датчика, код выхода -4 >>>>>")
+            print("<<<<<<<<<<<<< probeMoveRus >>>>>>>>>>>>>")
+            print("")
+            -- сброс флага RealTime работы
+            set_modbus_io_status("probe_c10Fh", 0)
+            return -4, 0, 0
+       end
+        sleep(2)
+    end
+    --точные шаги
+    i, res = stepTochno(timeSmall, stepSmall, accLineSmall, velcLineSmall, otvodDistance, waitProbe, printDbgFlag, grubSt, axisX, axisY, axisZ, probeSelect, Rprobe)
+    -- obyazatel`niy sbros znacheniy otnositel`nyx peremesheniy
+    set_relative_offset({0,0,0})
+    -- если не встретили щуп, то выходим с ошибкой
+    if i == timeSmall+1 then
+        s_m.beep(1.5)
+        set_modbus_io_status("probe_r11Dh", -3) -- статус выполнения -3
+        set_modbus_io_status("M_F_probe_r11Eh", -3.33)
+        print("")
+        print("<<<<<<<<<<<<< probeMoveRus >>>>>>>>>>>>>")
+        print("<<<<< нет контакта с датчиком при точных шагах. код выхода -3 >>>>>>>>>>")
+        print("<<<<<<<<<<<<< probeMoveRus >>>>>>>>>>>>>")
+        print("")
+        -- сброс флага RealTime работы
+        set_modbus_io_status("probe_c10Fh", 0)
+        return -3, 0, 0
+    end
+    -- Успешная отработка скрипта
+    set_modbus_io_status("probe_r11Dh", 8) -- статус выполнения 8. ОК
+    print("")
+    print("<<<<<<<<<<<<< probeMoveRus >>>>>>>>>>>>>")
+    print("<<<<< Успешная отработка скрипта. kод выхода 8 >>>>>>>>>>")
+    print("<<<<<"..string.format("Общее накопленное смещение = %3.3f", res)..">>>>>")
+    print("<<<<< Результат измерения в параметре M_F_probe_r11Eh >>>>>>")
+    print("<<<<<<<<<<<<< probeMoveRus >>>>>>>>>>>>>")
+    print("")
+    -- obyazatel`niy sbros znacheniy otnositel`nyx peremesheniy
+    set_relative_offset({0,0,0})
+    -- сброс флага RealTime работы probeMoveRus
+    set_modbus_io_status("probe_c10Fh", 0)
+    return 8, otvodDistance, res
+--*************************основной код************************************
+end
+-- tablica exporta
+mod_table.StartProbe = StartProbe
+mod_table.GetParamProbe = GetParamProbe
+
+return mod_table

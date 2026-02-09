@@ -1,0 +1,10 @@
+package.path = "/root/AuboRobotWorkSpace/teachpendant/share/teachpendant/script/?.aubo"
+s_m = require("service_module")
+-- beru znachenie momemnta iz SCADA
+torq = get_modbus_io_status("globalR1B4h")
+-- zapis` znacheniya momemnta v regista servodrayvera
+s_m.setTorqueServo(torq)
+startPosReyka = get_modbus_io_status("M_F_globalR1AAh")
+s_m.setPR7(startPosReyka*1000)
+--print(startPosReyka)
+--print("end")

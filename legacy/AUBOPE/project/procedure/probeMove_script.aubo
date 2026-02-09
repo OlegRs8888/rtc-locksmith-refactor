@@ -1,0 +1,137 @@
+--Procedure Program
+
+--block script function definition
+  function blockScriptFunc_probeMoveRus()
+    package.path = "/root/AuboRobotWorkSpace/teachpendant/share/teachpendant/script/?.aubo"
+    s_m = require("probeMove_modul")
+    
+    s_m.StartProbe()
+    
+    --************************Себе для справки*************************************
+    -- вызов get_global_variable("V_P_wp1") для переменной типа Pos возвращает
+    -- таблицу из 6-ти элементов. Эти элементы - положения Joint1-Joint6 в радианах.
+    -- Ниже код, по которому это видно:
+    -- wp1 =  get_global_variable("V_P_wp1")
+    -- wp2 = get_current_waypoint()
+    -- print(#wp1) - выведет 6
+    -- print(#wp2) - выведет 0
+    -- робот должен стоять в точке wp1
+    -- print(string.format("wp[1] = %6.6f", wp1[1]))
+    -- print(string.format("Joint1 = %6.6f", wp2.joint.j1))
+    -- выведет одинаковые значения, равные положению Joint1 в радианах
+  end  --function blockScriptFunc_probeMoveRus()
+
+--script function definition
+  function ifScriptFunc_0()
+    --(Logic tree item : Move) Move_startProbeXplus
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+      --(Logic tree item : Waypoint) w_preXplus
+      set_current_logic_tree_item("a0fb2a4004434e56a2682b1899bcc215")
+      move_line({-3.091542, 0.452286, -1.668693, -0.557496, -1.581551, -1.498224}, true)
+      set_step_breakpoint()
+      --(Logic tree item : Waypoint) w_startProbeXplus
+      set_current_logic_tree_item("dfea78f7f0d246f699e60810b8a2b57b")
+      move_line({-3.091883, 0.479257, -1.665646, -0.581430, -1.581551, -1.498566}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Move) Move_startProbeXminu
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+      --(Logic tree item : Waypoint) w_preXminus
+      set_current_logic_tree_item("4b2d166f6994468cb0df623a1350ad84")
+      move_line({-3.094499, 0.497953, -1.596824, -0.531332, -1.581529, -1.501184}, true)
+      set_step_breakpoint()
+      --(Logic tree item : Waypoint) w_startProbeXminus
+      set_current_logic_tree_item("c54228f6411448909cb73fad9a9ae38a")
+      move_line({-3.094150, 0.504952, -1.624459, -0.565962, -1.581533, -1.500836}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Move) Move_startProbeZminu
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+      --(Logic tree item : Waypoint) w_preZminus
+      set_current_logic_tree_item("e8961513dbfb4dc6bf2e9793cb3a000e")
+      move_line({-3.093318, 0.468719, -1.624665, -0.529938, -1.581540, -1.500000}, true)
+      set_step_breakpoint()
+      --(Logic tree item : Waypoint) w_startProbeZminus
+      set_current_logic_tree_item("ddd90c37283b4319a7b451894e03a059")
+      move_line({-3.093318, 0.481330, -1.635782, -0.553681, -1.581540, -1.500000}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Move) Move_startProbeYplus
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+      --(Logic tree item : Waypoint) w_preYplus
+      set_current_logic_tree_item("16699c816f5f418185469afefd68b6d3")
+      move_line({-3.113015, 0.468778, -1.640053, -0.545594, -1.581390, -1.519704}, true)
+      set_step_breakpoint()
+      --(Logic tree item : Waypoint) w_startProbeYplus
+      set_current_logic_tree_item("890e93b4c642446087d6c00bc1e3fdcd")
+      move_line({-3.104135, 0.489414, -1.650442, -0.576515, -1.581456, -1.510824}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Move) Move_startProbeYminu
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+      --(Logic tree item : Waypoint) w_preYminus
+      set_current_logic_tree_item("8d089998c03b41849cc2f5dbd3b26dc6")
+      move_line({-3.082446, 0.480695, -1.625118, -0.542241, -1.581617, -1.489131}, true)
+      set_step_breakpoint()
+      --(Logic tree item : Waypoint) w_startProbeYminus
+      set_current_logic_tree_item("edf847f40edc4c30866ca7fca135697e")
+      move_line({-3.082336, 0.496915, -1.638351, -0.571695, -1.581617, -1.489021}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Empty) Empty
+  end
+
+--(Logic tree item : Procedure_Program) Procedure_Program
+  --(Logic tree item : Move) Move_init
+  init_global_move_profile()
+  set_joint_maxvelc({1.553343,1.553343,1.946042,1.553343,2.068215,2.068215})
+  set_joint_maxacc({6.283185,6.283185,9.424778,6.283185,6.283185,6.283185})
+    --(Logic tree item : Waypoint) Waypoint_V_P_initPose
+    set_current_logic_tree_item("51a48db7d8b3439faa8767a1dddb7227")
+    move_joint(get_global_variable("V_P_initPose"), true)
+    set_step_breakpoint()
+  --(Logic tree item : Move) Move_startProbeZminu
+  init_global_move_profile()
+  set_end_maxvelc(1.000000)
+  set_end_maxacc(1.200000)
+    --(Logic tree item : Waypoint) w_preZminus
+    set_current_logic_tree_item("f399b0b7b5254b73b2898ea913711032")
+    move_line({-3.093318, 0.468719, -1.624665, -0.529938, -1.581540, -1.500000}, true)
+    set_step_breakpoint()
+    --(Logic tree item : Waypoint) w_startProbeZminus
+    set_current_logic_tree_item("280379830d324e0a86829c6c3d88994f")
+    move_line({-3.093318, 0.481330, -1.635782, -0.553681, -1.581540, -1.500000}, true)
+    set_step_breakpoint()
+  --(Logic tree item : Script) probeMoveRus
+  set_current_logic_tree_item("23e416f6cf594c71b4369758691c3f33")
+  blockScriptFunc_probeMoveRus()
+  set_step_breakpoint()
+  --(Logic tree item : Move) Move_pre
+  init_global_move_profile()
+  set_end_maxvelc(1.000000)
+  set_end_maxacc(1.200000)
+  set_relative_offset({0, 0, 0.02}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+    --(Logic tree item : Waypoint) Realtime_Waypoint
+    set_current_logic_tree_item("1c5342b8890749fab818581883b3f0f0")
+    move_line(get_global_variable("Realtime_Waypoint"), true)
+    set_step_breakpoint()
+  --(Logic tree item : Move) Move_init
+  init_global_move_profile()
+  set_end_maxvelc(1.000000)
+  set_end_maxacc(1.200000)
+    --(Logic tree item : Waypoint) Waypoint_V_P_initPose
+    set_current_logic_tree_item("3788fa5a56ea4873aacf566fd38d4a2d")
+    move_line(get_global_variable("V_P_initPose"), true)
+    set_step_breakpoint()
+  --(Logic tree item : If) If_nikogda
+  if (false) then
+    ifFuncRet = ifScriptFunc_0()
+    if (ifFuncRet ~= nil) then
+      do return ifFuncRet end
+    end
+  end

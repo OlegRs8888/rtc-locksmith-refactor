@@ -1,0 +1,232 @@
+local mod_table={}
+
+local function GetParamDetect()-- чтение данных из AuboSlave
+    -- регистры
+    ven1storona = get_modbus_io_status("detectR120h") -- Р19, венец 1, параметр выбора торца для обмера или нет обработки
+    ven1storona = math.abs(ven1storona) -- нормализация, убираю знак
+    ven1storona = math.floor(ven1storona) -- нормализация, только целая часть
+    ven2storona = get_modbus_io_status("detectR121h") -- Р20, венец 2, параметр выбора торца для обмера или нет обработки
+    ven2storona = math.abs(ven2storona) -- нормализация, убираю знак
+    ven2storona = math.floor(ven2storona) -- нормализация, только целая часть
+    ven3storona = get_modbus_io_status("detectR122h") -- Р21, венец 3, параметр выбора торца для обмера или нет обработки
+    ven3storona = math.abs(ven3storona) -- нормализация, убираю знак
+    ven3storona = math.floor(ven3storona) -- нормализация, только целая часть
+    ven1corrX = get_modbus_io_status("M_F_detectR124h") -- Р1, венец1, корректор по Х от точки контакта
+    ven1corrX = math.abs(ven1corrX) -- нормализация, убираю знак
+    ven1corrZ = get_modbus_io_status("M_F_detectR126h") -- Р2, венец1, корректор по Z от точки контакта
+    ven1corrZ = math.abs(ven1corrZ) -- нормализация, убираю знак
+    ven2corrX = get_modbus_io_status("M_F_detectR128h") -- Р3, венец2, корректор по Х от точки контакта
+    ven2corrX = math.abs(ven2corrX) -- нормализация, убираю знак
+    ven2corrZ = get_modbus_io_status("M_F_detectR12Ah") -- Р4, венец2, корректор по Z от точки контакта
+    ven2corrZ = math.abs(ven2corrZ) -- нормализация, убираю знак
+    ven3corrX = get_modbus_io_status("M_F_detectR12Ch") --Р5, венец3, корректор по Х от точки контакта
+    ven3corrX = math.abs(ven3corrX) -- нормализация, убираю знак
+    ven3corrZ = get_modbus_io_status("M_F_detectR12Eh") -- Р6, венец3, корректор по Z от точки контакта
+    ven3corrZ = math.abs(ven3corrZ) -- нормализация, убираю знак
+    ven1long = get_modbus_io_status("M_F_detectR130h") -- Р7, венец1, длинна венца
+    ven2long = get_modbus_io_status("M_F_detectR132h") -- Р8, венец2, длинна венца
+    ven3long = get_modbus_io_status("M_F_detectR134h") -- Р9, венец3, длинна венца
+    ven1off = get_modbus_io_status("M_F_detectR136h") -- Р10, венец1, смещение от ноля G54 до ближнего торца
+    ven2off = get_modbus_io_status("M_F_detectR138h") -- Р11, венец2, смещение от ноля G54 до ближнего торца
+    ven3off = get_modbus_io_status("M_F_detectR13Ah") -- Р12, венец3, смещение от ноля G54 до ближнего торца
+    saftyZ = get_modbus_io_status("M_F_detectR13Ch") -- Р13, координата Z по G54 плоскости безопасности
+    operationZ = get_modbus_io_status("M_F_detectR13Eh") -- Р14, координата Z по G54 плоскости операции
+    ServoStartPos = get_modbus_io_status("M_F_detectR140h") -- Р15, начальное положение приводной рейки
+    ServoStartPos = math.abs(ServoStartPos) -- нормализация, убираю знак
+    ServoStartPos = 0 - ServoStartPos -- dvijenie v otricatel`hom napravlenii
+    velcSaftyZ = get_modbus_io_status("detectR142h") -- Р22, скорость при движениях от плоскости безопасности к плоскости операции  и обратно
+    velcSaftyZ = math.abs(velcSaftyZ) -- нормализация, убираю знак
+    velcSaftyZ = math.floor(velcSaftyZ) -- нормализация, только целая часть
+    accSaftyZ = get_modbus_io_status("detectR143h") -- Р23, скорость при движениях от плоскости безопасности к плоскости операции  и обратно
+    accSaftyZ = math.abs(accSaftyZ) -- нормализация, убираю знак
+    accSaftyZ = math.floor(accSaftyZ) -- нормализация, только целая часть
+    velcOperationZ = get_modbus_io_status("detectR144h") -- Р24, скорость при движениях от плоскости безопасности к плоскости операции  и обратно
+    velcOperationZ = math.abs(velcOperationZ) -- нормализация, убираю знак
+    velcOperationZ = math.floor(velcOperationZ) -- нормализация, только целая часть
+    accOperationZ = get_modbus_io_status("detectR145h") -- Р25, скорость при движениях от плоскости безопасности к плоскости операции  и обратно
+    accOperationZ = math.abs(accOperationZ) -- нормализация, убираю знак
+    accOperationZ = math.floor(accOperationZ) -- нормализация, только целая часть
+    ven1Table = get_modbus_io_status("detectR146h") -- P26, венец1, выбор способа обмера; ссылка на таблицу probeParam_v2
+    ven1Table = math.abs(ven1Table) -- нормализация, убираю знак
+    ven1Table = math.floor(ven1Table) -- нормализация, только целая часть
+    ven2Table = get_modbus_io_status("detectR147h") -- P27, венец2, выбор способа обмера; ссылка на таблицу probeParam_v2
+    ven2Table = math.abs(ven2Table) -- нормализация, убираю знак
+    ven2Table = math.floor(ven2Table) -- нормализация, только целая часть
+    ven3Table = get_modbus_io_status("detectR148h") -- P28, венец3, выбор способа обмера; ссылка на таблицу probeParam_v2
+    ven3Table = math.abs(ven3Table) -- нормализация, убираю знак
+    ven3Table = math.floor(ven3Table) -- нормализация, только целая часть
+    Rprobe = get_modbus_io_status("M_F_probe_r110h") -- радиус щупа moveProbeRus
+    Rprobe = math.abs(Rprobe) -- нормализация, убираю знак
+    ven1Brak = get_modbus_io_status("M_F_detectR150h") -- P30, венец1, отбраковка, отклонение линейного размера стороны
+    ven1Brak = math.abs(ven1Brak) -- нормализация, убираю знак
+    ven2Brak = get_modbus_io_status("M_F_detectR152h") -- P31, венец2, отбраковка, отклонение линейного размера стороны
+    ven2Brak = math.abs(ven2Brak) -- нормализация, убираю знак
+    ven3Brak = get_modbus_io_status("M_F_detectR154h") -- P32, венец3, отбраковка, отклонение линейного размера стороны
+    ven3Brak = math.abs(ven3Brak) -- нормализация, убираю знак
+    -- флаги
+    printDbgFlag = get_modbus_io_status("detec_c110h") -- флаг отладки
+    saftyZdownshift = get_modbus_io_status("detec_c111h") -- флаг активации безопасного снижения по оси Z
+    ven1izmerenFlag = get_modbus_io_status("detec_c11Bh") -- флаг венец1, успешное измерение
+    ven2izmerenFlag = get_modbus_io_status("detec_c11Ch") -- флаг венец2, успешное измерение
+    ven3izmerenFlag = get_modbus_io_status("detec_c11Dh") -- флаг венец3, успешное измерение
+
+    return ven1storona, ven2storona, ven3storona, ven1corrX, ven1corrZ, ven2corrX, ven2corrZ, ven3corrX, ven3corrZ, ven1long, ven2long, ven3long, ven1off, ven2off, ven3off, saftyZ, operationZ, ServoStartPos, velcSaftyZ, accSaftyZ, velcOperationZ, accOperationZ, ven1Table, ven2Table, ven3Table, ven1izmerenFlag, ven2izmerenFlag, ven3izmerenFlag, printDbgFlag, Rprobe, saftyZdownshift, ven1Brak, ven2Brak, ven3Brak
+end
+local function checkDataCorrectDetect(P19_ven1storona, P20_ven2storona, P21_ven3storona, P1_ven1corrX, P2_ven1corrZ, P3_ven2corrX, P4_ven2corrZ, P5_ven3corrX, P6_ven3corrZ, P7_ven1long, P8_ven2long, P9_ven3long, P10_ven1off, P11_ven2off, P12_ven3off, P13_saftyZ, P14_operationZ, P15_ServoStartPos, P22_velcSaftyZ, P23_accSaftyZ, P24_velcOperationZ, P25_accOperationZ, P26_ven1Table, P27_ven2Table, P28_ven3Table, ven1_izmerenFlag, ven2_izmerenFlag, ven3_izmerenFlag, printDbg_Flag, R_probe, saftyZdownshift, ven1Brak, ven2Brak, ven3Brak)
+--*******************критические проверки************************************
+
+--*******************критические проверки************************************
+    if (P19_ven1storona + P20_ven2storona + P21_ven3storona)==0 then
+        print("detectDetal: не выбран ни один венец")
+        return -1 -- не выбран ni odin venec
+    end
+    if P19_ven1storona>3 or P20_ven2storona>3 or P21_ven3storona>3 then
+        print("detectDetal: не корректные данные выбора стороны обработки")
+        return -1 -- не корректные данные выбора стороны обработки
+    end
+    if P1_ven1corrX==0 or P2_ven1corrZ==0 or P3_ven2corrX==0 or P4_ven2corrZ==0 or P5_ven3corrX==0 or P6_ven3corrZ==0 then
+        print("detectDetal: не корректные данные выбора уровней и смещений")
+        return -1 -- не корректные данные выбора уровней и смещений
+    end
+    if  P13_saftyZ==0 or P14_operationZ==0 or P15_ServoStartPos==0 or P22_velcSaftyZ==0 or P23_accSaftyZ==0 or P24_velcOperationZ==0 or P25_accOperationZ==0 then
+        print("detectDetal: не корректные данные выбора скорости")
+        return -1 -- не корректные данные скорости
+    end
+    return 0
+end
+local function ServoPos(SrvP)
+    -- PR98param - 458754 - 70002h, ABSpos, speed800, acc200
+    set_modbus_io_status("M_L_PR98coord", SrvP*1000) --
+    sleep(0.25)
+    set_modbus_io_status("50E_PR", 98) --
+    i = 0
+    while (i~=20098) do
+        i = get_modbus_io_status("50E_PR") --
+    end
+end
+local function moveLine_go(velc, acc, pos)
+    Povorotka_UserSysCoord = "povorotnayaOsReal"
+    toolProbeRobotName = "probeR"
+    -- параметры системы координат поворотки
+    calMet, jP1, jP2, jP3, tP = get_user_coord_param(Povorotka_UserSysCoord)
+    -- параметры системы координат датчика касания
+    posProbeRobot, oriProbeRobot = get_tool_kinematics_param(toolProbeRobotName)
+    -- обязательный сброс значений относительных перемещений
+    set_relative_offset({0,0,0})
+    pos[1] = pos[1]/1000 -- в метры
+    pos[2] = pos[2]/1000 -- в метры
+    pos[3] = pos[3]/1000 -- в метры
+    targetPos = get_target_pose(pos, false, posProbeRobot, oriProbeRobot, calMet, jP1, jP2, jP3, tP)
+    set_end_maxvelc(velc/1000) -- mm/s
+    set_end_maxacc(acc/1000) -- mm/s^2
+    move_line(targetPos, true) -- Line движение
+end
+local function saftyDownshift(fromP, toP, velcZ, accZ)
+    ex = 0
+    celaya = math.floor(fromP - toP) -- нормализация, только целая часть
+    wpStart = get_current_waypoint()
+    jntStart = {wpStart.joint.j1,wpStart.joint.j2,wpStart.joint.j3,wpStart.joint.j4,wpStart.joint.j5,wpStart.joint.j6}
+    pos_wpStart, ori_wpStart = base_to_user(jntStart,{0,0,0},{1,0,0,0})
+    endZ = pos_wpStart[3] - (celaya/1000)
+--    print(endZ)
+    while(celaya > 0) do -- движение по 1 мм
+        set_relative_offset({0,0,-1/1000})
+        set_end_maxacc(velcZ/1000) -- мм/сек^2
+        set_end_maxvelc(accZ/1000) -- мм/сек
+        move_line(jntStart, true) -- шаг 1mm
+        sleep(0.25) -- задержка перед опросом датчиков
+        probeModbus = s_m.hasbit(get_modbus_io_status("mk312_DI") , s_m.bit(2))
+        probeAubo = get_robot_io_status(RobotIOType.RobotBoardUserDI, "U_DI_01")
+        if  probeModbus == true or probeAubo ==1 then -- если сработал датчик
+            set_relative_offset({0,0,2/1000})  -- шаг 2mm
+            set_end_maxacc(velcZ/1000) -- мм/сек^2
+            set_end_maxvelc(accZ/1000) -- мм/сек
+            move_line(jntStart, true) -- отвод на 2 мм вверх
+            s_m.beep(1.5)
+            ex = -1 -- код выхода
+            break
+        end
+        wpStart = get_current_waypoint()
+        jntStart = {wpStart.joint.j1,wpStart.joint.j2,wpStart.joint.j3,wpStart.joint.j4,wpStart.joint.j5,wpStart.joint.j6}
+        pos_wpStart, ori_wpStart = base_to_user(jntStart,{0,0,0},{1,0,0,0})
+        if ((math.abs(endZ - pos_wpStart[3]))<(1/1000) ) then
+            ex = 0 -- код выхода
+            break
+        end
+        celaya = celaya - 1
+    end
+    -- обязательный сброс значений относительных перемещений
+    set_relative_offset({0,0,0})
+    return ex
+end
+local function clearOutputData()
+     -- сброс значений измерений
+    ven1S1_realKorrektor = "M_F_detectR14Ah"
+    ven1S2_realKorrektor = "M_F_detectR156h"
+    ven2S1_realKorrektor = "M_F_detectR14Ch"
+    ven2S2_realKorrektor = "M_F_detectR158h"
+    ven3S1_realKorrektor = "M_F_detectR14Eh"
+    ven3S2_realKorrektor = "M_F_detectR15Ah"
+    brakFlag = "detec_c11Eh" -- флаг бракованных деталей
+    -- сброс флага бракованной детали, если вдруг глобальный проект его не сбросил
+    set_modbus_io_status(brakFlag, 0)
+     -- сброс korrektorov
+    set_modbus_io_status(ven1S1_realKorrektor, 0)
+    set_modbus_io_status(ven1S2_realKorrektor, 0)
+    set_modbus_io_status(ven2S1_realKorrektor, 0)
+    set_modbus_io_status(ven2S2_realKorrektor, 0)
+    set_modbus_io_status(ven3S1_realKorrektor, 0)
+    set_modbus_io_status(ven3S2_realKorrektor, 0)
+     -- сброс флагов измерений
+    set_modbus_io_status("detec_c118h", 0)
+    set_modbus_io_status("detec_c119h", 0)
+    set_modbus_io_status("detec_c11Ah", 0)
+    set_modbus_io_status("detec_c11Bh", 0)
+    set_modbus_io_status("detec_c11Ch", 0)
+    set_modbus_io_status("detec_c11Dh", 0)
+     -- сброс значений измерений
+    set_modbus_io_status("M_F_detectR1ECh", 0)
+    set_modbus_io_status("M_F_detectR1EEh", 0)
+    set_modbus_io_status("M_F_detectR1F0h", 0)
+    set_modbus_io_status("M_F_detectR1F2h", 0)
+    set_modbus_io_status("M_F_detectR1F4h", 0)
+    set_modbus_io_status("M_F_detectR1F6h", 0)
+    set_modbus_io_status("M_F_detectR1F8h", 0)
+    set_modbus_io_status("M_F_detectR1FAh", 0)
+    set_modbus_io_status("M_F_detectR1FCh", 0)
+    set_modbus_io_status("M_F_detectR1FEh", 0)
+    set_modbus_io_status("M_F_detectR200h", 0)
+    set_modbus_io_status("M_F_detectR202h", 0)
+    set_modbus_io_status("M_F_detectR204h", 0)
+    set_modbus_io_status("M_F_detectR206h", 0)
+    set_modbus_io_status("M_F_detectR208h", 0)
+    set_modbus_io_status("M_F_detectR20Ah", 0)
+    set_modbus_io_status("M_F_detectR20Ch", 0)
+    set_modbus_io_status("M_F_detectR20Eh", 0)
+    set_modbus_io_status("M_F_detectR210h", 0)
+    set_modbus_io_status("M_F_detectR212h", 0)
+    set_modbus_io_status("M_F_detectR214h", 0)
+    set_modbus_io_status("M_F_detectR216h", 0)
+    set_modbus_io_status("M_F_detectR218h", 0)
+    set_modbus_io_status("M_F_detectR21Ah", 0)
+    set_modbus_io_status("M_F_detectR21Ch", 0)
+    set_modbus_io_status("M_F_detectR21Eh", 0)
+    set_modbus_io_status("M_F_detectR220h", 0)
+    set_modbus_io_status("M_F_detectR222h", 0)
+    set_modbus_io_status("M_F_detectR224h", 0)
+    set_modbus_io_status("M_F_detectR226h", 0)
+    set_modbus_io_status("M_F_detectR228h", 0)
+    set_modbus_io_status("M_F_detectR22Ah", 0)
+    set_modbus_io_status("M_F_detectR22Ch", 0)
+    set_modbus_io_status("M_F_detectR22Eh", 0)
+    set_modbus_io_status("M_F_detectR230h", 0)
+    set_modbus_io_status("M_F_detectR232h", 0)
+end
+
+mod_table.clearOutputData = clearOutputData
+mod_table.saftyDownshift = saftyDownshift
+mod_table.moveLine_go = moveLine_go
+mod_table.ServoPos = ServoPos
+mod_table.GetParamDetect = GetParamDetect
+mod_table.checkDataCorrectDetect = checkDataCorrectDetect
+return mod_table

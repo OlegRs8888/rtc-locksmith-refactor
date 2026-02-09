@@ -1,0 +1,89 @@
+--Procedure Program
+
+--block script function definition
+  function blockScriptFunc_set_mk311DO()
+    function bit(p)
+        return 2 ^ (p -  1)
+    end
+    function hasbit(x , p)
+         return x % (p + p) >= p
+    end
+    function setbit(x , p)
+         return hasbit(x , p) and x or x + p
+    end
+    function clearbit(x , p)
+         return hasbit(x , p) and x-p or x
+    end
+    
+    inp = get_modbus_io_status("mk311_DO")
+    bitNum = get_global_variable("V_I_DIOnumber")
+    bitState = get_global_variable("V_B_mk311DOstate")
+    if bitState == true then 
+        res = setbit(inp , bit(bitNum))
+    else 
+        res = clearbit(inp , bit(bitNum))
+    end
+    set_modbus_io_status("mk311_DO", res)
+  end  --function blockScriptFunc_set_mk311DO()
+
+--(Logic tree item : Procedure_Program) Procedure_Program
+  --(Logic tree item : Set) Set_DI_conf
+  set_current_logic_tree_item("07a83c2a66e3496596c28ee48f119329")
+  set_modbus_io_status("30C_DIconf", 7680)
+  set_step_breakpoint()
+  --(Logic tree item : Set) Set_DI_control
+  set_current_logic_tree_item("604cb2209a4b465c83058d163cc691f9")
+  set_modbus_io_status("40E_ctrlDI", 7680)
+  set_step_breakpoint()
+  --(Logic tree item : Wait) Wait_02s
+  set_current_logic_tree_item("bbad809e00794b519095144c22c970c5")
+  sleep(0.2)
+  set_step_breakpoint()
+  --(Logic tree item : Set) Set_DI_control
+  set_current_logic_tree_item("2a0b32e88aaf45c7aaccbb2084713406")
+  set_modbus_io_status("40E_ctrlDI", 7168)
+  set_step_breakpoint()
+  --(Logic tree item : Set) Set_PR98_Param
+  set_current_logic_tree_item("c9661646b5564b0ab48c897ffcbb8d47")
+  set_modbus_io_status("M_L_PR98param", 458754)
+  set_step_breakpoint()
+  --(Logic tree item : Set) Set_speed3000
+  set_current_logic_tree_item("15a8d9a43e3c400f94674995ae725ba1")
+  set_modbus_io_status("16EspeedLim", 3000)
+  set_step_breakpoint()
+  --(Logic tree item : Set) Set_zeroPos
+  set_current_logic_tree_item("ec804e66ce3f4def9a4b55f58385a230")
+  set_modbus_io_status("50E_PR", 0)
+  set_step_breakpoint()
+  --(Logic tree item : Wait) Wait_puu0
+  set_current_logic_tree_item("764cd446eaaf4f679d3b6599024143ae")
+  while (not (get_modbus_io_status("50E_PR") == 20000)) do
+    sleep(0.01)
+  end
+  set_step_breakpoint()
+  --(Logic tree item : Procedure) beep300
+    --(Logic tree item : Set) Set_DIOnumber7
+    set_current_logic_tree_item("92e7c3ebc5624e36a622a056d50620d4")
+    set_global_variable("V_I_DIOnumber", 7)
+    --(Logic tree item : Set) Set_stateTrue
+    set_current_logic_tree_item("728498a1d3a24bd2a0f990c41622b34a")
+    set_global_variable("V_B_mk311DOstate", true)
+    --(Logic tree item : Script) set_mk311DO
+    set_current_logic_tree_item("dfcd94a165ba47f5af643d756878daef")
+    blockScriptFunc_set_mk311DO()
+    set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_03s
+    set_current_logic_tree_item("5c51b4391a7742d19eee458ea9d42c91")
+    sleep(0.3)
+    set_step_breakpoint()
+    --(Logic tree item : Set) Set_stateFalse
+    set_current_logic_tree_item("d12a27cec62b48f980b480995df5989d")
+    set_global_variable("V_B_mk311DOstate", false)
+    --(Logic tree item : Script) set_mk311DO
+    set_current_logic_tree_item("30209d95d4644992b690420a12fcaafa")
+    blockScriptFunc_set_mk311DO()
+    set_step_breakpoint()
+  --(Logic tree item : Script) Script
+  set_current_logic_tree_item("66a02c2343a541bea0431775b34508dc")
+  print("home ok")
+  set_step_breakpoint()

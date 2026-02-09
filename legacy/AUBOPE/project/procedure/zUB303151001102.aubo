@@ -1,0 +1,1658 @@
+--Procedure Program
+
+--block script function definition
+  function blockScriptFunc_sendCoordToSCADA()
+    -- параметры системы координат поворотки
+    calMet, jP1, jP2, jP3, tP = get_user_coord_param("povorotnayaOsReal")
+    -- параметры системы координат инструмента
+    posDiscTool, oriDiscTool = get_tool_kinematics_param("drillDisc")
+    -- vzyal tekushuyu posiziyu
+    wpCurr = get_current_waypoint()
+    jntCurr = {wpCurr.joint.j1, wpCurr.joint.j2, wpCurr.joint.j3, wpCurr.joint.j4, wpCurr.joint.j5, wpCurr.joint.j6}
+    posCurr, oriCurr = base_to_user(jntCurr, posDiscTool, oriDiscTool, calMet, jP1, jP2, jP3, tP)
+    set_modbus_io_status("M_F_faskaR26Ah", posCurr[1]*1000)
+    set_modbus_io_status("M_F_faskaR26Ch", posCurr[2]*1000)
+    set_modbus_io_status("M_F_faskaR26Eh", posCurr[3]*1000)
+  end  --function blockScriptFunc_sendCoordToSCADA()
+
+  function blockScriptFunc_srvPosAbsLeftZub()
+    local function ServoPos(SrvP)
+        -- PR97param - 851970 - D0002h, ABSpos, speed2300, acc200
+        set_modbus_io_status("M_L_PR97coord", SrvP*1000) --
+        sleep(0.25)
+        set_modbus_io_status("50E_PR", 97) --
+        i = 0
+        while (i~=20097) do
+            i = get_modbus_io_status("50E_PR") --
+        end
+    end
+    
+    P162_reykaZubleft = get_modbus_io_status("M_F_faskaR24Eh") --Р162, позиция рейки, зуб слева; мм, float, 32bit
+    P162_reykaZubleft = -math.abs(P162_reykaZubleft ) -- нормализация, убираю знак
+    -- позиция рейки Zub Sleva, absolutnyaya poziciya
+    ServoPos(P162_reykaZubleft)
+  end  --function blockScriptFunc_srvPosAbsLeftZub()
+
+  function blockScriptFunc_set_mk311DO()
+    function bit(p)
+        return 2 ^ (p -  1)
+    end
+    function hasbit(x , p)
+         return x % (p + p) >= p
+    end
+    function setbit(x , p)
+         return hasbit(x , p) and x or x + p
+    end
+    function clearbit(x , p)
+         return hasbit(x , p) and x-p or x
+    end
+    
+    inp = get_modbus_io_status("mk311_DO")
+    bitNum = get_global_variable("V_I_DIOnumber")
+    bitState = get_global_variable("V_B_mk311DOstate")
+    if bitState == true then 
+        res = setbit(inp , bit(bitNum))
+    else 
+        res = clearbit(inp , bit(bitNum))
+    end
+    set_modbus_io_status("mk311_DO", res)
+  end  --function blockScriptFunc_set_mk311DO()
+
+  function blockScriptFunc_check_mk312DO()
+    function bit(p)
+        return 2 ^ (p -  1)
+    end
+    function hasbit(x , p)
+         return x % (p + p) >= p
+    end
+    
+    inp = get_modbus_io_status("mk312_DO")
+    bitNum = get_global_variable("V_I_DIOnumber")
+    res = hasbit(inp , bit(bitNum))
+    set_global_variable("V_B_mk312DOstate", res)
+  end  --function blockScriptFunc_check_mk312DO()
+
+  function blockScriptFunc_srvPosAbsRihtZub()
+    local function ServoPos(SrvP)
+        -- PR97param - 851970 - D0002h, ABSpos, speed2300, acc200
+        set_modbus_io_status("M_L_PR97coord", SrvP*1000) --
+        sleep(0.25)
+        set_modbus_io_status("50E_PR", 97) --
+        i = 0
+        while (i~=20097) do
+            i = get_modbus_io_status("50E_PR") --
+        end
+    end
+    
+    P163_reykaZubright = get_modbus_io_status("M_F_faskaR250h") --Р163, позиция рейки,зубсправа;мм,float, 32bit
+    P163_reykaZubright = -math.abs(P163_reykaZubright) -- нормализация, убираю знак
+    -- позиция рейки Zub Sleva, absolutnyaya poziciya
+    ServoPos(P163_reykaZubright)
+  end  --function blockScriptFunc_srvPosAbsRihtZub()
+
+  function blockScriptFunc_preFaskaScript()
+    package.path = "/root/AuboRobotWorkSpace/teachpendant/share/teachpendant/script/?.aubo"
+    faska_m = require("faska_module")
+    s_m = require("service_module")
+    mill_m = require("milling_module")
+    
+    local function preStartFaska()
+        -- sbros флага состояния выполнения
+        set_modbus_io_status("synhr_c121h", 0)
+        -- данные операции притупления фаски
+        P150_Ddisc, P151_offsetDisc, P152_offsetTime, P153_printDbgFlag, P154_backDisk, P155_zausDisk, P156_operationX, P157_glavUgolX, P158_glavUgolY, P159_glavUgolZ, P160_perevorotyX, P161_saftyX, P162_reykaZubleft, P163_reykaZubright, P164_operationY, P165_venec1Storona, P166_venec2Storona, P167_venec3Storona, P168_IDstring, P169_v1s1leftCorrectorZ, P170_v1s2leftCorrectorZ, P171_v2s1leftCorrectorZ, P172_v2s2leftCorrectorZ,     P173_v3s1leftCorrectorZ, P174_v3s2leftCorrectorZ, P175_v1s1rightCorrectorZ, P176_v1s2rightCorrectorZ,   P177_v2s1rightCorrectorZ, P178_v2s2rightCorrectorZ, P185_v3s1rightCorrectorZ, P186_v3s2rightCorrectorZ, P187_venec1StoronaV, P188_venec2StoronaV, P189_venec3StoronaV = faska_m.getDataFaska()
+        -- proverka dannyx
+        faska_checkStatusDetect = faska_m.checkDataFaska(P150_Ddisc, P151_offsetDisc, P152_offsetTime, P153_printDbgFlag, P154_backDisk, P155_zausDisk, P156_operationX, P157_glavUgolX, P158_glavUgolY, P159_glavUgolZ, P160_perevorotyX, P161_saftyX, P162_reykaZubleft, P163_reykaZubright, P164_operationY, P165_venec1Storona, P166_venec2Storona, P167_venec3Storona, P168_IDstring, P169_v1s1leftCorrectorZ, P170_v1s2leftCorrectorZ, P171_v2s1leftCorrectorZ, P172_v2s2leftCorrectorZ,     P173_v3s1leftCorrectorZ, P174_v3s2leftCorrectorZ, P175_v1s1rightCorrectorZ, P176_v1s2rightCorrectorZ,   P177_v2s1rightCorrectorZ, P178_v2s2rightCorrectorZ, P185_v3s1rightCorrectorZ, P186_v3s2rightCorrectorZ, P187_venec1StoronaV, P188_venec2StoronaV, P189_venec3StoronaV)
+        -- если данные не корректные, то выход с кодом -1
+        if faska_checkStatusDetect ~= 0 then
+            -- установ флага состояния выполнения
+            set_modbus_io_status("synhr_c121h", 1)
+            s_m.beep(1.5)
+            print("")
+            print("<<<<<<<<<<<<< preStartFaska >>>>>>>>>>>>>")
+            print("<<<<< некорректные входные данные. kод выхода -1 >>>>>>>>>>")
+            print("<<<<<<<<<<<<< preStartFaska >>>>>>>>>>>>>")
+            print("")
+            return
+        end
+        -- читаю Z координату точек касания(povorotka, tool - probeRobot)
+        v1s1_Ztorca, v1s2_Ztorca, v2s1_Ztorca, v2s2_Ztorca, v3s1_Ztorca, v3s2_Ztorca = mill_m.getXcoordObmera()
+        set_global_variable("V_D_v1s1_Ztorca", v1s1_Ztorca)
+        set_global_variable("V_D_v1s2_Ztorca", v1s2_Ztorca)
+        set_global_variable("V_D_v2s1_Ztorca", v2s1_Ztorca)
+        set_global_variable("V_D_v2s2_Ztorca", v2s2_Ztorca)
+        set_global_variable("V_D_v3s1_Ztorca", v3s1_Ztorca)
+        set_global_variable("V_D_v3s2_Ztorca", v3s2_Ztorca)
+    end
+    --*************************основной код************************************
+    preStartFaska()
+    --*************************основной код************************************
+  end  --function blockScriptFunc_preFaskaScript()
+
+  function blockScriptFunc_servoPosRelSide()
+    package.path = "/root/AuboRobotWorkSpace/teachpendant/share/teachpendant/script/?.aubo"
+    s_m = require("service_module")
+    fastSpeedServo = 655426 --A0042h - rel, speed1500, acc/dcc200
+    
+    P112_modulSideVenec = get_modbus_io_status("M_F_globalR19Eh") -- модуль бокового венца;
+    P112_modulSideVenec = math.abs(P112_modulSideVenec) -- нормализация, убираю знак
+    -- otnositel`noe peremeshenie na velichinu odnogo zuba bokovogo venca
+    set_modbus_io_status("M_L_PR13param", fastSpeedServo)  --A0042h - rel, speed1500, acc/dcc200
+    set_modbus_io_status("M_L_PR13coord", -P112_modulSideVenec * math.pi * 1000)
+    s_m.servoGo(13) -- быстро назад
+  end  --function blockScriptFunc_servoPosRelSide()
+
+  function blockScriptFunc_servoPosRelSideD()
+    package.path = "/root/AuboRobotWorkSpace/teachpendant/share/teachpendant/script/?.aubo"
+    s_m = require("service_module")
+    workSpeedServo = 131138 -- 20042h - rel, speed100, acc/dcc200
+    
+    P112_modulSideVenec = get_modbus_io_status("M_F_globalR19Eh") -- модуль бокового венца;
+    P112_modulSideVenec = math.abs(P112_modulSideVenec) -- нормализация, убираю знак
+    P113_zSideVenec = get_modbus_io_status("globalR1A0h") -- z бокового венца
+    P113_zSideVenec = math.abs(P113_zSideVenec) -- нормализация, убираю знак
+    P113_zSideVenec = math.floor(P113_zSideVenec) -- нормализация, только целая часть
+    -- otnositel`noe peremeshenie na velichinu delitel`nogo diametra bokovogo venca
+    set_modbus_io_status("M_L_PR13param", workSpeedServo)  -- 20042h - rel, speed100, acc/dcc200
+    set_modbus_io_status("M_L_PR13coord", -P112_modulSideVenec * math.pi * 1000 * P113_zSideVenec)
+    s_m.servoGo(13) -- pereeezd
+  end  --function blockScriptFunc_servoPosRelSideD()
+
+--script function definition
+  function loopScriptFunc_0()
+    --(Logic tree item : Move) Move_Duga_p1_saftyCr
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+    set_relative_offset({get_modbus_io_status("faskaR24Dh") / 1000 + ( get_modbus_io_status("M_F_faskaR270h") / 1000 )  , get_modbus_io_status("faskaR252h") / 1000 + ( get_modbus_io_status("M_F_faskaR272h") / 1000 )   , ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR258h") ) / 1000 + ( get_modbus_io_status("M_F_faskaR274h") / 1000 )  }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+      --(Logic tree item : Waypoint) v1s1left_p1
+      set_current_logic_tree_item("53ee895ed1864d428b6471cc15ecd199")
+      move_line({-3.988581, 0.634070, -1.517678, 0.410449, -1.441348, -2.967739}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_03
+    set_current_logic_tree_item("66752b2672dd48628cf094447b6ce91f")
+    sleep(0.3)
+    set_step_breakpoint()
+  end
+
+  function ifScriptFunc_10()
+    --(Logic tree item : Procedure) AspiraciyaOn
+      --(Logic tree item : Set) Set_DIOnumber6
+      set_current_logic_tree_item("7be83c000da64ec9997410f922aac029")
+      set_global_variable("V_I_DIOnumber", 6)
+      --(Logic tree item : Set) Set_stateTrue
+      set_current_logic_tree_item("075b265502784097960a146fe4bf6c72")
+      set_global_variable("V_B_mk311DOstate", true)
+      --(Logic tree item : Script) set_mk311DO
+      set_current_logic_tree_item("d9a1b074c2d64598ad8b6706754e18f8")
+      blockScriptFunc_set_mk311DO()
+      set_step_breakpoint()
+  end
+
+  function loopScriptFunc_10()
+    --(Logic tree item : Move) Move_Duga_p1_operCor
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+    set_relative_offset({get_modbus_io_status("faskaR245h") / 1000 + ( get_modbus_io_status("M_F_faskaR270h") / 1000 )   , get_modbus_io_status("faskaR252h") / -1000 + ( get_modbus_io_status("M_F_faskaR272h") / 1000 )    , ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR264h") ) / 1000 + ( get_modbus_io_status("M_F_faskaR274h") / 1000 )   }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+      --(Logic tree item : Waypoint) v1s1right_p1
+      set_current_logic_tree_item("5829399ee12f490f89d774db06b25348")
+      move_line({-3.447172, 0.375456, -1.954332, -0.333222, -2.365449, -1.121822}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_03
+    set_current_logic_tree_item("f615c67edd9c42b0a9e13db9cb3fef08")
+    sleep(0.3)
+    set_step_breakpoint()
+  end
+
+  function ifScriptFunc_20()
+    --(Logic tree item : Wait) Wait_nextStep
+    set_current_logic_tree_item("24093d3bbb994bf89ac9eabf60ddc51d")
+    while (not (get_modbus_io_status("manSc_c1B5h") == 1)) do
+      sleep(0.01)
+    end
+    set_step_breakpoint()
+  end
+
+  function ifScriptFunc_30()
+    --(Logic tree item : If) tochka_vershina
+    if (false) then
+      ifFuncRet = ifScriptFunc_31()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : If) If_net_izmereniyaZ
+    if (get_modbus_io_status("detec_c11Bh") == 0) then
+      ifFuncRet = ifScriptFunc_32()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : If) If_offsetBig
+    if (( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const")  ) > 0.8 or ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const")  ) < -0.8    ) then
+      ifFuncRet = ifScriptFunc_33()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : Block_Comment) Block_ven1St1Vershin
+    --Vershina zuba Venec1 Storona1
+      --(Logic tree item : Script) srvPosAbsLeftZub
+      set_current_logic_tree_item("8c3853b9ee294e768b608c9720f366fb")
+      blockScriptFunc_srvPosAbsLeftZub()
+      set_step_breakpoint()
+      --(Logic tree item : Move) Move_initDrilDisk180
+      init_global_move_profile()
+      set_joint_maxvelc({1.864012,1.864012,2.335251,1.864012,2.481858,2.481858})
+      set_joint_maxacc({7.330383,7.330383,10.995574,7.330383,7.330383,7.330383})
+      set_relative_offset({get_modbus_io_status("faskaR24Ch") / 1000 - 0.2, 0, 0}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+        --(Logic tree item : Waypoint) Waypoint_V_P_drillDisk180
+        set_current_logic_tree_item("c326e26442a44b208723dde3d0a16f87")
+        move_joint(get_global_variable("V_P_drillDisk180"), true)
+        set_step_breakpoint()
+      --(Logic tree item : Script) sendCoordToSCADA
+      set_current_logic_tree_item("e1e545e65f4749029a5f89dcbf416e30")
+      blockScriptFunc_sendCoordToSCADA()
+      set_step_breakpoint()
+      --(Logic tree item : Move) Move_glavUgolX
+      init_global_move_profile()
+      set_joint_maxvelc({1.553343,1.553343,1.946042,1.553343,2.068215,2.068215})
+      set_joint_maxacc({6.283185,6.283185,9.424778,6.283185,6.283185,6.283185})
+      set_relative_offset({0, 0, 0}, rpy2quaternion({d2r(-45), d2r(0), d2r(0)}), get_tool_kinematics_param("drillDisc"))
+        --(Logic tree item : Waypoint) Realtime_Waypoint
+        set_current_logic_tree_item("5eaa97259128435b88b71c65f7599a2f")
+        move_joint(get_global_variable("Realtime_Waypoint"), true)
+        set_step_breakpoint()
+      --(Logic tree item : Script) sendCoordToSCADA
+      set_current_logic_tree_item("aae21773ea544aebb9c3ad1305f71fb6")
+      blockScriptFunc_sendCoordToSCADA()
+      set_step_breakpoint()
+      --(Logic tree item : If) If_naladka
+      if (get_modbus_io_status("manSc_c1B3h") == 1 and get_modbus_io_status("manSc_c1B4h") == 1) then
+        ifFuncRet = ifScriptFunc_34()
+        if (ifFuncRet ~= nil) then
+          do return ifFuncRet end
+        end
+      end
+      --(Logic tree item : Move) Move_vershina_safty
+      init_global_move_profile()
+      set_end_maxvelc(1.400000)
+      set_end_maxacc(1.400000)
+      set_relative_offset({get_modbus_io_status("faskaR24Dh") / 1000, 0, ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR280h")  ) / 1000      }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+        --(Logic tree item : Waypoint) v1s1_vershina
+        set_current_logic_tree_item("8785afad703c4d9090d86c1f9a299a01")
+        move_line({-3.749774, 0.725048, -1.301877, 0.232494, -1.987257, -3.591594}, true)
+        set_step_breakpoint()
+      --(Logic tree item : Script) sendCoordToSCADA
+      set_current_logic_tree_item("074ca9a1b3164528ae61c850acadb6b6")
+      blockScriptFunc_sendCoordToSCADA()
+      set_step_breakpoint()
+      --(Logic tree item : If) If_naladka
+      if (get_modbus_io_status("manSc_c1B3h") == 1 and get_modbus_io_status("manSc_c1B4h") == 1) then
+        ifFuncRet = ifScriptFunc_35()
+        if (ifFuncRet ~= nil) then
+          do return ifFuncRet end
+        end
+      end
+      --(Logic tree item : Move) Move_vershina_oper
+      init_global_move_profile()
+      set_end_maxvelc(1.000000)
+      set_end_maxacc(1.200000)
+      set_relative_offset({get_modbus_io_status("faskaR245h") / 1000, 0, ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR280h")  ) / 1000      }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+        --(Logic tree item : Waypoint) v1s1_vershina
+        set_current_logic_tree_item("922d06e9cd3142118dea254c097ceebd")
+        move_line({-3.749774, 0.725048, -1.301877, 0.232494, -1.987257, -3.591594}, true)
+        set_step_breakpoint()
+      --(Logic tree item : Script) sendCoordToSCADA
+      set_current_logic_tree_item("f4be238e821b48038999d6dee05265fa")
+      blockScriptFunc_sendCoordToSCADA()
+      set_step_breakpoint()
+      --(Logic tree item : If) If_spindelOn
+      if (get_modbus_io_status("manSc_c1B4h") == 0) then
+        ifFuncRet = ifScriptFunc_36()
+        if (ifFuncRet ~= nil) then
+          do return ifFuncRet end
+        end
+      end
+      --(Logic tree item : If) If_naladka
+      if (get_modbus_io_status("manSc_c1B3h") == 1 and get_modbus_io_status("manSc_c1B4h") == 1) then
+        ifFuncRet = ifScriptFunc_39()
+        if (ifFuncRet ~= nil) then
+          do return ifFuncRet end
+        end
+      end
+      --(Logic tree item : Move) Move_vershina
+      init_global_move_profile()
+      set_end_maxvelc(0.400000)
+      set_end_maxacc(0.400000)
+      set_relative_offset({0, 0, ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR280h")  ) / 1000      }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+        --(Logic tree item : Waypoint) v1s1_vershina
+        set_current_logic_tree_item("66aca80ec2264929a3ea446e8da80c67")
+        move_line({-3.749774, 0.725048, -1.301877, 0.232494, -1.987257, -3.591594}, true)
+        set_step_breakpoint()
+      --(Logic tree item : Script) sendCoordToSCADA
+      set_current_logic_tree_item("95d16708a03a4294a4b0efb3163fe884")
+      blockScriptFunc_sendCoordToSCADA()
+      set_step_breakpoint()
+      --(Logic tree item : Script) servoPosRelSideD
+      set_current_logic_tree_item("7040ac8116344efbb5213019f0c7d62a")
+      blockScriptFunc_servoPosRelSideD()
+      set_step_breakpoint()
+      --(Logic tree item : Move) Move_vershina_oper
+      init_global_move_profile()
+      set_end_maxvelc(1.400000)
+      set_end_maxacc(1.600000)
+      set_relative_offset({get_modbus_io_status("faskaR245h") / 1000, 0, ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR280h")  ) / 1000      }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+        --(Logic tree item : Waypoint) v1s1_vershina
+        set_current_logic_tree_item("57d1bdd9cbbf48f598fa2dd00a37eb0c")
+        move_line({-3.749774, 0.725048, -1.301877, 0.232494, -1.987257, -3.591594}, true)
+        set_step_breakpoint()
+      --(Logic tree item : Procedure) SpindelStop
+        --(Logic tree item : Set) Set_DIOnumber3
+        set_current_logic_tree_item("3797c09d618a4829b96908fcbd8a2a8f")
+        set_global_variable("V_I_DIOnumber", 3)
+        --(Logic tree item : Set) Set_stateFalse
+        set_current_logic_tree_item("4a5cbd86a3bd4528b958bc878e705738")
+        set_global_variable("V_B_mk311DOstate", false)
+        --(Logic tree item : Line_Comment) stopSpindelCommand
+        --1
+        --(Logic tree item : Script) set_mk311DO
+        set_current_logic_tree_item("cb2c077d8876440a839d4ea667d2d342")
+        blockScriptFunc_set_mk311DO()
+        set_step_breakpoint()
+      --(Logic tree item : Procedure) AspiraciyaOff
+        --(Logic tree item : Set) Set_DIOnumber6
+        set_current_logic_tree_item("83341d4faee440dbadbb45b3a7289d7e")
+        set_global_variable("V_I_DIOnumber", 6)
+        --(Logic tree item : Set) Set_stateFalse
+        set_current_logic_tree_item("40ac771a2a1045d28e2e286a46a97198")
+        set_global_variable("V_B_mk311DOstate", false)
+        --(Logic tree item : Script) set_mk311DO
+        set_current_logic_tree_item("72d361bfa61b4fd2a39e08cba31e7812")
+        blockScriptFunc_set_mk311DO()
+        set_step_breakpoint()
+      --(Logic tree item : Move) Move_vershina_safty
+      init_global_move_profile()
+      set_end_maxvelc(1.400000)
+      set_end_maxacc(1.600000)
+      set_relative_offset({get_modbus_io_status("faskaR24Dh") / 1000, 0, ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR280h")  ) / 1000      }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+        --(Logic tree item : Waypoint) v1s1_vershina
+        set_current_logic_tree_item("7db94a1c7efa408cbecfe2a058bb8b0c")
+        move_line({-3.749774, 0.725048, -1.301877, 0.232494, -1.987257, -3.591594}, true)
+        set_step_breakpoint()
+      --(Logic tree item : Move) Move_initDrilDisk180
+      init_global_move_profile()
+      set_joint_maxvelc({1.864012,1.864012,2.335251,1.864012,2.481858,2.481858})
+      set_joint_maxacc({7.330383,7.330383,10.995574,7.330383,7.330383,7.330383})
+      set_relative_offset({get_modbus_io_status("faskaR24Ch") / 1000 - 0.2, 0, 0}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+        --(Logic tree item : Waypoint) Waypoint_V_P_drillDisk180
+        set_current_logic_tree_item("0f1ac27f3a404bf68ec9934793257c88")
+        move_joint(get_global_variable("V_P_drillDisk180"), true)
+        set_step_breakpoint()
+  end
+
+  function ifScriptFunc_0()
+    --(Logic tree item : Message) Message
+    set_current_logic_tree_item("26cec97f88eb40b7a238297b92617b78")
+    popup_message(2, "preFaskaScript: необрабатываемое исключение. Продолжение работы невозможно. Проект будет остановлен", true)
+  end
+
+  function ifScriptFunc_11()
+    --(Logic tree item : Loop) Loop_nextStep
+    while (get_modbus_io_status("manSc_c1B5h") == 0) do
+      sleep(0.001)
+      if (loopScriptFunc_2() == false) then
+        break
+      end
+    end
+  end
+
+  function loopScriptFunc_1()
+    --(Logic tree item : Script) check_mk312DO
+    set_current_logic_tree_item("931fe8aeca0d496d83bf49d1bcaa7d3a")
+    blockScriptFunc_check_mk312DO()
+    set_step_breakpoint()
+    --(Logic tree item : If) If
+    if (get_global_variable("V_B_mk312DOstate") == false) then
+      ifFuncRet = ifScriptFunc_9()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : Message) Message
+    set_current_logic_tree_item("1f35a482b7194e7b885427afbe7b1302")
+    popup_message(0, "запуск шпинделя невозможен - пневмозамок адаптера активен", false)
+  end
+
+  function ifScriptFunc_31()
+    --(Logic tree item : Move) Move_vershina
+    init_global_move_profile()
+    set_joint_maxvelc({1.553343,1.553343,1.946042,1.553343,2.068215,2.068215})
+    set_joint_maxacc({10.471976,10.471976,15.707963,10.471976,10.471976,10.471976})
+      --(Logic tree item : Waypoint) v1s1_vershina
+      set_current_logic_tree_item("f35f8c8bbede4706a8c07084428dc7a7")
+      move_joint({-3.749774, 0.725048, -1.301877, 0.232494, -1.987257, -3.591594}, true)
+      set_step_breakpoint()
+  end
+
+  function loopScriptFunc_11()
+    --(Logic tree item : If) If_naladka
+    if (get_modbus_io_status("manSc_c1B3h") == 1 and get_modbus_io_status("manSc_c1B4h") == 1 and get_modbus_io_status("manSc_c1B7h") == 0) then
+      ifFuncRet = ifScriptFunc_26()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    --(Logic tree item : Else) Else_dugaPlavno
+    else
+      ifFuncRet = ifScriptFunc_27()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : Move) Move_Duga_p1_oper
+    init_global_move_profile()
+    set_end_maxvelc(1.400000)
+    set_end_maxacc(1.600000)
+    set_relative_offset({get_modbus_io_status("faskaR245h") / 1000, get_modbus_io_status("faskaR252h") / -1000  , ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR264h") ) / 1000      }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+      --(Logic tree item : Waypoint) v1s1right_p1
+      set_current_logic_tree_item("954162b5cdff489a93e3d3f05016d641")
+      move_line({-3.447172, 0.375456, -1.954332, -0.333222, -2.365449, -1.121822}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Script) sendCoordToSCADA
+    set_current_logic_tree_item("445ba0686c544a85815ad43f7a433d55")
+    blockScriptFunc_sendCoordToSCADA()
+    set_step_breakpoint()
+    --(Logic tree item : If) If_naladka
+    if (get_modbus_io_status("manSc_c1B3h") == 1 and get_modbus_io_status("manSc_c1B4h") == 1) then
+      ifFuncRet = ifScriptFunc_28()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : Set) Set_decCntZuby
+    set_current_logic_tree_item("33d91cf7056e4bebae1277a5542e0740")
+    set_global_variable("V_I_localCnt", get_global_variable("V_I_localCnt") - 1)
+    --(Logic tree item : If) If_end
+    if (get_global_variable("V_I_localCnt") == 0  ) then
+      ifFuncRet = ifScriptFunc_29()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : Script) servoPosRelSide
+    set_current_logic_tree_item("7ec54fea8c86452c81ae35d3949bdf4a")
+    blockScriptFunc_servoPosRelSide()
+    set_step_breakpoint()
+  end
+
+  function ifScriptFunc_1()
+    --(Logic tree item : Set) Set_v1s1
+    set_current_logic_tree_item("6702f578c21d474a84bffceae0388138")
+    set_global_variable("V_D_sat5_v1s1_const", get_global_variable("V_D_v1s1_Ztorca"))
+    --(Logic tree item : Set) Set_v1s2
+    set_current_logic_tree_item("d0dc9456e87c41159c2f0eecc9d35f8f")
+    set_global_variable("V_D_sat5_v1s2_const", get_global_variable("V_D_v1s2_Ztorca"))
+    --(Logic tree item : Set) Set_v2s1
+    set_current_logic_tree_item("73bde172ef3c4f2eb6f5f9e2d04e7785")
+    set_global_variable("V_D_sat5_v2s1_const", get_global_variable("V_D_v2s1_Ztorca"))
+    --(Logic tree item : Set) Set_v2s2
+    set_current_logic_tree_item("dbbfc66fab2b4010ae8a5fcd7a4460c8")
+    set_global_variable("V_D_sat5_v2s2_const", get_global_variable("V_D_v2s2_Ztorca"))
+    --(Logic tree item : Set) Set_v3s1
+    set_current_logic_tree_item("045320dc366048bf9d58e2a3c9bbb4ca")
+    set_global_variable("V_D_sat5_v3s1_const", get_global_variable("V_D_v3s1_Ztorca"))
+    --(Logic tree item : Set) Set_v3s2
+    set_current_logic_tree_item("c852a9b744b04f33bc806afdb4011b5d")
+    set_global_variable("V_D_sat5_v3s2_const", get_global_variable("V_D_v3s2_Ztorca"))
+    --(Logic tree item : Message) Message
+    set_current_logic_tree_item("0ab333ec66d64e8b9c66fb801a9247e2")
+    popup_message(0, "constanty pereopredeleny", true)
+  end
+
+  function ifScriptFunc_21()
+    --(Logic tree item : Loop) Loop_nextStep
+    while (get_modbus_io_status("manSc_c1B5h") == 0) do
+      sleep(0.001)
+      if (loopScriptFunc_8() == false) then
+        break
+      end
+    end
+  end
+
+  function loopScriptFunc_12()
+    --(Logic tree item : Move) Move_Duga_p1_Corr
+    init_global_move_profile()
+    set_end_maxvelc(0.400000)
+    set_end_maxacc(0.400000)
+    set_relative_offset({get_modbus_io_status("M_F_faskaR270h") / 1000, get_modbus_io_status("M_F_faskaR272h") / 1000, ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR264h") ) / 1000 + ( get_modbus_io_status("M_F_faskaR274h") / 1000 )   }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+      --(Logic tree item : Waypoint) v1s1right_p1
+      set_current_logic_tree_item("323de0c134c2473cab109d219cded0b6")
+      move_line({-3.447172, 0.375456, -1.954332, -0.333222, -2.365449, -1.121822}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_03
+    set_current_logic_tree_item("126896c4be914e2c87cb83670ed31f37")
+    sleep(0.3)
+    set_step_breakpoint()
+  end
+
+  function ifScriptFunc_2()
+    --(Logic tree item : If) tochkiDugi
+    if (false) then
+      ifFuncRet = ifScriptFunc_3()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : If) If_net_izmereniyaZ
+    if (get_modbus_io_status("detec_c11Bh") == 0) then
+      ifFuncRet = ifScriptFunc_4()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : If) If_offsetBig
+    if (( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const")  ) > 0.8 or ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const")  ) < -0.8    ) then
+      ifFuncRet = ifScriptFunc_5()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : Block_Comment) Block_ven1St1left
+    --venec1Storona1left
+      --(Logic tree item : Script) srvPosAbsLeftZub
+      set_current_logic_tree_item("08493fbbf82c4bbd85dd1e2b41b31cd9")
+      blockScriptFunc_srvPosAbsLeftZub()
+      set_step_breakpoint()
+      --(Logic tree item : Set) Set_cnt_zubySide
+      set_current_logic_tree_item("37814e9b2ac2460fbcdafef09edae208")
+      set_global_variable("V_I_localCnt", get_modbus_io_status("globalR1A0h"))
+      --(Logic tree item : Move) Move_initDrilDisk180
+      init_global_move_profile()
+      set_joint_maxvelc({1.864012,1.864012,2.335251,1.864012,2.481858,2.481858})
+      set_joint_maxacc({7.330383,7.330383,10.995574,7.330383,7.330383,7.330383})
+      set_relative_offset({get_modbus_io_status("faskaR24Ch") / 1000 - 0.2, 0, 0}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+        --(Logic tree item : Waypoint) Waypoint_V_P_drillDisk180
+        set_current_logic_tree_item("54200ef499a64076a1626dc89f13c348")
+        move_joint(get_global_variable("V_P_drillDisk180"), true)
+        set_step_breakpoint()
+      --(Logic tree item : Script) sendCoordToSCADA
+      set_current_logic_tree_item("6b116c57f0304d4286b056b9d4d6cc75")
+      blockScriptFunc_sendCoordToSCADA()
+      set_step_breakpoint()
+      --(Logic tree item : Move) Move_glavUgolX
+      init_global_move_profile()
+      set_joint_maxvelc({1.553343,1.553343,1.946042,1.553343,2.068215,2.068215})
+      set_joint_maxacc({6.283185,6.283185,9.424778,6.283185,6.283185,6.283185})
+      set_relative_offset({0, 0, 0}, rpy2quaternion({d2r(0 -  get_modbus_io_status("M_F_faskaR246h")), d2r(0), d2r(0)}), get_tool_kinematics_param("drillDisc"))
+        --(Logic tree item : Waypoint) Realtime_Waypoint
+        set_current_logic_tree_item("a1ca9c909536469ea2d9d1b8b8b85775")
+        move_joint(get_global_variable("Realtime_Waypoint"), true)
+        set_step_breakpoint()
+      --(Logic tree item : Script) sendCoordToSCADA
+      set_current_logic_tree_item("565d934f27cd41738ead5498524a4676")
+      blockScriptFunc_sendCoordToSCADA()
+      set_step_breakpoint()
+      --(Logic tree item : Move) Move_glavUgolY
+      init_global_move_profile()
+      set_joint_maxvelc({1.553343,1.553343,1.946042,1.553343,2.068215,2.068215})
+      set_joint_maxacc({6.283185,6.283185,9.424778,6.283185,6.283185,6.283185})
+      set_relative_offset({0, 0, 0}, rpy2quaternion({d2r(0), d2r(get_modbus_io_status("M_F_faskaR248h")), d2r(0)}), get_tool_kinematics_param("drillDisc"))
+        --(Logic tree item : Waypoint) Realtime_Waypoint
+        set_current_logic_tree_item("e16d8a9ed3424bbc9622ddeffed209f0")
+        move_joint(get_global_variable("Realtime_Waypoint"), true)
+        set_step_breakpoint()
+      --(Logic tree item : Script) sendCoordToSCADA
+      set_current_logic_tree_item("1476d3d9147946b08b26d9c1e972df27")
+      blockScriptFunc_sendCoordToSCADA()
+      set_step_breakpoint()
+      --(Logic tree item : Move) Move_glavUgolZ
+      init_global_move_profile()
+      set_joint_maxvelc({1.553343,1.553343,1.946042,1.553343,2.068215,2.068215})
+      set_joint_maxacc({6.283185,6.283185,9.424778,6.283185,6.283185,6.283185})
+      set_relative_offset({0, 0, 0}, rpy2quaternion({d2r(0), d2r(0), d2r(0 - get_modbus_io_status("M_F_faskaR24Ah"))}), get_tool_kinematics_param("drillDisc"))
+        --(Logic tree item : Waypoint) Realtime_Waypoint
+        set_current_logic_tree_item("f3da29cbb5604df888022ad560f6e259")
+        move_joint(get_global_variable("Realtime_Waypoint"), true)
+        set_step_breakpoint()
+      --(Logic tree item : Script) sendCoordToSCADA
+      set_current_logic_tree_item("b07dc7c5dabd459ba7bfd705d173cac4")
+      blockScriptFunc_sendCoordToSCADA()
+      set_step_breakpoint()
+      --(Logic tree item : If) If_naladka
+      if (get_modbus_io_status("manSc_c1B3h") == 1 and get_modbus_io_status("manSc_c1B4h") == 1) then
+        ifFuncRet = ifScriptFunc_6()
+        if (ifFuncRet ~= nil) then
+          do return ifFuncRet end
+        end
+      end
+      --(Logic tree item : Move) Move_Duga_p1_safty
+      init_global_move_profile()
+      set_end_maxvelc(1.400000)
+      set_end_maxacc(1.600000)
+      set_relative_offset({get_modbus_io_status("faskaR24Dh") / 1000, get_modbus_io_status("faskaR252h") / 1000, ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR258h")  ) / 1000      }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+        --(Logic tree item : Waypoint) v1s1left_p1
+        set_current_logic_tree_item("fb2a74adedea485eab56fca121921b8c")
+        move_line({-3.988581, 0.634070, -1.517678, 0.410449, -1.441348, -2.967739}, true)
+        set_step_breakpoint()
+      --(Logic tree item : Script) sendCoordToSCADA
+      set_current_logic_tree_item("fd890bb434334d2c80b27917ba0b79be")
+      blockScriptFunc_sendCoordToSCADA()
+      set_step_breakpoint()
+      --(Logic tree item : If) If_naladka
+      if (get_modbus_io_status("manSc_c1B3h") == 1 and get_modbus_io_status("manSc_c1B4h") == 1) then
+        ifFuncRet = ifScriptFunc_7()
+        if (ifFuncRet ~= nil) then
+          do return ifFuncRet end
+        end
+      end
+      --(Logic tree item : Move) Move_Duga_p1_oper
+      init_global_move_profile()
+      set_end_maxvelc(1.200000)
+      set_end_maxacc(1.400000)
+      set_relative_offset({get_modbus_io_status("faskaR245h") / 1000, get_modbus_io_status("faskaR252h") / 1000  , ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR258h") ) / 1000      }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+        --(Logic tree item : Waypoint) v1s1left_p1
+        set_current_logic_tree_item("f088b5bda4874eca830bbc973cabdac9")
+        move_line({-3.988581, 0.634070, -1.517678, 0.410449, -1.441348, -2.967739}, true)
+        set_step_breakpoint()
+      --(Logic tree item : Script) sendCoordToSCADA
+      set_current_logic_tree_item("e7823bc6ab2c4441b7e355f928bddefb")
+      blockScriptFunc_sendCoordToSCADA()
+      set_step_breakpoint()
+      --(Logic tree item : If) If_spindelOn
+      if (get_modbus_io_status("manSc_c1B4h") == 0) then
+        ifFuncRet = ifScriptFunc_8()
+        if (ifFuncRet ~= nil) then
+          do return ifFuncRet end
+        end
+      end
+      --(Logic tree item : If) If_naladka
+      if (get_modbus_io_status("manSc_c1B3h") == 1 and get_modbus_io_status("manSc_c1B4h") == 1) then
+        ifFuncRet = ifScriptFunc_11()
+        if (ifFuncRet ~= nil) then
+          do return ifFuncRet end
+        end
+      end
+      --(Logic tree item : Loop) Loop_13z
+      while (true) do
+        sleep(0.001)
+        if (loopScriptFunc_3() == false) then
+          break
+        end
+      end
+      --(Logic tree item : Procedure) SpindelStop
+        --(Logic tree item : Set) Set_DIOnumber3
+        set_current_logic_tree_item("3f52f0f01c014721ae5bb5fd744ff402")
+        set_global_variable("V_I_DIOnumber", 3)
+        --(Logic tree item : Set) Set_stateFalse
+        set_current_logic_tree_item("47656f59d76042e1adfb76a2597e5a46")
+        set_global_variable("V_B_mk311DOstate", false)
+        --(Logic tree item : Line_Comment) stopSpindelCommand
+        --1
+        --(Logic tree item : Script) set_mk311DO
+        set_current_logic_tree_item("a8c84bb3862f45a6b8d111ffbe9f705d")
+        blockScriptFunc_set_mk311DO()
+        set_step_breakpoint()
+      --(Logic tree item : Procedure) AspiraciyaOff
+        --(Logic tree item : Set) Set_DIOnumber6
+        set_current_logic_tree_item("8b027e4239274d56b377c06f493a8c7f")
+        set_global_variable("V_I_DIOnumber", 6)
+        --(Logic tree item : Set) Set_stateFalse
+        set_current_logic_tree_item("a7377c58a45e4ae187c18b0aa8c550ff")
+        set_global_variable("V_B_mk311DOstate", false)
+        --(Logic tree item : Script) set_mk311DO
+        set_current_logic_tree_item("42ac7ee77d524c7ba0825f812ee2dc65")
+        blockScriptFunc_set_mk311DO()
+        set_step_breakpoint()
+      --(Logic tree item : Move) Move_Duga_p1_safty
+      init_global_move_profile()
+      set_end_maxvelc(1.400000)
+      set_end_maxacc(1.600000)
+      set_relative_offset({get_modbus_io_status("faskaR24Dh") / 1000, get_modbus_io_status("faskaR252h") / 1000, ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR258h") ) / 1000      }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+        --(Logic tree item : Waypoint) v1s1left_p1
+        set_current_logic_tree_item("42b12df4dcbb4110a9b86e7b09ba5dbb")
+        move_line({-3.988581, 0.634070, -1.517678, 0.410449, -1.441348, -2.967739}, true)
+        set_step_breakpoint()
+      --(Logic tree item : Move) Move_initDrilDisk180
+      init_global_move_profile()
+      set_joint_maxvelc({1.864012,1.864012,2.335251,1.864012,2.481858,2.481858})
+      set_joint_maxacc({7.330383,7.330383,10.995574,7.330383,7.330383,7.330383})
+      set_relative_offset({get_modbus_io_status("faskaR24Ch") / 1000 - 0.2, 0, 0}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+        --(Logic tree item : Waypoint) Waypoint_V_P_drillDisk180
+        set_current_logic_tree_item("61d3cf9a00794ba4a95a91efeb9574ce")
+        move_joint(get_global_variable("V_P_drillDisk180"), true)
+        set_step_breakpoint()
+  end
+
+  function ifScriptFunc_12()
+    --(Logic tree item : Loop) Loop_nextStep
+    while (get_modbus_io_status("manSc_c1B5h") == 0) do
+      sleep(0.001)
+      if (loopScriptFunc_4() == false) then
+        break
+      end
+    end
+    --(Logic tree item : Loop) Loop_nextStep
+    while (get_modbus_io_status("manSc_c1B5h") == 0) do
+      sleep(0.001)
+      if (loopScriptFunc_5() == false) then
+        break
+      end
+    end
+    --(Logic tree item : Loop) Loop_nextStep
+    while (get_modbus_io_status("manSc_c1B5h") == 0) do
+      sleep(0.001)
+      if (loopScriptFunc_6() == false) then
+        break
+      end
+    end
+  end
+
+  function ifScriptFunc_22()
+    --(Logic tree item : Procedure) SpindelStart
+      --(Logic tree item : Set) Set_DIOnumber3
+      set_current_logic_tree_item("1368b4f298ae4fcc85954259389dcb49")
+      set_global_variable("V_I_DIOnumber", 3)
+      --(Logic tree item : Loop) Loop_always
+      while (true) do
+        sleep(0.001)
+        if (loopScriptFunc_9() == false) then
+          break
+        end
+      end
+      --(Logic tree item : Set) Set_DIOnumber3
+      set_current_logic_tree_item("c2fac3c82c754140b612ce395e6ca836")
+      set_global_variable("V_I_DIOnumber", 3)
+      --(Logic tree item : Set) Set_stateTrue
+      set_current_logic_tree_item("7249ed9ba82948619c1c0b00b50a795e")
+      set_global_variable("V_B_mk311DOstate", true)
+      --(Logic tree item : Line_Comment) startSpindelCommand
+      --1
+      --(Logic tree item : Script) set_mk311DO
+      set_current_logic_tree_item("865276a932454a70bab36ea0c2a7e7b1")
+      blockScriptFunc_set_mk311DO()
+      set_step_breakpoint()
+    --(Logic tree item : If) If_aspiraciya
+    if (get_modbus_io_status("globalC170h") == 1) then
+      ifFuncRet = ifScriptFunc_24()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : Wait) Wait_08s
+    set_current_logic_tree_item("22235eaa11e04b22892b3e583f3c012f")
+    sleep(0.8)
+    set_step_breakpoint()
+  end
+
+  function ifScriptFunc_32()
+    --(Logic tree item : Message) Message
+    set_current_logic_tree_item("df95b8c0e9464a1cbef46a39ace9ffcc")
+    popup_message(0, "torec ne izmeren", true)
+  end
+
+  function loopScriptFunc_2()
+    --(Logic tree item : Move) Move_Duga_p1_operCor
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+    set_relative_offset({get_modbus_io_status("faskaR245h") / 1000 + ( get_modbus_io_status("M_F_faskaR270h") / 1000 )   , get_modbus_io_status("faskaR252h") / 1000 + ( get_modbus_io_status("M_F_faskaR272h") / 1000 )    , ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR258h") ) / 1000 + ( get_modbus_io_status("M_F_faskaR274h") / 1000 )   }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+      --(Logic tree item : Waypoint) v1s1left_p1
+      set_current_logic_tree_item("eda47db380cc4208bfd87bf7e00edbaf")
+      move_line({-3.988581, 0.634070, -1.517678, 0.410449, -1.441348, -2.967739}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_03
+    set_current_logic_tree_item("8e21840fd04044c8bb206aa76551d649")
+    sleep(0.3)
+    set_step_breakpoint()
+  end
+
+  function ifScriptFunc_33()
+    --(Logic tree item : Message) Message
+    set_current_logic_tree_item("e824aac7afe64990aa77d736a17591b4")
+    popup_message(0, "slishkom bol`shoe smeshenie", true)
+  end
+
+  function ifScriptFunc_3()
+    --(Logic tree item : Move) Move_initDrilDisk180
+    init_global_move_profile()
+    set_joint_maxvelc({1.553343,1.553343,1.946042,1.553343,2.068215,2.068215})
+    set_joint_maxacc({6.283185,6.283185,9.424778,6.283185,6.283185,6.283185})
+    set_relative_offset({get_modbus_io_status("faskaR24Ch") / 1000 - 0.2, 0, 0}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+      --(Logic tree item : Waypoint) Waypoint_V_P_drillDisk180
+      set_current_logic_tree_item("17fb5acf3d7f4c199cacd477beff5d23")
+      move_joint(get_global_variable("V_P_drillDisk180"), true)
+      set_step_breakpoint()
+    --(Logic tree item : Move) Move_arc
+    init_global_move_profile()
+    set_end_maxvelc(0.020000)
+    set_end_maxacc(0.020000)
+      --(Logic tree item : Waypoint) v1s1left_p1
+      set_current_logic_tree_item("f75aabaf37f34099900536ffdb85fed0")
+      add_waypoint({-3.988581, 0.634070, -1.517678, 0.410449, -1.441348, -2.967739})
+      --(Logic tree item : Waypoint) v1s1left_p2
+      set_current_logic_tree_item("ccc1400dbed54d0dad31d595ebfddfc1")
+      add_waypoint({-3.986952, 0.631851, -1.520608, 0.409616, -1.439983, -2.966841})
+      --(Logic tree item : Waypoint) v1s1left_p3
+      set_current_logic_tree_item("11bc35f9feb3494d84e499fb3beb4646")
+      add_waypoint({-3.985162, 0.630156, -1.524200, 0.407588, -1.438498, -2.965854})
+      move_track(MoveTrackType.Arc, true)
+      set_step_breakpoint()
+  end
+
+  function loopScriptFunc_3()
+    --(Logic tree item : If) If_naladka
+    if (get_modbus_io_status("manSc_c1B3h") == 1 and get_modbus_io_status("manSc_c1B4h") == 1 and get_modbus_io_status("manSc_c1B7h") == 0) then
+      ifFuncRet = ifScriptFunc_12()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    --(Logic tree item : Else) Else_dugaPlavno
+    else
+      ifFuncRet = ifScriptFunc_13()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : Move) Move_Duga_p1_oper
+    init_global_move_profile()
+    set_end_maxvelc(1.400000)
+    set_end_maxacc(1.600000)
+    set_relative_offset({get_modbus_io_status("faskaR245h") / 1000, get_modbus_io_status("faskaR252h") / 1000  , ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR258h") ) / 1000      }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+      --(Logic tree item : Waypoint) v1s1left_p1
+      set_current_logic_tree_item("729b71614162412080f38e2fa2460e23")
+      move_line({-3.988581, 0.634070, -1.517678, 0.410449, -1.441348, -2.967739}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Script) sendCoordToSCADA
+    set_current_logic_tree_item("edd602a03018489db6c116d5044a2b99")
+    blockScriptFunc_sendCoordToSCADA()
+    set_step_breakpoint()
+    --(Logic tree item : If) If_naladka
+    if (get_modbus_io_status("manSc_c1B3h") == 1 and get_modbus_io_status("manSc_c1B4h") == 1) then
+      ifFuncRet = ifScriptFunc_14()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : Set) Set_decCntZuby
+    set_current_logic_tree_item("c2b152486d8f4da38f6477862d9d8428")
+    set_global_variable("V_I_localCnt", get_global_variable("V_I_localCnt") - 1)
+    --(Logic tree item : If) If_end
+    if (get_global_variable("V_I_localCnt") == 0  ) then
+      ifFuncRet = ifScriptFunc_15()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : Script) servoPosRelSide
+    set_current_logic_tree_item("58771b3c170b4b1a8171d710311b0b68")
+    blockScriptFunc_servoPosRelSide()
+    set_step_breakpoint()
+  end
+
+  function loopScriptFunc_13()
+    --(Logic tree item : Move) Move_Duga_p2_Corr
+    init_global_move_profile()
+    set_end_maxvelc(0.400000)
+    set_end_maxacc(0.400000)
+    set_relative_offset({get_modbus_io_status("M_F_faskaR270h") / 1000, get_modbus_io_status("M_F_faskaR272h") / 1000, ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR264h") ) / 1000 + ( get_modbus_io_status("M_F_faskaR274h") / 1000 )   }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+      --(Logic tree item : Waypoint) v1s1right_p2
+      set_current_logic_tree_item("4174214cf1284a3994ab40d582f24648")
+      move_line({-3.449905, 0.375595, -1.954433, -0.336010, -2.366568, -1.125391}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_03
+    set_current_logic_tree_item("d429c0716a4c4dfe9341837f71b97b37")
+    sleep(0.3)
+    set_step_breakpoint()
+  end
+
+  function ifScriptFunc_13()
+    --(Logic tree item : Move) Move_Duga_p1_Corr
+    init_global_move_profile()
+    set_end_maxvelc(0.400000)
+    set_end_maxacc(0.400000)
+    set_relative_offset({get_modbus_io_status("M_F_faskaR270h") / 1000, get_modbus_io_status("M_F_faskaR272h") / 1000, ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR258h") ) / 1000 + ( get_modbus_io_status("M_F_faskaR274h") / 1000 )   }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+      --(Logic tree item : Waypoint) v1s1left_p1
+      set_current_logic_tree_item("b35eaa1d2c4e4fcea5ca0bd01dadaa8c")
+      move_line({-3.988581, 0.634070, -1.517678, 0.410449, -1.441348, -2.967739}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Move) Move_arc
+    init_global_move_profile()
+    set_end_maxvelc(0.020000)
+    set_end_maxacc(0.020000)
+    set_relative_offset({get_modbus_io_status("M_F_faskaR270h") / 1000, get_modbus_io_status("M_F_faskaR272h") / 1000, ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR258h") ) / 1000 + ( get_modbus_io_status("M_F_faskaR274h") / 1000 )    }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+      --(Logic tree item : Waypoint) v1s1left_p1
+      set_current_logic_tree_item("4efe31accafb4ccc9d6f5a78eface099")
+      add_waypoint({-3.988581, 0.634070, -1.517678, 0.410449, -1.441348, -2.967739})
+      --(Logic tree item : Waypoint) v1s1left_p2
+      set_current_logic_tree_item("36742bfbbccc4fbea5e1a4ce065b71e6")
+      add_waypoint({-3.986952, 0.631851, -1.520608, 0.409616, -1.439983, -2.966841})
+      --(Logic tree item : Waypoint) v1s1left_p3
+      set_current_logic_tree_item("91487695d3d24199a9ca3a1910caf0c0")
+      add_waypoint({-3.985162, 0.630156, -1.524200, 0.407588, -1.438498, -2.965854})
+      move_track(MoveTrackType.Arc, true)
+      set_step_breakpoint()
+  end
+
+  function ifScriptFunc_23()
+    --(Logic tree item : Break) Break
+    do return false end
+  end
+
+  function ifScriptFunc_34()
+    --(Logic tree item : Wait) Wait_nextStep
+    set_current_logic_tree_item("1f12f0b957f64a3c9faa69b60b7ed53e")
+    while (not (get_modbus_io_status("manSc_c1B5h") == 1)) do
+      sleep(0.01)
+    end
+    set_step_breakpoint()
+  end
+
+  function ifScriptFunc_4()
+    --(Logic tree item : Message) Message
+    set_current_logic_tree_item("ec0d58de75a64acb84f948c13fafa7ba")
+    popup_message(0, "torec ne izmeren", true)
+  end
+
+  function loopScriptFunc_14()
+    --(Logic tree item : Move) Move_Duga_p3_Corr
+    init_global_move_profile()
+    set_end_maxvelc(0.400000)
+    set_end_maxacc(0.400000)
+    set_relative_offset({get_modbus_io_status("M_F_faskaR270h") / 1000, get_modbus_io_status("M_F_faskaR272h") / 1000, ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR264h") ) / 1000 + ( get_modbus_io_status("M_F_faskaR274h") / 1000 )   }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+      --(Logic tree item : Waypoint) v1s1right_p3
+      set_current_logic_tree_item("a88bc5d2a4a54002b228123c62e4cb06")
+      move_line({-3.453115, 0.376600, -1.954650, -0.340217, -2.367873, -1.129569}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_03
+    set_current_logic_tree_item("224143146ec5420f9ece3fad16d6fadd")
+    sleep(0.3)
+    set_step_breakpoint()
+  end
+
+  function ifScriptFunc_24()
+    --(Logic tree item : Procedure) AspiraciyaOn
+      --(Logic tree item : Set) Set_DIOnumber6
+      set_current_logic_tree_item("f9495a415cd042de884c106cadfda79f")
+      set_global_variable("V_I_DIOnumber", 6)
+      --(Logic tree item : Set) Set_stateTrue
+      set_current_logic_tree_item("09e89a597c514b4a873fa2fee60b8684")
+      set_global_variable("V_B_mk311DOstate", true)
+      --(Logic tree item : Script) set_mk311DO
+      set_current_logic_tree_item("af39beb464b641b58894c38f3f6b3b2f")
+      blockScriptFunc_set_mk311DO()
+      set_step_breakpoint()
+  end
+
+  function ifScriptFunc_14()
+    --(Logic tree item : Loop) Loop_nextStep
+    while (get_modbus_io_status("manSc_c1B5h") == 0) do
+      sleep(0.001)
+      if (loopScriptFunc_7() == false) then
+        break
+      end
+    end
+  end
+
+  function loopScriptFunc_4()
+    --(Logic tree item : Move) Move_Duga_p1_Corr
+    init_global_move_profile()
+    set_end_maxvelc(0.400000)
+    set_end_maxacc(0.400000)
+    set_relative_offset({get_modbus_io_status("M_F_faskaR270h") / 1000, get_modbus_io_status("M_F_faskaR272h") / 1000, ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR258h") ) / 1000 + ( get_modbus_io_status("M_F_faskaR274h") / 1000 )   }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+      --(Logic tree item : Waypoint) v1s1left_p1
+      set_current_logic_tree_item("286829ba6a2c41e49e29cbd8f2210053")
+      move_line({-3.988581, 0.634070, -1.517678, 0.410449, -1.441348, -2.967739}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_03
+    set_current_logic_tree_item("7215bdbb3fb2495aaefa511a459bf5d0")
+    sleep(0.3)
+    set_step_breakpoint()
+  end
+
+  function ifScriptFunc_25()
+    --(Logic tree item : Loop) Loop_nextStep
+    while (get_modbus_io_status("manSc_c1B5h") == 0) do
+      sleep(0.001)
+      if (loopScriptFunc_10() == false) then
+        break
+      end
+    end
+  end
+
+  function ifScriptFunc_35()
+    --(Logic tree item : Loop) Loop_nextStep
+    while (get_modbus_io_status("manSc_c1B5h") == 0) do
+      sleep(0.001)
+      if (loopScriptFunc_16() == false) then
+        break
+      end
+    end
+  end
+
+  function loopScriptFunc_15()
+    --(Logic tree item : Move) Move_Duga_p1_operCor
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+    set_relative_offset({get_modbus_io_status("faskaR245h") / 1000 + ( get_modbus_io_status("M_F_faskaR270h") / 1000 )   , get_modbus_io_status("faskaR252h") / -1000 + ( get_modbus_io_status("M_F_faskaR272h") / 1000 )    , ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR264h") ) / 1000 + ( get_modbus_io_status("M_F_faskaR274h") / 1000 )   }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+      --(Logic tree item : Waypoint) v1s1right_p1
+      set_current_logic_tree_item("b9e1533e250143f587818258db6dbb9d")
+      move_line({-3.447172, 0.375456, -1.954332, -0.333222, -2.365449, -1.121822}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_03
+    set_current_logic_tree_item("d03a703ed1784fa5a1537ebe6df56806")
+    sleep(0.3)
+    set_step_breakpoint()
+  end
+
+  function ifScriptFunc_5()
+    --(Logic tree item : Message) Message
+    set_current_logic_tree_item("54fc8baca6684824aa941d05d8b702cd")
+    popup_message(0, "slishkom bol`shoe smeshenie", true)
+  end
+
+  function loopScriptFunc_5()
+    --(Logic tree item : Move) Move_Duga_p2_Corr
+    init_global_move_profile()
+    set_end_maxvelc(0.400000)
+    set_end_maxacc(0.400000)
+    set_relative_offset({get_modbus_io_status("M_F_faskaR270h") / 1000, get_modbus_io_status("M_F_faskaR272h") / 1000, ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR258h") ) / 1000 + ( get_modbus_io_status("M_F_faskaR274h") / 1000 )   }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+      --(Logic tree item : Waypoint) v1s1left_p2
+      set_current_logic_tree_item("b8c938720836430587e0900318a3da33")
+      move_line({-3.986952, 0.631851, -1.520608, 0.409616, -1.439983, -2.966841}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_03
+    set_current_logic_tree_item("22a48552945448fc8ef8c417336aaa1c")
+    sleep(0.3)
+    set_step_breakpoint()
+  end
+
+  function ifScriptFunc_15()
+    --(Logic tree item : Break) Break
+    do return false end
+  end
+
+  function loopScriptFunc_16()
+    --(Logic tree item : Move) Move_vershin_saftyCr
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+    set_relative_offset({get_modbus_io_status("faskaR24Dh") / 1000 + ( get_modbus_io_status("M_F_faskaR270h") / 1000 )  , ( get_modbus_io_status("M_F_faskaR272h") / 1000 )   , ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR280h") ) / 1000 + ( get_modbus_io_status("M_F_faskaR274h") / 1000 )  }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+      --(Logic tree item : Waypoint) v1s1_vershina
+      set_current_logic_tree_item("45732c517b4b4c42a481bd32af6199f4")
+      move_line({-3.749774, 0.725048, -1.301877, 0.232494, -1.987257, -3.591594}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_03
+    set_current_logic_tree_item("03dc1b8e2a5f4e8baa5e19c798f7a6ac")
+    sleep(0.3)
+    set_step_breakpoint()
+  end
+
+  function ifScriptFunc_16()
+    --(Logic tree item : If) tochkiDugi
+    if (false) then
+      ifFuncRet = ifScriptFunc_17()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : If) If_net_izmereniyaZ
+    if (get_modbus_io_status("detec_c11Bh") == 0) then
+      ifFuncRet = ifScriptFunc_18()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : If) If_offsetBig
+    if (( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const")  ) > 0.8 or ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const")  ) < -0.8    ) then
+      ifFuncRet = ifScriptFunc_19()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : Block_Comment) Block_ven1St1right
+    --venec1Storona1right
+      --(Logic tree item : Script) srvPosAbsRihtZub
+      set_current_logic_tree_item("3f9edbc6ee5d40d297c561c7689d00da")
+      blockScriptFunc_srvPosAbsRihtZub()
+      set_step_breakpoint()
+      --(Logic tree item : Set) Set_cnt_zubySide
+      set_current_logic_tree_item("f7649b81325f4ceb82368b8c18e7ddb9")
+      set_global_variable("V_I_localCnt", get_modbus_io_status("globalR1A0h"))
+      --(Logic tree item : Move) Move_initDrilDisk0
+      init_global_move_profile()
+      set_joint_maxvelc({1.864012,1.864012,2.335251,1.864012,2.481858,2.481858})
+      set_joint_maxacc({7.330383,7.330383,10.995574,7.330383,7.330383,7.330383})
+      set_relative_offset({get_modbus_io_status("faskaR24Ch") / 1000 - 0.2, 0, 0}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+        --(Logic tree item : Waypoint) Waypoint_V_P_drillDisk
+        set_current_logic_tree_item("b4d54c11443146098928845393d13026")
+        move_joint(get_global_variable("V_P_drillDisk"), true)
+        set_step_breakpoint()
+      --(Logic tree item : Script) sendCoordToSCADA
+      set_current_logic_tree_item("30544f15ebcd4e4aa0f456f1b09d4162")
+      blockScriptFunc_sendCoordToSCADA()
+      set_step_breakpoint()
+      --(Logic tree item : Move) Move_glavUgolX
+      init_global_move_profile()
+      set_joint_maxvelc({1.553343,1.553343,1.946042,1.553343,2.068215,2.068215})
+      set_joint_maxacc({6.283185,6.283185,9.424778,6.283185,6.283185,6.283185})
+      set_relative_offset({0, 0, 0}, rpy2quaternion({d2r(get_modbus_io_status("M_F_faskaR246h")), d2r(0), d2r(0)}), get_tool_kinematics_param("drillDisc"))
+        --(Logic tree item : Waypoint) Realtime_Waypoint
+        set_current_logic_tree_item("9283e208d6f34b3da629dfd91c7f77d5")
+        move_joint(get_global_variable("Realtime_Waypoint"), true)
+        set_step_breakpoint()
+      --(Logic tree item : Script) sendCoordToSCADA
+      set_current_logic_tree_item("b5cfe50c6df54334bd83ac06ac5dcf1a")
+      blockScriptFunc_sendCoordToSCADA()
+      set_step_breakpoint()
+      --(Logic tree item : Move) Move_glavUgolY
+      init_global_move_profile()
+      set_joint_maxvelc({1.553343,1.553343,1.946042,1.553343,2.068215,2.068215})
+      set_joint_maxacc({6.283185,6.283185,9.424778,6.283185,6.283185,6.283185})
+      set_relative_offset({0, 0, 0}, rpy2quaternion({d2r(0), d2r(get_modbus_io_status("M_F_faskaR248h")), d2r(0)}), get_tool_kinematics_param("drillDisc"))
+        --(Logic tree item : Waypoint) Realtime_Waypoint
+        set_current_logic_tree_item("5fd2ab47a6854b6abbd57243e095d692")
+        move_joint(get_global_variable("Realtime_Waypoint"), true)
+        set_step_breakpoint()
+      --(Logic tree item : Script) sendCoordToSCADA
+      set_current_logic_tree_item("f07d4f09e5734d9b96d439bb8923c594")
+      blockScriptFunc_sendCoordToSCADA()
+      set_step_breakpoint()
+      --(Logic tree item : Move) Move_glavUgolZ
+      init_global_move_profile()
+      set_joint_maxvelc({1.553343,1.553343,1.946042,1.553343,2.068215,2.068215})
+      set_joint_maxacc({6.283185,6.283185,9.424778,6.283185,6.283185,6.283185})
+      set_relative_offset({0, 0, 0}, rpy2quaternion({d2r(0), d2r(0), d2r(get_modbus_io_status("M_F_faskaR24Ah"))}), get_tool_kinematics_param("drillDisc"))
+        --(Logic tree item : Waypoint) Realtime_Waypoint
+        set_current_logic_tree_item("ea39a3ead86f47fcb400ba7fbe9eeac9")
+        move_joint(get_global_variable("Realtime_Waypoint"), true)
+        set_step_breakpoint()
+      --(Logic tree item : Script) sendCoordToSCADA
+      set_current_logic_tree_item("cf89b2bab9e847938445974a64182826")
+      blockScriptFunc_sendCoordToSCADA()
+      set_step_breakpoint()
+      --(Logic tree item : If) If_naladka
+      if (get_modbus_io_status("manSc_c1B3h") == 1 and get_modbus_io_status("manSc_c1B4h") == 1) then
+        ifFuncRet = ifScriptFunc_20()
+        if (ifFuncRet ~= nil) then
+          do return ifFuncRet end
+        end
+      end
+      --(Logic tree item : Move) Move_Duga_p1_safty
+      init_global_move_profile()
+      set_end_maxvelc(1.400000)
+      set_end_maxacc(1.600000)
+      set_relative_offset({get_modbus_io_status("faskaR24Dh") / 1000, get_modbus_io_status("faskaR252h") / -1000, ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR264h")  ) / 1000      }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+        --(Logic tree item : Waypoint) v1s1right_p1
+        set_current_logic_tree_item("17f38e2ac4184ecd809eff848fa72947")
+        move_line({-3.447172, 0.375456, -1.954332, -0.333222, -2.365449, -1.121822}, true)
+        set_step_breakpoint()
+      --(Logic tree item : Script) sendCoordToSCADA
+      set_current_logic_tree_item("ab7b29fe82a0484ba114ff9773e1a611")
+      blockScriptFunc_sendCoordToSCADA()
+      set_step_breakpoint()
+      --(Logic tree item : If) If_naladka
+      if (get_modbus_io_status("manSc_c1B3h") == 1 and get_modbus_io_status("manSc_c1B4h") == 1) then
+        ifFuncRet = ifScriptFunc_21()
+        if (ifFuncRet ~= nil) then
+          do return ifFuncRet end
+        end
+      end
+      --(Logic tree item : Move) Move_Duga_p1_oper
+      init_global_move_profile()
+      set_end_maxvelc(1.200000)
+      set_end_maxacc(1.400000)
+      set_relative_offset({get_modbus_io_status("faskaR245h") / 1000, get_modbus_io_status("faskaR252h") / -1000  , ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR264h") ) / 1000      }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+        --(Logic tree item : Waypoint) v1s1right_p1
+        set_current_logic_tree_item("7a46a08bc400483fa3b1d269cf65c876")
+        move_line({-3.447172, 0.375456, -1.954332, -0.333222, -2.365449, -1.121822}, true)
+        set_step_breakpoint()
+      --(Logic tree item : Script) sendCoordToSCADA
+      set_current_logic_tree_item("613510ab368f497489bdfd019caa9b6b")
+      blockScriptFunc_sendCoordToSCADA()
+      set_step_breakpoint()
+      --(Logic tree item : If) If_spindelOn
+      if (get_modbus_io_status("manSc_c1B4h") == 0) then
+        ifFuncRet = ifScriptFunc_22()
+        if (ifFuncRet ~= nil) then
+          do return ifFuncRet end
+        end
+      end
+      --(Logic tree item : If) If_naladka
+      if (get_modbus_io_status("manSc_c1B3h") == 1 and get_modbus_io_status("manSc_c1B4h") == 1) then
+        ifFuncRet = ifScriptFunc_25()
+        if (ifFuncRet ~= nil) then
+          do return ifFuncRet end
+        end
+      end
+      --(Logic tree item : Loop) Loop_13z
+      while (true) do
+        sleep(0.001)
+        if (loopScriptFunc_11() == false) then
+          break
+        end
+      end
+      --(Logic tree item : Procedure) SpindelStop
+        --(Logic tree item : Set) Set_DIOnumber3
+        set_current_logic_tree_item("f73aa8f577b94833bbd8ea73790a5a7d")
+        set_global_variable("V_I_DIOnumber", 3)
+        --(Logic tree item : Set) Set_stateFalse
+        set_current_logic_tree_item("fce0cc505b9b40b994eefb068844aaa7")
+        set_global_variable("V_B_mk311DOstate", false)
+        --(Logic tree item : Line_Comment) stopSpindelCommand
+        --1
+        --(Logic tree item : Script) set_mk311DO
+        set_current_logic_tree_item("1b50720c6fba426ca71d6e4616cf87cf")
+        blockScriptFunc_set_mk311DO()
+        set_step_breakpoint()
+      --(Logic tree item : Procedure) AspiraciyaOff
+        --(Logic tree item : Set) Set_DIOnumber6
+        set_current_logic_tree_item("fb8b1580e8cc49e792870976930f9dad")
+        set_global_variable("V_I_DIOnumber", 6)
+        --(Logic tree item : Set) Set_stateFalse
+        set_current_logic_tree_item("f319e87214dc41fcacf69c937b429372")
+        set_global_variable("V_B_mk311DOstate", false)
+        --(Logic tree item : Script) set_mk311DO
+        set_current_logic_tree_item("3f56efbd4700400cbf186b1b367970a7")
+        blockScriptFunc_set_mk311DO()
+        set_step_breakpoint()
+      --(Logic tree item : Move) Move_Duga_p1_safty
+      init_global_move_profile()
+      set_end_maxvelc(1.400000)
+      set_end_maxacc(1.600000)
+      set_relative_offset({get_modbus_io_status("faskaR24Dh") / 1000, get_modbus_io_status("faskaR252h") / -1000, ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR264h") ) / 1000      }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+        --(Logic tree item : Waypoint) v1s1right_p1
+        set_current_logic_tree_item("27adcacd9acb4198ad0e03d17eb168eb")
+        move_line({-3.447172, 0.375456, -1.954332, -0.333222, -2.365449, -1.121822}, true)
+        set_step_breakpoint()
+      --(Logic tree item : Move) Move_initDrilDisk0
+      init_global_move_profile()
+      set_joint_maxvelc({1.864012,1.864012,2.335251,1.864012,2.481858,2.481858})
+      set_joint_maxacc({7.330383,7.330383,10.995574,7.330383,7.330383,7.330383})
+      set_relative_offset({get_modbus_io_status("faskaR24Ch") / 1000 - 0.2, 0, 0}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+        --(Logic tree item : Waypoint) Waypoint_V_P_drillDisk
+        set_current_logic_tree_item("d9eedbdae868442785007afe74b0276c")
+        move_joint(get_global_variable("V_P_drillDisk"), true)
+        set_step_breakpoint()
+  end
+
+  function ifScriptFunc_36()
+    --(Logic tree item : Procedure) SpindelStart
+      --(Logic tree item : Set) Set_DIOnumber3
+      set_current_logic_tree_item("1ed7ef953d5040c3ba275d062f7f27d2")
+      set_global_variable("V_I_DIOnumber", 3)
+      --(Logic tree item : Loop) Loop_always
+      while (true) do
+        sleep(0.001)
+        if (loopScriptFunc_17() == false) then
+          break
+        end
+      end
+      --(Logic tree item : Set) Set_DIOnumber3
+      set_current_logic_tree_item("23413b0253884622be8a5970eb59a69d")
+      set_global_variable("V_I_DIOnumber", 3)
+      --(Logic tree item : Set) Set_stateTrue
+      set_current_logic_tree_item("ee688cd3038940c29a5977161d7a48c2")
+      set_global_variable("V_B_mk311DOstate", true)
+      --(Logic tree item : Line_Comment) startSpindelCommand
+      --1
+      --(Logic tree item : Script) set_mk311DO
+      set_current_logic_tree_item("fcdae51c451d4f87905ad787d931627c")
+      blockScriptFunc_set_mk311DO()
+      set_step_breakpoint()
+    --(Logic tree item : If) If_aspiraciya
+    if (get_modbus_io_status("globalC170h") == 1) then
+      ifFuncRet = ifScriptFunc_38()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : Wait) Wait_08s
+    set_current_logic_tree_item("39826dddf3fe411793f9fbf5c1bcda00")
+    sleep(1.2)
+    set_step_breakpoint()
+  end
+
+  function loopScriptFunc_6()
+    --(Logic tree item : Move) Move_Duga_p3_Corr
+    init_global_move_profile()
+    set_end_maxvelc(0.400000)
+    set_end_maxacc(0.400000)
+    set_relative_offset({get_modbus_io_status("M_F_faskaR270h") / 1000, get_modbus_io_status("M_F_faskaR272h") / 1000, ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR258h") ) / 1000 + ( get_modbus_io_status("M_F_faskaR274h") / 1000 )   }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+      --(Logic tree item : Waypoint) v1s1left_p3
+      set_current_logic_tree_item("9c8a03a4db1d43e5a2aa4d41177ff9c2")
+      move_line({-3.985162, 0.630156, -1.524200, 0.407588, -1.438498, -2.965854}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_03
+    set_current_logic_tree_item("3758ab605f654e4b83a61075dbe5ef08")
+    sleep(0.3)
+    set_step_breakpoint()
+  end
+
+  function ifScriptFunc_26()
+    --(Logic tree item : Loop) Loop_nextStep
+    while (get_modbus_io_status("manSc_c1B5h") == 0) do
+      sleep(0.001)
+      if (loopScriptFunc_12() == false) then
+        break
+      end
+    end
+    --(Logic tree item : Loop) Loop_nextStep
+    while (get_modbus_io_status("manSc_c1B5h") == 0) do
+      sleep(0.001)
+      if (loopScriptFunc_13() == false) then
+        break
+      end
+    end
+    --(Logic tree item : Loop) Loop_nextStep
+    while (get_modbus_io_status("manSc_c1B5h") == 0) do
+      sleep(0.001)
+      if (loopScriptFunc_14() == false) then
+        break
+      end
+    end
+  end
+
+  function ifScriptFunc_6()
+    --(Logic tree item : Wait) Wait_nextStep
+    set_current_logic_tree_item("a2a8b73ebe7e45e6a4ae3aadb1dc9900")
+    while (not (get_modbus_io_status("manSc_c1B5h") == 1)) do
+      sleep(0.01)
+    end
+    set_step_breakpoint()
+  end
+
+  function ifScriptFunc_37()
+    --(Logic tree item : Break) Break
+    do return false end
+  end
+
+  function loopScriptFunc_17()
+    --(Logic tree item : Script) check_mk312DO
+    set_current_logic_tree_item("d25e9617bd2e43b09939fcb09213ef2a")
+    blockScriptFunc_check_mk312DO()
+    set_step_breakpoint()
+    --(Logic tree item : If) If
+    if (get_global_variable("V_B_mk312DOstate") == false) then
+      ifFuncRet = ifScriptFunc_37()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : Message) Message
+    set_current_logic_tree_item("0d6223e002d74663b7c499beea92be13")
+    popup_message(0, "запуск шпинделя невозможен - пневмозамок адаптера активен", false)
+  end
+
+  function ifScriptFunc_7()
+    --(Logic tree item : Loop) Loop_nextStep
+    while (get_modbus_io_status("manSc_c1B5h") == 0) do
+      sleep(0.001)
+      if (loopScriptFunc_0() == false) then
+        break
+      end
+    end
+  end
+
+  function ifScriptFunc_27()
+    --(Logic tree item : Move) Move_Duga_p1_Corr
+    init_global_move_profile()
+    set_end_maxvelc(0.400000)
+    set_end_maxacc(0.400000)
+    set_relative_offset({get_modbus_io_status("M_F_faskaR270h") / 1000, get_modbus_io_status("M_F_faskaR272h") / 1000, ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR264h") ) / 1000 + ( get_modbus_io_status("M_F_faskaR274h") / 1000 )   }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+      --(Logic tree item : Waypoint) v1s1right_p1
+      set_current_logic_tree_item("ac3d402d56394e748dd1254e2fc7023f")
+      move_line({-3.447172, 0.375456, -1.954332, -0.333222, -2.365449, -1.121822}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Move) Move_arc
+    init_global_move_profile()
+    set_end_maxvelc(0.020000)
+    set_end_maxacc(0.020000)
+    set_relative_offset({get_modbus_io_status("M_F_faskaR270h") / 1000, get_modbus_io_status("M_F_faskaR272h") / 1000, ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR264h") ) / 1000 + ( get_modbus_io_status("M_F_faskaR274h") / 1000 )    }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+      --(Logic tree item : Waypoint) v1s1right_p1
+      set_current_logic_tree_item("c178ca8ca31949f3acd358c5fddf898e")
+      add_waypoint({-3.447172, 0.375456, -1.954332, -0.333222, -2.365449, -1.121822})
+      --(Logic tree item : Waypoint) v1s1right_p2
+      set_current_logic_tree_item("e868db465d454284b64c3fee2ee237a8")
+      add_waypoint({-3.449905, 0.375595, -1.954433, -0.336010, -2.366568, -1.125391})
+      --(Logic tree item : Waypoint) v1s1right_p3
+      set_current_logic_tree_item("7b7b6ca9fbd24b76b96ffd2bf20eb1c3")
+      add_waypoint({-3.453115, 0.376600, -1.954650, -0.340217, -2.367873, -1.129569})
+      move_track(MoveTrackType.Arc, true)
+      set_step_breakpoint()
+  end
+
+  function loopScriptFunc_7()
+    --(Logic tree item : Move) Move_Duga_p1_operCor
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+    set_relative_offset({get_modbus_io_status("faskaR245h") / 1000 + ( get_modbus_io_status("M_F_faskaR270h") / 1000 )   , get_modbus_io_status("faskaR252h") / 1000 + ( get_modbus_io_status("M_F_faskaR272h") / 1000 )    , ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR258h") ) / 1000 + ( get_modbus_io_status("M_F_faskaR274h") / 1000 )   }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+      --(Logic tree item : Waypoint) v1s1left_p1
+      set_current_logic_tree_item("0bfd9db0b9ed470a85dbd56283c838f0")
+      move_line({-3.988581, 0.634070, -1.517678, 0.410449, -1.441348, -2.967739}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_03
+    set_current_logic_tree_item("72a7b283e65041d7ab600b06a61f7ba4")
+    sleep(0.3)
+    set_step_breakpoint()
+  end
+
+  function ifScriptFunc_17()
+    --(Logic tree item : Move) Move_arc
+    init_global_move_profile()
+    set_end_maxvelc(0.020000)
+    set_end_maxacc(0.020000)
+      --(Logic tree item : Waypoint) v1s1right_p1
+      set_current_logic_tree_item("e1e80c5ead9546eeaf4010ab1364bd4f")
+      add_waypoint({-3.447172, 0.375456, -1.954332, -0.333222, -2.365449, -1.121822})
+      --(Logic tree item : Waypoint) v1s1right_p2
+      set_current_logic_tree_item("6a5bb2a8d6dd4e2e826d153f273a80e2")
+      add_waypoint({-3.449905, 0.375595, -1.954433, -0.336010, -2.366568, -1.125391})
+      --(Logic tree item : Waypoint) v1s1right_p3
+      set_current_logic_tree_item("56cf419a7af34c36957dcdf5881aa12c")
+      add_waypoint({-3.453115, 0.376600, -1.954650, -0.340217, -2.367873, -1.129569})
+      move_track(MoveTrackType.Arc, true)
+      set_step_breakpoint()
+  end
+
+  function ifScriptFunc_28()
+    --(Logic tree item : Loop) Loop_nextStep
+    while (get_modbus_io_status("manSc_c1B5h") == 0) do
+      sleep(0.001)
+      if (loopScriptFunc_15() == false) then
+        break
+      end
+    end
+  end
+
+  function ifScriptFunc_38()
+    --(Logic tree item : Procedure) AspiraciyaOn
+      --(Logic tree item : Set) Set_DIOnumber6
+      set_current_logic_tree_item("b83b567a7a5542bbbfecf1cc0224978b")
+      set_global_variable("V_I_DIOnumber", 6)
+      --(Logic tree item : Set) Set_stateTrue
+      set_current_logic_tree_item("1b8bf4b52e4543ef9eaaa6bf8d177cb8")
+      set_global_variable("V_B_mk311DOstate", true)
+      --(Logic tree item : Script) set_mk311DO
+      set_current_logic_tree_item("00494d4be28f41c3a75b0eb4ae4e7a17")
+      blockScriptFunc_set_mk311DO()
+      set_step_breakpoint()
+  end
+
+  function loopScriptFunc_8()
+    --(Logic tree item : Move) Move_Duga_p1_saftyCr
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+    set_relative_offset({get_modbus_io_status("faskaR24Dh") / 1000 + ( get_modbus_io_status("M_F_faskaR270h") / 1000 )  , get_modbus_io_status("faskaR252h") / -1000 + ( get_modbus_io_status("M_F_faskaR272h") / 1000 )   , ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR264h") ) / 1000 + ( get_modbus_io_status("M_F_faskaR274h") / 1000 )  }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+      --(Logic tree item : Waypoint) v1s1right_p1
+      set_current_logic_tree_item("23f2973da4574c28821b29e8898d1096")
+      move_line({-3.447172, 0.375456, -1.954332, -0.333222, -2.365449, -1.121822}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_03
+    set_current_logic_tree_item("8b333b013404454781b857596da6fe2f")
+    sleep(0.3)
+    set_step_breakpoint()
+  end
+
+  function loopScriptFunc_18()
+    --(Logic tree item : Move) Move_vershin_operCor
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+    set_relative_offset({get_modbus_io_status("faskaR245h") / 1000 + ( get_modbus_io_status("M_F_faskaR270h") / 1000 )   , ( get_modbus_io_status("M_F_faskaR272h") / 1000 )    , ( get_global_variable("V_D_v1s1_Ztorca") - get_global_variable("V_D_sat5_v1s1_const") + get_modbus_io_status("M_F_faskaR280h") ) / 1000 + ( get_modbus_io_status("M_F_faskaR274h") / 1000 )   }, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+      --(Logic tree item : Waypoint) v1s1_vershina
+      set_current_logic_tree_item("c57f8257abdf42a5a768f8cdbd07490c")
+      move_line({-3.749774, 0.725048, -1.301877, 0.232494, -1.987257, -3.591594}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_03
+    set_current_logic_tree_item("6dea8db3beb842ee8c94d5287550f695")
+    sleep(0.3)
+    set_step_breakpoint()
+  end
+
+  function ifScriptFunc_18()
+    --(Logic tree item : Message) Message
+    set_current_logic_tree_item("32a1c7b819e04b2ab7e6cedff74351bc")
+    popup_message(0, "torec ne izmeren", true)
+  end
+
+  function ifScriptFunc_8()
+    --(Logic tree item : Procedure) SpindelStart
+      --(Logic tree item : Set) Set_DIOnumber3
+      set_current_logic_tree_item("f0c85a224d0043b7933d47155e6c1b69")
+      set_global_variable("V_I_DIOnumber", 3)
+      --(Logic tree item : Loop) Loop_always
+      while (true) do
+        sleep(0.001)
+        if (loopScriptFunc_1() == false) then
+          break
+        end
+      end
+      --(Logic tree item : Set) Set_DIOnumber3
+      set_current_logic_tree_item("169aec9b16c44e07a6683fb5cb790b70")
+      set_global_variable("V_I_DIOnumber", 3)
+      --(Logic tree item : Set) Set_stateTrue
+      set_current_logic_tree_item("a2afe982b23a43b886cff4d5fc2823db")
+      set_global_variable("V_B_mk311DOstate", true)
+      --(Logic tree item : Line_Comment) startSpindelCommand
+      --1
+      --(Logic tree item : Script) set_mk311DO
+      set_current_logic_tree_item("1387cfaf5ab4464baec8df199e89b294")
+      blockScriptFunc_set_mk311DO()
+      set_step_breakpoint()
+    --(Logic tree item : If) If_aspiraciya
+    if (get_modbus_io_status("globalC170h") == 1) then
+      ifFuncRet = ifScriptFunc_10()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : Wait) Wait_08s
+    set_current_logic_tree_item("0ff9594a63534b3391c9ea28adf94627")
+    sleep(0.8)
+    set_step_breakpoint()
+  end
+
+  function ifScriptFunc_39()
+    --(Logic tree item : Loop) Loop_nextStep
+    while (get_modbus_io_status("manSc_c1B5h") == 0) do
+      sleep(0.001)
+      if (loopScriptFunc_18() == false) then
+        break
+      end
+    end
+  end
+
+  function ifScriptFunc_29()
+    --(Logic tree item : Break) Break
+    do return false end
+  end
+
+  function ifScriptFunc_9()
+    --(Logic tree item : Break) Break
+    do return false end
+  end
+
+  function ifScriptFunc_19()
+    --(Logic tree item : Message) Message
+    set_current_logic_tree_item("95606bed44d447ff900ebc3e684d1249")
+    popup_message(0, "slishkom bol`shoe smeshenie", true)
+  end
+
+  function loopScriptFunc_9()
+    --(Logic tree item : Script) check_mk312DO
+    set_current_logic_tree_item("f49c23ad70ed4cd79f1edcc90faedb15")
+    blockScriptFunc_check_mk312DO()
+    set_step_breakpoint()
+    --(Logic tree item : If) If
+    if (get_global_variable("V_B_mk312DOstate") == false) then
+      ifFuncRet = ifScriptFunc_23()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : Message) Message
+    set_current_logic_tree_item("d41f392c7e444a3eae0ebc8dbf5c47ed")
+    popup_message(0, "запуск шпинделя невозможен - пневмозамок адаптера активен", false)
+  end
+
+--(Logic tree item : Procedure_Program) Procedure_Program
+  --(Logic tree item : Script) preFaskaScript
+  set_current_logic_tree_item("4ea31c1d56b0487e947d05edfddde3f5")
+  blockScriptFunc_preFaskaScript()
+  set_step_breakpoint()
+  --(Logic tree item : If) If_inputDataInCorect
+  if (get_modbus_io_status("synhr_c121h") == 1) then
+    ifFuncRet = ifScriptFunc_0()
+    if (ifFuncRet ~= nil) then
+      do return ifFuncRet end
+    end
+  end
+  --(Logic tree item : Set) Set_tool
+  set_current_logic_tree_item("7a83d9215d164c5299a7ee43996adea3")
+  set_tool_kinematics_param(get_tool_kinematics_param("drillDisc"))
+  set_tool_dynamics_param(get_tool_dynamics_param("drillDisc"))
+  set_step_breakpoint()
+  --(Logic tree item : Block_Comment) Block_constant
+  --pereopredelit` znacheniya constant
+    --(Logic tree item : If) If_pereopredelit
+    if (false) then
+      ifFuncRet = ifScriptFunc_1()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+  --(Logic tree item : If) If_ven1St1_left
+  if (( get_modbus_io_status("faskaR254h") == 1 or get_modbus_io_status("faskaR254h") == 3 ) and get_modbus_io_status("manSc_c1B8h") == 0   ) then
+    ifFuncRet = ifScriptFunc_2()
+    if (ifFuncRet ~= nil) then
+      do return ifFuncRet end
+    end
+  end
+  --(Logic tree item : If) If_ven1St1_right
+  if (( get_modbus_io_status("faskaR254h") == 1 or get_modbus_io_status("faskaR254h") == 3 ) and get_modbus_io_status("manSc_c1B9h") == 0   ) then
+    ifFuncRet = ifScriptFunc_16()
+    if (ifFuncRet ~= nil) then
+      do return ifFuncRet end
+    end
+  end
+  --(Logic tree item : If) If_ven1St1_vershina
+  if (( get_modbus_io_status("faskaR27Ch") == 1 or get_modbus_io_status("faskaR27Ch") == 3 ) and get_modbus_io_status("manSc_c1BAh") == 0) then
+    ifFuncRet = ifScriptFunc_30()
+    if (ifFuncRet ~= nil) then
+      do return ifFuncRet end
+    end
+  end
+  --(Logic tree item : Set) Set_zeroPUU
+  set_current_logic_tree_item("9ee58ae501e94e39bc6a8304ef52e68f")
+  set_modbus_io_status("50E_PR", 3)
+  set_step_breakpoint()
+  --(Logic tree item : Wait) Wait_PR3
+  set_current_logic_tree_item("34e4cef503ae4453a326d2718ffbec1b")
+  while (not (get_modbus_io_status("50E_PR") == 20003)) do
+    sleep(0.01)
+  end
+  set_step_breakpoint()

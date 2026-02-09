@@ -1,0 +1,23 @@
+--Thread Program
+
+--script function definition
+  function loopScriptFunc_0()
+    --(Logic tree item : Wait) Wait_033s
+    set_current_logic_tree_item("7dbadd2ab926411b826e74ac98c2ba80")
+    sleep(0.33)
+    set_step_breakpoint()
+    --(Logic tree item : Empty) Empty
+  end
+
+--(Logic tree item : Thread) ThreadOsnovnoy
+  --(Logic tree item : Wait) Wait_1s
+  set_current_logic_tree_item("ef7e719c018a4bbcb64c5dddbf8205dd")
+  sleep(1)
+  set_step_breakpoint()
+  --(Logic tree item : Loop) Loop
+  while (true) do
+    sleep(0.001)
+    if (loopScriptFunc_0() == false) then
+      break
+    end
+  end

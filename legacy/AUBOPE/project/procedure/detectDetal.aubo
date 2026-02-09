@@ -1,0 +1,569 @@
+--Procedure Program
+
+--block script function definition
+  function blockScriptFunc_detectDetal()
+    package.path = "/root/AuboRobotWorkSpace/teachpendant/share/teachpendant/script/?.aubo"
+    probe_m = require("probeMove_modul")
+    s_m = require("service_module")
+    detect_m = require("detect_module")
+    
+    function moveLine_go(velc, acc, pos)
+        Povorotka_UserSysCoord = "povorotnayaOsReal"
+        toolProbeRobotName = "probeR"
+        -- параметры системы координат поворотки
+        calMet, jP1, jP2, jP3, tP = get_user_coord_param(Povorotka_UserSysCoord)
+        -- параметры системы координат датчика касания
+        posProbeRobot, oriProbeRobot = get_tool_kinematics_param(toolProbeRobotName)
+        -- обязательный сброс значений относительных перемещений
+        set_relative_offset({0,0,0})
+        pos[1] = pos[1]/1000 -- в метры
+        pos[2] = pos[2]/1000 -- в метры
+        pos[3] = pos[3]/1000 -- в метры
+        targetPos = get_target_pose(pos, false, posProbeRobot, oriProbeRobot, calMet, jP1, jP2, jP3, tP)
+        set_end_maxvelc(velc/1000) -- mm/s
+        set_end_maxacc(acc/1000) -- mm/s^2
+        move_line(targetPos, true) -- Line движение
+    end
+    
+    local function detectV(txt, rowT, startPos_Z, operationZ, saftyZ, velcSaftyZ, accSaftyZ, saftyZdown, ven_corrX, velcOperationZ, accOperationZ, brakFlag, statusDetect, realTimeFlag)
+        s_m.selectRow_probeParamTable(rowT)
+        -- позиция над точкой обмера, на уровне плоскости операции
+        tPos = {operationZ, 0, startPos_Z}
+        detect_m.moveLine_go(velcSaftyZ, accSaftyZ, tPos)
+        -- если нужно безопасное снижение
+        if saftyZdown == 1 then
+            stat = detect_m.saftyDownshift(operationZ, ven_corrX, velcSaftyZ, accSaftyZ)
+            if stat == -1 then -- если неожиданный контакт с деталью
+                print("")
+                print("<<<<<<<<<<<<< detectDetal >>>>>>>>>>>>>")
+                print("<<<<< "..txt.." !!неожиданный контакт с деталью!!. kод выхода -2 >>>>>>>>>>")
+                print("<<<<<<<<<<<<< detectDetal >>>>>>>>>>>>>")
+                print("")
+                -- позиция над точкой обмера, на уровне плоскости операции
+                tPos = {operationZ, 0, startPos_Z}
+                detect_m.moveLine_go(velcSaftyZ, accSaftyZ, tPos)
+                -- позиция над точкой обмера, на уровне плоскости безопасности
+                tPos = {saftyZ, 0, startPos_Z}
+                detect_m.moveLine_go(velcSaftyZ, accSaftyZ, tPos)
+                -- установ флага бракованной детали
+                set_modbus_io_status(brakFlag, 1)
+                -- статус выполнения -2
+                set_modbus_io_status(statusDetect, -2)
+                -- сброс флага RealTime работы detectDetal
+                set_modbus_io_status(realTimeFlag, 0)
+                -- позиция над точкой обмера, на уровне плоскости операции
+    --            tPos = {operationZ, 0, startPos_Z}
+    --            detect_m.moveLine_go(velcSaftyZ, accSaftyZ, tPos)
+                return -1, 0
+            end
+                -- относительные перемещения в saftyDownshiftne не точные, потому требуется абсолютное позиционирование
+            -- позиция измерения
+            tPos = {ven_corrX, 0, startPos_Z}
+            detect_m.moveLine_go(velcOperationZ, accOperationZ, tPos)
+        -- если нужно прямое снижение
+        else
+            -- позиция измерения
+            tPos = {ven_corrX, 0, startPos_Z}
+            detect_m.moveLine_go(velcOperationZ, accOperationZ, tPos)
+        end
+        probe_m.StartProbe()
+        pmr = get_modbus_io_status("probe_r11Dh") -- статус выполнения probeMoveRus
+        if pmr ~= 8 then -- если статус выполнения probeMoveRus не OK
+            print("")
+            print("<<<<<<<<<<<<< detectDetal >>>>>>>>>>>>>")
+            print("<<<<< "..txt.." !!probeMoveRus вернул ошибку. kод выхода -1 >>>>>>>>>>")
+            print("<<<<<<<<<<<<< detectDetal >>>>>>>>>>>>>")
+            print("")
+            -- позиция над точкой обмера, на уровне плоскости операции
+            tPos = {operationZ, 0, startPos_Z}
+            detect_m.moveLine_go(velcSaftyZ, accSaftyZ, tPos)
+            -- позиция над точкой обмера, на уровне плоскости безопасности
+            tPos = {saftyZ, 0, startPos_Z}
+            detect_m.moveLine_go(velcSaftyZ, accSaftyZ, tPos)
+            -- сброс флага RealTime работы detectDetal
+            set_modbus_io_status(realTimeFlag, 0)
+            -- статус выполнения -1
+            set_modbus_io_status(statusDetect, -1)
+            return -1, 0
+        end
+            korrektor = get_modbus_io_status("M_F_probe_r11Eh") -- взял измеренное значение
+        return 0, korrektor
+    end
+    function StartDetect()
+    --*************************основной код************************************
+        pervoeIzmerenie = 1 -- пока не сделано измерение по какому-либо венцу, этот флаг 1
+        brakFlag = "detec_c11Eh" -- флаг бракованных деталей
+        realTimeFlag = "detec_c11Fh"
+        statusDetect = "detectR149h"
+        P100_cntBralDet = "globalR190h"  -- счётчик бракованных деталей
+        P101_cntNormalDet = "globalR191h"  -- счётчик нормальных деталей
+        ven1S1_realKorrektor = "M_F_detectR14Ah"
+        ven1S2_realKorrektor = "M_F_detectR156h"
+        ven2S1_realKorrektor = "M_F_detectR14Ch"
+        ven2S2_realKorrektor = "M_F_detectR158h"
+        ven3S1_realKorrektor = "M_F_detectR14Eh"
+        ven3S2_realKorrektor = "M_F_detectR15Ah"
+        -- установка флага RealTime работы
+        set_modbus_io_status(realTimeFlag, 1)
+         -- сброс статуса выполнения
+        set_modbus_io_status(statusDetect, 0)
+         -- сброс флагов измерений
+        set_modbus_io_status("detec_c118h", 0)
+        set_modbus_io_status("detec_c119h", 0)
+        set_modbus_io_status("detec_c11Ah", 0)
+        set_modbus_io_status("detec_c11Bh", 0)
+        set_modbus_io_status("detec_c11Ch", 0)
+        set_modbus_io_status("detec_c11Dh", 0)
+         -- сброс значений измерений
+        set_modbus_io_status(ven1S1_realKorrektor, 0)
+        set_modbus_io_status(ven1S2_realKorrektor, 0)
+        set_modbus_io_status(ven2S1_realKorrektor, 0)
+        set_modbus_io_status(ven2S2_realKorrektor, 0)
+        set_modbus_io_status(ven3S1_realKorrektor, 0)
+        set_modbus_io_status(ven3S2_realKorrektor, 0)
+        -- сброс флага бракованной детали, если вдруг глобальный проект его не сбросил
+        set_modbus_io_status(brakFlag, 0)
+        -- чтение данных из AuboSlave
+        P19ven1storona, P20ven2storona, P21ven3storona, P1ven1corrX, P2ven1corrZ, P3ven2corrX, P4ven2corrZ, P5ven3corrX, P6ven3corrZ, P7ven1long, P8ven2long, P9ven3long, P10ven1off, P11ven2off, P12ven3off, P13saftyZ, P14operationZ, P15ServoStartPos, P22velcSaftyZ, P23accSaftyZ, P24velcOperationZ, P25accOperationZ, P26ven1Table, P27ven2Table, P28ven3Table, ven1izmerenFlag, ven2izmerenFlag, ven3izmerenFlag, printDbgFlag, Rprobe, saftyZdownshift, ven1Brak, ven2Brak, ven3Brak = detect_m.GetParamDetect()
+        checkStatusDetect = detect_m.checkDataCorrectDetect(P19ven1storona, P20ven2storona, P21ven3storona, P1ven1corrX, P2ven1corrZ, P3ven2corrX, P4ven2corrZ, P5ven3corrX, P6ven3corrZ, P7ven1long, P8ven2long, P9ven3long, P10ven1off, P11ven2off, P12ven3off, P13saftyZ, P14operationZ, P15ServoStartPos, P22velcSaftyZ, P23accSaftyZ, P24velcOperationZ, P25accOperationZ, P26ven1Table, P27ven2Table, P28ven3Table, ven1izmerenFlag, ven2izmerenFlag, ven3izmerenFlag, printDbgFlag, Rprobe, saftyZdownshift, ven1Brak, ven2Brak, ven3Brak)
+        -- если данные не корректные, то выход с кодом -1
+        if checkStatusDetect ~= 0 then
+            s_m.beep(1.5)
+            print("")
+            print("<<<<<<<<<<<<< detectDetal >>>>>>>>>>>>>")
+            print("<<<<< некорректные входные данные. kод выхода -1 >>>>>>>>>>")
+            print("<<<<<<<<<<<<< detectDetal >>>>>>>>>>>>>")
+            print("")
+            -- статус выполнения -1
+            set_modbus_io_status(statusDetect, -1)
+            -- сброс флага RealTime работы detectDetal
+            set_modbus_io_status(realTimeFlag, 0)
+            return
+        end
+        -- стартовая позиция рейки
+        detect_m.ServoPos(P15ServoStartPos)
+        -- инициализация переменных и профиля движения
+        init_global_variables()
+        init_global_move_profile()
+        -- позиционирование на уровне плоскости безопасности над ближайшим активным венцом
+        stopFlag = false
+        startPosZ = 0
+        if P19ven1storona ~= 0 and stopFlag == false then --
+            if P19ven1storona == 2 then -- если вторая сторона
+                startPosZ = P10ven1off + P7ven1long
+            else -- если сторона 1 или 3
+                startPosZ = P10ven1off
+            end
+            stopFlag = true
+        elseif P20ven2storona ~= 0 and stopFlag == false then --
+            if P20ven2storona == 2 then -- если вторая сторона
+                startPosZ = P10ven1off + P11ven2off + P8ven2long
+            else -- если сторона 1 или 3
+                startPosZ = P10ven1off + P11ven2off
+            end
+            stopFlag = true
+        elseif P21ven3storona ~= 0 and stopFlag == false then --
+            if P21ven3storona == 2 then -- если вторая сторона
+                startPosZ = P10ven1off + P11ven2off + P12ven3off + P9ven3long
+            else -- если сторона 1 или 3
+                startPosZ = P10ven1off + P11ven2off + P12ven3off
+            end
+        end
+        -- позиция над точкой обмера, на уровне плоскости безопасности
+        tPos = {P13saftyZ, 0, startPosZ}
+        detect_m.moveLine_go(P22velcSaftyZ, P23accSaftyZ, tPos)
+        -----------------------------------------Венец 1
+        if P19ven1storona ~= 0 then 
+            if P19ven1storona == 1 then -- Сторона 1
+                -- если ссылка на таблицу probeParam = 0, то сторона1 = row1, сторона2 = row2
+                if P26ven1Table==0 then 
+                    row = 1
+                else -- иначе номер строки probeParam = P26ven1Table
+                    row = P26ven1Table
+                end
+                startPosZ = P10ven1off - P2ven1corrZ
+                status, korrektor = detectV("Венец1_Сторона1:", row, startPosZ, P14operationZ, P13saftyZ, P22velcSaftyZ, P23accSaftyZ, saftyZdownshift, ven1corrX, P24velcOperationZ, P25accOperationZ, brakFlag, statusDetect, realTimeFlag)
+                if status~=0 then 
+                    return
+                end
+                -- вычисление коррекции
+                korrektor = korrektor - (P2ven1corrZ - Rprobe) -- из корректора по Z убрал радиус стилуса
+                set_modbus_io_status(ven1S1_realKorrektor, korrektor) -- сохранил значение коррекции
+                pervoeIzmerenie = 0 -- сброс флага самого первого измерения
+                -- установка флага измерения 1-й венец сторона1
+                set_modbus_io_status("detec_c11Bh", 1)
+            elseif  P19ven1storona == 2 then-- Сторона 2
+                -- если ссылка на таблицу probeParam = 0, то сторона1 = row1, сторона2 = row2
+                if P26ven1Table==0 then 
+                    row = 2
+                else -- иначе номер строки probeParam = P26ven1Table
+                    row = P26ven1Table
+                end
+                startPosZ = P10ven1off + P7ven1long + P2ven1corrZ + get_modbus_io_status(ven1S1_realKorrektor)
+                status, korrektor = detectV("Венец1_Сторона2:", row, startPosZ, P14operationZ, P13saftyZ, P22velcSaftyZ, P23accSaftyZ, saftyZdownshift, ven1corrX, P24velcOperationZ, P25accOperationZ, brakFlag, statusDetect, realTimeFlag)
+                if status~=0 then 
+                    return
+                end
+            -- вычисление коррекции
+                korrektor = 0 - (korrektor - (P2ven1corrZ - Rprobe)) -- 
+                set_modbus_io_status(ven1S2_realKorrektor, korrektor) -- сохранил значение коррекции
+                pervoeIzmerenie = 0 -- сброс флага самого первого измерения
+                -- установка флага измерения 1-y` venec Сторона 2
+                set_modbus_io_status("detec_c118h", 1)
+            elseif  P19ven1storona == 3 then -- oba torca
+                -- Сторона 1
+                -- если ссылка на таблицу probeParam = 0, то сторона1 = row1, сторона2 = row2
+                if P26ven1Table==0 then 
+                    row = 1
+                else -- иначе номер строки probeParam = P26ven1Table
+                    row = P26ven1Table
+                end
+                startPosZ = P10ven1off - P2ven1corrZ
+                status, korrektor = detectV("Венец1_Сторона1:", row, startPosZ, P14operationZ, P13saftyZ, P22velcSaftyZ, P23accSaftyZ, saftyZdownshift, ven1corrX, P24velcOperationZ, P25accOperationZ, brakFlag, statusDetect, realTimeFlag)
+                if status~=0 then 
+                    return
+                end
+                -- вычисление коррекции
+                korrektor = korrektor - (P2ven1corrZ - Rprobe) -- iz korrectora po Z ubral radius stilusa
+                set_modbus_io_status(ven1S1_realKorrektor, korrektor) -- сохранил значение коррекции
+                pervoeIzmerenie = 0 -- сброс флага самого первого измерения
+                -- установка флага измерения 1-y` venec Сторона 1
+                set_modbus_io_status("detec_c11Bh", 1)
+                -- позиция над точкой обмера, на уровне плоскости операции
+                tPos = {P14operationZ, 0, startPosZ}
+                detect_m.moveLine_go(P22velcSaftyZ, P23accSaftyZ, tPos)
+                -- Сторона 2
+                -- если ссылка на таблицу probeParam = 0, то сторона1 = row1, сторона2 = row2
+                if P26ven1Table==0 then 
+                    row = 2
+                else -- иначе номер строки probeParam = P26ven1Table
+                    row = P26ven1Table
+                end
+                startPosZ = P10ven1off + P7ven1long + P2ven1corrZ + get_modbus_io_status(ven1S1_realKorrektor)
+                status, korrektor = detectV("Венец1_Сторона2:", row, startPosZ, P14operationZ, P13saftyZ, P22velcSaftyZ, P23accSaftyZ, saftyZdownshift, ven1corrX, P24velcOperationZ, P25accOperationZ, brakFlag, statusDetect, realTimeFlag)
+                if status~=0 then 
+                    return
+                end
+                -- вычисление коррекции
+                korrektor = 0 - (korrektor - (P2ven1corrZ - Rprobe)) -- 
+                set_modbus_io_status(ven1S2_realKorrektor, korrektor) -- сохранил значение коррекции
+                pervoeIzmerenie = 0 -- сброс флага самого первого измерения
+                -- установка флага измерения 1-y` venec Сторона 2
+                set_modbus_io_status("detec_c118h", 1)
+            else 
+                return
+            end
+            -- проверка на брак
+            if ((math.abs(get_modbus_io_status(ven1S2_realKorrektor)) > ven1Brak) and (pervoeIzmerenie == 0) or (math.abs(get_modbus_io_status(ven1S1_realKorrektor)) > ven1Brak) and (pervoeIzmerenie == 0))  then
+                s_m.beep(1.0)
+                sleep(0.5)
+                s_m.beep(1.0)
+                print("")
+                print("<<<<<<<<<<<<< detectDetal >>>>>>>>>>>>>")
+                print("<<<<< Венец1: деталь не в допуске. kод выхода -3 >>>>>>>>>>")
+                print("<<<<<<<<<<<<< detectDetal >>>>>>>>>>>>>")
+                print("")
+                -- позиция над точкой обмера, на уровне плоскости операции
+                tPos = {P14operationZ, 0, startPosZ}
+                moveLine_go(P22velcSaftyZ, P23accSaftyZ, tPos)
+               -- позиция над точкой обмера, на уровне плоскости безопасности
+                tPos = {P13saftyZ, 0, startPosZ}
+                moveLine_go(P22velcSaftyZ, P23accSaftyZ, tPos)
+                -- установ флага бракованной детали
+                set_modbus_io_status(brakFlag, 1)
+                -- инкремент счётчика бракованных деталей
+                cnt = get_modbus_io_status("globalR190h")
+                cnt = cnt + 1
+                set_modbus_io_status("globalR190h", cnt)
+                -- статус выполнения -3
+                set_modbus_io_status(statusDetect, -3)
+                -- сброс флага RealTime работы detectDetal
+                set_modbus_io_status(realTimeFlag, 0)
+                return
+            end
+            -- позиция над точкой обмера, на уровне плоскости операции
+            tPos = {P14operationZ, 0, startPosZ}
+            detect_m.moveLine_go(P22velcSaftyZ, P23accSaftyZ, tPos)
+        end
+        -----------------------------------------Венец 2
+        if P20ven2storona ~= 0 then 
+            if P20ven2storona == 1 then -- Сторона 1
+                -- если ссылка на таблицу probeParam = 0, то сторона1 = row1, сторона2 = row2
+                if P27ven2Table==0 then 
+                    row = 1
+                else -- иначе номер строки probeParam = P27ven2Table
+                    row = P27ven2Table
+                end
+                startPosZ = P10ven1off + P11ven2off - P4ven2corrZ + get_modbus_io_status(ven1S1_realKorrektor)
+                status, korrektor = detectV("Венец2_Сторона1:", row, startPosZ, P14operationZ, P13saftyZ, P22velcSaftyZ, P23accSaftyZ, saftyZdownshift, ven2corrX, P24velcOperationZ, P25accOperationZ, brakFlag, statusDetect, realTimeFlag)
+                if status~=0 then 
+                    return
+                end
+                -- вычисление коррекции
+                korrektor = korrektor - (P4ven2corrZ - Rprobe) -- iz korrectora po Z ubral radius stilusa
+                set_modbus_io_status(ven2S1_realKorrektor, korrektor) -- сохранил значение коррекции
+                pervoeIzmerenie = 0 -- сброс флага самого первого измерения
+                -- установка флага измерения 2-y` venec Сторона 1
+                set_modbus_io_status("detec_c11Ch", 1)
+    
+            elseif  P20ven2storona == 2 then -- Сторона 2
+                -- если ссылка на таблицу probeParam = 0, то сторона1 = row1, сторона2 = row2
+                if P27ven2Table==0 then 
+                    row = 2
+                else -- inache nomer stroki probeParam = P27ven2Table
+                    row = P27ven2Table
+                end
+                startPosZ = P10ven1off + P11ven2off + P8ven2long + P4ven2corrZ + get_modbus_io_status(ven1S1_realKorrektor) + get_modbus_io_status(ven2S1_realKorrektor)
+                status, korrektor = detectV("Венец2_Сторона2:", row, startPosZ, P14operationZ, P13saftyZ, P22velcSaftyZ, P23accSaftyZ, saftyZdownshift, ven2corrX, P24velcOperationZ, P25accOperationZ, brakFlag, statusDetect, realTimeFlag)
+                if status~=0 then 
+                    return
+                end
+                -- вычисление коррекции
+                korrektor = 0 - (korrektor - (P4ven2corrZ - Rprobe)) -- iz korrectora po Z ubral radius stilusa
+                set_modbus_io_status(ven2S2_realKorrektor, korrektor) -- сохранил значение коррекции
+                pervoeIzmerenie = 0 -- сброс флага самого первого измерения
+                -- установка флага измерения 2-y` venec Сторона 2
+                set_modbus_io_status("detec_c119h", 1)
+    
+            elseif  P20ven2storona == 3 then -- oba torca
+                -- Сторона 1
+                -- если ссылка на таблицу probeParam = 0, то сторона1 = row1, сторона2 = row2
+                if P27ven2Table==0 then 
+                    row = 1
+                else -- иначе номер строки probeParam = P27ven2Table
+                    row = P27ven2Table
+                end
+                  startPosZ = P10ven1off + P11ven2off - P4ven2corrZ + get_modbus_io_status(ven1S1_realKorrektor)
+                status, korrektor = detectV("Венец2_Сторона1:", row, startPosZ, P14operationZ, P13saftyZ, P22velcSaftyZ, P23accSaftyZ, saftyZdownshift, ven2corrX, P24velcOperationZ, P25accOperationZ, brakFlag, statusDetect, realTimeFlag)
+                if status~=0 then 
+                    return
+                end
+                -- вычисление коррекции
+                korrektor = korrektor - (P4ven2corrZ - Rprobe) -- iz korrectora po Z ubral radius stilusa
+                set_modbus_io_status(ven2S1_realKorrektor, korrektor) -- сохранил значение коррекции
+                pervoeIzmerenie = 0 -- сброс флага самого первого измерения
+                -- установка флага измерения 2-y` venec Сторона 1
+                set_modbus_io_status("detec_c11Ch", 1)        
+                -- позиция над точкой обмера, на уровне плоскости операции
+                tPos = {P14operationZ, 0, startPosZ}
+                detect_m.moveLine_go(P22velcSaftyZ, P23accSaftyZ, tPos)
+                -- Сторона 2
+                -- если ссылка на таблицу probeParam = 0, то сторона1 = row1, сторона2 = row2
+                if P27ven2Table==0 then 
+                    row = 2
+                else -- иначе номер строки probeParam = P27ven2Table
+                    row = P27ven2Table
+                end
+                startPosZ = P10ven1off + P11ven2off + P8ven2long + P4ven2corrZ + get_modbus_io_status(ven1S1_realKorrektor) + get_modbus_io_status(ven2S1_realKorrektor)
+                status, korrektor = detectV("Венец2_Сторона2:", row, startPosZ, P14operationZ, P13saftyZ, P22velcSaftyZ, P23accSaftyZ, saftyZdownshift, ven2corrX, P24velcOperationZ, P25accOperationZ, brakFlag, statusDetect, realTimeFlag)
+                if status~=0 then 
+                    return
+                end
+                -- вычисление коррекции
+                korrektor = 0 - (korrektor - (P4ven2corrZ - Rprobe)) -- iz korrectora po Z ubral radius stilusa
+                set_modbus_io_status(ven2S2_realKorrektor, korrektor) -- сохранил значение коррекции
+                pervoeIzmerenie = 0 -- сброс флага самого первого измерения
+                -- установка флага измерения 2-y` venec Сторона 2
+                set_modbus_io_status("detec_c119h", 1)
+            end    
+            -- проверка на брак
+            if ((math.abs(get_modbus_io_status(ven2S2_realKorrektor)) > ven2Brak) and (pervoeIzmerenie == 0) or (math.abs(get_modbus_io_status(ven2S1_realKorrektor)) > ven2Brak) and (pervoeIzmerenie == 0))  then
+                s_m.beep(1.0)
+                sleep(0.5)
+                s_m.beep(1.0)
+                print("")
+                print("<<<<<<<<<<<<< detectDetal >>>>>>>>>>>>>")
+                print("<<<<< Венец2: деталь не в допуске. kод выхода -3 >>>>>>>>>>")
+                print("<<<<<<<<<<<<< detectDetal >>>>>>>>>>>>>")
+                print("")
+                -- позиция над точкой обмера, на уровне плоскости операции
+                tPos = {P14operationZ, 0, startPosZ}
+                moveLine_go(P22velcSaftyZ, P23accSaftyZ, tPos)
+               -- позиция над точкой обмера, на уровне плоскости безопасности
+                tPos = {P13saftyZ, 0, startPosZ}
+                moveLine_go(P22velcSaftyZ, P23accSaftyZ, tPos)
+                -- установ флага бракованной детали
+                set_modbus_io_status(brakFlag, 1)
+                -- инкремент счётчика бракованных деталей
+                cnt = get_modbus_io_status("globalR190h")
+                cnt = cnt + 1
+                set_modbus_io_status("globalR190h", cnt)
+                -- статус выполнения -3
+                set_modbus_io_status(statusDetect, -3)
+                -- сброс флага RealTime работы detectDetal
+                set_modbus_io_status(realTimeFlag, 0)
+                return
+            end
+            -- позиция над точкой обмера, на уровне плоскости операции
+            tPos = {P14operationZ, 0, startPosZ}
+            detect_m.moveLine_go(P22velcSaftyZ, P23accSaftyZ, tPos)
+        end
+        -----------------------------------------Венец 3
+        if P21ven3storona ~= 0 then -- 
+            if P21ven3storona == 1 then -- Сторона 1
+                -- если ссылка на таблицу probeParam = 0, то сторона1 = row1, сторона2 = row2
+                if P28ven3Table==0 then 
+                    row = 1
+                else -- иначе номер строки probeParam = P28ven3Table
+                    row = P28ven3Table
+                end
+                  startPosZ = P10ven1off + P11ven2off + P12ven3off - P6ven3corrZ + get_modbus_io_status(ven1S1_realKorrektor) + get_modbus_io_status(ven2S1_realKorrektor)
+                status, korrektor = detectV("Венец3_Сторона1:", row, startPosZ, P14operationZ, P13saftyZ, P22velcSaftyZ, P23accSaftyZ, saftyZdownshift, ven3corrX, P24velcOperationZ, P25accOperationZ, brakFlag, statusDetect, realTimeFlag)
+                if status~=0 then 
+                    return
+                end
+                -- вычисление коррекции
+                korrektor = korrektor - (P6ven3corrZ - Rprobe) -- iz korrectora po Z ubral radius stilusa
+                set_modbus_io_status(ven3S1_realKorrektor, korrektor) -- сохранил значение коррекции
+                pervoeIzmerenie = 0 -- сброс флага самого первого измерения
+                -- установка флага измерения 3-y` venec Сторона 1
+                set_modbus_io_status("detec_c11Dh", 1)
+    
+            elseif P21ven3storona == 2 then -- Сторона 2
+                -- если ссылка на таблицу probeParam = 0, то сторона1 = row1, сторона2 = row2
+                if P28ven3Table==0 then 
+                    row = 2
+                else -- иначе номер строки probeParam = P28ven3Table
+                    row = P28ven3Table
+                end
+                  startPosZ = P10ven1off + P11ven2off + P12ven3off  + P9ven3long + P6ven3corrZ + get_modbus_io_status(ven1S1_realKorrektor) + get_modbus_io_status(ven2S1_realKorrektor) + get_modbus_io_status(ven3S1_realKorrektor)
+                status, korrektor = detectV("Венец3_Сторона2:", row, startPosZ, P14operationZ, P13saftyZ, P22velcSaftyZ, P23accSaftyZ, saftyZdownshift, ven3corrX, P24velcOperationZ, P25accOperationZ, brakFlag, statusDetect, realTimeFlag)
+                if status~=0 then 
+                    return
+                end
+                -- вычисление коррекции
+                korrektor = 0 - (korrektor - (P6ven3corrZ - Rprobe)) -- iz korrectora po Z ubral radius stilusa
+                set_modbus_io_status(ven3S2_realKorrektor, korrektor) -- сохранил значение коррекции
+                pervoeIzmerenie = 0 -- сброс флага самого первого измерения
+                -- установка флага измерения 3-y` venec Сторона 2
+                set_modbus_io_status("detec_c11Ah", 1)
+    
+            elseif P21ven3storona == 3 then -- oba torca
+                -- Сторона 1
+                -- если ссылка на таблицу probeParam = 0, то сторона1 = row1, сторона2 = row2
+                if P28ven3Table==0 then 
+                    row = 1
+                else -- иначе номер строки probeParam = P28ven3Table
+                    row = P28ven3Table
+                end
+                  startPosZ = P10ven1off + P11ven2off + P12ven3off - P6ven3corrZ + get_modbus_io_status(ven1S1_realKorrektor) + get_modbus_io_status(ven2S1_realKorrektor)
+                status, korrektor = detectV("Венец3_Сторона1:", row, startPosZ, P14operationZ, P13saftyZ, P22velcSaftyZ, P23accSaftyZ, saftyZdownshift, ven3corrX, P24velcOperationZ, P25accOperationZ, brakFlag, statusDetect, realTimeFlag)
+                if status~=0 then 
+                    return
+                end
+                -- вычисление коррекции
+                korrektor = korrektor - (P6ven3corrZ - Rprobe) -- iz korrectora po Z ubral radius stilusa
+                set_modbus_io_status(ven3S1_realKorrektor, korrektor) -- сохранил значение коррекции
+                pervoeIzmerenie = 0 -- сброс флага самого первого измерения
+                -- установка флага измерения 3-y` venec Сторона 1
+                set_modbus_io_status("detec_c11Dh", 1)
+                -- позиция над точкой обмера, на уровне плоскости операции
+                tPos = {P14operationZ, 0, startPosZ}
+                moveLine_go(P22velcSaftyZ, P23accSaftyZ, tPos)
+                -- Сторона 2
+                -- если ссылка на таблицу probeParam = 0, то сторона1 = row1, сторона2 = row2
+                if P28ven3Table==0 then 
+                    row = 2
+                else -- иначе номер строки probeParam = P28ven3Table
+                    row = P28ven3Table
+                end
+                  startPosZ = P10ven1off + P11ven2off + P12ven3off  + P9ven3long + P6ven3corrZ + get_modbus_io_status(ven1S1_realKorrektor) + get_modbus_io_status(ven2S1_realKorrektor) + get_modbus_io_status(ven3S1_realKorrektor)
+                status, korrektor = detectV("Венец3_Сторона2:", row, startPosZ, P14operationZ, P13saftyZ, P22velcSaftyZ, P23accSaftyZ, saftyZdownshift, ven3corrX, P24velcOperationZ, P25accOperationZ, brakFlag, statusDetect, realTimeFlag)
+                if status~=0 then 
+                    return
+                end
+                -- вычисление коррекции
+                korrektor = 0 - (korrektor - (P6ven3corrZ - Rprobe)) -- iz korrectora po Z ubral radius stilusa
+                set_modbus_io_status(ven3S2_realKorrektor, korrektor) -- сохранил значение коррекции
+                pervoeIzmerenie = 0 -- сброс флага самого первого измерения
+                -- установка флага измерения 3-y` venec Сторона 2
+                set_modbus_io_status("detec_c11Ah", 1)
+            else
+                return
+            end
+            -- proverka na brak
+            if ((math.abs(get_modbus_io_status(ven3S2_realKorrektor)) > ven3Brak) and (pervoeIzmerenie == 0) or (math.abs(get_modbus_io_status(ven3S1_realKorrektor)) > ven3Brak) and (pervoeIzmerenie == 0))  then
+                s_m.beep(1.0)
+                sleep(0.5)
+                s_m.beep(1.0)
+                print("")
+                print("<<<<<<<<<<<<< detectDetal >>>>>>>>>>>>>")
+                print("<<<<< Венец3: деталь не в допуске. kод выхода -3 >>>>>>>>>>")
+                print("<<<<<<<<<<<<< detectDetal >>>>>>>>>>>>>")
+                print("")
+                -- позиция над точкой обмера, на уровне плоскости операции
+                tPos = {P14operationZ, 0, startPosZ}
+                moveLine_go(P22velcSaftyZ, P23accSaftyZ, tPos)
+               -- позиция над точкой обмера, на уровне плоскости безопасности
+                tPos = {P13saftyZ, 0, startPosZ}
+                moveLine_go(P22velcSaftyZ, P23accSaftyZ, tPos)
+                -- ustanov флага brakovannoy detali
+                set_modbus_io_status(brakFlag, 1)
+                -- increment schetchika brakovannyx detaley
+                cnt = get_modbus_io_status("globalR190h")
+                cnt = cnt + 1
+                set_modbus_io_status("globalR190h", cnt)
+                -- статус выполнения -3
+                set_modbus_io_status(statusDetect, -3)
+                -- сброс флага RealTime работы detectDetal
+                set_modbus_io_status(realTimeFlag, 0)
+                return
+            end
+            -- позиция над точкой обмера, на уровне плоскости операции
+            tPos = {P14operationZ, 0, startPosZ}
+            moveLine_go(P22velcSaftyZ, P23accSaftyZ, tPos)
+        end
+        print("")
+        print("<<<<<<<<<<<<< detectDetal >>>>>>>>>>>>>")
+        print("<<<<< Успешная отработка скрипта. kод выхода 8 >>>>>>>>>>")
+        print("<<<<<<<<<<<<< detectDetal >>>>>>>>>>>>>")
+        print("")
+        -- инкремент счётчика годных деталей
+        cnt = get_modbus_io_status("globalR191h")
+        cnt = cnt + 1
+        set_modbus_io_status("globalR191h", cnt)
+        -- статус выполнения 8
+        set_modbus_io_status(statusDetect, 8)
+        -- сброс флага RealTime работы detectDetal
+        set_modbus_io_status(realTimeFlag, 0)
+    --*************************основной код************************************
+    end
+    
+    StartDetect()
+  end  --function blockScriptFunc_detectDetal()
+
+--script function definition
+  function ifScriptFunc_0()
+    --(Logic tree item : Message) Message
+    set_current_logic_tree_item("f079503d07244c4ab01cfcad0ef07dd5")
+    popup_message(2, "detectDetal: vhodnye dannye nekorrektny.", true)
+  end
+
+--(Logic tree item : Procedure_Program) Procedure_Program
+  --(Logic tree item : Move) Move_initProbe
+  init_global_move_profile()
+  set_joint_maxvelc({2.796017,2.796017,3.502876,2.796017,3.722787,3.722787})
+  set_joint_maxacc({9.424778,9.424778,14.137167,9.424778,9.424778,9.424778})
+    --(Logic tree item : Waypoint) Waypoint_V_P_ProbeRobotInit
+    set_current_logic_tree_item("302490ebd0644c24856b4c87f41f10c4")
+    move_joint(get_global_variable("V_P_ProbeRobotInit"), true)
+    set_step_breakpoint()
+  --(Logic tree item : Script) detectDetal
+  set_current_logic_tree_item("06dd3276a6224caf80f54c6faace2833")
+  blockScriptFunc_detectDetal()
+  set_step_breakpoint()
+  --(Logic tree item : Move) Move_initProbe
+  init_global_move_profile()
+  set_joint_maxvelc({2.796017,2.796017,3.502876,2.796017,3.722787,3.722787})
+  set_joint_maxacc({9.424778,9.424778,14.137167,9.424778,9.424778,9.424778})
+    --(Logic tree item : Waypoint) Waypoint_V_P_ProbeRobotInit
+    set_current_logic_tree_item("0529291dfc3b4bcc86446e1e0a16b87b")
+    move_joint(get_global_variable("V_P_ProbeRobotInit"), true)
+    set_step_breakpoint()
+  --(Logic tree item : If) If_dataIncorrect
+  if (get_modbus_io_status("detec_c11Fh") == -1) then
+    ifFuncRet = ifScriptFunc_0()
+    if (ifFuncRet ~= nil) then
+      do return ifFuncRet end
+    end
+  end

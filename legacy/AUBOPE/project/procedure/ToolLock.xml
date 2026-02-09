@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProcedureProgram>
+    <Condition ConditionType="Procedure_Program" ConditionAlias="Procedure_Program" ConditionUuid="7b7d3cf7b2c24b37b3b1e49ca78d89dd">
+        <Attribute/>
+        <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber3" ConditionUuid="107521ce65114470a7f02ce9bdf71dad">
+            <Attribute>
+                <SetConditionMode>Variable</SetConditionMode>
+                <VarAssignmentExp>3</VarAssignmentExp>
+                <VarName>V_I_DIOnumber</VarName>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Loop" ConditionAlias="Loop_always" ConditionUuid="9e440ccf0a0144559f51c004866491a7">
+            <Attribute>
+                <LoopConditionMode>Always</LoopConditionMode>
+            </Attribute>
+            <Condition ConditionType="Script" ConditionAlias="check_mk311DO" ConditionUuid="f5bcb260f3024dcf8a6b6de4f955aa0c">
+                <Attribute>
+                    <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                    <MD5>251b3ef0d3ffbf89305c23244b7b5d24</MD5>
+                    <ScriptFileName>check_mk311DO</ScriptFileName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="If" ConditionAlias="If" ConditionUuid="7406a7af5cf741e788eaee29ebf9672f">
+                <Attribute>
+                    <Exp>V_B_mk311DOstate == false</Exp>
+                </Attribute>
+                <Condition ConditionType="Break" ConditionAlias="Break" ConditionUuid="ac1b509582484da6b2cc4c2b19fcd204">
+                    <Attribute/>
+                </Condition>
+            </Condition>
+            <Condition ConditionType="Message" ConditionAlias="Message" ConditionUuid="6bf6d75bb69a4170b4530ceed0e4b8c4">
+                <Attribute>
+                    <EnableStopProgramRunningWhenMessagePopsUp>false</EnableStopProgramRunningWhenMessagePopsUp>
+                    <MessageContent>zahvat instrumenta nevozmojen, spindel vklyuchen</MessageContent>
+                    <MessageType>Information</MessageType>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber3" ConditionUuid="edeabc9567df4d4b9276b3e9962af010">
+            <Attribute>
+                <SetConditionMode>Variable</SetConditionMode>
+                <VarAssignmentExp>3</VarAssignmentExp>
+                <VarName>V_I_DIOnumber</VarName>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Set" ConditionAlias="Set_stateDO312False" ConditionUuid="56817c3984ef478993b971a3debaf7de">
+            <Attribute>
+                <SetConditionMode>Variable</SetConditionMode>
+                <VarAssignmentExp>false</VarAssignmentExp>
+                <VarName>V_B_mk312DOstate</VarName>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Line_Comment" ConditionAlias="toolLockCommand" ConditionUuid="cdbfda2cd4a14ce6a153d37133522709">
+            <Attribute>
+                <CommentContent>1</CommentContent>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Script" ConditionAlias="set_mk312DO" ConditionUuid="ab5c7bd53d674f86aef1b0d0bc2f6011">
+            <Attribute>
+                <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                <MD5>8d51f8919ddbf1208b94ac32d644a3cd</MD5>
+                <ScriptFileName>set_mk312DO</ScriptFileName>
+            </Attribute>
+        </Condition>
+    </Condition>
+</ProcedureProgram>

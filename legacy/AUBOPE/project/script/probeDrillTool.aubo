@@ -1,0 +1,104 @@
+package.path = "/root/AuboRobotWorkSpace/teachpendant/share/teachpendant/script/?.aubo"
+probe_m = require("probeMove_modul")
+s_m = require("service_module")
+
+--*************************основной код************************************
+function probeDrillTool()
+    -- входные данные
+    endZ = 104.4 -- konstanta, coordinata Z po Base verha shara na stiluse kontaktnogo datchika na stole
+    rowNum = 3 -- ID строки из таблицы SCADA probeParams
+    toolDrillName = "drill1"
+    printDbgFl = 0 -- флаг отладки
+    inStartZ = 160.0 -- Z координата точки старта обмера
+    velcStartZ = 200 -- скорость при движении к точке старта обмера
+    accStartZ = 600 -- ускорение при движении к точке старта обмера
+
+    -- параметры системы координат шпинделя без инструмента
+    posDrill, oriDrill = get_tool_kinematics_param(toolDrillName)
+    -- движение к точке старта обмера
+    -- взять координаты текущей позиции
+    wpStart = get_current_waypoint()
+    jntStart = {wpStart.joint.j1,wpStart.joint.j2,wpStart.joint.j3,wpStart.joint.j4,wpStart.joint.j5,wpStart.joint.j6}
+    pos_wpStart, ori_wpStart = base_to_user(jntStart,posDrill,oriDrill)
+    if printDbgFl == 1 then
+        print(string.format("X_drill1_KinematicParam = %6.6f", posDrill[1]*1000))
+        print(string.format("Y_drill1_KinematicParam = %6.6f", posDrill[2]*1000))
+        print(string.format("Z_drill1_KinematicParam = %6.6f", posDrill[3]*1000))
+        RPY = quaternion2rpy({oriDrill[1], oriDrill[2], oriDrill[3], oriDrill[4]})
+        print(string.format("RX_drill1_KinematicParam = %6.6f", r2d(RPY[1])))
+        print(string.format("RY_drill1_KinematicParam = %6.6f", r2d(RPY[2])))
+        print(string.format("RZ_drill1_KinematicParam = %6.6f", r2d(RPY[3])))
+        print("******************start poin*********************")
+        print(string.format("X_drill1_ProbeStolInit = %6.6f", pos_wpStart[1]*1000))
+        print(string.format("Y_drill1_ProbeStolInit = %6.6f", pos_wpStart[2]*1000))
+        print(string.format("Z_drill1_ProbeStolInit = %6.6f", pos_wpStart[3]*1000))
+--        print(string.format("oriW_drill1_ProbeStolInit = %6.6f", ori_wpStart[1]))
+--        print(string.format("oriX_drill1_ProbeStolInit = %6.6f", ori_wpStart[2]))
+--        print(string.format("oriY_drill1_ProbeStolInit = %6.6f", ori_wpStart[3]))
+--        print(string.format("oriZ_drill1_ProbeStolInit = %6.6f", ori_wpStart[4]))
+        RPY = quaternion2rpy({ori_wpStart[1], ori_wpStart[2], ori_wpStart[3], ori_wpStart[4]})
+        print(string.format("RX_drill1_ProbeStolInit = %6.6f", r2d(RPY[1])))
+        print(string.format("RY_drill1_ProbeStolInit = %6.6f", r2d(RPY[2])))
+        print(string.format("RZ_drill1_ProbeStolInit = %6.6f", r2d(RPY[3])))
+    end
+    -- обязательный сброс значений относительных перемещений
+    set_relative_offset({0,0,0})
+    pos_wpStart[3] = inStartZ/1000
+    targetPos_in = get_target_pose(pos_wpStart, false, posDrill, oriDrill)
+    set_end_maxvelc(velcStartZ/1000) -- mm/s
+    set_end_maxacc(accStartZ/1000) -- mm/s^2
+    move_line(targetPos_in, true) -- Line движение
+    -- взять координаты текущей позиции
+    wpStart = get_current_waypoint()
+    jntStart = {wpStart.joint.j1,wpStart.joint.j2,wpStart.joint.j3,wpStart.joint.j4,wpStart.joint.j5,wpStart.joint.j6}
+    pos_wpStart, ori_wpStart = base_to_user(jntStart,posDrill,oriDrill)
+    -- координата Z стартовой точки drill1/Base
+    startZ = pos_wpStart[3]*1000
+    -- выбор строки параметров из таблицы SCADA probeParams
+    s_m.selectRow_probeParamTable(rowNum) -- ID строки
+    sleep(2) -- немного подождём
+    -- старт обмера контактным датчиком
+    status, otvodDistance, resIzm = probe_m.StartProbe()
+    if status ~= 8 then -- если статус выполнения probeMoveRus не OK
+        -- движение к точке старта обмера
+        set_end_maxvelc(velcStartZ/1000) -- mm/s
+        set_end_maxacc(accStartZ/1000) -- mm/s^2
+        move_line(targetPos_in, true) -- Line движение
+        print("")
+        print("<<<<<<<<<<<<< probeDrillTool >>>>>>>>>>>>>")
+        print("<<<<< probeMoveRus вернул ошибку. kод выхода -1 >>>>>>>>>>")
+        print("<<<<<<<<<<<<< probeDrillTool >>>>>>>>>>>>>")
+        print("")
+        return
+    end
+    -- вычисление коррекции
+    corr = startZ - endZ - resIzm 
+    if printDbgFl == 1 then
+        print(string.format("startZ = %6.6f", startZ))
+        print(string.format("endZ = %6.6f", endZ))
+        print(string.format("результат измерения probeMoveRus = %6.6f", resIzm))
+        print(string.format("вылет инструмента = %6.6f", corr))
+        print(string.format("Z_new_KinematicParam = %6.6f", (posDrill[3]*1000)+corr))
+        print(string.format("W_ori | drill1 = %6.6f", oriDrill[1]))
+        print(string.format("X_ori | drill1 = %6.6f", oriDrill[2]))
+        print(string.format("Y_ori | drill1 = %6.6f", oriDrill[3]))
+        print(string.format("Z_ori | drill1 = %6.6f", oriDrill[4]))
+    end
+    -- сохранение новой системы системы координат шпинделя с инструментом
+    set_modbus_io_status("M_F_tPosX_r170h", posDrill[1])
+    set_modbus_io_status("M_F_tPosY_r172h", posDrill[2])
+    set_modbus_io_status("M_F_tPosZ_r174h", posDrill[3] + (corr/1000))
+    set_modbus_io_status("M_F_tOriX_r176h", oriDrill[2])
+    set_modbus_io_status("M_F_tOriY_r178h", oriDrill[3])
+    set_modbus_io_status("M_F_tOriZ_r17Ah", oriDrill[4])
+    set_modbus_io_status("M_F_tOriW_r17Ch", oriDrill[1])
+    -- сохранение значения коррекции
+    set_modbus_io_status("M_F_globalR194h", corr)
+        print("")
+        print("<<<<<<<<<<<<< probeDrillTool >>>>>>>>>>>>>")
+        print("<<<<< Успешная отработка скрипта. >>>>>>>>>>")
+        print("<<<<<<<<<<<<< probeDrillTool >>>>>>>>>>>>>")
+        print("")
+end
+--*************************основной код************************************
+probeDrillTool()

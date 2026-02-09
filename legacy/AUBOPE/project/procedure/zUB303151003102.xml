@@ -1,0 +1,2722 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProcedureProgram>
+    <Condition ConditionType="Procedure_Program" ConditionAlias="Procedure_Program" ConditionUuid="7a6a4f49ae50446bbcf2787b3a6f0cd6">
+        <Attribute/>
+        <Condition ConditionType="Script" ConditionAlias="preFaskaScript" ConditionUuid="4ea31c1d56b0487e947d05edfddde3f5">
+            <Attribute>
+                <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                <MD5>3a4831318fc49485248aa1f70cc8daf2</MD5>
+                <ScriptFileName>preFaskaScript</ScriptFileName>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="If" ConditionAlias="If_inputDataInCorect" ConditionUuid="0ae3779233364ac892ae8f0a93efd271">
+            <Attribute>
+                <Exp>(M)synhr_c121h == 1</Exp>
+            </Attribute>
+            <Condition ConditionType="Message" ConditionAlias="Message" ConditionUuid="26cec97f88eb40b7a238297b92617b78">
+                <Attribute>
+                    <EnableStopProgramRunningWhenMessagePopsUp>true</EnableStopProgramRunningWhenMessagePopsUp>
+                    <MessageContent>preFaskaScript: необрабатываемое исключение. Продолжение работы невозможно. Проект будет остановлен</MessageContent>
+                    <MessageType>Critical</MessageType>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Set" ConditionAlias="Set_tool" ConditionUuid="7a83d9215d164c5299a7ee43996adea3">
+            <Attribute>
+                <SetConditionMode>ToolParam</SetConditionMode>
+                <ToolName>drillDisc</ToolName>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Block_Comment" ConditionAlias="Block_constant" ConditionUuid="cc0c577753e74d7ca61a9bb54566904d">
+            <Attribute>
+                <CommentContent>pereopredelit` znacheniya constant</CommentContent>
+            </Attribute>
+            <Condition ConditionType="If" ConditionAlias="If_pereopredelit" ConditionUuid="8285dbc78b384574ba6a2fdd426e6f66">
+                <Attribute>
+                    <Exp>false</Exp>
+                </Attribute>
+                <Condition ConditionType="Set" ConditionAlias="Set_v1s1" ConditionUuid="6702f578c21d474a84bffceae0388138">
+                    <Attribute>
+                        <SetConditionMode>Variable</SetConditionMode>
+                        <VarAssignmentExp>V_D_v1s1_Ztorca</VarAssignmentExp>
+                        <VarName>V_D_sat4_v1s1_const</VarName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Set" ConditionAlias="Set_v1s2" ConditionUuid="d0dc9456e87c41159c2f0eecc9d35f8f">
+                    <Attribute>
+                        <SetConditionMode>Variable</SetConditionMode>
+                        <VarAssignmentExp>V_D_v1s2_Ztorca</VarAssignmentExp>
+                        <VarName>V_D_sat4_v1s2_const</VarName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Set" ConditionAlias="Set_v2s1" ConditionUuid="73bde172ef3c4f2eb6f5f9e2d04e7785">
+                    <Attribute>
+                        <SetConditionMode>Variable</SetConditionMode>
+                        <VarAssignmentExp>V_D_v2s1_Ztorca</VarAssignmentExp>
+                        <VarName>V_D_sat4_v2s1_const</VarName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Set" ConditionAlias="Set_v2s2" ConditionUuid="dbbfc66fab2b4010ae8a5fcd7a4460c8">
+                    <Attribute>
+                        <SetConditionMode>Variable</SetConditionMode>
+                        <VarAssignmentExp>V_D_v2s2_Ztorca</VarAssignmentExp>
+                        <VarName>V_D_sat4_v2s2_const</VarName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Set" ConditionAlias="Set_v3s1" ConditionUuid="045320dc366048bf9d58e2a3c9bbb4ca">
+                    <Attribute>
+                        <SetConditionMode>Variable</SetConditionMode>
+                        <VarAssignmentExp>V_D_v3s1_Ztorca</VarAssignmentExp>
+                        <VarName>V_D_sat4_v3s1_const</VarName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Set" ConditionAlias="Set_v3s2" ConditionUuid="c852a9b744b04f33bc806afdb4011b5d">
+                    <Attribute>
+                        <SetConditionMode>Variable</SetConditionMode>
+                        <VarAssignmentExp>V_D_v3s2_Ztorca</VarAssignmentExp>
+                        <VarName>V_D_sat4_v3s2_const</VarName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Message" ConditionAlias="Message" ConditionUuid="0ab333ec66d64e8b9c66fb801a9247e2">
+                    <Attribute>
+                        <EnableStopProgramRunningWhenMessagePopsUp>true</EnableStopProgramRunningWhenMessagePopsUp>
+                        <MessageContent>constanty pereopredeleny</MessageContent>
+                        <MessageType>Information</MessageType>
+                    </Attribute>
+                </Condition>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="If" ConditionAlias="If_ven1St1_left" ConditionUuid="bb5179bdd3f34a89afcc8f42cd1eecaa">
+            <Attribute>
+                <Exp>( (M)faskaR254h == 1 or (M)faskaR254h == 3 ) and (M)manSc_c1B8h == 0   </Exp>
+            </Attribute>
+            <Condition ConditionType="If" ConditionAlias="tochkiDugi" ConditionUuid="64bdf1559be44916b541357a7ee20a1d">
+                <Attribute>
+                    <Exp>false</Exp>
+                </Attribute>
+                <Condition ConditionType="Move" ConditionAlias="Move_initDrilDisk180" ConditionUuid="fbcee70b83fc4c78868a4d040d1c6444">
+                    <Attribute>
+                        <MoveConditionMode>MoveJoint</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <JointAcc>30,30,30,30,30,30</JointAcc>
+                        <JointSpeed>50,50,50,50,50,50</JointSpeed>
+                        <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>(M)faskaR24Ch / 1000 - 0.2</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>0</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="Waypoint_V_P_drillDisk180" ConditionUuid="17fb5acf3d7f4c199cacd477beff5d23">
+                        <Attribute>
+                            <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                            <VarPoint>V_P_drillDisk180</VarPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_arc" ConditionUuid="b61f60946d684b99bc29912785632511">
+                    <Attribute>
+                        <MoveConditionMode>MoveTrack</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>false</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>1</EndLinearAcc>
+                        <EndLinearSpeed>1</EndLinearSpeed>
+                        <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX></OffsetRX>
+                        <OffsetRY></OffsetRY>
+                        <OffsetRZ></OffsetRZ>
+                        <OffsetX></OffsetX>
+                        <OffsetY></OffsetY>
+                        <OffsetZ></OffsetZ>
+                        <TrackType>Arc</TrackType>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="v1s1left_p1" ConditionUuid="f75aabaf37f34099900536ffdb85fed0">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.731707,-0.505594,0.218064,0.154698,0.208735,-0.853170,-0.452327,-3.988581,0.634070,-1.517678,0.410449,-1.441348,-2.967739</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Waypoint" ConditionAlias="v1s1left_p2" ConditionUuid="ccc1400dbed54d0dad31d595ebfddfc1">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.731721,-0.503298,0.218563,0.154697,0.208735,-0.853171,-0.452325,-3.986952,0.631851,-1.520608,0.409616,-1.439983,-2.966841</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Waypoint" ConditionAlias="v1s1left_p3" ConditionUuid="11bc35f9feb3494d84e499fb3beb4646">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.731741,-0.500791,0.218266,0.154701,0.208739,-0.853171,-0.452323,-3.985162,0.630156,-1.524200,0.407588,-1.438498,-2.965854</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+            </Condition>
+            <Condition ConditionType="If" ConditionAlias="If_net_izmereniyaZ" ConditionUuid="383bc7f9464c4ca38958117603b1dbee">
+                <Attribute>
+                    <Exp>(M)detec_c11Bh == 0</Exp>
+                </Attribute>
+                <Condition ConditionType="Message" ConditionAlias="Message" ConditionUuid="ec0d58de75a64acb84f948c13fafa7ba">
+                    <Attribute>
+                        <EnableStopProgramRunningWhenMessagePopsUp>true</EnableStopProgramRunningWhenMessagePopsUp>
+                        <MessageContent>torec ne izmeren</MessageContent>
+                        <MessageType>Information</MessageType>
+                    </Attribute>
+                </Condition>
+            </Condition>
+            <Condition ConditionType="If" ConditionAlias="If_offsetBig" ConditionUuid="3f324721bda54bd294c8fbed314cacbb">
+                <Attribute>
+                    <Exp>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const  ) &gt; 0.8 or ( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const  ) &lt; -0.8    </Exp>
+                </Attribute>
+                <Condition ConditionType="Message" ConditionAlias="Message" ConditionUuid="54fc8baca6684824aa941d05d8b702cd">
+                    <Attribute>
+                        <EnableStopProgramRunningWhenMessagePopsUp>true</EnableStopProgramRunningWhenMessagePopsUp>
+                        <MessageContent>slishkom bol`shoe smeshenie</MessageContent>
+                        <MessageType>Information</MessageType>
+                    </Attribute>
+                </Condition>
+            </Condition>
+            <Condition ConditionType="Block_Comment" ConditionAlias="Block_ven1St1left" ConditionUuid="9e32602814874769b30174a118682c63">
+                <Attribute>
+                    <CommentContent>venec1Storona1left</CommentContent>
+                </Attribute>
+                <Condition ConditionType="Script" ConditionAlias="srvPosAbsLeftZub" ConditionUuid="08493fbbf82c4bbd85dd1e2b41b31cd9">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>2ba17a22d06cb421d746e66aa5bd5e64</MD5>
+                        <ScriptFileName>srvPosAbsLeftZub</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Set" ConditionAlias="Set_cnt_zubySide" ConditionUuid="37814e9b2ac2460fbcdafef09edae208">
+                    <Attribute>
+                        <SetConditionMode>Variable</SetConditionMode>
+                        <VarAssignmentExp>(M)globalR1A0h</VarAssignmentExp>
+                        <VarName>V_I_localCnt</VarName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_initDrilDisk180" ConditionUuid="af1755ea207e494598aa1ccae72e0e83">
+                    <Attribute>
+                        <MoveConditionMode>MoveJoint</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <JointAcc>35,35,35,35,35,35</JointAcc>
+                        <JointSpeed>60,60,60,60,60,60</JointSpeed>
+                        <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>(M)faskaR24Ch / 1000 - 0.2</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>0</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="Waypoint_V_P_drillDisk180" ConditionUuid="54200ef499a64076a1626dc89f13c348">
+                        <Attribute>
+                            <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                            <VarPoint>V_P_drillDisk180</VarPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="sendCoordToSCADA" ConditionUuid="6b116c57f0304d4286b056b9d4d6cc75">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>f0e2fa47c05a05512147b6af6adb72a3</MD5>
+                        <ScriptFileName>sendCoordToSCADA</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_glavUgolX" ConditionUuid="b990135582e54fb5b17a5ab608cf96c5">
+                    <Attribute>
+                        <MoveConditionMode>MoveJoint</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <JointAcc>30,30,30,30,30,30</JointAcc>
+                        <JointSpeed>50,50,50,50,50,50</JointSpeed>
+                        <OffsetCoordName>drillDisc</OffsetCoordName>
+                        <OffsetCoordType>ToolCoord</OffsetCoordType>
+                        <OffsetRX>0 -  (M)M_F_faskaR246h</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>0</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>0</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="Realtime_Waypoint" ConditionUuid="a1ca9c909536469ea2d9d1b8b8b85775">
+                        <Attribute>
+                            <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                            <VarPoint>Realtime_Waypoint</VarPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="sendCoordToSCADA" ConditionUuid="565d934f27cd41738ead5498524a4676">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>f0e2fa47c05a05512147b6af6adb72a3</MD5>
+                        <ScriptFileName>sendCoordToSCADA</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_glavUgolY" ConditionUuid="8f947fbfd4e340abaca04369be28bdc0">
+                    <Attribute>
+                        <MoveConditionMode>MoveJoint</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <JointAcc>30,30,30,30,30,30</JointAcc>
+                        <JointSpeed>50,50,50,50,50,50</JointSpeed>
+                        <OffsetCoordName>drillDisc</OffsetCoordName>
+                        <OffsetCoordType>ToolCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>(M)M_F_faskaR248h</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>0</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>0</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="Realtime_Waypoint" ConditionUuid="e16d8a9ed3424bbc9622ddeffed209f0">
+                        <Attribute>
+                            <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                            <VarPoint>Realtime_Waypoint</VarPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="sendCoordToSCADA" ConditionUuid="1476d3d9147946b08b26d9c1e972df27">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>f0e2fa47c05a05512147b6af6adb72a3</MD5>
+                        <ScriptFileName>sendCoordToSCADA</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_glavUgolZ" ConditionUuid="1a752ea534fe47049765f5d44ec95ec2">
+                    <Attribute>
+                        <MoveConditionMode>MoveJoint</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <JointAcc>30,30,30,30,30,30</JointAcc>
+                        <JointSpeed>50,50,50,50,50,50</JointSpeed>
+                        <OffsetCoordName>drillDisc</OffsetCoordName>
+                        <OffsetCoordType>ToolCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0 - (M)M_F_faskaR24Ah</OffsetRZ>
+                        <OffsetX>0</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>0</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="Realtime_Waypoint" ConditionUuid="f3da29cbb5604df888022ad560f6e259">
+                        <Attribute>
+                            <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                            <VarPoint>Realtime_Waypoint</VarPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="sendCoordToSCADA" ConditionUuid="b07dc7c5dabd459ba7bfd705d173cac4">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>f0e2fa47c05a05512147b6af6adb72a3</MD5>
+                        <ScriptFileName>sendCoordToSCADA</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="If" ConditionAlias="If_naladka" ConditionUuid="a1ee454e65d3477b87f1954db5326bde">
+                    <Attribute>
+                        <Exp>(M)manSc_c1B3h == 1 and (M)manSc_c1B4h == 1</Exp>
+                    </Attribute>
+                    <Condition ConditionType="Wait" ConditionAlias="Wait_nextStep" ConditionUuid="a2a8b73ebe7e45e6a4ae3aadb1dc9900">
+                        <Attribute>
+                            <WaitConditionMode>Exp</WaitConditionMode>
+                            <WaitConditionExp>(M)manSc_c1B5h == 1</WaitConditionExp>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_Duga_p1_safty" ConditionUuid="1589ade5628c400ab55ddaa8eebdbab1">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>40</EndLinearAcc>
+                        <EndLinearSpeed>70</EndLinearSpeed>
+                        <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>(M)faskaR24Dh / 1000</OffsetX>
+                        <OffsetY>(M)faskaR252h / 1000</OffsetY>
+                        <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR258h  ) / 1000      </OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="v1s1left_p1" ConditionUuid="fb2a74adedea485eab56fca121921b8c">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.731707,-0.505594,0.218064,0.154698,0.208735,-0.853170,-0.452327,-3.988581,0.634070,-1.517678,0.410449,-1.441348,-2.967739</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="sendCoordToSCADA" ConditionUuid="fd890bb434334d2c80b27917ba0b79be">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>f0e2fa47c05a05512147b6af6adb72a3</MD5>
+                        <ScriptFileName>sendCoordToSCADA</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="If" ConditionAlias="If_naladka" ConditionUuid="50dcf11a44e94842a0428146c2b644ba">
+                    <Attribute>
+                        <Exp>(M)manSc_c1B3h == 1 and (M)manSc_c1B4h == 1</Exp>
+                    </Attribute>
+                    <Condition ConditionType="Loop" ConditionAlias="Loop_nextStep" ConditionUuid="0e08e9985e9e4dd882dd1e7bc7f4686f">
+                        <Attribute>
+                            <LoopConditionMode>Exp</LoopConditionMode>
+                            <LoopConditionExp>(M)manSc_c1B5h == 0</LoopConditionExp>
+                        </Attribute>
+                        <Condition ConditionType="Move" ConditionAlias="Move_Duga_p1_saftyCr" ConditionUuid="262c98e8c017498abd766dba87ccef7f">
+                            <Attribute>
+                                <MoveConditionMode>MoveLine</MoveConditionMode>
+                                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                                <ArrivalAheadType>None</ArrivalAheadType>
+                                <EnableArrivalAhead>false</EnableArrivalAhead>
+                                <EnableOffset>true</EnableOffset>
+                                <EndAngleAcc>50</EndAngleAcc>
+                                <EndAngleSpeed>50</EndAngleSpeed>
+                                <EndLinearAcc>30</EndLinearAcc>
+                                <EndLinearSpeed>50</EndLinearSpeed>
+                                <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                                <OffsetCoordType>UserCoord</OffsetCoordType>
+                                <OffsetRX>0</OffsetRX>
+                                <OffsetRY>0</OffsetRY>
+                                <OffsetRZ>0</OffsetRZ>
+                                <OffsetX>(M)faskaR24Dh / 1000 + ( (M)M_F_faskaR270h / 1000 )  </OffsetX>
+                                <OffsetY>(M)faskaR252h / 1000 + ( (M)M_F_faskaR272h / 1000 )   </OffsetY>
+                                <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR258h ) / 1000 + ( (M)M_F_faskaR274h / 1000 )  </OffsetZ>
+                                <angleJerkRatio>0.25</angleJerkRatio>
+                                <isInGluing>false</isInGluing>
+                                <isInMoveGroup>false</isInMoveGroup>
+                                <jerkRatio>0.25</jerkRatio>
+                            </Attribute>
+                            <Condition ConditionType="Waypoint" ConditionAlias="v1s1left_p1" ConditionUuid="53ee895ed1864d428b6471cc15ecd199">
+                                <Attribute>
+                                    <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                                    <FixedPoint>0.731707,-0.505594,0.218064,0.154698,0.208735,-0.853170,-0.452327,-3.988581,0.634070,-1.517678,0.410449,-1.441348,-2.967739</FixedPoint>
+                                </Attribute>
+                            </Condition>
+                        </Condition>
+                        <Condition ConditionType="Wait" ConditionAlias="Wait_03" ConditionUuid="66752b2672dd48628cf094447b6ce91f">
+                            <Attribute>
+                                <WaitConditionMode>Time</WaitConditionMode>
+                                <WaitTime>0.3</WaitTime>
+                            </Attribute>
+                        </Condition>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_Duga_p1_oper" ConditionUuid="2f7216ed63364a67983b038cced4d40c">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>35</EndLinearAcc>
+                        <EndLinearSpeed>60</EndLinearSpeed>
+                        <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>(M)faskaR245h / 1000</OffsetX>
+                        <OffsetY>(M)faskaR252h / 1000  </OffsetY>
+                        <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR258h ) / 1000      </OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="v1s1left_p1" ConditionUuid="f088b5bda4874eca830bbc973cabdac9">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.731707,-0.505594,0.218064,0.154698,0.208735,-0.853170,-0.452327,-3.988581,0.634070,-1.517678,0.410449,-1.441348,-2.967739</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="sendCoordToSCADA" ConditionUuid="e7823bc6ab2c4441b7e355f928bddefb">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>f0e2fa47c05a05512147b6af6adb72a3</MD5>
+                        <ScriptFileName>sendCoordToSCADA</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="If" ConditionAlias="If_spindelOn" ConditionUuid="643158e6624b4615b7e5f84dff7016a6">
+                    <Attribute>
+                        <Exp>(M)manSc_c1B4h == 0</Exp>
+                    </Attribute>
+                    <Condition ConditionType="Procedure" ConditionAlias="SpindelStart" ConditionUuid="8e8a672e33694d9abb42aa02a0b9393b">
+                        <Attribute>
+                            <MD5>ec54e454426d0253217489d7dbda51f6</MD5>
+                            <ProcedureName>SpindelStart</ProcedureName>
+                        </Attribute>
+                        <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber3" ConditionUuid="f0c85a224d0043b7933d47155e6c1b69">
+                            <Attribute>
+                                <SetConditionMode>Variable</SetConditionMode>
+                                <VarAssignmentExp>3</VarAssignmentExp>
+                                <VarName>V_I_DIOnumber</VarName>
+                            </Attribute>
+                        </Condition>
+                        <Condition ConditionType="Loop" ConditionAlias="Loop_always" ConditionUuid="88581c8a90a641c2af68bdee13bfcee7">
+                            <Attribute>
+                                <LoopConditionMode>Always</LoopConditionMode>
+                            </Attribute>
+                            <Condition ConditionType="Script" ConditionAlias="check_mk312DO" ConditionUuid="931fe8aeca0d496d83bf49d1bcaa7d3a">
+                                <Attribute>
+                                    <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                                    <MD5>f5d33240a2ac0ce4834bb1c9dc3396bb</MD5>
+                                    <ScriptFileName>check_mk312DO</ScriptFileName>
+                                </Attribute>
+                            </Condition>
+                            <Condition ConditionType="If" ConditionAlias="If" ConditionUuid="eecbb03063d54cacaefb6248e79e5299">
+                                <Attribute>
+                                    <Exp>V_B_mk312DOstate == false</Exp>
+                                </Attribute>
+                                <Condition ConditionType="Break" ConditionAlias="Break" ConditionUuid="42773730be5146d4ad464bacddc26240">
+                                    <Attribute/>
+                                </Condition>
+                            </Condition>
+                            <Condition ConditionType="Message" ConditionAlias="Message" ConditionUuid="1f35a482b7194e7b885427afbe7b1302">
+                                <Attribute>
+                                    <EnableStopProgramRunningWhenMessagePopsUp>false</EnableStopProgramRunningWhenMessagePopsUp>
+                                    <MessageContent>запуск шпинделя невозможен - пневмозамок адаптера активен</MessageContent>
+                                    <MessageType>Information</MessageType>
+                                </Attribute>
+                            </Condition>
+                        </Condition>
+                        <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber3" ConditionUuid="169aec9b16c44e07a6683fb5cb790b70">
+                            <Attribute>
+                                <SetConditionMode>Variable</SetConditionMode>
+                                <VarAssignmentExp>3</VarAssignmentExp>
+                                <VarName>V_I_DIOnumber</VarName>
+                            </Attribute>
+                        </Condition>
+                        <Condition ConditionType="Set" ConditionAlias="Set_stateTrue" ConditionUuid="a2afe982b23a43b886cff4d5fc2823db">
+                            <Attribute>
+                                <SetConditionMode>Variable</SetConditionMode>
+                                <VarAssignmentExp>true</VarAssignmentExp>
+                                <VarName>V_B_mk311DOstate</VarName>
+                            </Attribute>
+                        </Condition>
+                        <Condition ConditionType="Line_Comment" ConditionAlias="startSpindelCommand" ConditionUuid="524535415643473380a2f165024c566f">
+                            <Attribute>
+                                <CommentContent>1</CommentContent>
+                            </Attribute>
+                        </Condition>
+                        <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="1387cfaf5ab4464baec8df199e89b294">
+                            <Attribute>
+                                <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                                <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                                <ScriptFileName>set_mk311DO</ScriptFileName>
+                            </Attribute>
+                        </Condition>
+                    </Condition>
+                    <Condition ConditionType="If" ConditionAlias="If_aspiraciya" ConditionUuid="034b152764e3469a9dcb05fbd79dd616">
+                        <Attribute>
+                            <Exp>(M)globalC170h == 1</Exp>
+                        </Attribute>
+                        <Condition ConditionType="Procedure" ConditionAlias="AspiraciyaOn" ConditionUuid="42a9c79121b5429181e87bc07805e038">
+                            <Attribute>
+                                <MD5>a8d0a95c082dc2d4f0b242803145aa1b</MD5>
+                                <ProcedureName>AspiraciyaOn</ProcedureName>
+                            </Attribute>
+                            <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber6" ConditionUuid="7be83c000da64ec9997410f922aac029">
+                                <Attribute>
+                                    <SetConditionMode>Variable</SetConditionMode>
+                                    <VarAssignmentExp>6</VarAssignmentExp>
+                                    <VarName>V_I_DIOnumber</VarName>
+                                </Attribute>
+                            </Condition>
+                            <Condition ConditionType="Set" ConditionAlias="Set_stateTrue" ConditionUuid="075b265502784097960a146fe4bf6c72">
+                                <Attribute>
+                                    <SetConditionMode>Variable</SetConditionMode>
+                                    <VarAssignmentExp>true</VarAssignmentExp>
+                                    <VarName>V_B_mk311DOstate</VarName>
+                                </Attribute>
+                            </Condition>
+                            <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="d9a1b074c2d64598ad8b6706754e18f8">
+                                <Attribute>
+                                    <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                                    <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                                    <ScriptFileName>set_mk311DO</ScriptFileName>
+                                </Attribute>
+                            </Condition>
+                        </Condition>
+                    </Condition>
+                    <Condition ConditionType="Wait" ConditionAlias="Wait_08s" ConditionUuid="0ff9594a63534b3391c9ea28adf94627">
+                        <Attribute>
+                            <WaitConditionMode>Time</WaitConditionMode>
+                            <WaitTime>0.8</WaitTime>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="If" ConditionAlias="If_naladka" ConditionUuid="06fd5a989edb4daca6057219499fd93f">
+                    <Attribute>
+                        <Exp>(M)manSc_c1B3h == 1 and (M)manSc_c1B4h == 1</Exp>
+                    </Attribute>
+                    <Condition ConditionType="Loop" ConditionAlias="Loop_nextStep" ConditionUuid="24ee1024edbc44afb47eae527e528821">
+                        <Attribute>
+                            <LoopConditionMode>Exp</LoopConditionMode>
+                            <LoopConditionExp>(M)manSc_c1B5h == 0</LoopConditionExp>
+                        </Attribute>
+                        <Condition ConditionType="Move" ConditionAlias="Move_Duga_p1_operCor" ConditionUuid="ff3834bb738c4669a99e5f3029429df4">
+                            <Attribute>
+                                <MoveConditionMode>MoveLine</MoveConditionMode>
+                                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                                <ArrivalAheadType>None</ArrivalAheadType>
+                                <EnableArrivalAhead>false</EnableArrivalAhead>
+                                <EnableOffset>true</EnableOffset>
+                                <EndAngleAcc>50</EndAngleAcc>
+                                <EndAngleSpeed>50</EndAngleSpeed>
+                                <EndLinearAcc>30</EndLinearAcc>
+                                <EndLinearSpeed>50</EndLinearSpeed>
+                                <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                                <OffsetCoordType>UserCoord</OffsetCoordType>
+                                <OffsetRX>0</OffsetRX>
+                                <OffsetRY>0</OffsetRY>
+                                <OffsetRZ>0</OffsetRZ>
+                                <OffsetX>(M)faskaR245h / 1000 + ( (M)M_F_faskaR270h / 1000 )   </OffsetX>
+                                <OffsetY>(M)faskaR252h / 1000 + ( (M)M_F_faskaR272h / 1000 )    </OffsetY>
+                                <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR258h ) / 1000 + ( (M)M_F_faskaR274h / 1000 )   </OffsetZ>
+                                <angleJerkRatio>0.25</angleJerkRatio>
+                                <isInGluing>false</isInGluing>
+                                <isInMoveGroup>false</isInMoveGroup>
+                                <jerkRatio>0.25</jerkRatio>
+                            </Attribute>
+                            <Condition ConditionType="Waypoint" ConditionAlias="v1s1left_p1" ConditionUuid="eda47db380cc4208bfd87bf7e00edbaf">
+                                <Attribute>
+                                    <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                                    <FixedPoint>0.731707,-0.505594,0.218064,0.154698,0.208735,-0.853170,-0.452327,-3.988581,0.634070,-1.517678,0.410449,-1.441348,-2.967739</FixedPoint>
+                                </Attribute>
+                            </Condition>
+                        </Condition>
+                        <Condition ConditionType="Wait" ConditionAlias="Wait_03" ConditionUuid="8e21840fd04044c8bb206aa76551d649">
+                            <Attribute>
+                                <WaitConditionMode>Time</WaitConditionMode>
+                                <WaitTime>0.3</WaitTime>
+                            </Attribute>
+                        </Condition>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Loop" ConditionAlias="Loop_13z" ConditionUuid="b2e62e66b6f44e439d7ac783bf33db91">
+                    <Attribute>
+                        <LoopConditionMode>Always</LoopConditionMode>
+                    </Attribute>
+                    <Condition ConditionType="If" ConditionAlias="If_naladka" ConditionUuid="9dedaec7aab84c91adddae59e11f4a8b">
+                        <Attribute>
+                            <Exp>(M)manSc_c1B3h == 1 and (M)manSc_c1B4h == 1 and (M)manSc_c1B7h == 0</Exp>
+                        </Attribute>
+                        <Condition ConditionType="Loop" ConditionAlias="Loop_nextStep" ConditionUuid="6c478ea56dc24737ac182f7b2ba707c9">
+                            <Attribute>
+                                <LoopConditionMode>Exp</LoopConditionMode>
+                                <LoopConditionExp>(M)manSc_c1B5h == 0</LoopConditionExp>
+                            </Attribute>
+                            <Condition ConditionType="Move" ConditionAlias="Move_Duga_p1_Corr" ConditionUuid="4cedc14838db48a08097c52704c32b37">
+                                <Attribute>
+                                    <MoveConditionMode>MoveLine</MoveConditionMode>
+                                    <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                                    <ArrivalAheadType>None</ArrivalAheadType>
+                                    <EnableArrivalAhead>false</EnableArrivalAhead>
+                                    <EnableOffset>true</EnableOffset>
+                                    <EndAngleAcc>50</EndAngleAcc>
+                                    <EndAngleSpeed>50</EndAngleSpeed>
+                                    <EndLinearAcc>10</EndLinearAcc>
+                                    <EndLinearSpeed>20</EndLinearSpeed>
+                                    <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                                    <OffsetCoordType>UserCoord</OffsetCoordType>
+                                    <OffsetRX>0</OffsetRX>
+                                    <OffsetRY>0</OffsetRY>
+                                    <OffsetRZ>0</OffsetRZ>
+                                    <OffsetX>(M)M_F_faskaR270h / 1000</OffsetX>
+                                    <OffsetY>(M)M_F_faskaR272h / 1000</OffsetY>
+                                    <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR258h ) / 1000 + ( (M)M_F_faskaR274h / 1000 )   </OffsetZ>
+                                    <angleJerkRatio>0.25</angleJerkRatio>
+                                    <isInGluing>false</isInGluing>
+                                    <isInMoveGroup>false</isInMoveGroup>
+                                    <jerkRatio>0.25</jerkRatio>
+                                </Attribute>
+                                <Condition ConditionType="Waypoint" ConditionAlias="v1s1left_p1" ConditionUuid="286829ba6a2c41e49e29cbd8f2210053">
+                                    <Attribute>
+                                        <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                                        <FixedPoint>0.731707,-0.505594,0.218064,0.154698,0.208735,-0.853170,-0.452327,-3.988581,0.634070,-1.517678,0.410449,-1.441348,-2.967739</FixedPoint>
+                                    </Attribute>
+                                </Condition>
+                            </Condition>
+                            <Condition ConditionType="Wait" ConditionAlias="Wait_03" ConditionUuid="7215bdbb3fb2495aaefa511a459bf5d0">
+                                <Attribute>
+                                    <WaitConditionMode>Time</WaitConditionMode>
+                                    <WaitTime>0.3</WaitTime>
+                                </Attribute>
+                            </Condition>
+                        </Condition>
+                        <Condition ConditionType="Loop" ConditionAlias="Loop_nextStep" ConditionUuid="b7f6389bd31f454fb9150081a447114b">
+                            <Attribute>
+                                <LoopConditionMode>Exp</LoopConditionMode>
+                                <LoopConditionExp>(M)manSc_c1B5h == 0</LoopConditionExp>
+                            </Attribute>
+                            <Condition ConditionType="Move" ConditionAlias="Move_Duga_p2_Corr" ConditionUuid="ae04460c5b4b47f7be54866cf3df27b7">
+                                <Attribute>
+                                    <MoveConditionMode>MoveLine</MoveConditionMode>
+                                    <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                                    <ArrivalAheadType>None</ArrivalAheadType>
+                                    <EnableArrivalAhead>false</EnableArrivalAhead>
+                                    <EnableOffset>true</EnableOffset>
+                                    <EndAngleAcc>50</EndAngleAcc>
+                                    <EndAngleSpeed>50</EndAngleSpeed>
+                                    <EndLinearAcc>10</EndLinearAcc>
+                                    <EndLinearSpeed>20</EndLinearSpeed>
+                                    <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                                    <OffsetCoordType>UserCoord</OffsetCoordType>
+                                    <OffsetRX>0</OffsetRX>
+                                    <OffsetRY>0</OffsetRY>
+                                    <OffsetRZ>0</OffsetRZ>
+                                    <OffsetX>(M)M_F_faskaR270h / 1000</OffsetX>
+                                    <OffsetY>(M)M_F_faskaR272h / 1000</OffsetY>
+                                    <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR258h ) / 1000 + ( (M)M_F_faskaR274h / 1000 )   </OffsetZ>
+                                    <angleJerkRatio>0.25</angleJerkRatio>
+                                    <isInGluing>false</isInGluing>
+                                    <isInMoveGroup>false</isInMoveGroup>
+                                    <jerkRatio>0.25</jerkRatio>
+                                </Attribute>
+                                <Condition ConditionType="Waypoint" ConditionAlias="v1s1left_p2" ConditionUuid="b8c938720836430587e0900318a3da33">
+                                    <Attribute>
+                                        <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                                        <FixedPoint>0.731721,-0.503298,0.218563,0.154697,0.208735,-0.853171,-0.452325,-3.986952,0.631851,-1.520608,0.409616,-1.439983,-2.966841</FixedPoint>
+                                    </Attribute>
+                                </Condition>
+                            </Condition>
+                            <Condition ConditionType="Wait" ConditionAlias="Wait_03" ConditionUuid="22a48552945448fc8ef8c417336aaa1c">
+                                <Attribute>
+                                    <WaitConditionMode>Time</WaitConditionMode>
+                                    <WaitTime>0.3</WaitTime>
+                                </Attribute>
+                            </Condition>
+                        </Condition>
+                        <Condition ConditionType="Loop" ConditionAlias="Loop_nextStep" ConditionUuid="24a0987ccff5405ab3357103f158ce15">
+                            <Attribute>
+                                <LoopConditionMode>Exp</LoopConditionMode>
+                                <LoopConditionExp>(M)manSc_c1B5h == 0</LoopConditionExp>
+                            </Attribute>
+                            <Condition ConditionType="Move" ConditionAlias="Move_Duga_p3_Corr" ConditionUuid="5108191c6eb24ac29ea924ec0d779c9b">
+                                <Attribute>
+                                    <MoveConditionMode>MoveLine</MoveConditionMode>
+                                    <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                                    <ArrivalAheadType>None</ArrivalAheadType>
+                                    <EnableArrivalAhead>false</EnableArrivalAhead>
+                                    <EnableOffset>true</EnableOffset>
+                                    <EndAngleAcc>50</EndAngleAcc>
+                                    <EndAngleSpeed>50</EndAngleSpeed>
+                                    <EndLinearAcc>10</EndLinearAcc>
+                                    <EndLinearSpeed>20</EndLinearSpeed>
+                                    <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                                    <OffsetCoordType>UserCoord</OffsetCoordType>
+                                    <OffsetRX>0</OffsetRX>
+                                    <OffsetRY>0</OffsetRY>
+                                    <OffsetRZ>0</OffsetRZ>
+                                    <OffsetX>(M)M_F_faskaR270h / 1000</OffsetX>
+                                    <OffsetY>(M)M_F_faskaR272h / 1000</OffsetY>
+                                    <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR258h ) / 1000 + ( (M)M_F_faskaR274h / 1000 )   </OffsetZ>
+                                    <angleJerkRatio>0.25</angleJerkRatio>
+                                    <isInGluing>false</isInGluing>
+                                    <isInMoveGroup>false</isInMoveGroup>
+                                    <jerkRatio>0.25</jerkRatio>
+                                </Attribute>
+                                <Condition ConditionType="Waypoint" ConditionAlias="v1s1left_p3" ConditionUuid="9c8a03a4db1d43e5a2aa4d41177ff9c2">
+                                    <Attribute>
+                                        <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                                        <FixedPoint>0.731741,-0.500791,0.218266,0.154701,0.208739,-0.853171,-0.452323,-3.985162,0.630156,-1.524200,0.407588,-1.438498,-2.965854</FixedPoint>
+                                    </Attribute>
+                                </Condition>
+                            </Condition>
+                            <Condition ConditionType="Wait" ConditionAlias="Wait_03" ConditionUuid="3758ab605f654e4b83a61075dbe5ef08">
+                                <Attribute>
+                                    <WaitConditionMode>Time</WaitConditionMode>
+                                    <WaitTime>0.3</WaitTime>
+                                </Attribute>
+                            </Condition>
+                        </Condition>
+                    </Condition>
+                    <Condition ConditionType="Else" ConditionAlias="Else_dugaPlavno" ConditionUuid="45f27522af864e968e99f142a659141c">
+                        <Attribute/>
+                        <Condition ConditionType="Move" ConditionAlias="Move_Duga_p1_Corr" ConditionUuid="ef80022ab2854e5abeeae3a0f2f82c82">
+                            <Attribute>
+                                <MoveConditionMode>MoveLine</MoveConditionMode>
+                                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                                <ArrivalAheadType>None</ArrivalAheadType>
+                                <EnableArrivalAhead>false</EnableArrivalAhead>
+                                <EnableOffset>true</EnableOffset>
+                                <EndAngleAcc>50</EndAngleAcc>
+                                <EndAngleSpeed>50</EndAngleSpeed>
+                                <EndLinearAcc>10</EndLinearAcc>
+                                <EndLinearSpeed>20</EndLinearSpeed>
+                                <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                                <OffsetCoordType>UserCoord</OffsetCoordType>
+                                <OffsetRX>0</OffsetRX>
+                                <OffsetRY>0</OffsetRY>
+                                <OffsetRZ>0</OffsetRZ>
+                                <OffsetX>(M)M_F_faskaR270h / 1000</OffsetX>
+                                <OffsetY>(M)M_F_faskaR272h / 1000</OffsetY>
+                                <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR258h ) / 1000 + ( (M)M_F_faskaR274h / 1000 )   </OffsetZ>
+                                <angleJerkRatio>0.25</angleJerkRatio>
+                                <isInGluing>false</isInGluing>
+                                <isInMoveGroup>false</isInMoveGroup>
+                                <jerkRatio>0.25</jerkRatio>
+                            </Attribute>
+                            <Condition ConditionType="Waypoint" ConditionAlias="v1s1left_p1" ConditionUuid="b35eaa1d2c4e4fcea5ca0bd01dadaa8c">
+                                <Attribute>
+                                    <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                                    <FixedPoint>0.731707,-0.505594,0.218064,0.154698,0.208735,-0.853170,-0.452327,-3.988581,0.634070,-1.517678,0.410449,-1.441348,-2.967739</FixedPoint>
+                                </Attribute>
+                            </Condition>
+                        </Condition>
+                        <Condition ConditionType="Move" ConditionAlias="Move_arc" ConditionUuid="7fae872bfd9f44b3b3698266c4bcbe6d">
+                            <Attribute>
+                                <MoveConditionMode>MoveTrack</MoveConditionMode>
+                                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                                <ArrivalAheadType>None</ArrivalAheadType>
+                                <EnableArrivalAhead>false</EnableArrivalAhead>
+                                <EnableOffset>true</EnableOffset>
+                                <EndAngleAcc>50</EndAngleAcc>
+                                <EndAngleSpeed>50</EndAngleSpeed>
+                                <EndLinearAcc>1</EndLinearAcc>
+                                <EndLinearSpeed>1</EndLinearSpeed>
+                                <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                                <OffsetCoordType>UserCoord</OffsetCoordType>
+                                <OffsetRX>0</OffsetRX>
+                                <OffsetRY>0</OffsetRY>
+                                <OffsetRZ>0</OffsetRZ>
+                                <OffsetX>(M)M_F_faskaR270h / 1000</OffsetX>
+                                <OffsetY>(M)M_F_faskaR272h / 1000</OffsetY>
+                                <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR258h ) / 1000 + ( (M)M_F_faskaR274h / 1000 )    </OffsetZ>
+                                <TrackType>Arc</TrackType>
+                                <angleJerkRatio>0.25</angleJerkRatio>
+                                <isInGluing>false</isInGluing>
+                                <isInMoveGroup>false</isInMoveGroup>
+                                <jerkRatio>0.25</jerkRatio>
+                            </Attribute>
+                            <Condition ConditionType="Waypoint" ConditionAlias="v1s1left_p1" ConditionUuid="4efe31accafb4ccc9d6f5a78eface099">
+                                <Attribute>
+                                    <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                                    <FixedPoint>0.731707,-0.505594,0.218064,0.154698,0.208735,-0.853170,-0.452327,-3.988581,0.634070,-1.517678,0.410449,-1.441348,-2.967739</FixedPoint>
+                                </Attribute>
+                            </Condition>
+                            <Condition ConditionType="Waypoint" ConditionAlias="v1s1left_p2" ConditionUuid="36742bfbbccc4fbea5e1a4ce065b71e6">
+                                <Attribute>
+                                    <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                                    <FixedPoint>0.731721,-0.503298,0.218563,0.154697,0.208735,-0.853171,-0.452325,-3.986952,0.631851,-1.520608,0.409616,-1.439983,-2.966841</FixedPoint>
+                                </Attribute>
+                            </Condition>
+                            <Condition ConditionType="Waypoint" ConditionAlias="v1s1left_p3" ConditionUuid="91487695d3d24199a9ca3a1910caf0c0">
+                                <Attribute>
+                                    <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                                    <FixedPoint>0.731741,-0.500791,0.218266,0.154701,0.208739,-0.853171,-0.452323,-3.985162,0.630156,-1.524200,0.407588,-1.438498,-2.965854</FixedPoint>
+                                </Attribute>
+                            </Condition>
+                        </Condition>
+                    </Condition>
+                    <Condition ConditionType="Move" ConditionAlias="Move_Duga_p1_oper" ConditionUuid="05df0289d26f49f7b30844c18bfe554b">
+                        <Attribute>
+                            <MoveConditionMode>MoveLine</MoveConditionMode>
+                            <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                            <ArrivalAheadType>None</ArrivalAheadType>
+                            <EnableArrivalAhead>false</EnableArrivalAhead>
+                            <EnableOffset>true</EnableOffset>
+                            <EndAngleAcc>50</EndAngleAcc>
+                            <EndAngleSpeed>50</EndAngleSpeed>
+                            <EndLinearAcc>40</EndLinearAcc>
+                            <EndLinearSpeed>70</EndLinearSpeed>
+                            <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                            <OffsetCoordType>UserCoord</OffsetCoordType>
+                            <OffsetRX>0</OffsetRX>
+                            <OffsetRY>0</OffsetRY>
+                            <OffsetRZ>0</OffsetRZ>
+                            <OffsetX>(M)faskaR245h / 1000</OffsetX>
+                            <OffsetY>(M)faskaR252h / 1000  </OffsetY>
+                            <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR258h ) / 1000      </OffsetZ>
+                            <angleJerkRatio>0.25</angleJerkRatio>
+                            <isInGluing>false</isInGluing>
+                            <isInMoveGroup>false</isInMoveGroup>
+                            <jerkRatio>0.25</jerkRatio>
+                        </Attribute>
+                        <Condition ConditionType="Waypoint" ConditionAlias="v1s1left_p1" ConditionUuid="729b71614162412080f38e2fa2460e23">
+                            <Attribute>
+                                <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                                <FixedPoint>0.731707,-0.505594,0.218064,0.154698,0.208735,-0.853170,-0.452327,-3.988581,0.634070,-1.517678,0.410449,-1.441348,-2.967739</FixedPoint>
+                            </Attribute>
+                        </Condition>
+                    </Condition>
+                    <Condition ConditionType="Script" ConditionAlias="sendCoordToSCADA" ConditionUuid="edd602a03018489db6c116d5044a2b99">
+                        <Attribute>
+                            <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                            <MD5>f0e2fa47c05a05512147b6af6adb72a3</MD5>
+                            <ScriptFileName>sendCoordToSCADA</ScriptFileName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="If" ConditionAlias="If_naladka" ConditionUuid="0761aa60235a4121acef55bc531382c4">
+                        <Attribute>
+                            <Exp>(M)manSc_c1B3h == 1 and (M)manSc_c1B4h == 1</Exp>
+                        </Attribute>
+                        <Condition ConditionType="Loop" ConditionAlias="Loop_nextStep" ConditionUuid="822f32b44c6b48ac8b7c37a2879019ab">
+                            <Attribute>
+                                <LoopConditionMode>Exp</LoopConditionMode>
+                                <LoopConditionExp>(M)manSc_c1B5h == 0</LoopConditionExp>
+                            </Attribute>
+                            <Condition ConditionType="Move" ConditionAlias="Move_Duga_p1_operCor" ConditionUuid="1ae785b4521044b9848c814623544a8d">
+                                <Attribute>
+                                    <MoveConditionMode>MoveLine</MoveConditionMode>
+                                    <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                                    <ArrivalAheadType>None</ArrivalAheadType>
+                                    <EnableArrivalAhead>false</EnableArrivalAhead>
+                                    <EnableOffset>true</EnableOffset>
+                                    <EndAngleAcc>50</EndAngleAcc>
+                                    <EndAngleSpeed>50</EndAngleSpeed>
+                                    <EndLinearAcc>30</EndLinearAcc>
+                                    <EndLinearSpeed>50</EndLinearSpeed>
+                                    <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                                    <OffsetCoordType>UserCoord</OffsetCoordType>
+                                    <OffsetRX>0</OffsetRX>
+                                    <OffsetRY>0</OffsetRY>
+                                    <OffsetRZ>0</OffsetRZ>
+                                    <OffsetX>(M)faskaR245h / 1000 + ( (M)M_F_faskaR270h / 1000 )   </OffsetX>
+                                    <OffsetY>(M)faskaR252h / 1000 + ( (M)M_F_faskaR272h / 1000 )    </OffsetY>
+                                    <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR258h ) / 1000 + ( (M)M_F_faskaR274h / 1000 )   </OffsetZ>
+                                    <angleJerkRatio>0.25</angleJerkRatio>
+                                    <isInGluing>false</isInGluing>
+                                    <isInMoveGroup>false</isInMoveGroup>
+                                    <jerkRatio>0.25</jerkRatio>
+                                </Attribute>
+                                <Condition ConditionType="Waypoint" ConditionAlias="v1s1left_p1" ConditionUuid="0bfd9db0b9ed470a85dbd56283c838f0">
+                                    <Attribute>
+                                        <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                                        <FixedPoint>0.731707,-0.505594,0.218064,0.154698,0.208735,-0.853170,-0.452327,-3.988581,0.634070,-1.517678,0.410449,-1.441348,-2.967739</FixedPoint>
+                                    </Attribute>
+                                </Condition>
+                            </Condition>
+                            <Condition ConditionType="Wait" ConditionAlias="Wait_03" ConditionUuid="72a7b283e65041d7ab600b06a61f7ba4">
+                                <Attribute>
+                                    <WaitConditionMode>Time</WaitConditionMode>
+                                    <WaitTime>0.3</WaitTime>
+                                </Attribute>
+                            </Condition>
+                        </Condition>
+                    </Condition>
+                    <Condition ConditionType="Set" ConditionAlias="Set_decCntZuby" ConditionUuid="c2b152486d8f4da38f6477862d9d8428">
+                        <Attribute>
+                            <SetConditionMode>Variable</SetConditionMode>
+                            <VarAssignmentExp>V_I_localCnt - 1</VarAssignmentExp>
+                            <VarName>V_I_localCnt</VarName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="If" ConditionAlias="If_end" ConditionUuid="af4cb0a08b154be5b49390fe4df54b86">
+                        <Attribute>
+                            <Exp>V_I_localCnt == 0  </Exp>
+                        </Attribute>
+                        <Condition ConditionType="Break" ConditionAlias="Break" ConditionUuid="c5162ea8674a4bd5bb422cea9fc065c2">
+                            <Attribute/>
+                        </Condition>
+                    </Condition>
+                    <Condition ConditionType="Script" ConditionAlias="servoPosRelSide" ConditionUuid="58771b3c170b4b1a8171d710311b0b68">
+                        <Attribute>
+                            <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                            <MD5>81d8f80e8a7bff6314c2268ef2eeabda</MD5>
+                            <ScriptFileName>servoPosRelSide</ScriptFileName>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Procedure" ConditionAlias="SpindelStop" ConditionUuid="5c2d15ca571f4d6f9d2744c06a394b45">
+                    <Attribute>
+                        <MD5>0880388d98624e689ad67d2154194b12</MD5>
+                        <ProcedureName>SpindelStop</ProcedureName>
+                    </Attribute>
+                    <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber3" ConditionUuid="3f52f0f01c014721ae5bb5fd744ff402">
+                        <Attribute>
+                            <SetConditionMode>Variable</SetConditionMode>
+                            <VarAssignmentExp>3</VarAssignmentExp>
+                            <VarName>V_I_DIOnumber</VarName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Set" ConditionAlias="Set_stateFalse" ConditionUuid="47656f59d76042e1adfb76a2597e5a46">
+                        <Attribute>
+                            <SetConditionMode>Variable</SetConditionMode>
+                            <VarAssignmentExp>false</VarAssignmentExp>
+                            <VarName>V_B_mk311DOstate</VarName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Line_Comment" ConditionAlias="stopSpindelCommand" ConditionUuid="4fbe408cbe614c04b40ff522975e4cb7">
+                        <Attribute>
+                            <CommentContent>1</CommentContent>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="a8c84bb3862f45a6b8d111ffbe9f705d">
+                        <Attribute>
+                            <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                            <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                            <ScriptFileName>set_mk311DO</ScriptFileName>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Procedure" ConditionAlias="AspiraciyaOff" ConditionUuid="546aed2612944a77be8e12673461afa9">
+                    <Attribute>
+                        <MD5>ace95166835be7358ee3e6e784b14298</MD5>
+                        <ProcedureName>AspiraciyaOff</ProcedureName>
+                    </Attribute>
+                    <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber6" ConditionUuid="8b027e4239274d56b377c06f493a8c7f">
+                        <Attribute>
+                            <SetConditionMode>Variable</SetConditionMode>
+                            <VarAssignmentExp>6</VarAssignmentExp>
+                            <VarName>V_I_DIOnumber</VarName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Set" ConditionAlias="Set_stateFalse" ConditionUuid="a7377c58a45e4ae187c18b0aa8c550ff">
+                        <Attribute>
+                            <SetConditionMode>Variable</SetConditionMode>
+                            <VarAssignmentExp>false</VarAssignmentExp>
+                            <VarName>V_B_mk311DOstate</VarName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="42ac7ee77d524c7ba0825f812ee2dc65">
+                        <Attribute>
+                            <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                            <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                            <ScriptFileName>set_mk311DO</ScriptFileName>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_Duga_p1_safty" ConditionUuid="2bbf95e171964d758ec5efd5870f07e1">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>40</EndLinearAcc>
+                        <EndLinearSpeed>70</EndLinearSpeed>
+                        <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>(M)faskaR24Dh / 1000</OffsetX>
+                        <OffsetY>(M)faskaR252h / 1000</OffsetY>
+                        <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR258h ) / 1000      </OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="v1s1left_p1" ConditionUuid="42b12df4dcbb4110a9b86e7b09ba5dbb">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.731707,-0.505594,0.218064,0.154698,0.208735,-0.853170,-0.452327,-3.988581,0.634070,-1.517678,0.410449,-1.441348,-2.967739</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_initDrilDisk180" ConditionUuid="1c0a70e65ce34ee092b91da3756ffbe2">
+                    <Attribute>
+                        <MoveConditionMode>MoveJoint</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <JointAcc>35,35,35,35,35,35</JointAcc>
+                        <JointSpeed>60,60,60,60,60,60</JointSpeed>
+                        <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>(M)faskaR24Ch / 1000 - 0.2</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>0</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="Waypoint_V_P_drillDisk180" ConditionUuid="61d3cf9a00794ba4a95a91efeb9574ce">
+                        <Attribute>
+                            <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                            <VarPoint>V_P_drillDisk180</VarPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="If" ConditionAlias="If_ven1St1_right" ConditionUuid="209b0f5557a246b6ad5dd74a2075a502">
+            <Attribute>
+                <Exp>( (M)faskaR254h == 1 or (M)faskaR254h == 3 ) and (M)manSc_c1B9h == 0   </Exp>
+            </Attribute>
+            <Condition ConditionType="If" ConditionAlias="tochkiDugi" ConditionUuid="de2d2640611a4eefb5a9f2bcf732f84d">
+                <Attribute>
+                    <Exp>false</Exp>
+                </Attribute>
+                <Condition ConditionType="Move" ConditionAlias="Move_arc" ConditionUuid="929ce0dbdb4048848a5b5c8a91be812f">
+                    <Attribute>
+                        <MoveConditionMode>MoveTrack</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>false</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>1</EndLinearAcc>
+                        <EndLinearSpeed>1</EndLinearSpeed>
+                        <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX></OffsetRX>
+                        <OffsetRY></OffsetRY>
+                        <OffsetRZ></OffsetRZ>
+                        <OffsetX></OffsetX>
+                        <OffsetY></OffsetY>
+                        <OffsetZ></OffsetZ>
+                        <TrackType>Arc</TrackType>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="v1s1right_p1" ConditionUuid="e1e80c5ead9546eeaf4010ab1364bd4f">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.745225,-0.094349,0.249567,0.167227,-0.256018,-0.868015,0.391204,-3.447172,0.375456,-1.954332,-0.333222,-2.365449,-1.121822</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Waypoint" ConditionAlias="v1s1right_p2" ConditionUuid="6a5bb2a8d6dd4e2e826d153f273a80e2">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.745205,-0.096539,0.249666,0.167226,-0.256015,-0.868018,0.391200,-3.449905,0.375595,-1.954433,-0.336010,-2.366568,-1.125391</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Waypoint" ConditionAlias="v1s1right_p3" ConditionUuid="56cf419a7af34c36957dcdf5881aa12c">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.745283,-0.099147,0.249174,0.167229,-0.256019,-0.868017,0.391197,-3.453115,0.376600,-1.954650,-0.340217,-2.367873,-1.129569</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+            </Condition>
+            <Condition ConditionType="If" ConditionAlias="If_net_izmereniyaZ" ConditionUuid="22c61f02112f4143be7914d1d4ccd463">
+                <Attribute>
+                    <Exp>(M)detec_c11Bh == 0</Exp>
+                </Attribute>
+                <Condition ConditionType="Message" ConditionAlias="Message" ConditionUuid="32a1c7b819e04b2ab7e6cedff74351bc">
+                    <Attribute>
+                        <EnableStopProgramRunningWhenMessagePopsUp>true</EnableStopProgramRunningWhenMessagePopsUp>
+                        <MessageContent>torec ne izmeren</MessageContent>
+                        <MessageType>Information</MessageType>
+                    </Attribute>
+                </Condition>
+            </Condition>
+            <Condition ConditionType="If" ConditionAlias="If_offsetBig" ConditionUuid="8bddd5436bea41debe331aaebba8fad1">
+                <Attribute>
+                    <Exp>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const  ) &gt; 0.8 or ( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const  ) &lt; -0.8    </Exp>
+                </Attribute>
+                <Condition ConditionType="Message" ConditionAlias="Message" ConditionUuid="95606bed44d447ff900ebc3e684d1249">
+                    <Attribute>
+                        <EnableStopProgramRunningWhenMessagePopsUp>true</EnableStopProgramRunningWhenMessagePopsUp>
+                        <MessageContent>slishkom bol`shoe smeshenie</MessageContent>
+                        <MessageType>Information</MessageType>
+                    </Attribute>
+                </Condition>
+            </Condition>
+            <Condition ConditionType="Block_Comment" ConditionAlias="Block_ven1St1right" ConditionUuid="7bc84a9c37df49ca830a4a81f4dd8457">
+                <Attribute>
+                    <CommentContent>venec1Storona1right</CommentContent>
+                </Attribute>
+                <Condition ConditionType="Script" ConditionAlias="srvPosAbsRihtZub" ConditionUuid="3f9edbc6ee5d40d297c561c7689d00da">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>1572a1cce973e76ec8949b4fd3572a0b</MD5>
+                        <ScriptFileName>srvPosAbsRihtZub</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Set" ConditionAlias="Set_cnt_zubySide" ConditionUuid="f7649b81325f4ceb82368b8c18e7ddb9">
+                    <Attribute>
+                        <SetConditionMode>Variable</SetConditionMode>
+                        <VarAssignmentExp>(M)globalR1A0h</VarAssignmentExp>
+                        <VarName>V_I_localCnt</VarName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_initDrilDisk0" ConditionUuid="4352f052e46d4c048cd5cc4aaa6af27d">
+                    <Attribute>
+                        <MoveConditionMode>MoveJoint</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <JointAcc>35,35,35,35,35,35</JointAcc>
+                        <JointSpeed>60,60,60,60,60,60</JointSpeed>
+                        <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>(M)faskaR24Ch / 1000 - 0.2</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>0</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="Waypoint_V_P_drillDisk" ConditionUuid="b4d54c11443146098928845393d13026">
+                        <Attribute>
+                            <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                            <VarPoint>V_P_drillDisk</VarPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="sendCoordToSCADA" ConditionUuid="30544f15ebcd4e4aa0f456f1b09d4162">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>f0e2fa47c05a05512147b6af6adb72a3</MD5>
+                        <ScriptFileName>sendCoordToSCADA</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_glavUgolX" ConditionUuid="5294df3a38704486b654bbbef5d4eb35">
+                    <Attribute>
+                        <MoveConditionMode>MoveJoint</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <JointAcc>30,30,30,30,30,30</JointAcc>
+                        <JointSpeed>50,50,50,50,50,50</JointSpeed>
+                        <OffsetCoordName>drillDisc</OffsetCoordName>
+                        <OffsetCoordType>ToolCoord</OffsetCoordType>
+                        <OffsetRX>(M)M_F_faskaR246h</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>0</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>0</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="Realtime_Waypoint" ConditionUuid="9283e208d6f34b3da629dfd91c7f77d5">
+                        <Attribute>
+                            <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                            <VarPoint>Realtime_Waypoint</VarPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="sendCoordToSCADA" ConditionUuid="b5cfe50c6df54334bd83ac06ac5dcf1a">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>f0e2fa47c05a05512147b6af6adb72a3</MD5>
+                        <ScriptFileName>sendCoordToSCADA</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_glavUgolY" ConditionUuid="1b2793e3754a4c11b74b79b6bca243b4">
+                    <Attribute>
+                        <MoveConditionMode>MoveJoint</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <JointAcc>30,30,30,30,30,30</JointAcc>
+                        <JointSpeed>50,50,50,50,50,50</JointSpeed>
+                        <OffsetCoordName>drillDisc</OffsetCoordName>
+                        <OffsetCoordType>ToolCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>(M)M_F_faskaR248h</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>0</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>0</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="Realtime_Waypoint" ConditionUuid="5fd2ab47a6854b6abbd57243e095d692">
+                        <Attribute>
+                            <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                            <VarPoint>Realtime_Waypoint</VarPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="sendCoordToSCADA" ConditionUuid="f07d4f09e5734d9b96d439bb8923c594">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>f0e2fa47c05a05512147b6af6adb72a3</MD5>
+                        <ScriptFileName>sendCoordToSCADA</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_glavUgolZ" ConditionUuid="00b913b809fe400b85d235e1c8bfa017">
+                    <Attribute>
+                        <MoveConditionMode>MoveJoint</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <JointAcc>30,30,30,30,30,30</JointAcc>
+                        <JointSpeed>50,50,50,50,50,50</JointSpeed>
+                        <OffsetCoordName>drillDisc</OffsetCoordName>
+                        <OffsetCoordType>ToolCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>(M)M_F_faskaR24Ah</OffsetRZ>
+                        <OffsetX>0</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>0</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="Realtime_Waypoint" ConditionUuid="ea39a3ead86f47fcb400ba7fbe9eeac9">
+                        <Attribute>
+                            <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                            <VarPoint>Realtime_Waypoint</VarPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="sendCoordToSCADA" ConditionUuid="cf89b2bab9e847938445974a64182826">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>f0e2fa47c05a05512147b6af6adb72a3</MD5>
+                        <ScriptFileName>sendCoordToSCADA</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="If" ConditionAlias="If_naladka" ConditionUuid="0e2d6e1dda1d498d91aba65d6e78e117">
+                    <Attribute>
+                        <Exp>(M)manSc_c1B3h == 1 and (M)manSc_c1B4h == 1</Exp>
+                    </Attribute>
+                    <Condition ConditionType="Wait" ConditionAlias="Wait_nextStep" ConditionUuid="24093d3bbb994bf89ac9eabf60ddc51d">
+                        <Attribute>
+                            <WaitConditionMode>Exp</WaitConditionMode>
+                            <WaitConditionExp>(M)manSc_c1B5h == 1</WaitConditionExp>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_Duga_p1_safty" ConditionUuid="ccf9bf0d874b4a3ea7cc4384db8adc84">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>40</EndLinearAcc>
+                        <EndLinearSpeed>70</EndLinearSpeed>
+                        <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>(M)faskaR24Dh / 1000</OffsetX>
+                        <OffsetY>(M)faskaR252h / -1000</OffsetY>
+                        <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR264h  ) / 1000      </OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="v1s1right_p1" ConditionUuid="17f38e2ac4184ecd809eff848fa72947">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.745225,-0.094349,0.249567,0.167227,-0.256018,-0.868015,0.391204,-3.447172,0.375456,-1.954332,-0.333222,-2.365449,-1.121822</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="sendCoordToSCADA" ConditionUuid="ab7b29fe82a0484ba114ff9773e1a611">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>f0e2fa47c05a05512147b6af6adb72a3</MD5>
+                        <ScriptFileName>sendCoordToSCADA</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="If" ConditionAlias="If_naladka" ConditionUuid="379fcbcef4394464b608cc96ae6c436b">
+                    <Attribute>
+                        <Exp>(M)manSc_c1B3h == 1 and (M)manSc_c1B4h == 1</Exp>
+                    </Attribute>
+                    <Condition ConditionType="Loop" ConditionAlias="Loop_nextStep" ConditionUuid="f7bb01cadb7e4befb2e6ce1dac268713">
+                        <Attribute>
+                            <LoopConditionMode>Exp</LoopConditionMode>
+                            <LoopConditionExp>(M)manSc_c1B5h == 0</LoopConditionExp>
+                        </Attribute>
+                        <Condition ConditionType="Move" ConditionAlias="Move_Duga_p1_saftyCr" ConditionUuid="8f73e86da7ed45ff83f1ed3a5c94e8ed">
+                            <Attribute>
+                                <MoveConditionMode>MoveLine</MoveConditionMode>
+                                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                                <ArrivalAheadType>None</ArrivalAheadType>
+                                <EnableArrivalAhead>false</EnableArrivalAhead>
+                                <EnableOffset>true</EnableOffset>
+                                <EndAngleAcc>50</EndAngleAcc>
+                                <EndAngleSpeed>50</EndAngleSpeed>
+                                <EndLinearAcc>30</EndLinearAcc>
+                                <EndLinearSpeed>50</EndLinearSpeed>
+                                <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                                <OffsetCoordType>UserCoord</OffsetCoordType>
+                                <OffsetRX>0</OffsetRX>
+                                <OffsetRY>0</OffsetRY>
+                                <OffsetRZ>0</OffsetRZ>
+                                <OffsetX>(M)faskaR24Dh / 1000 + ( (M)M_F_faskaR270h / 1000 )  </OffsetX>
+                                <OffsetY>(M)faskaR252h / -1000 + ( (M)M_F_faskaR272h / 1000 )   </OffsetY>
+                                <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR264h ) / 1000 + ( (M)M_F_faskaR274h / 1000 )  </OffsetZ>
+                                <angleJerkRatio>0.25</angleJerkRatio>
+                                <isInGluing>false</isInGluing>
+                                <isInMoveGroup>false</isInMoveGroup>
+                                <jerkRatio>0.25</jerkRatio>
+                            </Attribute>
+                            <Condition ConditionType="Waypoint" ConditionAlias="v1s1right_p1" ConditionUuid="23f2973da4574c28821b29e8898d1096">
+                                <Attribute>
+                                    <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                                    <FixedPoint>0.745225,-0.094349,0.249567,0.167227,-0.256018,-0.868015,0.391204,-3.447172,0.375456,-1.954332,-0.333222,-2.365449,-1.121822</FixedPoint>
+                                </Attribute>
+                            </Condition>
+                        </Condition>
+                        <Condition ConditionType="Wait" ConditionAlias="Wait_03" ConditionUuid="8b333b013404454781b857596da6fe2f">
+                            <Attribute>
+                                <WaitConditionMode>Time</WaitConditionMode>
+                                <WaitTime>0.3</WaitTime>
+                            </Attribute>
+                        </Condition>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_Duga_p1_oper" ConditionUuid="2d6cca4568364330af590d54bb439ec9">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>35</EndLinearAcc>
+                        <EndLinearSpeed>60</EndLinearSpeed>
+                        <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>(M)faskaR245h / 1000</OffsetX>
+                        <OffsetY>(M)faskaR252h / -1000  </OffsetY>
+                        <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR264h ) / 1000      </OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="v1s1right_p1" ConditionUuid="7a46a08bc400483fa3b1d269cf65c876">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.745225,-0.094349,0.249567,0.167227,-0.256018,-0.868015,0.391204,-3.447172,0.375456,-1.954332,-0.333222,-2.365449,-1.121822</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="sendCoordToSCADA" ConditionUuid="613510ab368f497489bdfd019caa9b6b">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>f0e2fa47c05a05512147b6af6adb72a3</MD5>
+                        <ScriptFileName>sendCoordToSCADA</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="If" ConditionAlias="If_spindelOn" ConditionUuid="12c93d2f87d5496f80164de0b745cc9b">
+                    <Attribute>
+                        <Exp>(M)manSc_c1B4h == 0</Exp>
+                    </Attribute>
+                    <Condition ConditionType="Procedure" ConditionAlias="SpindelStart" ConditionUuid="5059ace5138441449930f0f02ed31698">
+                        <Attribute>
+                            <MD5>ec54e454426d0253217489d7dbda51f6</MD5>
+                            <ProcedureName>SpindelStart</ProcedureName>
+                        </Attribute>
+                        <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber3" ConditionUuid="1368b4f298ae4fcc85954259389dcb49">
+                            <Attribute>
+                                <SetConditionMode>Variable</SetConditionMode>
+                                <VarAssignmentExp>3</VarAssignmentExp>
+                                <VarName>V_I_DIOnumber</VarName>
+                            </Attribute>
+                        </Condition>
+                        <Condition ConditionType="Loop" ConditionAlias="Loop_always" ConditionUuid="712eb260d6734c95b1d6c1e724e23a08">
+                            <Attribute>
+                                <LoopConditionMode>Always</LoopConditionMode>
+                            </Attribute>
+                            <Condition ConditionType="Script" ConditionAlias="check_mk312DO" ConditionUuid="f49c23ad70ed4cd79f1edcc90faedb15">
+                                <Attribute>
+                                    <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                                    <MD5>f5d33240a2ac0ce4834bb1c9dc3396bb</MD5>
+                                    <ScriptFileName>check_mk312DO</ScriptFileName>
+                                </Attribute>
+                            </Condition>
+                            <Condition ConditionType="If" ConditionAlias="If" ConditionUuid="ded0cc3d55e146bbaff843d818e95b95">
+                                <Attribute>
+                                    <Exp>V_B_mk312DOstate == false</Exp>
+                                </Attribute>
+                                <Condition ConditionType="Break" ConditionAlias="Break" ConditionUuid="32ee94c5b9c649a9b951cae4574d0b59">
+                                    <Attribute/>
+                                </Condition>
+                            </Condition>
+                            <Condition ConditionType="Message" ConditionAlias="Message" ConditionUuid="d41f392c7e444a3eae0ebc8dbf5c47ed">
+                                <Attribute>
+                                    <EnableStopProgramRunningWhenMessagePopsUp>false</EnableStopProgramRunningWhenMessagePopsUp>
+                                    <MessageContent>запуск шпинделя невозможен - пневмозамок адаптера активен</MessageContent>
+                                    <MessageType>Information</MessageType>
+                                </Attribute>
+                            </Condition>
+                        </Condition>
+                        <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber3" ConditionUuid="c2fac3c82c754140b612ce395e6ca836">
+                            <Attribute>
+                                <SetConditionMode>Variable</SetConditionMode>
+                                <VarAssignmentExp>3</VarAssignmentExp>
+                                <VarName>V_I_DIOnumber</VarName>
+                            </Attribute>
+                        </Condition>
+                        <Condition ConditionType="Set" ConditionAlias="Set_stateTrue" ConditionUuid="7249ed9ba82948619c1c0b00b50a795e">
+                            <Attribute>
+                                <SetConditionMode>Variable</SetConditionMode>
+                                <VarAssignmentExp>true</VarAssignmentExp>
+                                <VarName>V_B_mk311DOstate</VarName>
+                            </Attribute>
+                        </Condition>
+                        <Condition ConditionType="Line_Comment" ConditionAlias="startSpindelCommand" ConditionUuid="5ef81ce377144f72ab427a338d83d275">
+                            <Attribute>
+                                <CommentContent>1</CommentContent>
+                            </Attribute>
+                        </Condition>
+                        <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="865276a932454a70bab36ea0c2a7e7b1">
+                            <Attribute>
+                                <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                                <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                                <ScriptFileName>set_mk311DO</ScriptFileName>
+                            </Attribute>
+                        </Condition>
+                    </Condition>
+                    <Condition ConditionType="If" ConditionAlias="If_aspiraciya" ConditionUuid="658159c25b18437b86207b5974991e83">
+                        <Attribute>
+                            <Exp>(M)globalC170h == 1</Exp>
+                        </Attribute>
+                        <Condition ConditionType="Procedure" ConditionAlias="AspiraciyaOn" ConditionUuid="09be54e9d2ae4ec38e94e4f7a6faab59">
+                            <Attribute>
+                                <MD5>a8d0a95c082dc2d4f0b242803145aa1b</MD5>
+                                <ProcedureName>AspiraciyaOn</ProcedureName>
+                            </Attribute>
+                            <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber6" ConditionUuid="f9495a415cd042de884c106cadfda79f">
+                                <Attribute>
+                                    <SetConditionMode>Variable</SetConditionMode>
+                                    <VarAssignmentExp>6</VarAssignmentExp>
+                                    <VarName>V_I_DIOnumber</VarName>
+                                </Attribute>
+                            </Condition>
+                            <Condition ConditionType="Set" ConditionAlias="Set_stateTrue" ConditionUuid="09e89a597c514b4a873fa2fee60b8684">
+                                <Attribute>
+                                    <SetConditionMode>Variable</SetConditionMode>
+                                    <VarAssignmentExp>true</VarAssignmentExp>
+                                    <VarName>V_B_mk311DOstate</VarName>
+                                </Attribute>
+                            </Condition>
+                            <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="af39beb464b641b58894c38f3f6b3b2f">
+                                <Attribute>
+                                    <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                                    <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                                    <ScriptFileName>set_mk311DO</ScriptFileName>
+                                </Attribute>
+                            </Condition>
+                        </Condition>
+                    </Condition>
+                    <Condition ConditionType="Wait" ConditionAlias="Wait_08s" ConditionUuid="22235eaa11e04b22892b3e583f3c012f">
+                        <Attribute>
+                            <WaitConditionMode>Time</WaitConditionMode>
+                            <WaitTime>0.8</WaitTime>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="If" ConditionAlias="If_naladka" ConditionUuid="801afb3a008648c08b6b06c5fecf8cf4">
+                    <Attribute>
+                        <Exp>(M)manSc_c1B3h == 1 and (M)manSc_c1B4h == 1</Exp>
+                    </Attribute>
+                    <Condition ConditionType="Loop" ConditionAlias="Loop_nextStep" ConditionUuid="c54693cd1c494fde93d69881d31604d8">
+                        <Attribute>
+                            <LoopConditionMode>Exp</LoopConditionMode>
+                            <LoopConditionExp>(M)manSc_c1B5h == 0</LoopConditionExp>
+                        </Attribute>
+                        <Condition ConditionType="Move" ConditionAlias="Move_Duga_p1_operCor" ConditionUuid="105e222c35b24bafa2f9510315ce7f48">
+                            <Attribute>
+                                <MoveConditionMode>MoveLine</MoveConditionMode>
+                                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                                <ArrivalAheadType>None</ArrivalAheadType>
+                                <EnableArrivalAhead>false</EnableArrivalAhead>
+                                <EnableOffset>true</EnableOffset>
+                                <EndAngleAcc>50</EndAngleAcc>
+                                <EndAngleSpeed>50</EndAngleSpeed>
+                                <EndLinearAcc>30</EndLinearAcc>
+                                <EndLinearSpeed>50</EndLinearSpeed>
+                                <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                                <OffsetCoordType>UserCoord</OffsetCoordType>
+                                <OffsetRX>0</OffsetRX>
+                                <OffsetRY>0</OffsetRY>
+                                <OffsetRZ>0</OffsetRZ>
+                                <OffsetX>(M)faskaR245h / 1000 + ( (M)M_F_faskaR270h / 1000 )   </OffsetX>
+                                <OffsetY>(M)faskaR252h / -1000 + ( (M)M_F_faskaR272h / 1000 )    </OffsetY>
+                                <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR264h ) / 1000 + ( (M)M_F_faskaR274h / 1000 )   </OffsetZ>
+                                <angleJerkRatio>0.25</angleJerkRatio>
+                                <isInGluing>false</isInGluing>
+                                <isInMoveGroup>false</isInMoveGroup>
+                                <jerkRatio>0.25</jerkRatio>
+                            </Attribute>
+                            <Condition ConditionType="Waypoint" ConditionAlias="v1s1right_p1" ConditionUuid="5829399ee12f490f89d774db06b25348">
+                                <Attribute>
+                                    <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                                    <FixedPoint>0.745225,-0.094349,0.249567,0.167227,-0.256018,-0.868015,0.391204,-3.447172,0.375456,-1.954332,-0.333222,-2.365449,-1.121822</FixedPoint>
+                                </Attribute>
+                            </Condition>
+                        </Condition>
+                        <Condition ConditionType="Wait" ConditionAlias="Wait_03" ConditionUuid="f615c67edd9c42b0a9e13db9cb3fef08">
+                            <Attribute>
+                                <WaitConditionMode>Time</WaitConditionMode>
+                                <WaitTime>0.3</WaitTime>
+                            </Attribute>
+                        </Condition>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Loop" ConditionAlias="Loop_13z" ConditionUuid="97f4a75899db446eb3d3f666c6d7e590">
+                    <Attribute>
+                        <LoopConditionMode>Always</LoopConditionMode>
+                    </Attribute>
+                    <Condition ConditionType="If" ConditionAlias="If_naladka" ConditionUuid="61626d1774c54d0c9bac3ed7d432a195">
+                        <Attribute>
+                            <Exp>(M)manSc_c1B3h == 1 and (M)manSc_c1B4h == 1 and (M)manSc_c1B7h == 0</Exp>
+                        </Attribute>
+                        <Condition ConditionType="Loop" ConditionAlias="Loop_nextStep" ConditionUuid="7733cd78784e4cd2bfbc2b4507186c4b">
+                            <Attribute>
+                                <LoopConditionMode>Exp</LoopConditionMode>
+                                <LoopConditionExp>(M)manSc_c1B5h == 0</LoopConditionExp>
+                            </Attribute>
+                            <Condition ConditionType="Move" ConditionAlias="Move_Duga_p1_Corr" ConditionUuid="32c8ffb62b9243e08846ed46962cc799">
+                                <Attribute>
+                                    <MoveConditionMode>MoveLine</MoveConditionMode>
+                                    <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                                    <ArrivalAheadType>None</ArrivalAheadType>
+                                    <EnableArrivalAhead>false</EnableArrivalAhead>
+                                    <EnableOffset>true</EnableOffset>
+                                    <EndAngleAcc>50</EndAngleAcc>
+                                    <EndAngleSpeed>50</EndAngleSpeed>
+                                    <EndLinearAcc>10</EndLinearAcc>
+                                    <EndLinearSpeed>20</EndLinearSpeed>
+                                    <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                                    <OffsetCoordType>UserCoord</OffsetCoordType>
+                                    <OffsetRX>0</OffsetRX>
+                                    <OffsetRY>0</OffsetRY>
+                                    <OffsetRZ>0</OffsetRZ>
+                                    <OffsetX>(M)M_F_faskaR270h / 1000</OffsetX>
+                                    <OffsetY>(M)M_F_faskaR272h / 1000</OffsetY>
+                                    <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR264h ) / 1000 + ( (M)M_F_faskaR274h / 1000 )   </OffsetZ>
+                                    <angleJerkRatio>0.25</angleJerkRatio>
+                                    <isInGluing>false</isInGluing>
+                                    <isInMoveGroup>false</isInMoveGroup>
+                                    <jerkRatio>0.25</jerkRatio>
+                                </Attribute>
+                                <Condition ConditionType="Waypoint" ConditionAlias="v1s1right_p1" ConditionUuid="323de0c134c2473cab109d219cded0b6">
+                                    <Attribute>
+                                        <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                                        <FixedPoint>0.745225,-0.094349,0.249567,0.167227,-0.256018,-0.868015,0.391204,-3.447172,0.375456,-1.954332,-0.333222,-2.365449,-1.121822</FixedPoint>
+                                    </Attribute>
+                                </Condition>
+                            </Condition>
+                            <Condition ConditionType="Wait" ConditionAlias="Wait_03" ConditionUuid="126896c4be914e2c87cb83670ed31f37">
+                                <Attribute>
+                                    <WaitConditionMode>Time</WaitConditionMode>
+                                    <WaitTime>0.3</WaitTime>
+                                </Attribute>
+                            </Condition>
+                        </Condition>
+                        <Condition ConditionType="Loop" ConditionAlias="Loop_nextStep" ConditionUuid="599735eaf7c54e4a8789d0db34b620b2">
+                            <Attribute>
+                                <LoopConditionMode>Exp</LoopConditionMode>
+                                <LoopConditionExp>(M)manSc_c1B5h == 0</LoopConditionExp>
+                            </Attribute>
+                            <Condition ConditionType="Move" ConditionAlias="Move_Duga_p2_Corr" ConditionUuid="83133ca6a67f4961bbe492f28f79234b">
+                                <Attribute>
+                                    <MoveConditionMode>MoveLine</MoveConditionMode>
+                                    <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                                    <ArrivalAheadType>None</ArrivalAheadType>
+                                    <EnableArrivalAhead>false</EnableArrivalAhead>
+                                    <EnableOffset>true</EnableOffset>
+                                    <EndAngleAcc>50</EndAngleAcc>
+                                    <EndAngleSpeed>50</EndAngleSpeed>
+                                    <EndLinearAcc>10</EndLinearAcc>
+                                    <EndLinearSpeed>20</EndLinearSpeed>
+                                    <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                                    <OffsetCoordType>UserCoord</OffsetCoordType>
+                                    <OffsetRX>0</OffsetRX>
+                                    <OffsetRY>0</OffsetRY>
+                                    <OffsetRZ>0</OffsetRZ>
+                                    <OffsetX>(M)M_F_faskaR270h / 1000</OffsetX>
+                                    <OffsetY>(M)M_F_faskaR272h / 1000</OffsetY>
+                                    <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR264h ) / 1000 + ( (M)M_F_faskaR274h / 1000 )   </OffsetZ>
+                                    <angleJerkRatio>0.25</angleJerkRatio>
+                                    <isInGluing>false</isInGluing>
+                                    <isInMoveGroup>false</isInMoveGroup>
+                                    <jerkRatio>0.25</jerkRatio>
+                                </Attribute>
+                                <Condition ConditionType="Waypoint" ConditionAlias="v1s1right_p2" ConditionUuid="4174214cf1284a3994ab40d582f24648">
+                                    <Attribute>
+                                        <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                                        <FixedPoint>0.745205,-0.096539,0.249666,0.167226,-0.256015,-0.868018,0.391200,-3.449905,0.375595,-1.954433,-0.336010,-2.366568,-1.125391</FixedPoint>
+                                    </Attribute>
+                                </Condition>
+                            </Condition>
+                            <Condition ConditionType="Wait" ConditionAlias="Wait_03" ConditionUuid="d429c0716a4c4dfe9341837f71b97b37">
+                                <Attribute>
+                                    <WaitConditionMode>Time</WaitConditionMode>
+                                    <WaitTime>0.3</WaitTime>
+                                </Attribute>
+                            </Condition>
+                        </Condition>
+                        <Condition ConditionType="Loop" ConditionAlias="Loop_nextStep" ConditionUuid="4c73b6ffc46145beaddbdf17b7bdb222">
+                            <Attribute>
+                                <LoopConditionMode>Exp</LoopConditionMode>
+                                <LoopConditionExp>(M)manSc_c1B5h == 0</LoopConditionExp>
+                            </Attribute>
+                            <Condition ConditionType="Move" ConditionAlias="Move_Duga_p3_Corr" ConditionUuid="9f9695b4cae142c0a86c6b859a931070">
+                                <Attribute>
+                                    <MoveConditionMode>MoveLine</MoveConditionMode>
+                                    <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                                    <ArrivalAheadType>None</ArrivalAheadType>
+                                    <EnableArrivalAhead>false</EnableArrivalAhead>
+                                    <EnableOffset>true</EnableOffset>
+                                    <EndAngleAcc>50</EndAngleAcc>
+                                    <EndAngleSpeed>50</EndAngleSpeed>
+                                    <EndLinearAcc>10</EndLinearAcc>
+                                    <EndLinearSpeed>20</EndLinearSpeed>
+                                    <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                                    <OffsetCoordType>UserCoord</OffsetCoordType>
+                                    <OffsetRX>0</OffsetRX>
+                                    <OffsetRY>0</OffsetRY>
+                                    <OffsetRZ>0</OffsetRZ>
+                                    <OffsetX>(M)M_F_faskaR270h / 1000</OffsetX>
+                                    <OffsetY>(M)M_F_faskaR272h / 1000</OffsetY>
+                                    <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR264h ) / 1000 + ( (M)M_F_faskaR274h / 1000 )   </OffsetZ>
+                                    <angleJerkRatio>0.25</angleJerkRatio>
+                                    <isInGluing>false</isInGluing>
+                                    <isInMoveGroup>false</isInMoveGroup>
+                                    <jerkRatio>0.25</jerkRatio>
+                                </Attribute>
+                                <Condition ConditionType="Waypoint" ConditionAlias="v1s1right_p3" ConditionUuid="a88bc5d2a4a54002b228123c62e4cb06">
+                                    <Attribute>
+                                        <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                                        <FixedPoint>0.745283,-0.099147,0.249174,0.167229,-0.256019,-0.868017,0.391197,-3.453115,0.376600,-1.954650,-0.340217,-2.367873,-1.129569</FixedPoint>
+                                    </Attribute>
+                                </Condition>
+                            </Condition>
+                            <Condition ConditionType="Wait" ConditionAlias="Wait_03" ConditionUuid="224143146ec5420f9ece3fad16d6fadd">
+                                <Attribute>
+                                    <WaitConditionMode>Time</WaitConditionMode>
+                                    <WaitTime>0.3</WaitTime>
+                                </Attribute>
+                            </Condition>
+                        </Condition>
+                    </Condition>
+                    <Condition ConditionType="Else" ConditionAlias="Else_dugaPlavno" ConditionUuid="1ca582be5b0b4fd6804e785a7af8b361">
+                        <Attribute/>
+                        <Condition ConditionType="Move" ConditionAlias="Move_Duga_p1_Corr" ConditionUuid="83158122eeab47208944dcf74ef0135c">
+                            <Attribute>
+                                <MoveConditionMode>MoveLine</MoveConditionMode>
+                                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                                <ArrivalAheadType>None</ArrivalAheadType>
+                                <EnableArrivalAhead>false</EnableArrivalAhead>
+                                <EnableOffset>true</EnableOffset>
+                                <EndAngleAcc>50</EndAngleAcc>
+                                <EndAngleSpeed>50</EndAngleSpeed>
+                                <EndLinearAcc>10</EndLinearAcc>
+                                <EndLinearSpeed>20</EndLinearSpeed>
+                                <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                                <OffsetCoordType>UserCoord</OffsetCoordType>
+                                <OffsetRX>0</OffsetRX>
+                                <OffsetRY>0</OffsetRY>
+                                <OffsetRZ>0</OffsetRZ>
+                                <OffsetX>(M)M_F_faskaR270h / 1000</OffsetX>
+                                <OffsetY>(M)M_F_faskaR272h / 1000</OffsetY>
+                                <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR264h ) / 1000 + ( (M)M_F_faskaR274h / 1000 )   </OffsetZ>
+                                <angleJerkRatio>0.25</angleJerkRatio>
+                                <isInGluing>false</isInGluing>
+                                <isInMoveGroup>false</isInMoveGroup>
+                                <jerkRatio>0.25</jerkRatio>
+                            </Attribute>
+                            <Condition ConditionType="Waypoint" ConditionAlias="v1s1right_p1" ConditionUuid="ac3d402d56394e748dd1254e2fc7023f">
+                                <Attribute>
+                                    <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                                    <FixedPoint>0.745225,-0.094349,0.249567,0.167227,-0.256018,-0.868015,0.391204,-3.447172,0.375456,-1.954332,-0.333222,-2.365449,-1.121822</FixedPoint>
+                                </Attribute>
+                            </Condition>
+                        </Condition>
+                        <Condition ConditionType="Move" ConditionAlias="Move_arc" ConditionUuid="35dddc8bc5ba47bf998569720f81fa2d">
+                            <Attribute>
+                                <MoveConditionMode>MoveTrack</MoveConditionMode>
+                                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                                <ArrivalAheadType>None</ArrivalAheadType>
+                                <EnableArrivalAhead>false</EnableArrivalAhead>
+                                <EnableOffset>true</EnableOffset>
+                                <EndAngleAcc>50</EndAngleAcc>
+                                <EndAngleSpeed>50</EndAngleSpeed>
+                                <EndLinearAcc>1</EndLinearAcc>
+                                <EndLinearSpeed>1</EndLinearSpeed>
+                                <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                                <OffsetCoordType>UserCoord</OffsetCoordType>
+                                <OffsetRX>0</OffsetRX>
+                                <OffsetRY>0</OffsetRY>
+                                <OffsetRZ>0</OffsetRZ>
+                                <OffsetX>(M)M_F_faskaR270h / 1000</OffsetX>
+                                <OffsetY>(M)M_F_faskaR272h / 1000</OffsetY>
+                                <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR264h ) / 1000 + ( (M)M_F_faskaR274h / 1000 )    </OffsetZ>
+                                <TrackType>Arc</TrackType>
+                                <angleJerkRatio>0.25</angleJerkRatio>
+                                <isInGluing>false</isInGluing>
+                                <isInMoveGroup>false</isInMoveGroup>
+                                <jerkRatio>0.25</jerkRatio>
+                            </Attribute>
+                            <Condition ConditionType="Waypoint" ConditionAlias="v1s1right_p1" ConditionUuid="c178ca8ca31949f3acd358c5fddf898e">
+                                <Attribute>
+                                    <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                                    <FixedPoint>0.745225,-0.094349,0.249567,0.167227,-0.256018,-0.868015,0.391204,-3.447172,0.375456,-1.954332,-0.333222,-2.365449,-1.121822</FixedPoint>
+                                </Attribute>
+                            </Condition>
+                            <Condition ConditionType="Waypoint" ConditionAlias="v1s1right_p2" ConditionUuid="e868db465d454284b64c3fee2ee237a8">
+                                <Attribute>
+                                    <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                                    <FixedPoint>0.745205,-0.096539,0.249666,0.167226,-0.256015,-0.868018,0.391200,-3.449905,0.375595,-1.954433,-0.336010,-2.366568,-1.125391</FixedPoint>
+                                </Attribute>
+                            </Condition>
+                            <Condition ConditionType="Waypoint" ConditionAlias="v1s1right_p3" ConditionUuid="7b7b6ca9fbd24b76b96ffd2bf20eb1c3">
+                                <Attribute>
+                                    <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                                    <FixedPoint>0.745283,-0.099147,0.249174,0.167229,-0.256019,-0.868017,0.391197,-3.453115,0.376600,-1.954650,-0.340217,-2.367873,-1.129569</FixedPoint>
+                                </Attribute>
+                            </Condition>
+                        </Condition>
+                    </Condition>
+                    <Condition ConditionType="Move" ConditionAlias="Move_Duga_p1_oper" ConditionUuid="d6c8c908893041f2bd0fa31da9cf45b1">
+                        <Attribute>
+                            <MoveConditionMode>MoveLine</MoveConditionMode>
+                            <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                            <ArrivalAheadType>None</ArrivalAheadType>
+                            <EnableArrivalAhead>false</EnableArrivalAhead>
+                            <EnableOffset>true</EnableOffset>
+                            <EndAngleAcc>50</EndAngleAcc>
+                            <EndAngleSpeed>50</EndAngleSpeed>
+                            <EndLinearAcc>40</EndLinearAcc>
+                            <EndLinearSpeed>70</EndLinearSpeed>
+                            <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                            <OffsetCoordType>UserCoord</OffsetCoordType>
+                            <OffsetRX>0</OffsetRX>
+                            <OffsetRY>0</OffsetRY>
+                            <OffsetRZ>0</OffsetRZ>
+                            <OffsetX>(M)faskaR245h / 1000</OffsetX>
+                            <OffsetY>(M)faskaR252h / -1000  </OffsetY>
+                            <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR264h ) / 1000      </OffsetZ>
+                            <angleJerkRatio>0.25</angleJerkRatio>
+                            <isInGluing>false</isInGluing>
+                            <isInMoveGroup>false</isInMoveGroup>
+                            <jerkRatio>0.25</jerkRatio>
+                        </Attribute>
+                        <Condition ConditionType="Waypoint" ConditionAlias="v1s1right_p1" ConditionUuid="954162b5cdff489a93e3d3f05016d641">
+                            <Attribute>
+                                <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                                <FixedPoint>0.745225,-0.094349,0.249567,0.167227,-0.256018,-0.868015,0.391204,-3.447172,0.375456,-1.954332,-0.333222,-2.365449,-1.121822</FixedPoint>
+                            </Attribute>
+                        </Condition>
+                    </Condition>
+                    <Condition ConditionType="Script" ConditionAlias="sendCoordToSCADA" ConditionUuid="445ba0686c544a85815ad43f7a433d55">
+                        <Attribute>
+                            <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                            <MD5>f0e2fa47c05a05512147b6af6adb72a3</MD5>
+                            <ScriptFileName>sendCoordToSCADA</ScriptFileName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="If" ConditionAlias="If_naladka" ConditionUuid="d5055c902ec046659eb2face59ca18af">
+                        <Attribute>
+                            <Exp>(M)manSc_c1B3h == 1 and (M)manSc_c1B4h == 1</Exp>
+                        </Attribute>
+                        <Condition ConditionType="Loop" ConditionAlias="Loop_nextStep" ConditionUuid="4bcfb6d5be874bdaae132c911ea29f01">
+                            <Attribute>
+                                <LoopConditionMode>Exp</LoopConditionMode>
+                                <LoopConditionExp>(M)manSc_c1B5h == 0</LoopConditionExp>
+                            </Attribute>
+                            <Condition ConditionType="Move" ConditionAlias="Move_Duga_p1_operCor" ConditionUuid="2b3e7625448240d49592d487162ef904">
+                                <Attribute>
+                                    <MoveConditionMode>MoveLine</MoveConditionMode>
+                                    <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                                    <ArrivalAheadType>None</ArrivalAheadType>
+                                    <EnableArrivalAhead>false</EnableArrivalAhead>
+                                    <EnableOffset>true</EnableOffset>
+                                    <EndAngleAcc>50</EndAngleAcc>
+                                    <EndAngleSpeed>50</EndAngleSpeed>
+                                    <EndLinearAcc>30</EndLinearAcc>
+                                    <EndLinearSpeed>50</EndLinearSpeed>
+                                    <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                                    <OffsetCoordType>UserCoord</OffsetCoordType>
+                                    <OffsetRX>0</OffsetRX>
+                                    <OffsetRY>0</OffsetRY>
+                                    <OffsetRZ>0</OffsetRZ>
+                                    <OffsetX>(M)faskaR245h / 1000 + ( (M)M_F_faskaR270h / 1000 )   </OffsetX>
+                                    <OffsetY>(M)faskaR252h / -1000 + ( (M)M_F_faskaR272h / 1000 )    </OffsetY>
+                                    <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR264h ) / 1000 + ( (M)M_F_faskaR274h / 1000 )   </OffsetZ>
+                                    <angleJerkRatio>0.25</angleJerkRatio>
+                                    <isInGluing>false</isInGluing>
+                                    <isInMoveGroup>false</isInMoveGroup>
+                                    <jerkRatio>0.25</jerkRatio>
+                                </Attribute>
+                                <Condition ConditionType="Waypoint" ConditionAlias="v1s1right_p1" ConditionUuid="b9e1533e250143f587818258db6dbb9d">
+                                    <Attribute>
+                                        <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                                        <FixedPoint>0.745225,-0.094349,0.249567,0.167227,-0.256018,-0.868015,0.391204,-3.447172,0.375456,-1.954332,-0.333222,-2.365449,-1.121822</FixedPoint>
+                                    </Attribute>
+                                </Condition>
+                            </Condition>
+                            <Condition ConditionType="Wait" ConditionAlias="Wait_03" ConditionUuid="d03a703ed1784fa5a1537ebe6df56806">
+                                <Attribute>
+                                    <WaitConditionMode>Time</WaitConditionMode>
+                                    <WaitTime>0.3</WaitTime>
+                                </Attribute>
+                            </Condition>
+                        </Condition>
+                    </Condition>
+                    <Condition ConditionType="Set" ConditionAlias="Set_decCntZuby" ConditionUuid="33d91cf7056e4bebae1277a5542e0740">
+                        <Attribute>
+                            <SetConditionMode>Variable</SetConditionMode>
+                            <VarAssignmentExp>V_I_localCnt - 1</VarAssignmentExp>
+                            <VarName>V_I_localCnt</VarName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="If" ConditionAlias="If_end" ConditionUuid="be7cba21c4234b03896062c9175140b2">
+                        <Attribute>
+                            <Exp>V_I_localCnt == 0  </Exp>
+                        </Attribute>
+                        <Condition ConditionType="Break" ConditionAlias="Break" ConditionUuid="318cd1d0fa144bfcaaf5a4508a7d7d21">
+                            <Attribute/>
+                        </Condition>
+                    </Condition>
+                    <Condition ConditionType="Script" ConditionAlias="servoPosRelSide" ConditionUuid="7ec54fea8c86452c81ae35d3949bdf4a">
+                        <Attribute>
+                            <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                            <MD5>81d8f80e8a7bff6314c2268ef2eeabda</MD5>
+                            <ScriptFileName>servoPosRelSide</ScriptFileName>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Procedure" ConditionAlias="SpindelStop" ConditionUuid="205cb2ba128d4927aac30ded9200b6ce">
+                    <Attribute>
+                        <MD5>0880388d98624e689ad67d2154194b12</MD5>
+                        <ProcedureName>SpindelStop</ProcedureName>
+                    </Attribute>
+                    <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber3" ConditionUuid="f73aa8f577b94833bbd8ea73790a5a7d">
+                        <Attribute>
+                            <SetConditionMode>Variable</SetConditionMode>
+                            <VarAssignmentExp>3</VarAssignmentExp>
+                            <VarName>V_I_DIOnumber</VarName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Set" ConditionAlias="Set_stateFalse" ConditionUuid="fce0cc505b9b40b994eefb068844aaa7">
+                        <Attribute>
+                            <SetConditionMode>Variable</SetConditionMode>
+                            <VarAssignmentExp>false</VarAssignmentExp>
+                            <VarName>V_B_mk311DOstate</VarName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Line_Comment" ConditionAlias="stopSpindelCommand" ConditionUuid="348e446fb6f04beaaa45936300b4d9dd">
+                        <Attribute>
+                            <CommentContent>1</CommentContent>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="1b50720c6fba426ca71d6e4616cf87cf">
+                        <Attribute>
+                            <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                            <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                            <ScriptFileName>set_mk311DO</ScriptFileName>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Procedure" ConditionAlias="AspiraciyaOff" ConditionUuid="90979601b7c4496bbe7201ebe94fff2e">
+                    <Attribute>
+                        <MD5>ace95166835be7358ee3e6e784b14298</MD5>
+                        <ProcedureName>AspiraciyaOff</ProcedureName>
+                    </Attribute>
+                    <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber6" ConditionUuid="fb8b1580e8cc49e792870976930f9dad">
+                        <Attribute>
+                            <SetConditionMode>Variable</SetConditionMode>
+                            <VarAssignmentExp>6</VarAssignmentExp>
+                            <VarName>V_I_DIOnumber</VarName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Set" ConditionAlias="Set_stateFalse" ConditionUuid="f319e87214dc41fcacf69c937b429372">
+                        <Attribute>
+                            <SetConditionMode>Variable</SetConditionMode>
+                            <VarAssignmentExp>false</VarAssignmentExp>
+                            <VarName>V_B_mk311DOstate</VarName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="3f56efbd4700400cbf186b1b367970a7">
+                        <Attribute>
+                            <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                            <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                            <ScriptFileName>set_mk311DO</ScriptFileName>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_Duga_p1_safty" ConditionUuid="1cd0178a4ef343d89f0f1574fa24b195">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>40</EndLinearAcc>
+                        <EndLinearSpeed>70</EndLinearSpeed>
+                        <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>(M)faskaR24Dh / 1000</OffsetX>
+                        <OffsetY>(M)faskaR252h / -1000</OffsetY>
+                        <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR264h ) / 1000      </OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="v1s1right_p1" ConditionUuid="27adcacd9acb4198ad0e03d17eb168eb">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.745225,-0.094349,0.249567,0.167227,-0.256018,-0.868015,0.391204,-3.447172,0.375456,-1.954332,-0.333222,-2.365449,-1.121822</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_initDrilDisk0" ConditionUuid="eebd396e53ee45c7afc761dfcb46b829">
+                    <Attribute>
+                        <MoveConditionMode>MoveJoint</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <JointAcc>35,35,35,35,35,35</JointAcc>
+                        <JointSpeed>60,60,60,60,60,60</JointSpeed>
+                        <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>(M)faskaR24Ch / 1000 - 0.2</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>0</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="Waypoint_V_P_drillDisk" ConditionUuid="d9eedbdae868442785007afe74b0276c">
+                        <Attribute>
+                            <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                            <VarPoint>V_P_drillDisk</VarPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="If" ConditionAlias="If_ven1St1_vershina" ConditionUuid="ecc86a72795a46a7a8c34c383d2a35aa">
+            <Attribute>
+                <Exp>( (M)faskaR27Ch == 1 or (M)faskaR27Ch == 3 ) and (M)manSc_c1BAh == 0</Exp>
+            </Attribute>
+            <Condition ConditionType="If" ConditionAlias="tochka_vershina" ConditionUuid="f69d780cbb484460b5a1e358376adc6c">
+                <Attribute>
+                    <Exp>false</Exp>
+                </Attribute>
+                <Condition ConditionType="Move" ConditionAlias="Move_vershina" ConditionUuid="b9090f9dda7f40bfaf44f40ec60a28c1">
+                    <Attribute>
+                        <MoveConditionMode>MoveJoint</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>false</EnableOffset>
+                        <JointAcc>50,50,50,50,50,50</JointAcc>
+                        <JointSpeed>50,50,50,50,50,50</JointSpeed>
+                        <OffsetCoordName></OffsetCoordName>
+                        <OffsetCoordType>BaseCoord</OffsetCoordType>
+                        <OffsetRX></OffsetRX>
+                        <OffsetRY></OffsetRY>
+                        <OffsetRZ></OffsetRZ>
+                        <OffsetX></OffsetX>
+                        <OffsetY></OffsetY>
+                        <OffsetZ></OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="v1s1_vershina" ConditionUuid="f35f8c8bbede4706a8c07084428dc7a7">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.907983,-0.433203,0.251441,0.271962,0.650826,-0.655353,-0.270137,-3.749774,0.725048,-1.301877,0.232494,-1.987257,-3.591594</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+            </Condition>
+            <Condition ConditionType="If" ConditionAlias="If_net_izmereniyaZ" ConditionUuid="78a5f3cb7d6a414fbf03e08cf8efe64a">
+                <Attribute>
+                    <Exp>(M)detec_c11Bh == 0</Exp>
+                </Attribute>
+                <Condition ConditionType="Message" ConditionAlias="Message" ConditionUuid="df95b8c0e9464a1cbef46a39ace9ffcc">
+                    <Attribute>
+                        <EnableStopProgramRunningWhenMessagePopsUp>true</EnableStopProgramRunningWhenMessagePopsUp>
+                        <MessageContent>torec ne izmeren</MessageContent>
+                        <MessageType>Information</MessageType>
+                    </Attribute>
+                </Condition>
+            </Condition>
+            <Condition ConditionType="If" ConditionAlias="If_offsetBig" ConditionUuid="226eb6b12c1b47f4a2af5ae62a99fcfb">
+                <Attribute>
+                    <Exp>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const  ) &gt; 0.8 or ( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const  ) &lt; -0.8    </Exp>
+                </Attribute>
+                <Condition ConditionType="Message" ConditionAlias="Message" ConditionUuid="e824aac7afe64990aa77d736a17591b4">
+                    <Attribute>
+                        <EnableStopProgramRunningWhenMessagePopsUp>true</EnableStopProgramRunningWhenMessagePopsUp>
+                        <MessageContent>slishkom bol`shoe smeshenie</MessageContent>
+                        <MessageType>Information</MessageType>
+                    </Attribute>
+                </Condition>
+            </Condition>
+            <Condition ConditionType="Block_Comment" ConditionAlias="Block_ven1St1Vershin" ConditionUuid="b1f5040902ba4ea39ebbda3bffd14d91">
+                <Attribute>
+                    <CommentContent>Vershina zuba Venec1 Storona1</CommentContent>
+                </Attribute>
+                <Condition ConditionType="Script" ConditionAlias="srvPosAbsLeftZub" ConditionUuid="8c3853b9ee294e768b608c9720f366fb">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>2ba17a22d06cb421d746e66aa5bd5e64</MD5>
+                        <ScriptFileName>srvPosAbsLeftZub</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_initDrilDisk180" ConditionUuid="73fab0c888a44a639592aff5a422e2e1">
+                    <Attribute>
+                        <MoveConditionMode>MoveJoint</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <JointAcc>35,35,35,35,35,35</JointAcc>
+                        <JointSpeed>60,60,60,60,60,60</JointSpeed>
+                        <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>(M)faskaR24Ch / 1000 - 0.2</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>0</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="Waypoint_V_P_drillDisk180" ConditionUuid="c326e26442a44b208723dde3d0a16f87">
+                        <Attribute>
+                            <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                            <VarPoint>V_P_drillDisk180</VarPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="sendCoordToSCADA" ConditionUuid="e1e545e65f4749029a5f89dcbf416e30">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>f0e2fa47c05a05512147b6af6adb72a3</MD5>
+                        <ScriptFileName>sendCoordToSCADA</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_glavUgolX" ConditionUuid="494995f6401249cc84d6f64c75aabab4">
+                    <Attribute>
+                        <MoveConditionMode>MoveJoint</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <JointAcc>30,30,30,30,30,30</JointAcc>
+                        <JointSpeed>50,50,50,50,50,50</JointSpeed>
+                        <OffsetCoordName>drillDisc</OffsetCoordName>
+                        <OffsetCoordType>ToolCoord</OffsetCoordType>
+                        <OffsetRX>-45</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>0</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>0</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="Realtime_Waypoint" ConditionUuid="5eaa97259128435b88b71c65f7599a2f">
+                        <Attribute>
+                            <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                            <VarPoint>Realtime_Waypoint</VarPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="sendCoordToSCADA" ConditionUuid="aae21773ea544aebb9c3ad1305f71fb6">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>f0e2fa47c05a05512147b6af6adb72a3</MD5>
+                        <ScriptFileName>sendCoordToSCADA</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="If" ConditionAlias="If_naladka" ConditionUuid="42264ac6eec7450f93c5a53dd541cddd">
+                    <Attribute>
+                        <Exp>(M)manSc_c1B3h == 1 and (M)manSc_c1B4h == 1</Exp>
+                    </Attribute>
+                    <Condition ConditionType="Wait" ConditionAlias="Wait_nextStep" ConditionUuid="1f12f0b957f64a3c9faa69b60b7ed53e">
+                        <Attribute>
+                            <WaitConditionMode>Exp</WaitConditionMode>
+                            <WaitConditionExp>(M)manSc_c1B5h == 1</WaitConditionExp>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_vershina_safty" ConditionUuid="35a61d4eab7a4994ac597fc196691072">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>35</EndLinearAcc>
+                        <EndLinearSpeed>70</EndLinearSpeed>
+                        <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>(M)faskaR24Dh / 1000</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR280h  ) / 1000      </OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="v1s1_vershina" ConditionUuid="8785afad703c4d9090d86c1f9a299a01">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.907983,-0.433203,0.251441,0.271962,0.650826,-0.655353,-0.270137,-3.749774,0.725048,-1.301877,0.232494,-1.987257,-3.591594</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="sendCoordToSCADA" ConditionUuid="074ca9a1b3164528ae61c850acadb6b6">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>f0e2fa47c05a05512147b6af6adb72a3</MD5>
+                        <ScriptFileName>sendCoordToSCADA</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="If" ConditionAlias="If_naladka" ConditionUuid="8ff01185da4d4cc2841f32f35a9a506d">
+                    <Attribute>
+                        <Exp>(M)manSc_c1B3h == 1 and (M)manSc_c1B4h == 1</Exp>
+                    </Attribute>
+                    <Condition ConditionType="Loop" ConditionAlias="Loop_nextStep" ConditionUuid="341451208447417cb0199d787e1b2d05">
+                        <Attribute>
+                            <LoopConditionMode>Exp</LoopConditionMode>
+                            <LoopConditionExp>(M)manSc_c1B5h == 0</LoopConditionExp>
+                        </Attribute>
+                        <Condition ConditionType="Move" ConditionAlias="Move_vershin_saftyCr" ConditionUuid="986304f2ead345319bf503599c0fb959">
+                            <Attribute>
+                                <MoveConditionMode>MoveLine</MoveConditionMode>
+                                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                                <ArrivalAheadType>None</ArrivalAheadType>
+                                <EnableArrivalAhead>false</EnableArrivalAhead>
+                                <EnableOffset>true</EnableOffset>
+                                <EndAngleAcc>50</EndAngleAcc>
+                                <EndAngleSpeed>50</EndAngleSpeed>
+                                <EndLinearAcc>30</EndLinearAcc>
+                                <EndLinearSpeed>50</EndLinearSpeed>
+                                <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                                <OffsetCoordType>UserCoord</OffsetCoordType>
+                                <OffsetRX>0</OffsetRX>
+                                <OffsetRY>0</OffsetRY>
+                                <OffsetRZ>0</OffsetRZ>
+                                <OffsetX>(M)faskaR24Dh / 1000 + ( (M)M_F_faskaR270h / 1000 )  </OffsetX>
+                                <OffsetY>( (M)M_F_faskaR272h / 1000 )   </OffsetY>
+                                <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR280h ) / 1000 + ( (M)M_F_faskaR274h / 1000 )  </OffsetZ>
+                                <angleJerkRatio>0.25</angleJerkRatio>
+                                <isInGluing>false</isInGluing>
+                                <isInMoveGroup>false</isInMoveGroup>
+                                <jerkRatio>0.25</jerkRatio>
+                            </Attribute>
+                            <Condition ConditionType="Waypoint" ConditionAlias="v1s1_vershina" ConditionUuid="45732c517b4b4c42a481bd32af6199f4">
+                                <Attribute>
+                                    <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                                    <FixedPoint>0.907983,-0.433203,0.251441,0.271962,0.650826,-0.655353,-0.270137,-3.749774,0.725048,-1.301877,0.232494,-1.987257,-3.591594</FixedPoint>
+                                </Attribute>
+                            </Condition>
+                        </Condition>
+                        <Condition ConditionType="Wait" ConditionAlias="Wait_03" ConditionUuid="03dc1b8e2a5f4e8baa5e19c798f7a6ac">
+                            <Attribute>
+                                <WaitConditionMode>Time</WaitConditionMode>
+                                <WaitTime>0.3</WaitTime>
+                            </Attribute>
+                        </Condition>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_vershina_oper" ConditionUuid="45375005a7734c2697f7c1113bc7fca3">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>30</EndLinearAcc>
+                        <EndLinearSpeed>50</EndLinearSpeed>
+                        <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>(M)faskaR245h / 1000</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR280h  ) / 1000      </OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="v1s1_vershina" ConditionUuid="922d06e9cd3142118dea254c097ceebd">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.907983,-0.433203,0.251441,0.271962,0.650826,-0.655353,-0.270137,-3.749774,0.725048,-1.301877,0.232494,-1.987257,-3.591594</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="sendCoordToSCADA" ConditionUuid="f4be238e821b48038999d6dee05265fa">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>f0e2fa47c05a05512147b6af6adb72a3</MD5>
+                        <ScriptFileName>sendCoordToSCADA</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="If" ConditionAlias="If_spindelOn" ConditionUuid="111338ba1e2c4f6e85f2491e4701e9d6">
+                    <Attribute>
+                        <Exp>(M)manSc_c1B4h == 0</Exp>
+                    </Attribute>
+                    <Condition ConditionType="Procedure" ConditionAlias="SpindelStart" ConditionUuid="9b0dec6c1ff9468ab31b544949cbb5e5">
+                        <Attribute>
+                            <MD5>ec54e454426d0253217489d7dbda51f6</MD5>
+                            <ProcedureName>SpindelStart</ProcedureName>
+                        </Attribute>
+                        <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber3" ConditionUuid="1ed7ef953d5040c3ba275d062f7f27d2">
+                            <Attribute>
+                                <SetConditionMode>Variable</SetConditionMode>
+                                <VarAssignmentExp>3</VarAssignmentExp>
+                                <VarName>V_I_DIOnumber</VarName>
+                            </Attribute>
+                        </Condition>
+                        <Condition ConditionType="Loop" ConditionAlias="Loop_always" ConditionUuid="1741751106ec41aeba9496295530fc38">
+                            <Attribute>
+                                <LoopConditionMode>Always</LoopConditionMode>
+                            </Attribute>
+                            <Condition ConditionType="Script" ConditionAlias="check_mk312DO" ConditionUuid="d25e9617bd2e43b09939fcb09213ef2a">
+                                <Attribute>
+                                    <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                                    <MD5>f5d33240a2ac0ce4834bb1c9dc3396bb</MD5>
+                                    <ScriptFileName>check_mk312DO</ScriptFileName>
+                                </Attribute>
+                            </Condition>
+                            <Condition ConditionType="If" ConditionAlias="If" ConditionUuid="dcb7adff1e3a4d81ac1a91e3b17ca904">
+                                <Attribute>
+                                    <Exp>V_B_mk312DOstate == false</Exp>
+                                </Attribute>
+                                <Condition ConditionType="Break" ConditionAlias="Break" ConditionUuid="cfac281b69694072876150b53e25291f">
+                                    <Attribute/>
+                                </Condition>
+                            </Condition>
+                            <Condition ConditionType="Message" ConditionAlias="Message" ConditionUuid="0d6223e002d74663b7c499beea92be13">
+                                <Attribute>
+                                    <EnableStopProgramRunningWhenMessagePopsUp>false</EnableStopProgramRunningWhenMessagePopsUp>
+                                    <MessageContent>запуск шпинделя невозможен - пневмозамок адаптера активен</MessageContent>
+                                    <MessageType>Information</MessageType>
+                                </Attribute>
+                            </Condition>
+                        </Condition>
+                        <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber3" ConditionUuid="23413b0253884622be8a5970eb59a69d">
+                            <Attribute>
+                                <SetConditionMode>Variable</SetConditionMode>
+                                <VarAssignmentExp>3</VarAssignmentExp>
+                                <VarName>V_I_DIOnumber</VarName>
+                            </Attribute>
+                        </Condition>
+                        <Condition ConditionType="Set" ConditionAlias="Set_stateTrue" ConditionUuid="ee688cd3038940c29a5977161d7a48c2">
+                            <Attribute>
+                                <SetConditionMode>Variable</SetConditionMode>
+                                <VarAssignmentExp>true</VarAssignmentExp>
+                                <VarName>V_B_mk311DOstate</VarName>
+                            </Attribute>
+                        </Condition>
+                        <Condition ConditionType="Line_Comment" ConditionAlias="startSpindelCommand" ConditionUuid="5ad96f9387ba456a890c3a66958f798c">
+                            <Attribute>
+                                <CommentContent>1</CommentContent>
+                            </Attribute>
+                        </Condition>
+                        <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="fcdae51c451d4f87905ad787d931627c">
+                            <Attribute>
+                                <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                                <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                                <ScriptFileName>set_mk311DO</ScriptFileName>
+                            </Attribute>
+                        </Condition>
+                    </Condition>
+                    <Condition ConditionType="If" ConditionAlias="If_aspiraciya" ConditionUuid="047c76baa9154fe1a546fcf05fd39920">
+                        <Attribute>
+                            <Exp>(M)globalC170h == 1</Exp>
+                        </Attribute>
+                        <Condition ConditionType="Procedure" ConditionAlias="AspiraciyaOn" ConditionUuid="de59c87a277c473eb22eada3b3588d03">
+                            <Attribute>
+                                <MD5>a8d0a95c082dc2d4f0b242803145aa1b</MD5>
+                                <ProcedureName>AspiraciyaOn</ProcedureName>
+                            </Attribute>
+                            <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber6" ConditionUuid="b83b567a7a5542bbbfecf1cc0224978b">
+                                <Attribute>
+                                    <SetConditionMode>Variable</SetConditionMode>
+                                    <VarAssignmentExp>6</VarAssignmentExp>
+                                    <VarName>V_I_DIOnumber</VarName>
+                                </Attribute>
+                            </Condition>
+                            <Condition ConditionType="Set" ConditionAlias="Set_stateTrue" ConditionUuid="1b8bf4b52e4543ef9eaaa6bf8d177cb8">
+                                <Attribute>
+                                    <SetConditionMode>Variable</SetConditionMode>
+                                    <VarAssignmentExp>true</VarAssignmentExp>
+                                    <VarName>V_B_mk311DOstate</VarName>
+                                </Attribute>
+                            </Condition>
+                            <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="00494d4be28f41c3a75b0eb4ae4e7a17">
+                                <Attribute>
+                                    <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                                    <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                                    <ScriptFileName>set_mk311DO</ScriptFileName>
+                                </Attribute>
+                            </Condition>
+                        </Condition>
+                    </Condition>
+                    <Condition ConditionType="Wait" ConditionAlias="Wait_08s" ConditionUuid="39826dddf3fe411793f9fbf5c1bcda00">
+                        <Attribute>
+                            <WaitConditionMode>Time</WaitConditionMode>
+                            <WaitTime>1.2</WaitTime>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="If" ConditionAlias="If_naladka" ConditionUuid="cc05ef85c642407eb718f363a59e17df">
+                    <Attribute>
+                        <Exp>(M)manSc_c1B3h == 1 and (M)manSc_c1B4h == 1</Exp>
+                    </Attribute>
+                    <Condition ConditionType="Loop" ConditionAlias="Loop_nextStep" ConditionUuid="5c4d0aa416584c49bccc5de7f3486252">
+                        <Attribute>
+                            <LoopConditionMode>Exp</LoopConditionMode>
+                            <LoopConditionExp>(M)manSc_c1B5h == 0</LoopConditionExp>
+                        </Attribute>
+                        <Condition ConditionType="Move" ConditionAlias="Move_vershin_operCor" ConditionUuid="bafd5b3de83146e59dcf8d52855c04b5">
+                            <Attribute>
+                                <MoveConditionMode>MoveLine</MoveConditionMode>
+                                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                                <ArrivalAheadType>None</ArrivalAheadType>
+                                <EnableArrivalAhead>false</EnableArrivalAhead>
+                                <EnableOffset>true</EnableOffset>
+                                <EndAngleAcc>50</EndAngleAcc>
+                                <EndAngleSpeed>50</EndAngleSpeed>
+                                <EndLinearAcc>30</EndLinearAcc>
+                                <EndLinearSpeed>50</EndLinearSpeed>
+                                <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                                <OffsetCoordType>UserCoord</OffsetCoordType>
+                                <OffsetRX>0</OffsetRX>
+                                <OffsetRY>0</OffsetRY>
+                                <OffsetRZ>0</OffsetRZ>
+                                <OffsetX>(M)faskaR245h / 1000 + ( (M)M_F_faskaR270h / 1000 )   </OffsetX>
+                                <OffsetY>( (M)M_F_faskaR272h / 1000 )    </OffsetY>
+                                <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR280h ) / 1000 + ( (M)M_F_faskaR274h / 1000 )   </OffsetZ>
+                                <angleJerkRatio>0.25</angleJerkRatio>
+                                <isInGluing>false</isInGluing>
+                                <isInMoveGroup>false</isInMoveGroup>
+                                <jerkRatio>0.25</jerkRatio>
+                            </Attribute>
+                            <Condition ConditionType="Waypoint" ConditionAlias="v1s1_vershina" ConditionUuid="c57f8257abdf42a5a768f8cdbd07490c">
+                                <Attribute>
+                                    <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                                    <FixedPoint>0.907983,-0.433203,0.251441,0.271962,0.650826,-0.655353,-0.270137,-3.749774,0.725048,-1.301877,0.232494,-1.987257,-3.591594</FixedPoint>
+                                </Attribute>
+                            </Condition>
+                        </Condition>
+                        <Condition ConditionType="Wait" ConditionAlias="Wait_03" ConditionUuid="6dea8db3beb842ee8c94d5287550f695">
+                            <Attribute>
+                                <WaitConditionMode>Time</WaitConditionMode>
+                                <WaitTime>0.3</WaitTime>
+                            </Attribute>
+                        </Condition>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_vershina" ConditionUuid="d547be1daf124525a21a8bb5fc0d12be">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>10</EndLinearAcc>
+                        <EndLinearSpeed>20</EndLinearSpeed>
+                        <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>0</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR280h  ) / 1000      </OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="v1s1_vershina" ConditionUuid="66aca80ec2264929a3ea446e8da80c67">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.907983,-0.433203,0.251441,0.271962,0.650826,-0.655353,-0.270137,-3.749774,0.725048,-1.301877,0.232494,-1.987257,-3.591594</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="sendCoordToSCADA" ConditionUuid="95d16708a03a4294a4b0efb3163fe884">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>f0e2fa47c05a05512147b6af6adb72a3</MD5>
+                        <ScriptFileName>sendCoordToSCADA</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="servoPosRelSideD" ConditionUuid="7040ac8116344efbb5213019f0c7d62a">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>72c991eca6b76d52104ebf04f27d3d79</MD5>
+                        <ScriptFileName>servoPosRelSideD</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_vershina_oper" ConditionUuid="cc484ec4148d438b8aab8b6523a53715">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>40</EndLinearAcc>
+                        <EndLinearSpeed>70</EndLinearSpeed>
+                        <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>(M)faskaR245h / 1000</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR280h  ) / 1000      </OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="v1s1_vershina" ConditionUuid="57d1bdd9cbbf48f598fa2dd00a37eb0c">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.907983,-0.433203,0.251441,0.271962,0.650826,-0.655353,-0.270137,-3.749774,0.725048,-1.301877,0.232494,-1.987257,-3.591594</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Procedure" ConditionAlias="SpindelStop" ConditionUuid="09099c14b99d44ce810c00390b792921">
+                    <Attribute>
+                        <MD5>0880388d98624e689ad67d2154194b12</MD5>
+                        <ProcedureName>SpindelStop</ProcedureName>
+                    </Attribute>
+                    <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber3" ConditionUuid="3797c09d618a4829b96908fcbd8a2a8f">
+                        <Attribute>
+                            <SetConditionMode>Variable</SetConditionMode>
+                            <VarAssignmentExp>3</VarAssignmentExp>
+                            <VarName>V_I_DIOnumber</VarName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Set" ConditionAlias="Set_stateFalse" ConditionUuid="4a5cbd86a3bd4528b958bc878e705738">
+                        <Attribute>
+                            <SetConditionMode>Variable</SetConditionMode>
+                            <VarAssignmentExp>false</VarAssignmentExp>
+                            <VarName>V_B_mk311DOstate</VarName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Line_Comment" ConditionAlias="stopSpindelCommand" ConditionUuid="1bc8d913ed7a42ab93e09c8344eac444">
+                        <Attribute>
+                            <CommentContent>1</CommentContent>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="cb2c077d8876440a839d4ea667d2d342">
+                        <Attribute>
+                            <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                            <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                            <ScriptFileName>set_mk311DO</ScriptFileName>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Procedure" ConditionAlias="AspiraciyaOff" ConditionUuid="2837501e1ee745a8a1ffc4ea0c61747a">
+                    <Attribute>
+                        <MD5>ace95166835be7358ee3e6e784b14298</MD5>
+                        <ProcedureName>AspiraciyaOff</ProcedureName>
+                    </Attribute>
+                    <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber6" ConditionUuid="83341d4faee440dbadbb45b3a7289d7e">
+                        <Attribute>
+                            <SetConditionMode>Variable</SetConditionMode>
+                            <VarAssignmentExp>6</VarAssignmentExp>
+                            <VarName>V_I_DIOnumber</VarName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Set" ConditionAlias="Set_stateFalse" ConditionUuid="40ac771a2a1045d28e2e286a46a97198">
+                        <Attribute>
+                            <SetConditionMode>Variable</SetConditionMode>
+                            <VarAssignmentExp>false</VarAssignmentExp>
+                            <VarName>V_B_mk311DOstate</VarName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="72d361bfa61b4fd2a39e08cba31e7812">
+                        <Attribute>
+                            <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                            <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                            <ScriptFileName>set_mk311DO</ScriptFileName>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_vershina_safty" ConditionUuid="b9ca2ec73f0c4a8c9bb851464bc10025">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>40</EndLinearAcc>
+                        <EndLinearSpeed>70</EndLinearSpeed>
+                        <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>(M)faskaR24Dh / 1000</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>( V_D_v1s1_Ztorca - V_D_sat4_v1s1_const + (M)M_F_faskaR280h  ) / 1000      </OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="v1s1_vershina" ConditionUuid="7db94a1c7efa408cbecfe2a058bb8b0c">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.907983,-0.433203,0.251441,0.271962,0.650826,-0.655353,-0.270137,-3.749774,0.725048,-1.301877,0.232494,-1.987257,-3.591594</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_initDrilDisk180" ConditionUuid="0f9ee8e45af740a7827597b73d347130">
+                    <Attribute>
+                        <MoveConditionMode>MoveJoint</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <JointAcc>35,35,35,35,35,35</JointAcc>
+                        <JointSpeed>60,60,60,60,60,60</JointSpeed>
+                        <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>(M)faskaR24Ch / 1000 - 0.2</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>0</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="Waypoint_V_P_drillDisk180" ConditionUuid="0f1ac27f3a404bf68ec9934793257c88">
+                        <Attribute>
+                            <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                            <VarPoint>V_P_drillDisk180</VarPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Set" ConditionAlias="Set_zeroPUU" ConditionUuid="9ee58ae501e94e39bc6a8304ef52e68f">
+            <Attribute>
+                <SetConditionMode>IO</SetConditionMode>
+                <IOCategory>Modbus</IOCategory>
+                <IOName>50E_PR</IOName>
+                <IOValue>3</IOValue>
+                <ModbusIOType>ModbusAO</ModbusIOType>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Wait" ConditionAlias="Wait_PR3" ConditionUuid="34e4cef503ae4453a326d2718ffbec1b">
+            <Attribute>
+                <WaitConditionMode>Exp</WaitConditionMode>
+                <WaitConditionExp>(M)50E_PR == 20003</WaitConditionExp>
+            </Attribute>
+        </Condition>
+    </Condition>
+</ProcedureProgram>

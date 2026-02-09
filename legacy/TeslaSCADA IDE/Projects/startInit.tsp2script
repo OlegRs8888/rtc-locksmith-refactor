@@ -1,0 +1,20 @@
+<script name="startInit" color="0xd3d3d3ff" type="1" windowheight="1900" windowwidth="1200" groupname="" subgroupname="" language="1" everycycle="false" extype="1" runonuithread="true">
+   <objects/>
+   <links/>
+   <sttext>Tags.satSelButtNum = 100;
+Tags.SatSelectNum = 0;</sttext>
+   <opcodes>
+      <opcode type="LOAD_CONST" datatype="4">
+         <value>100</value>
+      </opcode>
+      <opcode type="STORE_TAG" datatype="-1">
+         <value>satSelButtNum</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="4">
+         <value>0</value>
+      </opcode>
+      <opcode type="STORE_TAG" datatype="-1">
+         <value>SatSelectNum</value>
+      </opcode>
+   </opcodes>
+</script>

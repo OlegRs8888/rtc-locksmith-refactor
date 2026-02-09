@@ -1,0 +1,26 @@
+--Procedure Program
+
+--block script function definition
+  function blockScriptFunc_ChecPerChangTool()
+    P106_changeToolPeriod = get_modbus_io_status("globalR197h") -- периодичность замены инструмента; через сколько деталей
+    P106_changeToolPeriod = math.abs(P106_changeToolPeriod) -- нормализация, убираю знак
+    P106_changeToolPeriod = math.floor(P106_changeToolPeriod) -- нормализация, только целая часть
+    totalCounterDetali = get_global_variable("V_I_CntTotalDetali")
+    --print("period zameny instrumenta - "..P106_changeToolPeriod)
+    --print("schetchik detaley - "..totalCounterDetali)
+    if (totalCounterDetali % P106_changeToolPeriod) == 0 then
+        set_global_variable("V_B_poraChangeTool", true)
+    else
+        set_global_variable("V_B_poraChangeTool", false)
+    end
+    --print("1212")
+  end  --function blockScriptFunc_ChecPerChangTool()
+
+--(Logic tree item : Procedure_Program) Procedure_Program
+  --(Logic tree item : Set) Set
+  set_current_logic_tree_item("2c121a59bb26407cbcf930fed4fb4681")
+  set_global_variable("V_I_CntTotalDetali", 4)
+  --(Logic tree item : Script) ChecPerChangTool
+  set_current_logic_tree_item("e75286faed4f4544adadd9d7468be602")
+  blockScriptFunc_ChecPerChangTool()
+  set_step_breakpoint()

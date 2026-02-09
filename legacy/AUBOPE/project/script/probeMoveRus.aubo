@@ -1,0 +1,17 @@
+package.path = "/root/AuboRobotWorkSpace/teachpendant/share/teachpendant/script/?.aubo"
+probe_m = require("probeMove_modul")
+
+probe_m.StartProbe()
+
+--************************Себе для справки*************************************
+-- вызов get_global_variable("V_P_wp1") для переменной типа Pos возвращает
+-- таблицу из 6-ти элементов. Эти элементы - положения Joint1-Joint6 в радианах.
+-- Ниже код, по которому это видно:
+-- wp1 =  get_global_variable("V_P_wp1")
+-- wp2 = get_current_waypoint()
+-- print(#wp1) - выведет 6
+-- print(#wp2) - выведет 0
+-- робот должен стоять в точке wp1
+-- print(string.format("wp[1] = %6.6f", wp1[1]))
+-- print(string.format("Joint1 = %6.6f", wp2.joint.j1))
+-- выведет одинаковые значения, равные положению Joint1 в радианах

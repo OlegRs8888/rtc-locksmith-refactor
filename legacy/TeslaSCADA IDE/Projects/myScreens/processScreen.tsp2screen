@@ -1,0 +1,8 @@
+<window name="processScreen" color="0x748490ff" type="0" windowheight="1900" windowwidth="1200" usepassword="false" password="" groupname="" subgroupname="" posx="-1000" posy="-1000" accesslevel="0">
+   <objects>
+      <objectView class="tesla.scada2.model.objects.ImageObjectView" name="img1" posx="850.0" posy="0.0" width="353.0" height="340.0" angle="0" lock="false" imagebase="" filename="7">
+         <scripts/>
+      </objectView>
+   </objects>
+   <scriptnames/>
+</window>

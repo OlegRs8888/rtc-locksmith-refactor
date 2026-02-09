@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProcedureProgram>
+    <Condition ConditionType="Procedure_Program" ConditionAlias="Procedure_Program" ConditionUuid="ff0128645712420696b5fbcfc13ae0d6">
+        <Attribute/>
+        <Condition ConditionType="Procedure" ConditionAlias="GripClose" ConditionUuid="e2587067e02e42e6b2ef50fdebbd5e4c">
+            <Attribute>
+                <MD5>99742e387619b4a4a23ad06e2842a6ff</MD5>
+                <ProcedureName>GripClose</ProcedureName>
+            </Attribute>
+            <Condition ConditionType="Set" ConditionAlias="Set_PositionFullClos" ConditionUuid="9a177f09f92c4f049ca5d39e2c770150">
+                <Attribute>
+                    <SetConditionMode>IO</SetConditionMode>
+                    <IOCategory>Modbus</IOCategory>
+                    <IOName>Grip_Pos</IOName>
+                    <IOValue>0</IOValue>
+                    <ModbusIOType>ModbusAO</ModbusIOType>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Wait" ConditionAlias="Wait_025s" ConditionUuid="30f19c17db894422a3297a0cb61918c6">
+                <Attribute>
+                    <WaitConditionMode>Time</WaitConditionMode>
+                    <WaitTime>0.25</WaitTime>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber5" ConditionUuid="539c1024f9b248e89549a086819f480f">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>5</VarAssignmentExp>
+                    <VarName>V_I_DIOnumber</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Loop" ConditionAlias="Loop_always" ConditionUuid="81e4aa12774046cdb20af87aec13b12c">
+                <Attribute>
+                    <LoopConditionMode>Always</LoopConditionMode>
+                </Attribute>
+                <Condition ConditionType="Script" ConditionAlias="check_mk311DI" ConditionUuid="9e327c2efc5b472b9a411433fea51d70">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>524d9f6fddd5a142b7c70439285eb24e</MD5>
+                        <ScriptFileName>check_mk311DI</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Wait" ConditionAlias="Wait_025s" ConditionUuid="8cf376b702c4489aa997b848f6cf7b9f">
+                    <Attribute>
+                        <WaitConditionMode>Time</WaitConditionMode>
+                        <WaitTime>0.25</WaitTime>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="If" ConditionAlias="If" ConditionUuid="d20e9053b88f4ae5be1139968fbbf5a1">
+                    <Attribute>
+                        <Exp>V_B_mk311DIstate == true</Exp>
+                    </Attribute>
+                    <Condition ConditionType="Break" ConditionAlias="Break" ConditionUuid="95d985aae1f24eb2ae0cb6ccef8e3246">
+                        <Attribute/>
+                    </Condition>
+                </Condition>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Procedure" ConditionAlias="SatellitUnLock" ConditionUuid="f6207ee467bc4de984d5b4589a86a014">
+            <Attribute>
+                <MD5>b2a57e82b013b1a9d75c8e16dcdd2929</MD5>
+                <ProcedureName>SatellitUnLock</ProcedureName>
+            </Attribute>
+            <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber2" ConditionUuid="5f34c6d96d204128996c2a1c86aeadbb">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>2</VarAssignmentExp>
+                    <VarName>V_I_DIOnumber</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_stateDO312False" ConditionUuid="0e2304ea8ec84b369d6155fd77427ce0">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>false</VarAssignmentExp>
+                    <VarName>V_B_mk312DOstate</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Script" ConditionAlias="set_mk312DO" ConditionUuid="7de45c1373fc46db9ed110db8dd5dc5c">
+                <Attribute>
+                    <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                    <MD5>8d51f8919ddbf1208b94ac32d644a3cd</MD5>
+                    <ScriptFileName>set_mk312DO</ScriptFileName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Wait" ConditionAlias="Wait_025s" ConditionUuid="ce3848b238aa474a92b516ce27efb526">
+                <Attribute>
+                    <WaitConditionMode>Time</WaitConditionMode>
+                    <WaitTime>0.25</WaitTime>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber1" ConditionUuid="9465b484f1484a54b86e71f9de358359">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>1</VarAssignmentExp>
+                    <VarName>V_I_DIOnumber</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_stateDO312True" ConditionUuid="7aaa199408bd45d69c2d956415b57909">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>true</VarAssignmentExp>
+                    <VarName>V_B_mk312DOstate</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Line_Comment" ConditionAlias="PnevmoUnlockCommand" ConditionUuid="9ea047a821224efe838e326ff93a69e1">
+                <Attribute>
+                    <CommentContent>1</CommentContent>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Script" ConditionAlias="set_mk312DO" ConditionUuid="e19ee8a465434326913e382d9a621915">
+                <Attribute>
+                    <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                    <MD5>8d51f8919ddbf1208b94ac32d644a3cd</MD5>
+                    <ScriptFileName>set_mk312DO</ScriptFileName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber6" ConditionUuid="7332d2d82c4e41fbbdd280b86d94834b">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>6</VarAssignmentExp>
+                    <VarName>V_I_DIOnumber</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Loop" ConditionAlias="Loop" ConditionUuid="e6b9860ef51c4fbfac31bcf022b49b0b">
+                <Attribute>
+                    <LoopConditionMode>Always</LoopConditionMode>
+                </Attribute>
+                <Condition ConditionType="Wait" ConditionAlias="Wait_01s" ConditionUuid="647c6ae4820848f4820a7567bb4ca893">
+                    <Attribute>
+                        <WaitConditionMode>Time</WaitConditionMode>
+                        <WaitTime>0.1</WaitTime>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="check_mk311DI" ConditionUuid="3b10fb6f224545cba3a7637bd05ad657">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>524d9f6fddd5a142b7c70439285eb24e</MD5>
+                        <ScriptFileName>check_mk311DI</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="If" ConditionAlias="If" ConditionUuid="6cf1056aed294e1b8e359a514b9ac76a">
+                    <Attribute>
+                        <Exp>V_B_mk311DIstate == true</Exp>
+                    </Attribute>
+                    <Condition ConditionType="Break" ConditionAlias="Break" ConditionUuid="5c0542f64ade4fb997a8bec4435ef3d0">
+                        <Attribute/>
+                    </Condition>
+                </Condition>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Move" ConditionAlias="Move_otUpora" ConditionUuid="2c97fa799b914322b0e0a6b5b67fb113">
+            <Attribute>
+                <MoveConditionMode>MoveLine</MoveConditionMode>
+                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                <ArrivalAheadType>None</ArrivalAheadType>
+                <EnableArrivalAhead>false</EnableArrivalAhead>
+                <EnableOffset>false</EnableOffset>
+                <EndAngleAcc>50</EndAngleAcc>
+                <EndAngleSpeed>50</EndAngleSpeed>
+                <EndLinearAcc>30</EndLinearAcc>
+                <EndLinearSpeed>50</EndLinearSpeed>
+                <OffsetCoordName>Base</OffsetCoordName>
+                <OffsetCoordType>BaseCoord</OffsetCoordType>
+                <OffsetRX></OffsetRX>
+                <OffsetRY></OffsetRY>
+                <OffsetRZ></OffsetRZ>
+                <OffsetX></OffsetX>
+                <OffsetY></OffsetY>
+                <OffsetZ></OffsetZ>
+                <angleJerkRatio>0.25</angleJerkRatio>
+                <isInGluing>false</isInGluing>
+                <isInMoveGroup>false</isInMoveGroup>
+                <jerkRatio>0.25</jerkRatio>
+            </Attribute>
+            <Condition ConditionType="Waypoint" ConditionAlias="Waypoint_V_P_mejduCentrami" ConditionUuid="ecc1a82be0e34cfc937f58649a2f9174">
+                <Attribute>
+                    <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                    <VarPoint>V_P_mejduCentrami</VarPoint>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Move" ConditionAlias="Move_podyem" ConditionUuid="2b8f59552cb24f6eb061f47b44ed82ea">
+            <Attribute>
+                <MoveConditionMode>MoveLine</MoveConditionMode>
+                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                <ArrivalAheadType>None</ArrivalAheadType>
+                <EnableArrivalAhead>false</EnableArrivalAhead>
+                <EnableOffset>true</EnableOffset>
+                <EndAngleAcc>50</EndAngleAcc>
+                <EndAngleSpeed>50</EndAngleSpeed>
+                <EndLinearAcc>30</EndLinearAcc>
+                <EndLinearSpeed>50</EndLinearSpeed>
+                <OffsetCoordName>Base</OffsetCoordName>
+                <OffsetCoordType>BaseCoord</OffsetCoordType>
+                <OffsetRX>0</OffsetRX>
+                <OffsetRY>0</OffsetRY>
+                <OffsetRZ>0</OffsetRZ>
+                <OffsetX>0</OffsetX>
+                <OffsetY>0</OffsetY>
+                <OffsetZ>0.15</OffsetZ>
+                <angleJerkRatio>0.25</angleJerkRatio>
+                <isInGluing>false</isInGluing>
+                <isInMoveGroup>false</isInMoveGroup>
+                <jerkRatio>0.25</jerkRatio>
+            </Attribute>
+            <Condition ConditionType="Waypoint" ConditionAlias="Realtime_Waypoint" ConditionUuid="d787d7ed7e4a4b958a2f11bd90900181">
+                <Attribute>
+                    <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                    <VarPoint>Realtime_Waypoint</VarPoint>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Move" ConditionAlias="Move_razvorot" ConditionUuid="4f44a965864f4918a42a481c9f5fab0a">
+            <Attribute>
+                <MoveConditionMode>MoveJoint</MoveConditionMode>
+                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                <ArrivalAheadType>None</ArrivalAheadType>
+                <EnableArrivalAhead>false</EnableArrivalAhead>
+                <EnableOffset>true</EnableOffset>
+                <JointAcc>50,50,50,50,50,50</JointAcc>
+                <JointSpeed>80,80,80,80,80,80</JointSpeed>
+                <OffsetCoordName>Base</OffsetCoordName>
+                <OffsetCoordType>BaseCoord</OffsetCoordType>
+                <OffsetRX>0</OffsetRX>
+                <OffsetRY>0</OffsetRY>
+                <OffsetRZ>0</OffsetRZ>
+                <OffsetX>0</OffsetX>
+                <OffsetY>0</OffsetY>
+                <OffsetZ>0.15</OffsetZ>
+                <angleJerkRatio>0.25</angleJerkRatio>
+                <isInGluing>false</isInGluing>
+                <isInMoveGroup>false</isInMoveGroup>
+                <jerkRatio>0.25</jerkRatio>
+            </Attribute>
+            <Condition ConditionType="Waypoint" ConditionAlias="Waypoint_V_P_mejduCentrami180" ConditionUuid="1877cd87b39c43d0aa8eac572727be46">
+                <Attribute>
+                    <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                    <VarPoint>V_P_mejduCentrami180</VarPoint>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Move" ConditionAlias="Move_mejduCentrami18" ConditionUuid="c29fe03874674069b664be0e14a75a72">
+            <Attribute>
+                <MoveConditionMode>MoveLine</MoveConditionMode>
+                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                <ArrivalAheadType>None</ArrivalAheadType>
+                <EnableArrivalAhead>false</EnableArrivalAhead>
+                <EnableOffset>false</EnableOffset>
+                <EndAngleAcc>50</EndAngleAcc>
+                <EndAngleSpeed>50</EndAngleSpeed>
+                <EndLinearAcc>30</EndLinearAcc>
+                <EndLinearSpeed>50</EndLinearSpeed>
+                <OffsetCoordName>Base</OffsetCoordName>
+                <OffsetCoordType>BaseCoord</OffsetCoordType>
+                <OffsetRX></OffsetRX>
+                <OffsetRY></OffsetRY>
+                <OffsetRZ></OffsetRZ>
+                <OffsetX></OffsetX>
+                <OffsetY></OffsetY>
+                <OffsetZ></OffsetZ>
+                <angleJerkRatio>0.25</angleJerkRatio>
+                <isInGluing>false</isInGluing>
+                <isInMoveGroup>false</isInMoveGroup>
+                <jerkRatio>0.25</jerkRatio>
+            </Attribute>
+            <Condition ConditionType="Waypoint" ConditionAlias="Waypoint_V_P_mejduCentrami180" ConditionUuid="63076358f35a4ab9a3d02e16f6e25612">
+                <Attribute>
+                    <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                    <VarPoint>V_P_mejduCentrami180</VarPoint>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Move" ConditionAlias="Move_vUpor" ConditionUuid="f855ec8cccd44f23becdbe250e383f04">
+            <Attribute>
+                <MoveConditionMode>MoveLine</MoveConditionMode>
+                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                <ArrivalAheadType>None</ArrivalAheadType>
+                <EnableArrivalAhead>false</EnableArrivalAhead>
+                <EnableOffset>true</EnableOffset>
+                <EndAngleAcc>50</EndAngleAcc>
+                <EndAngleSpeed>50</EndAngleSpeed>
+                <EndLinearAcc>30</EndLinearAcc>
+                <EndLinearSpeed>50</EndLinearSpeed>
+                <OffsetCoordName>Base</OffsetCoordName>
+                <OffsetCoordType>BaseCoord</OffsetCoordType>
+                <OffsetRX>0</OffsetRX>
+                <OffsetRY>0</OffsetRY>
+                <OffsetRZ>0</OffsetRZ>
+                <OffsetX>0.027</OffsetX>
+                <OffsetY>0</OffsetY>
+                <OffsetZ>0</OffsetZ>
+                <angleJerkRatio>0.25</angleJerkRatio>
+                <isInGluing>false</isInGluing>
+                <isInMoveGroup>false</isInMoveGroup>
+                <jerkRatio>0.25</jerkRatio>
+            </Attribute>
+            <Condition ConditionType="Waypoint" ConditionAlias="Waypoint_V_P_mejduCentrami180" ConditionUuid="f943811352664bdcb55df8eed335b249">
+                <Attribute>
+                    <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                    <VarPoint>V_P_mejduCentrami180</VarPoint>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Procedure" ConditionAlias="SatellitLock" ConditionUuid="6c6469e7408e46eab3f6864b51963e3a">
+            <Attribute>
+                <MD5>a953af9fc245d644bb49f6a3f32b44e0</MD5>
+                <ProcedureName>SatellitLock</ProcedureName>
+            </Attribute>
+            <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber1" ConditionUuid="f6aadf88dabd468593ce8c6f4392a683">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>1</VarAssignmentExp>
+                    <VarName>V_I_DIOnumber</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_stateDO312False" ConditionUuid="9265f7afd6a64b2f981f555086296f09">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>false</VarAssignmentExp>
+                    <VarName>V_B_mk312DOstate</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Script" ConditionAlias="set_mk312DO" ConditionUuid="232f751d5ef042d4a705e1deffd9cc60">
+                <Attribute>
+                    <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                    <MD5>8d51f8919ddbf1208b94ac32d644a3cd</MD5>
+                    <ScriptFileName>set_mk312DO</ScriptFileName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Wait" ConditionAlias="Wait_025s" ConditionUuid="66dc77500da9426c9666e570751347a8">
+                <Attribute>
+                    <WaitConditionMode>Time</WaitConditionMode>
+                    <WaitTime>0.25</WaitTime>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber2" ConditionUuid="ce47b753ecae4e308bbab20428938f50">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>2</VarAssignmentExp>
+                    <VarName>V_I_DIOnumber</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_stateDO312True" ConditionUuid="732c0bd226c643d0bb77619f064f70d5">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>true</VarAssignmentExp>
+                    <VarName>V_B_mk312DOstate</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Line_Comment" ConditionAlias="PnevmoLockCommand" ConditionUuid="85c141fc72774f11915f7711cdc594cc">
+                <Attribute>
+                    <CommentContent>1</CommentContent>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Script" ConditionAlias="set_mk312DO" ConditionUuid="a549a44c2b524fb49f5d0a4097dd259a">
+                <Attribute>
+                    <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                    <MD5>8d51f8919ddbf1208b94ac32d644a3cd</MD5>
+                    <ScriptFileName>set_mk312DO</ScriptFileName>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Wait" ConditionAlias="Wait_2s" ConditionUuid="865417fb57384e8d9a4fbcd3b2b45ccf">
+            <Attribute>
+                <WaitConditionMode>Time</WaitConditionMode>
+                <WaitTime>2</WaitTime>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Procedure" ConditionAlias="GripOpen" ConditionUuid="c96155f129c04e12804688ca72147f26">
+            <Attribute>
+                <MD5>64bdaf4a739eded404a5515b68cb411c</MD5>
+                <ProcedureName>GripOpen</ProcedureName>
+            </Attribute>
+            <Condition ConditionType="Set" ConditionAlias="Set_PositionFullOpen" ConditionUuid="0b8436d78b8f4a08944a2c723e835135">
+                <Attribute>
+                    <SetConditionMode>IO</SetConditionMode>
+                    <IOCategory>Modbus</IOCategory>
+                    <IOName>Grip_Pos</IOName>
+                    <IOValue>1000</IOValue>
+                    <ModbusIOType>ModbusAO</ModbusIOType>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Wait" ConditionAlias="Wait_025s" ConditionUuid="d8f2e0d76c2a46d4beab0c483cdd9d20">
+                <Attribute>
+                    <WaitConditionMode>Time</WaitConditionMode>
+                    <WaitTime>0.25</WaitTime>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber1" ConditionUuid="a483f9e0ac574bbb8c41066df38aa366">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>1</VarAssignmentExp>
+                    <VarName>V_I_DIOnumber</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Loop" ConditionAlias="Loop_always" ConditionUuid="ff2c72f2a56543aeb7bb9528147617db">
+                <Attribute>
+                    <LoopConditionMode>Always</LoopConditionMode>
+                </Attribute>
+                <Condition ConditionType="Script" ConditionAlias="check_mk311DI" ConditionUuid="8dd800d18ed24322b1e83b660962c02b">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>524d9f6fddd5a142b7c70439285eb24e</MD5>
+                        <ScriptFileName>check_mk311DI</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Wait" ConditionAlias="Wait_025s" ConditionUuid="1659fe0a9d304f0584da8652d9369b05">
+                    <Attribute>
+                        <WaitConditionMode>Time</WaitConditionMode>
+                        <WaitTime>0.25</WaitTime>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="If" ConditionAlias="If" ConditionUuid="30a4f1415a3344f3a2b588d0ed88d7d1">
+                    <Attribute>
+                        <Exp>V_B_mk311DIstate == true</Exp>
+                    </Attribute>
+                    <Condition ConditionType="Break" ConditionAlias="Break" ConditionUuid="1b16296ea8af4823abae69625b5870d7">
+                        <Attribute/>
+                    </Condition>
+                </Condition>
+            </Condition>
+        </Condition>
+    </Condition>
+</ProcedureProgram>

@@ -1,0 +1,46 @@
+function table2str(joint_table)  
+	str = ''
+	for i=1,#joint_table,1 do
+		str = str..tostring(joint_table[i])..","
+	end
+	str = string.sub(str,1,-2) 
+	return str 
+end
+
+-- Corner1-4 углы первого слоя
+
+-- Введите между кавычками имя точки 1 угла:
+local_cor_1 = "V_P_magazin_C1"
+-- Введите между кавычками имя точки 2 угла:
+local_cor_2 = "V_P_magazin_C2"
+-- Введите между кавычками имя точки 3 угла:
+local_cor_3 = "V_P_magazin_C3"
+-- Введите между кавычками имя точки 4 угла:
+local_cor_4 = "V_P_magazin_C4"
+
+xMax, yMax = 2,11 -- количество ячеек по осям
+xCount = get_global_variable("V_I_magXcount")-1
+yCount = get_global_variable("V_I_magYcount")-1
+
+ -- Здесь слои 1,3,5 и т.д.
+    script_cor_1 =  get_global_variable(local_cor_1) 
+    script_cor_2 =  get_global_variable(local_cor_2) 
+    script_cor_3 =  get_global_variable(local_cor_3) 
+    script_cor_4 =  get_global_variable(local_cor_4) 
+    posCorner1,oriCorner1 = base_to_user(script_cor_1,{0,0,0},{1,0,0,0})
+    posCorner2,oriCorner2 = base_to_user(script_cor_2,{0,0,0},{1,0,0,0})
+    posCorner3,oriCorner3 = base_to_user(script_cor_3,{0,0,0},{1,0,0,0})
+    posCorner4,oriCorner4 = base_to_user(script_cor_4,{0,0,0},{1,0,0,0})
+    posTargetPick = {0,0,0} -- raschet coordinaty posizii tochki zahvata 
+    posTargetPick[1] = posCorner1[1] + (posCorner2[1] - posCorner1[1])*xCount/(xMax-1) + (posCorner4[1]-posCorner1[1]+(posCorner3[1]-posCorner4[1]-posCorner2[1]+posCorner1[1])*xCount/(xMax-1))*yCount/(yMax-1)
+    posTargetPick[2] = posCorner1[2] + (posCorner2[2] - posCorner1[2])*xCount/(xMax-1) + (posCorner4[2]-posCorner1[2]+(posCorner3[2]-posCorner4[2]-posCorner2[2]+posCorner1[2])*xCount/(xMax-1))*yCount/(yMax-1)
+    posTargetPick[3] = posCorner1[3] + (posCorner2[3] - posCorner1[3])*xCount/(xMax-1) + (posCorner4[3]-posCorner1[3]+(posCorner3[3]-posCorner4[3]-posCorner2[3]+posCorner1[3])*xCount/(xMax-1))*yCount/(yMax-1)
+    oriTargetPick = {1,0,0,0}  -- raschet ugla orientacii tochki zahvata
+    oriTargetPick[1] = oriCorner1[1] + (oriCorner2[1] - oriCorner1[1])*xCount/(xMax-1) + (oriCorner4[1]-oriCorner1[1]+(oriCorner3[1]-oriCorner4[1]-oriCorner2[1]+oriCorner1[1])*xCount/(xMax-1))*yCount/(yMax-1)
+    oriTargetPick[2] = oriCorner1[2] + (oriCorner2[2] - oriCorner1[2])*xCount/(xMax-1) + (oriCorner4[2]-oriCorner1[2]+(oriCorner3[2]-oriCorner4[2]-oriCorner2[2]+oriCorner1[2])*xCount/(xMax-1))*yCount/(yMax-1)
+    oriTargetPick[3] = oriCorner1[3] + (oriCorner2[3] - oriCorner1[3])*xCount/(xMax-1) + (oriCorner4[3]-oriCorner1[3]+(oriCorner3[3]-oriCorner4[3]-oriCorner2[3]+oriCorner1[3])*xCount/(xMax-1))*yCount/(yMax-1)
+    oriTargetPick[4] = oriCorner1[4] + (oriCorner2[4] - oriCorner1[4])*xCount/(xMax-1) + (oriCorner4[4]-oriCorner1[4]+(oriCorner3[4]-oriCorner4[4]-oriCorner2[4]+oriCorner1[4])*xCount/(xMax-1))*yCount/(yMax-1)
+
+jointPick = get_target_pose(posTargetPick,oriTargetPick,false,{0,0,0},{1,0,0,0})
+
+set_global_variable("V_P_magPick","0,0,0,0,0,0,0,".. table2str(jointPick)) -- сохранить с переменную V_P_pick

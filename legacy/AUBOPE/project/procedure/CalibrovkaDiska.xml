@@ -1,0 +1,942 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProcedureProgram>
+    <Condition ConditionType="Procedure_Program" ConditionAlias="Procedure_Program" ConditionUuid="7cefcb557fcd48f9a18e4fceac66bfb4">
+        <Attribute/>
+        <Condition ConditionType="Set" ConditionAlias="Set_drillDisk" ConditionUuid="47e8085218e048a9853fd9a1eac534df">
+            <Attribute>
+                <SetConditionMode>ToolParam</SetConditionMode>
+                <ToolName>drillDisc</ToolName>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Set" ConditionAlias="Set_cnt" ConditionUuid="2528b1f4a8ec4bfebc7af8ef44cf6fc2">
+            <Attribute>
+                <SetConditionMode>Variable</SetConditionMode>
+                <VarAssignmentExp>(M)faskaR244h</VarAssignmentExp>
+                <VarName>V_I_CntC</VarName>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="If" ConditionAlias="If_inDataCorrect" ConditionUuid="fb3217b22c964477a0c997bcf55b3a68">
+            <Attribute>
+                <Exp>(M)M_F_faskaR240h == 0 or (M)M_F_faskaR240h &lt;= 7</Exp>
+            </Attribute>
+            <Condition ConditionType="Message" ConditionAlias="MessageDataIncorrect" ConditionUuid="d32d8a65660f48c59e74c1743def3042">
+                <Attribute>
+                    <EnableStopProgramRunningWhenMessagePopsUp>true</EnableStopProgramRunningWhenMessagePopsUp>
+                    <MessageContent>modul CalibrovkaDiska: vxodnye dannye nekorrectnye</MessageContent>
+                    <MessageType>Critical</MessageType>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="If" ConditionAlias="If_inDataCorrect" ConditionUuid="8f88a08620a34743b819d93db14eabbd">
+            <Attribute>
+                <Exp>( (M)faskaR244h * (M)M_F_faskaR242h ) &gt;= 10 or V_I_CntC &gt; 8</Exp>
+            </Attribute>
+            <Condition ConditionType="Message" ConditionAlias="MessageDataIncorrect" ConditionUuid="11c1e4a7a28543ebbf98d6c4b6b3f897">
+                <Attribute>
+                    <EnableStopProgramRunningWhenMessagePopsUp>true</EnableStopProgramRunningWhenMessagePopsUp>
+                    <MessageContent>modul CalibrovkaDiska: vxodnye dannye nekorrectnye</MessageContent>
+                    <MessageType>Critical</MessageType>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Move" ConditionAlias="Move_init" ConditionUuid="8c858b788ee24d5a9ad53aabf1010f0d">
+            <Attribute>
+                <MoveConditionMode>MoveJoint</MoveConditionMode>
+                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                <ArrivalAheadType>None</ArrivalAheadType>
+                <EnableArrivalAhead>false</EnableArrivalAhead>
+                <EnableOffset>false</EnableOffset>
+                <JointAcc>50,50,50,50,50,50</JointAcc>
+                <JointSpeed>80,80,80,80,80,80</JointSpeed>
+                <OffsetCoordName>Base</OffsetCoordName>
+                <OffsetCoordType>BaseCoord</OffsetCoordType>
+                <OffsetRX></OffsetRX>
+                <OffsetRY></OffsetRY>
+                <OffsetRZ></OffsetRZ>
+                <OffsetX></OffsetX>
+                <OffsetY></OffsetY>
+                <OffsetZ></OffsetZ>
+                <angleJerkRatio>0.25</angleJerkRatio>
+                <isInGluing>false</isInGluing>
+                <isInMoveGroup>false</isInMoveGroup>
+                <jerkRatio>0.25</jerkRatio>
+            </Attribute>
+            <Condition ConditionType="Waypoint" ConditionAlias="Waypoint_V_P_initPose" ConditionUuid="15c39e5b9c1b4172bf19602002d7fe6c">
+                <Attribute>
+                    <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                    <VarPoint>V_P_initPose</VarPoint>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="If" ConditionAlias="If_cnt0" ConditionUuid="f567d1c0ea9b43d08ef63e0b8928ad1e">
+            <Attribute>
+                <Exp>V_I_CntC == 0</Exp>
+            </Attribute>
+            <Condition ConditionType="Set" ConditionAlias="Set_cnt1" ConditionUuid="d47139a109834800abb432c95f41d6ca">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>1</VarAssignmentExp>
+                    <VarName>V_I_CntC</VarName>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Move" ConditionAlias="Move_nadKamnem" ConditionUuid="819f4e361a004fccb7687f6191931f36">
+            <Attribute>
+                <MoveConditionMode>MoveJoint</MoveConditionMode>
+                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                <ArrivalAheadType>None</ArrivalAheadType>
+                <EnableArrivalAhead>false</EnableArrivalAhead>
+                <EnableOffset>false</EnableOffset>
+                <JointAcc>50,50,50,50,50,50</JointAcc>
+                <JointSpeed>90,90,90,90,90,90</JointSpeed>
+                <OffsetCoordName>Base</OffsetCoordName>
+                <OffsetCoordType>BaseCoord</OffsetCoordType>
+                <OffsetRX></OffsetRX>
+                <OffsetRY></OffsetRY>
+                <OffsetRZ></OffsetRZ>
+                <OffsetX></OffsetX>
+                <OffsetY></OffsetY>
+                <OffsetZ></OffsetZ>
+                <angleJerkRatio>0.25</angleJerkRatio>
+                <isInGluing>false</isInGluing>
+                <isInMoveGroup>false</isInMoveGroup>
+                <jerkRatio>0.25</jerkRatio>
+            </Attribute>
+            <Condition ConditionType="Waypoint" ConditionAlias="Waypoint" ConditionUuid="370828f6ee004e9a96e6de5e5e8a103b">
+                <Attribute>
+                    <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                    <FixedPoint>0.996924,-0.415210,0.392677,0.000051,-0.707112,0.707102,0.000041,-3.723742,0.646659,-1.251147,-0.326950,-1.570679,-3.723757</FixedPoint>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Procedure" ConditionAlias="SpindelStart" ConditionUuid="32cc2f5cd02b4e1294d341629797de08">
+            <Attribute>
+                <MD5>ec54e454426d0253217489d7dbda51f6</MD5>
+                <ProcedureName>SpindelStart</ProcedureName>
+            </Attribute>
+            <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber3" ConditionUuid="0380c135db484b78ab8b68948259f78b">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>3</VarAssignmentExp>
+                    <VarName>V_I_DIOnumber</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Loop" ConditionAlias="Loop_always" ConditionUuid="3ca09d86eeb5452cbd3a58080985ff2a">
+                <Attribute>
+                    <LoopConditionMode>Always</LoopConditionMode>
+                </Attribute>
+                <Condition ConditionType="Script" ConditionAlias="check_mk312DO" ConditionUuid="4fc714d21add4b49927b9ea89bc13089">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>f5d33240a2ac0ce4834bb1c9dc3396bb</MD5>
+                        <ScriptFileName>check_mk312DO</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="If" ConditionAlias="If" ConditionUuid="05d1cadd723d4eba9edd552ff961e005">
+                    <Attribute>
+                        <Exp>V_B_mk312DOstate == false</Exp>
+                    </Attribute>
+                    <Condition ConditionType="Break" ConditionAlias="Break" ConditionUuid="8405b666596a49199983bf5e40348bc1">
+                        <Attribute/>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Message" ConditionAlias="Message" ConditionUuid="19030bc104364f65bb419d21465010cb">
+                    <Attribute>
+                        <EnableStopProgramRunningWhenMessagePopsUp>false</EnableStopProgramRunningWhenMessagePopsUp>
+                        <MessageContent>запуск шпинделя невозможен - пневмозамок адаптера активен</MessageContent>
+                        <MessageType>Information</MessageType>
+                    </Attribute>
+                </Condition>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber3" ConditionUuid="96b05bd1b0e34f51830c21164fd1742d">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>3</VarAssignmentExp>
+                    <VarName>V_I_DIOnumber</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_stateTrue" ConditionUuid="1f5f297a096d47cf845b651420c56e08">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>true</VarAssignmentExp>
+                    <VarName>V_B_mk311DOstate</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Line_Comment" ConditionAlias="startSpindelCommand" ConditionUuid="e9a7a7f6b3a54d65b601a9ed2e24f411">
+                <Attribute>
+                    <CommentContent>1</CommentContent>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="18157db1b1c14d1a8f721911c3341a9a">
+                <Attribute>
+                    <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                    <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                    <ScriptFileName>set_mk311DO</ScriptFileName>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Wait" ConditionAlias="Wait1s" ConditionUuid="a8c81d3bcde24df1baa38940669bfd25">
+            <Attribute>
+                <WaitConditionMode>Time</WaitConditionMode>
+                <WaitTime>1</WaitTime>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Loop" ConditionAlias="Loop" ConditionUuid="ea5167b44cb74edf94f0e90770e9213d">
+            <Attribute>
+                <LoopConditionMode>Exp</LoopConditionMode>
+                <LoopConditionExp>V_I_CntC != 0</LoopConditionExp>
+            </Attribute>
+            <Condition ConditionType="Block_Comment" ConditionAlias="Block_calibrate" ConditionUuid="14afc3896d1a4b258c9f205db755df48">
+                <Attribute>
+                    <CommentContent>calibr</CommentContent>
+                </Attribute>
+                <Condition ConditionType="Move" ConditionAlias="Move_preCalibr" ConditionUuid="ff4e5cdef23a478f80a47091a69c2f85">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>30</EndLinearAcc>
+                        <EndLinearSpeed>50</EndLinearSpeed>
+                        <OffsetCoordName>KamenN</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>( ( (M)M_F_faskaR240h / 2 ) + 9.58 ) / 1000 + ( ( V_I_CntC - 1 ) * (M)M_F_faskaR242h / 1000 )</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>-0.012</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="W_centerKamnya" ConditionUuid="1bb3d333e6584cd98e1d39f474080480">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.958408,-0.415219,0.281022,0.000049,-0.707107,0.707107,0.000046,-3.744371,0.666950,-1.420300,-0.516381,-1.570683,-3.744371</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_Calibr" ConditionUuid="a72fa9f6602b4173b76a03c57a1372b1">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>1</EndLinearAcc>
+                        <EndLinearSpeed>1</EndLinearSpeed>
+                        <OffsetCoordName>KamenN</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>( ( (M)M_F_faskaR240h / 2 ) + 9.58 ) / 1000 + ( ( V_I_CntC - 1 ) * (M)M_F_faskaR242h / 1000 )</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>-0.025</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="W_centerKamnya" ConditionUuid="67a94297997449d18a24a75f6eb96f50">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.958408,-0.415219,0.281022,0.000049,-0.707107,0.707107,0.000046,-3.744371,0.666950,-1.420300,-0.516381,-1.570683,-3.744371</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_otvod" ConditionUuid="085c11445ae64724aef56aa9fcd99c4c">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>30</EndLinearAcc>
+                        <EndLinearSpeed>50</EndLinearSpeed>
+                        <OffsetCoordName>KamenN</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>0.035</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>-0.02</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="W_centerKamnya" ConditionUuid="542ef60ec5324f7298bf71fe2a4ea884">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.958408,-0.415219,0.281022,0.000049,-0.707107,0.707107,0.000046,-3.744371,0.666950,-1.420300,-0.516381,-1.570683,-3.744371</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_decCnt" ConditionUuid="1e2bf71c38c648acb8466575e20812c6">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>V_I_CntC - 1</VarAssignmentExp>
+                    <VarName>V_I_CntC</VarName>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Move" ConditionAlias="Move_nadKamnem" ConditionUuid="aea9c7234ae74fa6b0448aedfe66f592">
+            <Attribute>
+                <MoveConditionMode>MoveJoint</MoveConditionMode>
+                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                <ArrivalAheadType>None</ArrivalAheadType>
+                <EnableArrivalAhead>false</EnableArrivalAhead>
+                <EnableOffset>false</EnableOffset>
+                <JointAcc>45,45,45,45,45,45</JointAcc>
+                <JointSpeed>75,75,75,75,75,75</JointSpeed>
+                <OffsetCoordName>Base</OffsetCoordName>
+                <OffsetCoordType>BaseCoord</OffsetCoordType>
+                <OffsetRX></OffsetRX>
+                <OffsetRY></OffsetRY>
+                <OffsetRZ></OffsetRZ>
+                <OffsetX></OffsetX>
+                <OffsetY></OffsetY>
+                <OffsetZ></OffsetZ>
+                <angleJerkRatio>0.25</angleJerkRatio>
+                <isInGluing>false</isInGluing>
+                <isInMoveGroup>false</isInMoveGroup>
+                <jerkRatio>0.25</jerkRatio>
+            </Attribute>
+            <Condition ConditionType="Waypoint" ConditionAlias="Waypoint" ConditionUuid="fa36ba6105074ff1b35f97387eefd470">
+                <Attribute>
+                    <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                    <FixedPoint>0.996924,-0.415210,0.392689,0.000053,-0.707112,0.707102,0.000035,-3.723742,0.646651,-1.251141,-0.326950,-1.570679,-3.723757</FixedPoint>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="If" ConditionAlias="If_nujno_skosy" ConditionUuid="f2481481e89040d59b635bd60e906522">
+            <Attribute>
+                <Exp>(M)faska_c1B1h == 1</Exp>
+            </Attribute>
+            <Condition ConditionType="Block_Comment" ConditionAlias="Block_Zadok" ConditionUuid="02979bd06358436c85a5136ece7d7e39">
+                <Attribute>
+                    <CommentContent>skosy</CommentContent>
+                </Attribute>
+                <Condition ConditionType="Move" ConditionAlias="Move_preZadok" ConditionUuid="118fb7a644fa4953aa7181f60d5fab42">
+                    <Attribute>
+                        <MoveConditionMode>MoveJoint</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <JointAcc>50,50,50,50,50,50</JointAcc>
+                        <JointSpeed>90,90,90,90,90,90</JointSpeed>
+                        <OffsetCoordName>KamenN</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>0.00661 + ( (M)M_F_faskaR240h / 1000 / 2 )</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>0.15</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="W_zadok" ConditionUuid="bf69e95d74dd4e1d8575e44d22095c31">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.962051,-0.454654,0.247874,0.464496,-0.556809,-0.535835,-0.432537,-3.840499,0.878401,-1.053163,0.916717,-0.736995,-1.295966</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_startZadok" ConditionUuid="5c07618cea1a4f36ab3320ca7f054436">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>30</EndLinearAcc>
+                        <EndLinearSpeed>50</EndLinearSpeed>
+                        <OffsetCoordName>KamenN</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>0.00661 + ( (M)M_F_faskaR240h / 1000 / 2 )</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>-0.012</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="W_zadok" ConditionUuid="ab3b3f444dad4b51a62169a82540508d">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.962051,-0.454654,0.247874,0.464496,-0.556809,-0.535835,-0.432537,-3.840499,0.878401,-1.053163,0.916717,-0.736995,-1.295966</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_endZadok" ConditionUuid="169143254fb4477d84017247f5f3d301">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>1</EndLinearAcc>
+                        <EndLinearSpeed>1</EndLinearSpeed>
+                        <OffsetCoordName>Base</OffsetCoordName>
+                        <OffsetCoordType>BaseCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>0.00661 + ( (M)M_F_faskaR240h / 1000 / 2 )</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>-0.027</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="W_zadok" ConditionUuid="4ff1956e4d0f435cad8f033c425d6ab0">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.962051,-0.454654,0.247874,0.464496,-0.556809,-0.535835,-0.432537,-3.840499,0.878401,-1.053163,0.916717,-0.736995,-1.295966</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_otvod" ConditionUuid="862c536c570b4fdf871cff37c3d2d69f">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>30</EndLinearAcc>
+                        <EndLinearSpeed>50</EndLinearSpeed>
+                        <OffsetCoordName>Base</OffsetCoordName>
+                        <OffsetCoordType>BaseCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>0.00661 + ( (M)M_F_faskaR240h / 1000 / 2 ) + 0.01</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>-0.027</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="W_zadok" ConditionUuid="44d82e61cbad406e98847d6e35fc8fd9">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.962051,-0.454654,0.247874,0.464496,-0.556809,-0.535835,-0.432537,-3.840499,0.878401,-1.053163,0.916717,-0.736995,-1.295966</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_otvodVverx" ConditionUuid="7cada20be7334f0ab97ce7f3ac297903">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>50</EndLinearAcc>
+                        <EndLinearSpeed>80</EndLinearSpeed>
+                        <OffsetCoordName>Base</OffsetCoordName>
+                        <OffsetCoordType>BaseCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>0.00661 + ( (M)M_F_faskaR240h / 1000 / 2 ) + 0.01</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>0.06</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="W_zadok" ConditionUuid="9a7c8669fcaf4efebc75997dbe3330f2">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.962051,-0.454654,0.247874,0.464496,-0.556809,-0.535835,-0.432537,-3.840499,0.878401,-1.053163,0.916717,-0.736995,-1.295966</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="If" ConditionAlias="If_nujnoZausenec" ConditionUuid="2a1e6a95ccfb4c8e98ce7ba02dc0591c">
+            <Attribute>
+                <Exp>(M)faska_c1B2h == 1</Exp>
+            </Attribute>
+            <Condition ConditionType="Block_Comment" ConditionAlias="Block_Shtok" ConditionUuid="83f6b1d825aa4157a4bd90e37f7f4cdd">
+                <Attribute>
+                    <CommentContent>snatie zausencev</CommentContent>
+                </Attribute>
+                <Condition ConditionType="Move" ConditionAlias="Move_nadShtokom" ConditionUuid="c2b258c5602947d89bec54867d2ca29b">
+                    <Attribute>
+                        <MoveConditionMode>MoveJoint</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>false</EnableOffset>
+                        <JointAcc>50,50,50,50,50,50</JointAcc>
+                        <JointSpeed>80,80,80,80,80,80</JointSpeed>
+                        <OffsetCoordName>Base</OffsetCoordName>
+                        <OffsetCoordType>BaseCoord</OffsetCoordType>
+                        <OffsetRX></OffsetRX>
+                        <OffsetRY></OffsetRY>
+                        <OffsetRZ></OffsetRZ>
+                        <OffsetX></OffsetX>
+                        <OffsetY></OffsetY>
+                        <OffsetZ></OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="Waypoint" ConditionUuid="18901d81a78b43abb719c3bc7f32d784">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.958726,-0.476357,0.259611,0.497648,-0.527435,-0.508379,-0.464446,-3.858619,0.923166,-0.961060,1.148016,-0.736107,-1.436719</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_preShtok" ConditionUuid="aee1f8dce4aa4407aee38e2b72c99456">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>30</EndLinearAcc>
+                        <EndLinearSpeed>50</EndLinearSpeed>
+                        <OffsetCoordName>Base</OffsetCoordName>
+                        <OffsetCoordType>BaseCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>0</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>0.012</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="W_zadokShok" ConditionUuid="934a078e6d3a4836b688820816189477">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.958735,-0.476147,0.219440,0.497638,-0.527438,-0.508388,-0.464442,-3.858469,0.947855,-0.984577,1.099752,-0.735960,-1.436679</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_Shtok" ConditionUuid="98e7c3870bff464bbdef67f93bbfb5b9">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>false</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>1</EndLinearAcc>
+                        <EndLinearSpeed>3</EndLinearSpeed>
+                        <OffsetCoordName>Base</OffsetCoordName>
+                        <OffsetCoordType>BaseCoord</OffsetCoordType>
+                        <OffsetRX></OffsetRX>
+                        <OffsetRY></OffsetRY>
+                        <OffsetRZ></OffsetRZ>
+                        <OffsetX></OffsetX>
+                        <OffsetY></OffsetY>
+                        <OffsetZ></OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="W_zadokShok" ConditionUuid="b2617fdb305d4a1dbd5e28577c0ed07f">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.958735,-0.476147,0.219440,0.497638,-0.527438,-0.508388,-0.464442,-3.858469,0.947855,-0.984577,1.099752,-0.735960,-1.436679</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Wait" ConditionAlias="Wait_1s" ConditionUuid="4ce5b6b0e5ee4cdc898b3c3a3cfdffda">
+                    <Attribute>
+                        <WaitConditionMode>Time</WaitConditionMode>
+                        <WaitTime>1</WaitTime>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_preShtok" ConditionUuid="2cb2bb65ef4b4fb399569a7f56ca497f">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>30</EndLinearAcc>
+                        <EndLinearSpeed>50</EndLinearSpeed>
+                        <OffsetCoordName>Base</OffsetCoordName>
+                        <OffsetCoordType>BaseCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>0</OffsetX>
+                        <OffsetY>0.012</OffsetY>
+                        <OffsetZ>0.012</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="W_zadokShok" ConditionUuid="80e6816a3a7c40818fdc823024c90d03">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.958735,-0.476147,0.219440,0.497638,-0.527438,-0.508388,-0.464442,-3.858469,0.947855,-0.984577,1.099752,-0.735960,-1.436679</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_preZadok" ConditionUuid="5797e3a63eb04ec19f30c43d94e7a443">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>50</EndLinearAcc>
+                        <EndLinearSpeed>80</EndLinearSpeed>
+                        <OffsetCoordName>Base</OffsetCoordName>
+                        <OffsetCoordType>BaseCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>0</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>0.15</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="W_zadok" ConditionUuid="06651ae07ced4cb98f90f58223778023">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.962051,-0.454654,0.247874,0.464496,-0.556809,-0.535835,-0.432537,-3.840499,0.878401,-1.053163,0.916717,-0.736995,-1.295966</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Move" ConditionAlias="Move_nadKamnem" ConditionUuid="763fd9da331e4fed82cbf781592cf8cb">
+            <Attribute>
+                <MoveConditionMode>MoveJoint</MoveConditionMode>
+                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                <ArrivalAheadType>None</ArrivalAheadType>
+                <EnableArrivalAhead>false</EnableArrivalAhead>
+                <EnableOffset>false</EnableOffset>
+                <JointAcc>50,50,50,50,50,50</JointAcc>
+                <JointSpeed>90,90,90,90,90,90</JointSpeed>
+                <OffsetCoordName>Base</OffsetCoordName>
+                <OffsetCoordType>BaseCoord</OffsetCoordType>
+                <OffsetRX></OffsetRX>
+                <OffsetRY></OffsetRY>
+                <OffsetRZ></OffsetRZ>
+                <OffsetX></OffsetX>
+                <OffsetY></OffsetY>
+                <OffsetZ></OffsetZ>
+                <angleJerkRatio>0.25</angleJerkRatio>
+                <isInGluing>false</isInGluing>
+                <isInMoveGroup>false</isInMoveGroup>
+                <jerkRatio>0.25</jerkRatio>
+            </Attribute>
+            <Condition ConditionType="Waypoint" ConditionAlias="Waypoint" ConditionUuid="253ff8dab6434ce687cd469f79a479e4">
+                <Attribute>
+                    <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                    <FixedPoint>0.996921,-0.415214,0.392669,0.000049,-0.707111,0.707103,0.000046,-3.723745,0.646662,-1.251153,-0.326950,-1.570683,-3.723757</FixedPoint>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="If" ConditionAlias="If_finishCalibrate" ConditionUuid="d3b7c1f45b3f456e9b61443c9db14430">
+            <Attribute>
+                <Exp>true</Exp>
+            </Attribute>
+            <Condition ConditionType="Block_Comment" ConditionAlias="Block_calibrate" ConditionUuid="f8b07de0686e433598be2da3ebb48934">
+                <Attribute>
+                    <CommentContent>calibr</CommentContent>
+                </Attribute>
+                <Condition ConditionType="Move" ConditionAlias="Move_nadKamnem" ConditionUuid="92279408406744ff8fcdfb9b72660669">
+                    <Attribute>
+                        <MoveConditionMode>MoveJoint</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>false</EnableOffset>
+                        <JointAcc>50,50,50,50,50,50</JointAcc>
+                        <JointSpeed>90,90,90,90,90,90</JointSpeed>
+                        <OffsetCoordName>Base</OffsetCoordName>
+                        <OffsetCoordType>BaseCoord</OffsetCoordType>
+                        <OffsetRX></OffsetRX>
+                        <OffsetRY></OffsetRY>
+                        <OffsetRZ></OffsetRZ>
+                        <OffsetX></OffsetX>
+                        <OffsetY></OffsetY>
+                        <OffsetZ></OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="Waypoint" ConditionUuid="49bd0d968ab2475fad2e0d9b6f991dba">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.996924,-0.415210,0.392677,0.000051,-0.707112,0.707102,0.000041,-3.723742,0.646659,-1.251147,-0.326950,-1.570679,-3.723757</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_preCalibr" ConditionUuid="79e8e5f446d142f68aed07e165883eac">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>30</EndLinearAcc>
+                        <EndLinearSpeed>50</EndLinearSpeed>
+                        <OffsetCoordName>KamenN</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>( ( (M)M_F_faskaR240h / 2 ) + 9.58 ) / 1000</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>-0.012</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="W_centerKamnya" ConditionUuid="d766ef152c36448183ab08606997f42d">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.958408,-0.415219,0.281022,0.000049,-0.707107,0.707107,0.000046,-3.744371,0.666950,-1.420300,-0.516381,-1.570683,-3.744371</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_Calibr" ConditionUuid="3cb37257e21b4673bef57514055d817c">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>1</EndLinearAcc>
+                        <EndLinearSpeed>1</EndLinearSpeed>
+                        <OffsetCoordName>KamenN</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>( ( (M)M_F_faskaR240h / 2 ) + 9.58 ) / 1000</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>-0.025</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="W_centerKamnya" ConditionUuid="530b93cc99ae46a2a93e8d6248000d76">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.958408,-0.415219,0.281022,0.000049,-0.707107,0.707107,0.000046,-3.744371,0.666950,-1.420300,-0.516381,-1.570683,-3.744371</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_otvod" ConditionUuid="0a890a90d8c14fa0a6b9142bdb105995">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>30</EndLinearAcc>
+                        <EndLinearSpeed>50</EndLinearSpeed>
+                        <OffsetCoordName>KamenN</OffsetCoordName>
+                        <OffsetCoordType>UserCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>0.035</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>-0.02</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="W_centerKamnya" ConditionUuid="3b3ae381f4744057abdc03e97f2ad93c">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.958408,-0.415219,0.281022,0.000049,-0.707107,0.707107,0.000046,-3.744371,0.666950,-1.420300,-0.516381,-1.570683,-3.744371</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Procedure" ConditionAlias="SpindelStop" ConditionUuid="91a12ae5527745d38ceb31508de92eb6">
+                    <Attribute>
+                        <MD5>0880388d98624e689ad67d2154194b12</MD5>
+                        <ProcedureName>SpindelStop</ProcedureName>
+                    </Attribute>
+                    <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber3" ConditionUuid="107174c8b11c4706a16d26d64f918603">
+                        <Attribute>
+                            <SetConditionMode>Variable</SetConditionMode>
+                            <VarAssignmentExp>3</VarAssignmentExp>
+                            <VarName>V_I_DIOnumber</VarName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Set" ConditionAlias="Set_stateFalse" ConditionUuid="db0d380db0b445d5870168bb9aacff64">
+                        <Attribute>
+                            <SetConditionMode>Variable</SetConditionMode>
+                            <VarAssignmentExp>false</VarAssignmentExp>
+                            <VarName>V_B_mk311DOstate</VarName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Line_Comment" ConditionAlias="stopSpindelCommand" ConditionUuid="af796098a00c41eca222ea3fc7dd3720">
+                        <Attribute>
+                            <CommentContent>1</CommentContent>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="3d9ae82b3fb74410914a7920c4621c03">
+                        <Attribute>
+                            <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                            <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                            <ScriptFileName>set_mk311DO</ScriptFileName>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_nadKamnem" ConditionUuid="da740fbcdfa6414197d758b29a6f90d6">
+                    <Attribute>
+                        <MoveConditionMode>MoveJoint</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>false</EnableOffset>
+                        <JointAcc>45,45,45,45,45,45</JointAcc>
+                        <JointSpeed>75,75,75,75,75,75</JointSpeed>
+                        <OffsetCoordName>Base</OffsetCoordName>
+                        <OffsetCoordType>BaseCoord</OffsetCoordType>
+                        <OffsetRX></OffsetRX>
+                        <OffsetRY></OffsetRY>
+                        <OffsetRZ></OffsetRZ>
+                        <OffsetX></OffsetX>
+                        <OffsetY></OffsetY>
+                        <OffsetZ></OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="Waypoint" ConditionUuid="04dad48d607e435aad121d8f4cee96ab">
+                        <Attribute>
+                            <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                            <FixedPoint>0.996924,-0.415210,0.392689,0.000053,-0.707112,0.707102,0.000035,-3.723742,0.646651,-1.251141,-0.326950,-1.570679,-3.723757</FixedPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Procedure" ConditionAlias="SpindelStop" ConditionUuid="7771b5f1580d48eb9805264290fdc723">
+            <Attribute>
+                <MD5>0880388d98624e689ad67d2154194b12</MD5>
+                <ProcedureName>SpindelStop</ProcedureName>
+            </Attribute>
+            <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber3" ConditionUuid="81f39bd78c524847b40d2197e6fb924a">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>3</VarAssignmentExp>
+                    <VarName>V_I_DIOnumber</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_stateFalse" ConditionUuid="a1707424cdb246659efb62ecd7fd30b8">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>false</VarAssignmentExp>
+                    <VarName>V_B_mk311DOstate</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Line_Comment" ConditionAlias="stopSpindelCommand" ConditionUuid="60b3fb163bfd4558925766575b2d678b">
+                <Attribute>
+                    <CommentContent>1</CommentContent>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="002b3c0be79c4e51bfebf17de16ea7dd">
+                <Attribute>
+                    <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                    <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                    <ScriptFileName>set_mk311DO</ScriptFileName>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Move" ConditionAlias="MoveL_init" ConditionUuid="1c08668929184f4f80911655d1d1a1ab">
+            <Attribute>
+                <MoveConditionMode>MoveLine</MoveConditionMode>
+                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                <ArrivalAheadType>None</ArrivalAheadType>
+                <EnableArrivalAhead>false</EnableArrivalAhead>
+                <EnableOffset>false</EnableOffset>
+                <EndAngleAcc>50</EndAngleAcc>
+                <EndAngleSpeed>50</EndAngleSpeed>
+                <EndLinearAcc>50</EndLinearAcc>
+                <EndLinearSpeed>90</EndLinearSpeed>
+                <OffsetCoordName>Base</OffsetCoordName>
+                <OffsetCoordType>BaseCoord</OffsetCoordType>
+                <OffsetRX></OffsetRX>
+                <OffsetRY></OffsetRY>
+                <OffsetRZ></OffsetRZ>
+                <OffsetX></OffsetX>
+                <OffsetY></OffsetY>
+                <OffsetZ></OffsetZ>
+                <angleJerkRatio>0.25</angleJerkRatio>
+                <isInGluing>false</isInGluing>
+                <isInMoveGroup>false</isInMoveGroup>
+                <jerkRatio>0.25</jerkRatio>
+            </Attribute>
+            <Condition ConditionType="Waypoint" ConditionAlias="Waypoint_V_P_initPose" ConditionUuid="fd2c6d79e80645319923bdb18086c4b0">
+                <Attribute>
+                    <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                    <VarPoint>V_P_initPose</VarPoint>
+                </Attribute>
+            </Condition>
+        </Condition>
+    </Condition>
+</ProcedureProgram>

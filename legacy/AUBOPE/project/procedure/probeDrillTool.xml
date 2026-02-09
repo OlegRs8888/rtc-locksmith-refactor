@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProcedureProgram>
+    <Condition ConditionType="Procedure_Program" ConditionAlias="Procedure_Program" ConditionUuid="ca1ed73924cd4edb914d0eef65cf4b8d">
+        <Attribute/>
+        <Condition ConditionType="Set" ConditionAlias="Set_drill1" ConditionUuid="4e38957b6ab64e169f9b520a258c023c">
+            <Attribute>
+                <SetConditionMode>ToolParam</SetConditionMode>
+                <ToolName>drill1</ToolName>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Move" ConditionAlias="MoveJ_nadDatchikom" ConditionUuid="506c29ffd83c42c2ad8d299d41cd89de">
+            <Attribute>
+                <MoveConditionMode>MoveJoint</MoveConditionMode>
+                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                <ArrivalAheadType>None</ArrivalAheadType>
+                <EnableArrivalAhead>false</EnableArrivalAhead>
+                <EnableOffset>false</EnableOffset>
+                <JointAcc>45,45,45,45,45,45</JointAcc>
+                <JointSpeed>90,90,90,90,90,90</JointSpeed>
+                <OffsetCoordName>Base</OffsetCoordName>
+                <OffsetCoordType>BaseCoord</OffsetCoordType>
+                <OffsetRX></OffsetRX>
+                <OffsetRY></OffsetRY>
+                <OffsetRZ></OffsetRZ>
+                <OffsetX></OffsetX>
+                <OffsetY></OffsetY>
+                <OffsetZ></OffsetZ>
+                <angleJerkRatio>0.25</angleJerkRatio>
+                <isInGluing>false</isInGluing>
+                <isInMoveGroup>false</isInMoveGroup>
+                <jerkRatio>0.25</jerkRatio>
+            </Attribute>
+            <Condition ConditionType="Waypoint" ConditionAlias="Waypoint_V_P_ProbeStolInit" ConditionUuid="dfe94a5714b3469d8d31d74a0334a1c5">
+                <Attribute>
+                    <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                    <VarPoint>V_P_ProbeStolInit</VarPoint>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Script" ConditionAlias="probeDrillTool" ConditionUuid="27865dcd6c7d437fb63d04c82b117ecc">
+            <Attribute>
+                <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                <MD5>79f99ebd5ed62a61cbc2cd4be268c234</MD5>
+                <ScriptFileName>probeDrillTool</ScriptFileName>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="If" ConditionAlias="If_probeError" ConditionUuid="83ce6c0944b942969523492172d24ec1">
+            <Attribute>
+                <Exp>(M)probe_r11Dh != 8</Exp>
+            </Attribute>
+            <Condition ConditionType="Message" ConditionAlias="Message" ConditionUuid="bd0767b5add04f0ebca575649a030577">
+                <Attribute>
+                    <EnableStopProgramRunningWhenMessagePopsUp>true</EnableStopProgramRunningWhenMessagePopsUp>
+                    <MessageContent>probeDrillTool: необрабатываемое исключение. Продолжение работы невозможно. Проект будет остановлен</MessageContent>
+                    <MessageType>Critical</MessageType>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Move" ConditionAlias="Move_nadDatchikom" ConditionUuid="4997f0c3458d4efcb810922ee7695409">
+            <Attribute>
+                <MoveConditionMode>MoveLine</MoveConditionMode>
+                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                <ArrivalAheadType>None</ArrivalAheadType>
+                <EnableArrivalAhead>false</EnableArrivalAhead>
+                <EnableOffset>false</EnableOffset>
+                <EndAngleAcc>50</EndAngleAcc>
+                <EndAngleSpeed>50</EndAngleSpeed>
+                <EndLinearAcc>45</EndLinearAcc>
+                <EndLinearSpeed>90</EndLinearSpeed>
+                <OffsetCoordName>Base</OffsetCoordName>
+                <OffsetCoordType>BaseCoord</OffsetCoordType>
+                <OffsetRX></OffsetRX>
+                <OffsetRY></OffsetRY>
+                <OffsetRZ></OffsetRZ>
+                <OffsetX></OffsetX>
+                <OffsetY></OffsetY>
+                <OffsetZ></OffsetZ>
+                <angleJerkRatio>0.25</angleJerkRatio>
+                <isInGluing>false</isInGluing>
+                <isInMoveGroup>false</isInMoveGroup>
+                <jerkRatio>0.25</jerkRatio>
+            </Attribute>
+            <Condition ConditionType="Waypoint" ConditionAlias="Waypoint" ConditionUuid="997663f7500d4e0dba5925a7336c515c">
+                <Attribute>
+                    <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                    <FixedPoint>0.905979,0.238778,0.420502,0.000000,0.000000,-1.000000,-0.000006,-3.100437,0.417205,-1.565111,-0.411520,-1.570785,-1.529641</FixedPoint>
+                </Attribute>
+            </Condition>
+        </Condition>
+    </Condition>
+</ProcedureProgram>

@@ -1,0 +1,12 @@
+P106_changeToolPeriod = get_modbus_io_status("globalR197h") -- периодичность замены инструмента; через сколько деталей
+P106_changeToolPeriod = math.abs(P106_changeToolPeriod) -- нормализация, убираю знак
+P106_changeToolPeriod = math.floor(P106_changeToolPeriod) -- нормализация, только целая часть
+totalCounterDetali = get_global_variable("V_I_CntTotalDetali")
+--print("period zameny instrumenta - "..P106_changeToolPeriod)
+--print("schetchik detaley - "..totalCounterDetali)
+if (totalCounterDetali % P106_changeToolPeriod) == 0 then
+    set_global_variable("V_B_poraChangeTool", true)
+else
+    set_global_variable("V_B_poraChangeTool", false)
+end
+--print("1212")

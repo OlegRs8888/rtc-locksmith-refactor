@@ -1,0 +1,649 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProcedureProgram>
+    <Condition ConditionType="Procedure_Program" ConditionAlias="Procedure_Program" ConditionUuid="ff0128645712420696b5fbcfc13ae0d6">
+        <Attribute/>
+        <Condition ConditionType="Set" ConditionAlias="Set_cntA_0" ConditionUuid="be4c9484700f42c69831c45629e69103">
+            <Attribute>
+                <SetConditionMode>Variable</SetConditionMode>
+                <VarAssignmentExp>0</VarAssignmentExp>
+                <VarName>V_I_CntA</VarName>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Set" ConditionAlias="Set_DI_conf" ConditionUuid="cf0bb2ec746e457e9a80ea3a5d2c13a1">
+            <Attribute>
+                <SetConditionMode>IO</SetConditionMode>
+                <IOCategory>Modbus</IOCategory>
+                <IOName>30C_DIconf</IOName>
+                <IOValue>7680</IOValue>
+                <ModbusIOType>ModbusAO</ModbusIOType>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Set" ConditionAlias="Set_DI_control" ConditionUuid="1551c676a4a6499f86a0f2b71965a2ba">
+            <Attribute>
+                <SetConditionMode>IO</SetConditionMode>
+                <IOCategory>Modbus</IOCategory>
+                <IOName>40E_ctrlDI</IOName>
+                <IOValue>7168</IOValue>
+                <ModbusIOType>ModbusAO</ModbusIOType>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Set" ConditionAlias="Set_speed3000" ConditionUuid="91204446a27c45ef99ea12def9508b0b">
+            <Attribute>
+                <SetConditionMode>IO</SetConditionMode>
+                <IOCategory>Modbus</IOCategory>
+                <IOName>16EspeedLim</IOName>
+                <IOValue>3000</IOValue>
+                <ModbusIOType>ModbusAO</ModbusIOType>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Set" ConditionAlias="Set_PR3" ConditionUuid="2cf4d26c9b5a4389bbb83425d5c7de24">
+            <Attribute>
+                <SetConditionMode>IO</SetConditionMode>
+                <IOCategory>Modbus</IOCategory>
+                <IOName>50E_PR</IOName>
+                <IOValue>3</IOValue>
+                <ModbusIOType>ModbusAO</ModbusIOType>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Wait" ConditionAlias="Wait_puuPR3" ConditionUuid="1c6c423554264e5584f728e2f3f61bbb">
+            <Attribute>
+                <WaitConditionMode>Exp</WaitConditionMode>
+                <WaitConditionExp>(M)50E_PR == 20003</WaitConditionExp>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Set" ConditionAlias="Set_PR1" ConditionUuid="c1db17975a4f478db8b8f45b2b702b96">
+            <Attribute>
+                <SetConditionMode>IO</SetConditionMode>
+                <IOCategory>Modbus</IOCategory>
+                <IOName>50E_PR</IOName>
+                <IOValue>1</IOValue>
+                <ModbusIOType>ModbusAO</ModbusIOType>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Wait" ConditionAlias="Wait_puuPR1" ConditionUuid="38b8e250684c45ccacb7c35e28064a4e">
+            <Attribute>
+                <WaitConditionMode>Exp</WaitConditionMode>
+                <WaitConditionExp>(M)50E_PR == 20001</WaitConditionExp>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Loop" ConditionAlias="Loop_poiskZuba" ConditionUuid="7a897cce57dd41f38e9c19ceb0d2b9f8">
+            <Attribute>
+                <LoopConditionMode>Times</LoopConditionMode>
+                <LoopTimes>7</LoopTimes>
+            </Attribute>
+            <Condition ConditionType="Set" ConditionAlias="Set_fatalFlagTrue" ConditionUuid="257b0d0582fa40f49341e3f4ef4f5998">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>true</VarAssignmentExp>
+                    <VarName>V_B_fatalFlag</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_speed50" ConditionUuid="e86ecc78dffa46e38179ad541ca1a5eb">
+                <Attribute>
+                    <SetConditionMode>IO</SetConditionMode>
+                    <IOCategory>Modbus</IOCategory>
+                    <IOName>16EspeedLim</IOName>
+                    <IOValue>50</IOValue>
+                    <ModbusIOType>ModbusAO</ModbusIOType>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Script" ConditionAlias="servoTorqueSet" ConditionUuid="d5f3b805c56341dd8ece583fb53ac78e">
+                <Attribute>
+                    <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                    <MD5>3b055d13b51add521317eedd1e50dd0d</MD5>
+                    <ScriptFileName>servoTorqueSet</ScriptFileName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Line_Comment" ConditionAlias="rejim_momenta" ConditionUuid="0172bd9f577d4863b9d2e8040d9acd8d">
+                <Attribute>
+                    <CommentContent>перевод драйвера в режим момента</CommentContent>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_DI_control" ConditionUuid="24a6c492d0464b508c82b80236fdabf1">
+                <Attribute>
+                    <SetConditionMode>IO</SetConditionMode>
+                    <IOCategory>Modbus</IOCategory>
+                    <IOName>40E_ctrlDI</IOName>
+                    <IOValue>5120</IOValue>
+                    <ModbusIOType>ModbusAO</ModbusIOType>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Wait" ConditionAlias="WaitSpeed5" ConditionUuid="bb9ea382882e474a815a8d103db8a6a2">
+                <Attribute>
+                    <WaitConditionMode>Exp</WaitConditionMode>
+                    <WaitConditionExp>(M)16_speed1 &lt;= 5</WaitConditionExp>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_OKposCalculate" ConditionUuid="ee93cfedc1044b05a015557534cd80d6">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>(M)M_F_globalR1ACh * 1000</VarAssignmentExp>
+                    <VarName>V_D_OKpos</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="If" ConditionAlias="If_OK" ConditionUuid="0b5af04f4a9048a1a5cf1d39a3ed1e59">
+                <Attribute>
+                    <Exp>(M)M_L_12_PUU &lt;  V_D_OKpos </Exp>
+                </Attribute>
+                <Condition ConditionType="Line_Comment" ConditionAlias="rejim_PR" ConditionUuid="d63e8d07e29a46738c7445f60e561637">
+                    <Attribute>
+                        <CommentContent>перевод драйвера в режим PR</CommentContent>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Set" ConditionAlias="Set_DI_control" ConditionUuid="9f3919ee08f940dcbc06d12a9bbcd684">
+                    <Attribute>
+                        <SetConditionMode>IO</SetConditionMode>
+                        <IOCategory>Modbus</IOCategory>
+                        <IOName>40E_ctrlDI</IOName>
+                        <IOValue>7168</IOValue>
+                        <ModbusIOType>ModbusAO</ModbusIOType>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Set" ConditionAlias="Set_speed3000" ConditionUuid="baa42d50a8ef4f90b9e79561649e1d14">
+                    <Attribute>
+                        <SetConditionMode>IO</SetConditionMode>
+                        <IOCategory>Modbus</IOCategory>
+                        <IOName>16EspeedLim</IOName>
+                        <IOValue>3000</IOValue>
+                        <ModbusIOType>ModbusAO</ModbusIOType>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Procedure" ConditionAlias="beep300" ConditionUuid="8e5e29fed0204abe8670a1ba223d8c80">
+                    <Attribute>
+                        <MD5>6aa19509fb39642f72c5c35fcfd61b4b</MD5>
+                        <ProcedureName>beep300</ProcedureName>
+                    </Attribute>
+                    <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber7" ConditionUuid="df2470eb1b0b4fa88d21ffdee0785b95">
+                        <Attribute>
+                            <SetConditionMode>Variable</SetConditionMode>
+                            <VarAssignmentExp>7</VarAssignmentExp>
+                            <VarName>V_I_DIOnumber</VarName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Set" ConditionAlias="Set_stateTrue" ConditionUuid="32035c8766ff4b64b8906e4e4dc6a690">
+                        <Attribute>
+                            <SetConditionMode>Variable</SetConditionMode>
+                            <VarAssignmentExp>true</VarAssignmentExp>
+                            <VarName>V_B_mk311DOstate</VarName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="70877d3406e94451a5b0a2951c7144cc">
+                        <Attribute>
+                            <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                            <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                            <ScriptFileName>set_mk311DO</ScriptFileName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Wait" ConditionAlias="Wait_03s" ConditionUuid="7736d0a2ca26408bbcb13807f699e77b">
+                        <Attribute>
+                            <WaitConditionMode>Time</WaitConditionMode>
+                            <WaitTime>0.3</WaitTime>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Set" ConditionAlias="Set_stateFalse" ConditionUuid="a6906600360b406293d75eb21a0350b7">
+                        <Attribute>
+                            <SetConditionMode>Variable</SetConditionMode>
+                            <VarAssignmentExp>false</VarAssignmentExp>
+                            <VarName>V_B_mk311DOstate</VarName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="1b49cd24e10640e9a4af094be058aa66">
+                        <Attribute>
+                            <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                            <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                            <ScriptFileName>set_mk311DO</ScriptFileName>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Set" ConditionAlias="Set_fatalFlagFalse" ConditionUuid="9ffbdc1ab2924791a214a1a85de70ff1">
+                    <Attribute>
+                        <SetConditionMode>Variable</SetConditionMode>
+                        <VarAssignmentExp>false</VarAssignmentExp>
+                        <VarName>V_B_fatalFlag</VarName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Break" ConditionAlias="Break" ConditionUuid="e05178b6f70a476d8b16fe2f9f98ebf5">
+                    <Attribute/>
+                </Condition>
+            </Condition>
+            <Condition ConditionType="Line_Comment" ConditionAlias="rejim_PR" ConditionUuid="71a1f65832c6499294cd2e4ce1c1d9a3">
+                <Attribute>
+                    <CommentContent>perevod drayivera v rejim PR</CommentContent>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_DI_control" ConditionUuid="ade5aa0657cd4aab961d67595725d1ab">
+                <Attribute>
+                    <SetConditionMode>IO</SetConditionMode>
+                    <IOCategory>Modbus</IOCategory>
+                    <IOName>40E_ctrlDI</IOName>
+                    <IOValue>7168</IOValue>
+                    <ModbusIOType>ModbusAO</ModbusIOType>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_speed3000" ConditionUuid="95d91fcc2bd942dcad5e414560c1d560">
+                <Attribute>
+                    <SetConditionMode>IO</SetConditionMode>
+                    <IOCategory>Modbus</IOCategory>
+                    <IOName>16EspeedLim</IOName>
+                    <IOValue>3000</IOValue>
+                    <ModbusIOType>ModbusAO</ModbusIOType>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_torque60" ConditionUuid="fad5f655aac64798827a5ab7ee045bb7">
+                <Attribute>
+                    <SetConditionMode>IO</SetConditionMode>
+                    <IOCategory>Modbus</IOCategory>
+                    <IOName>118_setTorq</IOName>
+                    <IOValue>60</IOValue>
+                    <ModbusIOType>ModbusAO</ModbusIOType>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_PR2" ConditionUuid="a1b3ae058e074915bfdc8abdabb87b4a">
+                <Attribute>
+                    <SetConditionMode>IO</SetConditionMode>
+                    <IOCategory>Modbus</IOCategory>
+                    <IOName>50E_PR</IOName>
+                    <IOValue>2</IOValue>
+                    <ModbusIOType>ModbusAO</ModbusIOType>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Wait" ConditionAlias="Wait_puuPR2" ConditionUuid="7db5b2dd045543b1b8a3a3140be5a37a">
+                <Attribute>
+                    <WaitConditionMode>Exp</WaitConditionMode>
+                    <WaitConditionExp>(M)50E_PR == 20002</WaitConditionExp>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Move" ConditionAlias="Move_povorot3grad" ConditionUuid="b1f9775ef6324f5688b395b288520f31">
+                <Attribute>
+                    <MoveConditionMode>MoveLine</MoveConditionMode>
+                    <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                    <ArrivalAheadType>None</ArrivalAheadType>
+                    <EnableArrivalAhead>false</EnableArrivalAhead>
+                    <EnableOffset>true</EnableOffset>
+                    <EndAngleAcc>50</EndAngleAcc>
+                    <EndAngleSpeed>50</EndAngleSpeed>
+                    <EndLinearAcc>3</EndLinearAcc>
+                    <EndLinearSpeed>10</EndLinearSpeed>
+                    <OffsetCoordName>zahvat</OffsetCoordName>
+                    <OffsetCoordType>ToolCoord</OffsetCoordType>
+                    <OffsetRX>0.6754</OffsetRX>
+                    <OffsetRY>2.8285</OffsetRY>
+                    <OffsetRZ>0</OffsetRZ>
+                    <OffsetX>0</OffsetX>
+                    <OffsetY>0</OffsetY>
+                    <OffsetZ>0</OffsetZ>
+                    <angleJerkRatio>0.25</angleJerkRatio>
+                    <isInGluing>false</isInGluing>
+                    <isInMoveGroup>false</isInMoveGroup>
+                    <jerkRatio>0.25</jerkRatio>
+                </Attribute>
+                <Condition ConditionType="Waypoint" ConditionAlias="Realtime_Waypoint" ConditionUuid="7958d93b8ea7488f9591d0b781e034f8">
+                    <Attribute>
+                        <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                        <VarPoint>Realtime_Waypoint</VarPoint>
+                    </Attribute>
+                </Condition>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_inc_cntA" ConditionUuid="4afb2ee46ad542c9ad87eb21caa44488">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>V_I_CntA + 1</VarAssignmentExp>
+                    <VarName>V_I_CntA</VarName>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="If" ConditionAlias="If_fatalFlag" ConditionUuid="ac3c408081e14e1884a31abeb9480423">
+            <Attribute>
+                <Exp>V_B_fatalFlag == true</Exp>
+            </Attribute>
+            <Condition ConditionType="Procedure" ConditionAlias="beep1500" ConditionUuid="829f78cd1dc24a759eb76701233f6d49">
+                <Attribute>
+                    <MD5>cafb3c67e975a917ba8a3bff8a3f2f11</MD5>
+                    <ProcedureName>beep1500</ProcedureName>
+                </Attribute>
+                <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber7" ConditionUuid="077af01ccc344fdbb892b1002c5daa56">
+                    <Attribute>
+                        <SetConditionMode>Variable</SetConditionMode>
+                        <VarAssignmentExp>7</VarAssignmentExp>
+                        <VarName>V_I_DIOnumber</VarName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Set" ConditionAlias="Set_stateTrue" ConditionUuid="6259ac18c1194aaa921dccd4324e6556">
+                    <Attribute>
+                        <SetConditionMode>Variable</SetConditionMode>
+                        <VarAssignmentExp>true</VarAssignmentExp>
+                        <VarName>V_B_mk311DOstate</VarName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="8454b40cb5fb4ceb8dabb50f1ac8512d">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                        <ScriptFileName>set_mk311DO</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Wait" ConditionAlias="Wait_1i5s" ConditionUuid="a33a9dc267f14738808421b7af2bf421">
+                    <Attribute>
+                        <WaitConditionMode>Time</WaitConditionMode>
+                        <WaitTime>1.5</WaitTime>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Set" ConditionAlias="Set_stateFalse" ConditionUuid="af036ad504764711836eb7ae8fea82cf">
+                    <Attribute>
+                        <SetConditionMode>Variable</SetConditionMode>
+                        <VarAssignmentExp>false</VarAssignmentExp>
+                        <VarName>V_B_mk311DOstate</VarName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="8f38a735f9cf47c2808e1b8caad5520d">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                        <ScriptFileName>set_mk311DO</ScriptFileName>
+                    </Attribute>
+                </Condition>
+            </Condition>
+            <Condition ConditionType="Message" ConditionAlias="StopProject" ConditionUuid="c7fcce60777a4396add1280ed69a81ca">
+                <Attribute>
+                    <EnableStopProgramRunningWhenMessagePopsUp>true</EnableStopProgramRunningWhenMessagePopsUp>
+                    <MessageContent>не удаётся выйти на зуб!!!!!</MessageContent>
+                    <MessageType>Critical</MessageType>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Set" ConditionAlias="Set_torque60" ConditionUuid="1f7f5ef3596c470ba6a19b9726cd6b03">
+            <Attribute>
+                <SetConditionMode>IO</SetConditionMode>
+                <IOCategory>Modbus</IOCategory>
+                <IOName>118_setTorq</IOName>
+                <IOValue>60</IOValue>
+                <ModbusIOType>ModbusAO</ModbusIOType>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Procedure" ConditionAlias="GripOpen" ConditionUuid="b6ec459d17944591bcc613a9e42eaf10">
+            <Attribute>
+                <MD5>aa13537dbab74c970c71b204954cf396</MD5>
+                <ProcedureName>GripOpen</ProcedureName>
+            </Attribute>
+            <Condition ConditionType="Set" ConditionAlias="Set_PositionFullOpen" ConditionUuid="2330f9180c8443c89774c49095ce7bc4">
+                <Attribute>
+                    <SetConditionMode>IO</SetConditionMode>
+                    <IOCategory>Modbus</IOCategory>
+                    <IOName>Grip_Pos</IOName>
+                    <IOValue>1000</IOValue>
+                    <ModbusIOType>ModbusAO</ModbusIOType>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Wait" ConditionAlias="Wait_025s" ConditionUuid="03b753263ed4430ab82613994f581ae8">
+                <Attribute>
+                    <WaitConditionMode>Time</WaitConditionMode>
+                    <WaitTime>0.25</WaitTime>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Loop" ConditionAlias="Loop_always" ConditionUuid="b09cd602559e4edea6fe946a3840c41a">
+                <Attribute>
+                    <LoopConditionMode>Always</LoopConditionMode>
+                </Attribute>
+                <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber1" ConditionUuid="2c1e7da9e55f43ef988cd0e8a1a7dd33">
+                    <Attribute>
+                        <SetConditionMode>Variable</SetConditionMode>
+                        <VarAssignmentExp>1</VarAssignmentExp>
+                        <VarName>V_I_DIOnumber</VarName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="check_mk311DI" ConditionUuid="407c3a46d3e4404f87651a1ee5177ef8">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>524d9f6fddd5a142b7c70439285eb24e</MD5>
+                        <ScriptFileName>check_mk311DI</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Wait" ConditionAlias="Wait_025s" ConditionUuid="31726433288647289191827a315e5418">
+                    <Attribute>
+                        <WaitConditionMode>Time</WaitConditionMode>
+                        <WaitTime>0.25</WaitTime>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="If" ConditionAlias="If" ConditionUuid="4a7e3c0142fa4297ae17347a74d755c2">
+                    <Attribute>
+                        <Exp>V_B_mk311DIstate == true</Exp>
+                    </Attribute>
+                    <Condition ConditionType="Break" ConditionAlias="Break" ConditionUuid="1bb75160b495494fb581a8b5c1cee4d5">
+                        <Attribute/>
+                    </Condition>
+                </Condition>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Wait" ConditionAlias="Wait_07s" ConditionUuid="a52ad29a14c3473c8f12ae62b18d1553">
+            <Attribute>
+                <WaitConditionMode>Time</WaitConditionMode>
+                <WaitTime>0.7</WaitTime>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Set" ConditionAlias="Set_PR7" ConditionUuid="cb012b7f10c04daabd0a36624c6e411f">
+            <Attribute>
+                <SetConditionMode>IO</SetConditionMode>
+                <IOCategory>Modbus</IOCategory>
+                <IOName>50E_PR</IOName>
+                <IOValue>7</IOValue>
+                <ModbusIOType>ModbusAO</ModbusIOType>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Wait" ConditionAlias="Wait_puuPR7" ConditionUuid="2359c37e570c450aa2ce479448c7dfa3">
+            <Attribute>
+                <WaitConditionMode>Exp</WaitConditionMode>
+                <WaitConditionExp>(M)50E_PR == 20007</WaitConditionExp>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="If" ConditionAlias="If_errorPosition" ConditionUuid="d3c2efe6fef642c6851299364f07bb71">
+            <Attribute>
+                <Exp>(M)02_errorCod != 0</Exp>
+            </Attribute>
+            <Condition ConditionType="Procedure" ConditionAlias="beep1500" ConditionUuid="b52fcb3a0850419c88d6eedca11f9911">
+                <Attribute>
+                    <MD5>cafb3c67e975a917ba8a3bff8a3f2f11</MD5>
+                    <ProcedureName>beep1500</ProcedureName>
+                </Attribute>
+                <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber7" ConditionUuid="c4182bb6b4cc4f7b8818ae77af4e9835">
+                    <Attribute>
+                        <SetConditionMode>Variable</SetConditionMode>
+                        <VarAssignmentExp>7</VarAssignmentExp>
+                        <VarName>V_I_DIOnumber</VarName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Set" ConditionAlias="Set_stateTrue" ConditionUuid="30f8edca00234cefbeef24c072ad225b">
+                    <Attribute>
+                        <SetConditionMode>Variable</SetConditionMode>
+                        <VarAssignmentExp>true</VarAssignmentExp>
+                        <VarName>V_B_mk311DOstate</VarName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="214bed91c9734b39b0860fb5ef74d666">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                        <ScriptFileName>set_mk311DO</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Wait" ConditionAlias="Wait_1i5s" ConditionUuid="bbb9beb9d628440eae9c2562c53a02b3">
+                    <Attribute>
+                        <WaitConditionMode>Time</WaitConditionMode>
+                        <WaitTime>1.5</WaitTime>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Set" ConditionAlias="Set_stateFalse" ConditionUuid="6c267681c2f2445189e7da2786cc0cfd">
+                    <Attribute>
+                        <SetConditionMode>Variable</SetConditionMode>
+                        <VarAssignmentExp>false</VarAssignmentExp>
+                        <VarName>V_B_mk311DOstate</VarName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="fb0ab12e4ae740b6a3923a01dad4bb9d">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                        <ScriptFileName>set_mk311DO</ScriptFileName>
+                    </Attribute>
+                </Condition>
+            </Condition>
+            <Condition ConditionType="Message" ConditionAlias="Message" ConditionUuid="86dbd26dc600435fb11c4b5082ad9a92">
+                <Attribute>
+                    <EnableStopProgramRunningWhenMessagePopsUp>true</EnableStopProgramRunningWhenMessagePopsUp>
+                    <MessageContent>oshibka pozicionirovaniya</MessageContent>
+                    <MessageType>Critical</MessageType>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Move" ConditionAlias="Move_povorotNazad" ConditionUuid="fa981dd827de40bf87a2989e74233320">
+            <Attribute>
+                <MoveConditionMode>MoveLine</MoveConditionMode>
+                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                <ArrivalAheadType>None</ArrivalAheadType>
+                <EnableArrivalAhead>false</EnableArrivalAhead>
+                <EnableOffset>true</EnableOffset>
+                <EndAngleAcc>50</EndAngleAcc>
+                <EndAngleSpeed>50</EndAngleSpeed>
+                <EndLinearAcc>8</EndLinearAcc>
+                <EndLinearSpeed>20</EndLinearSpeed>
+                <OffsetCoordName>zahvat</OffsetCoordName>
+                <OffsetCoordType>ToolCoord</OffsetCoordType>
+                <OffsetRX>V_I_CntA * -0.6754</OffsetRX>
+                <OffsetRY>V_I_CntA * -2.8285</OffsetRY>
+                <OffsetRZ>0</OffsetRZ>
+                <OffsetX>0</OffsetX>
+                <OffsetY>0</OffsetY>
+                <OffsetZ>0</OffsetZ>
+                <angleJerkRatio>0.25</angleJerkRatio>
+                <isInGluing>false</isInGluing>
+                <isInMoveGroup>false</isInMoveGroup>
+                <jerkRatio>0.25</jerkRatio>
+            </Attribute>
+            <Condition ConditionType="Waypoint" ConditionAlias="Realtime_Waypoint" ConditionUuid="00a575e467de4d75a491887e7d9c9bf9">
+                <Attribute>
+                    <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                    <VarPoint>Realtime_Waypoint</VarPoint>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Move" ConditionAlias="Move_vverh" ConditionUuid="05ed7245d72e4d7e9d91669f6fd68ca6">
+            <Attribute>
+                <MoveConditionMode>MoveLine</MoveConditionMode>
+                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                <ArrivalAheadType>None</ArrivalAheadType>
+                <EnableArrivalAhead>false</EnableArrivalAhead>
+                <EnableOffset>true</EnableOffset>
+                <EndAngleAcc>50</EndAngleAcc>
+                <EndAngleSpeed>50</EndAngleSpeed>
+                <EndLinearAcc>20</EndLinearAcc>
+                <EndLinearSpeed>40</EndLinearSpeed>
+                <OffsetCoordName>zahvat</OffsetCoordName>
+                <OffsetCoordType>ToolCoord</OffsetCoordType>
+                <OffsetRX>0</OffsetRX>
+                <OffsetRY>0</OffsetRY>
+                <OffsetRZ>0</OffsetRZ>
+                <OffsetX>0</OffsetX>
+                <OffsetY>0</OffsetY>
+                <OffsetZ>-0.29</OffsetZ>
+                <angleJerkRatio>0.25</angleJerkRatio>
+                <isInGluing>false</isInGluing>
+                <isInMoveGroup>false</isInMoveGroup>
+                <jerkRatio>0.25</jerkRatio>
+            </Attribute>
+            <Condition ConditionType="Waypoint" ConditionAlias="Realtime_Waypoint" ConditionUuid="c5f70d63c84141a689f5aa220784d241">
+                <Attribute>
+                    <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                    <VarPoint>Realtime_Waypoint</VarPoint>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Set" ConditionAlias="Set_PR13" ConditionUuid="1e9fa14384d3414ab9715537dba4c0df">
+            <Attribute>
+                <SetConditionMode>IO</SetConditionMode>
+                <IOCategory>Modbus</IOCategory>
+                <IOName>50E_PR</IOName>
+                <IOValue>13</IOValue>
+                <ModbusIOType>ModbusAO</ModbusIOType>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Wait" ConditionAlias="Wait_puuPR13" ConditionUuid="924e66007b0042b3a6e5194f320d6e5f">
+            <Attribute>
+                <WaitConditionMode>Exp</WaitConditionMode>
+                <WaitConditionExp>(M)50E_PR == 20013</WaitConditionExp>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Set" ConditionAlias="Set_PR7" ConditionUuid="7ba44fa1b951464fab9d893f7f28bd3f">
+            <Attribute>
+                <SetConditionMode>IO</SetConditionMode>
+                <IOCategory>Modbus</IOCategory>
+                <IOName>50E_PR</IOName>
+                <IOValue>7</IOValue>
+                <ModbusIOType>ModbusAO</ModbusIOType>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Wait" ConditionAlias="Wait_puuPR7" ConditionUuid="4b1e88e8eb674794b2b6487b2186114c">
+            <Attribute>
+                <WaitConditionMode>Exp</WaitConditionMode>
+                <WaitConditionExp>(M)50E_PR == 20007</WaitConditionExp>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="If" ConditionAlias="If_errorPosition" ConditionUuid="009c78a0c29b42ec875feeaf7c3e4fde">
+            <Attribute>
+                <Exp>(M)02_errorCod != 0</Exp>
+            </Attribute>
+            <Condition ConditionType="Procedure" ConditionAlias="beep1500" ConditionUuid="a807c0c537f64a4caf7944c713411457">
+                <Attribute>
+                    <MD5>cafb3c67e975a917ba8a3bff8a3f2f11</MD5>
+                    <ProcedureName>beep1500</ProcedureName>
+                </Attribute>
+                <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber7" ConditionUuid="33e5d75d667f47348ea2cdaea947bfb9">
+                    <Attribute>
+                        <SetConditionMode>Variable</SetConditionMode>
+                        <VarAssignmentExp>7</VarAssignmentExp>
+                        <VarName>V_I_DIOnumber</VarName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Set" ConditionAlias="Set_stateTrue" ConditionUuid="26a145e9bccc45d8935f461f0ad6d431">
+                    <Attribute>
+                        <SetConditionMode>Variable</SetConditionMode>
+                        <VarAssignmentExp>true</VarAssignmentExp>
+                        <VarName>V_B_mk311DOstate</VarName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="5affe7fc03204fe18f8b51d93b885620">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                        <ScriptFileName>set_mk311DO</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Wait" ConditionAlias="Wait_1i5s" ConditionUuid="546834ffbdf94a7ab5842fac5a989ad1">
+                    <Attribute>
+                        <WaitConditionMode>Time</WaitConditionMode>
+                        <WaitTime>1.5</WaitTime>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Set" ConditionAlias="Set_stateFalse" ConditionUuid="d54b015d3be54c0faa90d0f8a2421820">
+                    <Attribute>
+                        <SetConditionMode>Variable</SetConditionMode>
+                        <VarAssignmentExp>false</VarAssignmentExp>
+                        <VarName>V_B_mk311DOstate</VarName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="ab19ffc9454749539fae4113478dea08">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                        <ScriptFileName>set_mk311DO</ScriptFileName>
+                    </Attribute>
+                </Condition>
+            </Condition>
+            <Condition ConditionType="Message" ConditionAlias="Message" ConditionUuid="768d559102c94ea2b22ef588a15cf332">
+                <Attribute>
+                    <EnableStopProgramRunningWhenMessagePopsUp>true</EnableStopProgramRunningWhenMessagePopsUp>
+                    <MessageContent>oshibka pozicionirovaniya</MessageContent>
+                    <MessageType>Critical</MessageType>
+                </Attribute>
+            </Condition>
+        </Condition>
+    </Condition>
+</ProcedureProgram>

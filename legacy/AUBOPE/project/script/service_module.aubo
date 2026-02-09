@@ -1,0 +1,81 @@
+local mod_table={}
+local function bit(p)
+    return 2 ^ (p -  1)
+end
+local function hasbit(x , p) -- возвращает состояние бита Р в числе Х
+     return x % (p + p) >= p
+end
+local function setbit(x , p) -- установка в True бита Р в числе Х
+     return hasbit(x , p) and x or x + p
+end
+local function clearbit(x , p) -- сброс в False бита Р в числе Х
+     return hasbit(x , p) and x-p or x
+end
+local function beep(time)-- пиииик v sekundax
+    inp = get_modbus_io_status("mk311_DO")
+    res = setbit(inp , bit(7))
+    set_modbus_io_status("mk311_DO", res)
+    sleep(time)
+    res = clearbit(inp , bit(7))
+    set_modbus_io_status("mk311_DO", res)    
+end
+-- ustanov znacheniya momenta servoodvigatelya
+local function setTorqueServo(val)
+    set_modbus_io_status("118_setTorq", val)
+end
+-- chtenie stroki iz tablicy probeParamTable
+local function selectRow_probeParamTable(row)
+    set_modbus_io_status("synhr_c120h", 0) -- сброс флага, если вдруг SCADA его не сбросила
+    sleep(0.2) -- nemnogo podojdem
+    set_modbus_io_status("synhr_r160h", row) -- запрос нужной строки из таблицы probeParam_v??   
+    set_modbus_io_status("synhr_c120h", 1) -- при установке флага в 1, SCADA начинает загрузку данных в тэги   
+    sleep(0.2) -- немного подождём
+    i = 1
+    while (i==0) do -- когда SCADA завершит загрузку, она скинет флаг
+        i = get_modbus_io_status("synhr_c120h") -- состояние флага
+        sleep(0.25) -- немного подождём
+    end    
+end
+local function spindelSTART()
+    inp = get_modbus_io_status("mk311_DO")
+    res = setbit(inp , bit(3))
+    set_modbus_io_status("mk311_DO", res)
+end
+local function spindelSTOP()
+    inp = get_modbus_io_status("mk311_DO")
+    res = clearbit(inp , bit(3))
+    set_modbus_io_status("mk311_DO", res)
+end
+local function aspiraciyaSTART()
+    inp = get_modbus_io_status("mk311_DO")
+    res = setbit(inp , bit(6))
+    set_modbus_io_status("mk311_DO", res)
+end
+local function aspiraciyaSTOP()
+    inp = get_modbus_io_status("mk311_DO")
+    res = clearbit(inp , bit(6))
+    set_modbus_io_status("mk311_DO", res)
+end
+local function servoGo(pr)
+    set_modbus_io_status("50E_PR", pr)
+    -- ojidanie zaversheniya dvijeniya
+    i = get_modbus_io_status("50E_PR")
+    while (i ~= (20000+pr)) do
+        sleep(0.5)
+        i = get_modbus_io_status("50E_PR")
+    end
+end
+-- tablica exporta
+mod_table.setTorqueServo = setTorqueServo
+mod_table.beep = beep
+mod_table.hasbit = hasbit
+mod_table.setbit = setbit
+mod_table.clearbit = clearbit
+mod_table.bit = bit
+mod_table.selectRow_probeParamTable = selectRow_probeParamTable
+mod_table.spindelSTART = spindelSTART
+mod_table.spindelSTOP = spindelSTOP
+mod_table.servoGo = servoGo
+mod_table.aspiraciyaSTOP = aspiraciyaSTOP
+mod_table.aspiraciyaSTART = aspiraciyaSTART
+return mod_table

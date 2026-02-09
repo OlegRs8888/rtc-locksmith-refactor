@@ -1,0 +1,193 @@
+local mod_table={}
+
+local function getParamTool()
+    -- чтение компонент системы координат шпинделя с инструментом, созданной и расчитанной в скрипте probeDrillTool
+    posDrill = {0,0,0}
+    oriDrill = {0,0,0,0}
+    posDrill[1] = get_modbus_io_status("M_F_tPosX_r170h")
+    posDrill[2] = get_modbus_io_status("M_F_tPosY_r172h")
+    posDrill[3] = get_modbus_io_status("M_F_tPosZ_r174h")
+    oriDrill[2] = get_modbus_io_status("M_F_tOriX_r176h")
+    oriDrill[3] = get_modbus_io_status("M_F_tOriY_r178h")
+    oriDrill[4] = get_modbus_io_status("M_F_tOriZ_r17Ah")
+    oriDrill[1] = get_modbus_io_status("M_F_tOriW_r17Ch")
+    return posDrill, oriDrill
+end
+local function moveLine_go(velc, acc, pos, posTool, oriTool)
+    Povorotka_UserSysCoord = "povorotnayaOsReal"
+    -- параметры системы координат поворотки
+    calMet, jP1, jP2, jP3, tP = get_user_coord_param(Povorotka_UserSysCoord)
+    -- обязательный сброс значений относительных перемещений
+    set_relative_offset({0,0,0})
+    pos[1] = pos[1]/1000 -- в метры
+    pos[2] = pos[2]/1000 -- в метры
+    pos[3] = pos[3]/1000 -- в метры
+    targetPos = get_target_pose(pos, false, posTool, oriTool, calMet, jP1, jP2, jP3, tP)
+    set_end_maxvelc(velc/1000) -- mm/s
+    set_end_maxacc(acc/1000) -- mm/s^2
+    move_line(targetPos, true) -- Line движение
+end
+local function getDataMill()
+    P70podacha = get_modbus_io_status("millZR1C0h") -- Р70, подача фрезеровки; мм/мин, uint, 16bit
+    P70podacha = math.abs(P70podacha) -- нормализация, убираю знак
+    P70podacha = math.floor(P70podacha) -- нормализация, только целая часть
+    set_modbus_io_status("millZR1C0h", P70podacha)
+    P71saftyX = get_modbus_io_status("millZR1C1h") -- Р71, координата X по G54 плоскости безопасности; мм, uint, 16bit
+    P71saftyX = math.abs(P71saftyX) -- нормализация, убираю знак
+    P71saftyX = math.floor(P71saftyX) -- нормализация, только целая часть
+    set_modbus_io_status("millZR1C1h", P71saftyX)
+    P72operationX = get_modbus_io_status("millZR1C2h") -- Р72, координата X по G54 плоскости операции; мм, uint, 16bit
+    P72operationX = math.abs(P72operationX) -- нормализация, убираю знак
+    P72operationX = math.floor(P72operationX) -- нормализация, только целая часть
+    set_modbus_io_status("millZR1C2h", P72operationX)
+    P73velcOperation = get_modbus_io_status("millZR1C3h") -- Р73, скорость при движениях от плоскости безопасности к плоскости операции и обратно; мм/сек, uint, 16bit
+    P73velcOperation = math.abs(P73velcOperation) -- нормализация, убираю знак
+    P73velcOperation = math.floor(P73velcOperation) -- нормализация, только целая часть
+    set_modbus_io_status("millZR1C3h", P73velcOperation)
+    P74velcPodvod = get_modbus_io_status("millZR1C4h") -- Р74, скорость при движениях от плоскости операции к точкам подвода и обратно; мм/сек, uint, 16bit
+    P74velcPodvod = math.abs(P74velcPodvod) -- нормализация, убираю знак
+    P74velcPodvod = math.floor(P74velcPodvod) -- нормализация, только целая часть
+    set_modbus_io_status("millZR1C4h", P74velcPodvod)
+    P75velcStartPoint = get_modbus_io_status("millZR1C5h") -- Р75, скорость врезания инструмента(движение к точке начала обработки); мм/сек, uint, 16bit
+    P75velcStartPoint = math.abs(P75velcStartPoint) -- нормализация, убираю знак
+    P75velcStartPoint = math.floor(P75velcStartPoint) -- нормализация, только целая часть
+    set_modbus_io_status("millZR1C5h", P75velcStartPoint)
+    P76ven1X = get_modbus_io_status("M_F_millZR1C6h") -- Р76, Венец1: координата X по G54 точки старта операции; мм, float, 32bit
+    P76ven1X = math.abs(P76ven1X) -- нормализация, убираю знак
+    set_modbus_io_status("M_F_millZR1C6h", P76ven1X)
+    P77ven2X = get_modbus_io_status("M_F_millZR1C8h") -- Р77, Венец2: координата X по G54 точки старта операции; мм, float, 32bit
+    P77ven2X = math.abs(P77ven2X) -- нормализация, убираю знак
+    set_modbus_io_status("M_F_millZR1C8h", P77ven2X)
+    P78ven3X = get_modbus_io_status("M_F_millZR1CAh") -- Р78, Венец3: координата X по G54 точки старта операции; мм, float, 32bit
+    P78ven3X = math.abs(P78ven3X) -- нормализация, убираю знак
+    set_modbus_io_status("M_F_millZR1CAh", P78ven3X)
+    P79Dfrezy = get_modbus_io_status("M_F_millZR1CCh") -- Р79, диаметр фрезы; мм, float, 32bit
+    P79Dfrezy = math.abs(P79Dfrezy) -- нормализация, убираю знак
+    set_modbus_io_status("M_F_millZR1CCh", P79Dfrezy)
+    P81ven1storona = get_modbus_io_status("millZR1D0h") -- Р81, венец 1, параметр выбора торца для фрезеровки или нет обработки
+    P81ven1storona = math.abs(P81ven1storona) -- нормализация, убираю знак
+    P81ven1storona = math.floor(P81ven1storona) -- нормализация, только целая часть
+    set_modbus_io_status("millZR1D0h", P81ven1storona)
+    P82ven2storona = get_modbus_io_status("millZR1D1h") -- Р82, венец 2, параметр выбора торца для фрезеровки или нет обработки
+    P82ven2storona = math.abs(P82ven2storona) -- нормализация, убираю знак
+    P82ven2storona = math.floor(P82ven2storona) -- нормализация, только целая часть
+    set_modbus_io_status("millZR1D1h", P82ven2storona)
+    P83ven3storona = get_modbus_io_status("millZR1D2h") -- Р83, венец 3, параметр выбора торца для фрезеровки или нет обработки
+    P83ven3storona = math.abs(P83ven3storona) -- нормализация, убираю знак
+    P83ven3storona = math.floor(P83ven3storona) -- нормализация, только целая часть
+    set_modbus_io_status("millZR1D2h", P83ven3storona)
+    P85_Yoffset = get_modbus_io_status("M_F_millZR1D4h") -- Р85, Y координата отступа от точки начала фрезеровки; мм, float, 32bit
+    P85_Yoffset = math.abs(P85_Yoffset) -- нормализация, убираю знак
+    set_modbus_io_status("M_F_millZR1D4h", P85_Yoffset)
+    P86perebeg = get_modbus_io_status("M_F_millZR1D6h") -- Р86, перебег(перекрут сателлита); мм, float, 32bit
+    set_modbus_io_status("M_F_millZR1D6h", P86perebeg)
+    P87korrZminus = get_modbus_io_status("M_F_millZR1D8h") -- 
+    P88korrZplus = get_modbus_io_status("M_F_millZR1DAh") -- 
+    P80pripuskV1 = get_modbus_io_status("M_F_millZR1CEh") -- Р80, венец 1: припуск на контур; мм, float, 32bit 
+    P90pripuskV2 = get_modbus_io_status("M_F_millZR1DCh") -- Р90, венец 2: припуск на контур; мм, float, 32bit 
+    P91pripuskV3 = get_modbus_io_status("M_F_millZR1DEh") -- Р91, венец 3: припуск на контур; мм, float, 32bit 
+    -- флаги
+    printDbgFlag = get_modbus_io_status("millZ_c190h") -- флаг отладки
+    naladkaFlag = get_modbus_io_status("millZ_c191h") -- флаг naladki
+    return P70podacha, P71saftyX, P72operationX, P73velcOperation, P74velcPodvod, P75velcStartPoint, P76ven1X, P77ven2X, P78ven3X, P79Dfrezy, P80pripuskV1, P90pripuskV2, P91pripuskV3, P81ven1storona, P82ven2storona, P83ven3storona, P85_Yoffset, P86perebeg, P87korrZminus, P88korrZplus, printDbgFlag, naladkaFlag
+end
+function checkDataMill(P70podacha, P71saftyX, P72operationX, P73velcOperation, P74velcPodvod, P75velcStartPoint, P76ven1X, P77ven2X, P78ven3X, P79Dfrezy, P80pripuskV1, P90pripuskV2, P91pripuskV3, P81ven1storona, P82ven2storona, P83ven3storona, P85_Yoffset, P86perebeg, P87korrZminus, P88korrZplus, printDbgFlag, naladkaFlag)
+--*******************критические проверки************************************
+    if P70podacha > 250 then
+        print("mill script: podacha zapredel`naya")
+        return -1 -- podacha zapredel`naya
+    end
+    if P79Dfrezy > 4 then
+        print("mill script: nedopustimy` diametr frezy. d > 4")
+        return -1 -- nedopustimy` diametr frezy
+    end
+--*******************критические проверки************************************
+    if (P81ven1storona + P82ven2storona + P83ven3storona)==0 then
+        print("mill script: не выбран ни один венец")
+        return -1 -- не выбран ni odin venec
+    end
+    if P71saftyX==0 or P72operationX==0 or P73velcOperation==0 or P74velcPodvod==0 or P75velcStartPoint==0 or P76ven1X==0 or P77ven2X==0 or P78ven3X==0 or P79Dfrezy==0  then
+        print("mill script: nekotorye znacheniya nulevye")
+        return -1 -- nekotorye znacheniya nulevye
+    end
+    return 0
+end
+local function getXcoordObmera()
+--    Rprobe = get_modbus_io_status("M_F_probe_r110h") -- радиус наконечника стилуса
+--    Rprobe = math.abs(Rprobe) -- нормализация, убираю знак
+    local_Rprobe = 1 -- радиус наконечника стилуса datchika na robote
+    -- schital компонентy системы координат datchika kasaniya
+    posRprobe, oriRprobe = get_tool_kinematics_param("probeR")
+    Povorotka_UserSysCoord = "povorotnayaOsReal"
+    -- параметры системы координат поворотки
+    calMet, jP1, jP2, jP3, tP = get_user_coord_param(Povorotka_UserSysCoord)
+    --Venec1Storona1Joints
+    jointsObmerPoint = {0,0,0,0,0,0}
+    jointsObmerPoint[1] = get_modbus_io_status("M_F_detectR1ECh")-- wpCurrent.joint.j1
+    jointsObmerPoint[2] = get_modbus_io_status("M_F_detectR1EEh")-- wpCurrent.joint.j2
+    jointsObmerPoint[3] = get_modbus_io_status("M_F_detectR1F0h")-- wpCurrent.joint.j3
+    jointsObmerPoint[4] = get_modbus_io_status("M_F_detectR1F2h")-- wpCurrent.joint.j4
+    jointsObmerPoint[5] = get_modbus_io_status("M_F_detectR1F4h")-- wpCurrent.joint.j5
+    jointsObmerPoint[6] = get_modbus_io_status("M_F_detectR1F6h")-- wpCurrent.joint.j6
+    posTarget, oriTarget = base_to_user(jointsObmerPoint, posRprobe, oriRprobe, calMet, jP1, jP2, jP3, tP)
+    v1s1_Zt = posTarget[3]*1000 + local_Rprobe
+    --Venec1Storona2Joints
+    jointsObmerPoint = {0,0,0,0,0,0}
+    jointsObmerPoint[1] = get_modbus_io_status("M_F_detectR1F8h")-- wpCurrent.joint.j1
+    jointsObmerPoint[2] = get_modbus_io_status("M_F_detectR1FAh")-- wpCurrent.joint.j2
+    jointsObmerPoint[3] = get_modbus_io_status("M_F_detectR1FCh")-- wpCurrent.joint.j3
+    jointsObmerPoint[4] = get_modbus_io_status("M_F_detectR1FEh")-- wpCurrent.joint.j4
+    jointsObmerPoint[5] = get_modbus_io_status("M_F_detectR200h")-- wpCurrent.joint.j5
+    jointsObmerPoint[6] = get_modbus_io_status("M_F_detectR202h")-- wpCurrent.joint.j6
+    posTarget, oriTarget = base_to_user(jointsObmerPoint, posRprobe, oriRprobe, calMet, jP1, jP2, jP3, tP)
+    v1s2_Zt = posTarget[3]*1000 - local_Rprobe
+    --Venec2Storona1Joints
+    jointsObmerPoint = {0,0,0,0,0,0}
+    jointsObmerPoint[1] = get_modbus_io_status("M_F_detectR204h")-- wpCurrent.joint.j1
+    jointsObmerPoint[2] = get_modbus_io_status("M_F_detectR206h")-- wpCurrent.joint.j2
+    jointsObmerPoint[3] = get_modbus_io_status("M_F_detectR208h")-- wpCurrent.joint.j3
+    jointsObmerPoint[4] = get_modbus_io_status("M_F_detectR20Ah")-- wpCurrent.joint.j4
+    jointsObmerPoint[5] = get_modbus_io_status("M_F_detectR20Ch")-- wpCurrent.joint.j5
+    jointsObmerPoint[6] = get_modbus_io_status("M_F_detectR20Eh")-- wpCurrent.joint.j6
+    posTarget, oriTarget = base_to_user(jointsObmerPoint, posRprobe, oriRprobe, calMet, jP1, jP2, jP3, tP)
+    v2s1_Zt = posTarget[3]*1000 + local_Rprobe
+    --Venec2Storona2Joints
+    jointsObmerPoint = {0,0,0,0,0,0}
+    jointsObmerPoint[1] = get_modbus_io_status("M_F_detectR210h")-- wpCurrent.joint.j1
+    jointsObmerPoint[2] = get_modbus_io_status("M_F_detectR212h")-- wpCurrent.joint.j2
+    jointsObmerPoint[3] = get_modbus_io_status("M_F_detectR214h")-- wpCurrent.joint.j3
+    jointsObmerPoint[4] = get_modbus_io_status("M_F_detectR216h")-- wpCurrent.joint.j4
+    jointsObmerPoint[5] = get_modbus_io_status("M_F_detectR218h")-- wpCurrent.joint.j5
+    jointsObmerPoint[6] = get_modbus_io_status("M_F_detectR21Ah")-- wpCurrent.joint.j6
+    posTarget, oriTarget = base_to_user(jointsObmerPoint, posRprobe, oriRprobe, calMet, jP1, jP2, jP3, tP)
+    v2s2_Zt = posTarget[3]*1000 - local_Rprobe
+    --Venec3Storona1Joints
+    jointsObmerPoint = {0,0,0,0,0,0}
+    jointsObmerPoint[1] = get_modbus_io_status("M_F_detectR21Ch")-- wpCurrent.joint.j1
+    jointsObmerPoint[2] = get_modbus_io_status("M_F_detectR21Eh")-- wpCurrent.joint.j2
+    jointsObmerPoint[3] = get_modbus_io_status("M_F_detectR220h")-- wpCurrent.joint.j3
+    jointsObmerPoint[4] = get_modbus_io_status("M_F_detectR222h")-- wpCurrent.joint.j4
+    jointsObmerPoint[5] = get_modbus_io_status("M_F_detectR224h")-- wpCurrent.joint.j5
+    jointsObmerPoint[6] = get_modbus_io_status("M_F_detectR226h")-- wpCurrent.joint.j6
+    posTarget, oriTarget = base_to_user(jointsObmerPoint, posRprobe, oriRprobe, calMet, jP1, jP2, jP3, tP)
+    v3s1_Zt = posTarget[3]*1000 + local_Rprobe
+    --Venec3Storona2Joints
+    jointsObmerPoint = {0,0,0,0,0,0}
+    jointsObmerPoint[1] = get_modbus_io_status("M_F_detectR228h")-- wpCurrent.joint.j1
+    jointsObmerPoint[2] = get_modbus_io_status("M_F_detectR22Ah")-- wpCurrent.joint.j2
+    jointsObmerPoint[3] = get_modbus_io_status("M_F_detectR22Ch")-- wpCurrent.joint.j3
+    jointsObmerPoint[4] = get_modbus_io_status("M_F_detectR22Eh")-- wpCurrent.joint.j4
+    jointsObmerPoint[5] = get_modbus_io_status("M_F_detectR230h")-- wpCurrent.joint.j5
+    jointsObmerPoint[6] = get_modbus_io_status("M_F_detectR232h")-- wpCurrent.joint.j6
+    posTarget, oriTarget = base_to_user(jointsObmerPoint, posRprobe, oriRprobe, calMet, jP1, jP2, jP3, tP)
+    v3s2_Zt = posTarget[3]*1000 - local_Rprobe
+    return v1s1_Zt, v1s2_Zt, v2s1_Zt, v2s2_Zt,  v3s1_Zt, v3s2_Zt
+end
+
+-- tablica exporta
+mod_table.getXcoordObmera = getXcoordObmera
+mod_table.moveLine_go = moveLine_go
+mod_table.getParamTool = getParamTool
+mod_table.getDataMill = getDataMill
+mod_table.checkDataMill = checkDataMill
+return mod_table

@@ -1,0 +1,56 @@
+<window name="ЕРГУ.303151.003.102 Сателлит" color="0x748490ff" type="0" windowheight="1900" windowwidth="1200" usepassword="false" password="" groupname="" subgroupname="" posx="-1000" posy="-1000" accesslevel="0">
+   <objects>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="27.0" posy="213.0" width="157.0" height="1.0" angle="0" lock="false" color="0x000000ff" linewidth="5" linestyle="Solid" beginmarker="Arrow" endmarker="Arrow">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.ImageObjectView" name="Изображение0" posx="-1.0" posy="381.0" width="1000.0" height="170.0" angle="0" lock="false" imagebase="" filename="ЕРГУ.303153.001.303">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="21.0" posy="213.0" width="1.0" height="170.0" angle="0" lock="false" color="0x000000ff" linewidth="5" linestyle="Dot" beginmarker="Flat" endmarker="Flat">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="364.0" posy="303.0" width="1.0" height="83.0" angle="0" lock="false" color="0x000000ff" linewidth="5" linestyle="Dot" beginmarker="Flat" endmarker="Flat">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="194.0" posy="303.0" width="165.0" height="1.0" angle="0" lock="false" color="0x000000ff" linewidth="5" linestyle="Solid" beginmarker="Arrow" endmarker="Arrow">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="194.0" posy="213.0" width="220.0" height="1.0" angle="0" lock="false" color="0x000000ff" linewidth="5" linestyle="Solid" beginmarker="Arrow" endmarker="Arrow">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="424.0" posy="213.0" width="328.0" height="1.0" angle="0" lock="false" color="0x000000ff" linewidth="5" linestyle="Solid" beginmarker="Arrow" endmarker="Arrow">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="1.0" posy="467.0" width="1200.0" height="1.0" angle="0" lock="false" color="0x000000ff" linewidth="5" linestyle="DashDot" beginmarker="Flat" endmarker="Flat">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="-1.0" posy="356.0" width="1200.0" height="1.0" angle="0" lock="false" color="0x99cc99ff" linewidth="5" linestyle="DashDot" beginmarker="Flat" endmarker="Flat">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="0.0" posy="119.0" width="1200.0" height="1.0" angle="0" lock="false" color="0x99cc99ff" linewidth="5" linestyle="DashDot" beginmarker="Flat" endmarker="Flat">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="189.0" posy="213.0" width="1.0" height="170.0" angle="0" lock="false" color="0x000000ff" linewidth="5" linestyle="Dot" beginmarker="Flat" endmarker="Flat">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="419.0" posy="216.0" width="1.0" height="160.0" angle="0" lock="false" color="0x000000ff" linewidth="5" linestyle="Dot" beginmarker="Flat" endmarker="Flat">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="759.0" posy="213.0" width="1.0" height="170.0" angle="0" lock="false" color="0x000000ff" linewidth="5" linestyle="Dot" beginmarker="Flat" endmarker="Flat">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="704.0" posy="304.0" width="1.0" height="72.0" angle="0" lock="false" color="0x000000ff" linewidth="5" linestyle="Dot" beginmarker="Flat" endmarker="Flat">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="424.0" posy="303.0" width="273.0" height="1.0" angle="0" lock="false" color="0x000000ff" linewidth="5" linestyle="Solid" beginmarker="Arrow" endmarker="Arrow">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="934.0" posy="303.0" width="1.0" height="83.0" angle="0" lock="false" color="0x000000ff" linewidth="5" linestyle="Dot" beginmarker="Flat" endmarker="Flat">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="764.0" posy="303.0" width="165.0" height="1.0" angle="0" lock="false" color="0x000000ff" linewidth="5" linestyle="Solid" beginmarker="Arrow" endmarker="Arrow">
+         <scripts/>
+      </objectView>
+   </objects>
+   <scriptnames/>
+</window>

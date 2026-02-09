@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProcedureProgram>
+    <Condition ConditionType="Procedure_Program" ConditionAlias="Procedure_Program" ConditionUuid="1512a034adb742238dca51164c9a7028">
+        <Attribute/>
+        <Condition ConditionType="Wait" ConditionAlias="Wait" ConditionUuid="7b983181549b41afa0636cf5f490bf68">
+            <Attribute>
+                <WaitConditionMode>Time</WaitConditionMode>
+                <WaitTime>100</WaitTime>
+            </Attribute>
+        </Condition>
+    </Condition>
+</ProcedureProgram>

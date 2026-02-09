@@ -1,0 +1,262 @@
+--Procedure Program
+
+--block script function definition
+  function blockScriptFunc_set_mk312DO()
+    function bit(p)
+        return 2 ^ (p -  1)
+    end
+    function hasbit(x , p)
+         return x % (p + p) >= p
+    end
+    function setbit(x , p)
+         return hasbit(x , p) and x or x + p
+    end
+    function clearbit(x , p)
+         return hasbit(x , p) and x-p or x
+    end
+    
+    inp = get_modbus_io_status("mk312_DO")
+    bitNum = get_global_variable("V_I_DIOnumber")
+    bitState = get_global_variable("V_B_mk312DOstate")
+    if bitState == true then 
+        res = setbit(inp , bit(bitNum))
+    else 
+        res = clearbit(inp , bit(bitNum))
+    end
+    set_modbus_io_status("mk312_DO", res)
+  end  --function blockScriptFunc_set_mk312DO()
+
+  function blockScriptFunc_check_mk311DI()
+    function bit(p)
+        return 2 ^ (p -  1)
+    end
+    function hasbit(x , p)
+         return x % (p + p) >= p
+    end
+    
+    inp = get_modbus_io_status("mk311_DI")
+    bitNum = get_global_variable("V_I_DIOnumber")
+    res = hasbit(inp , bit(bitNum))
+    set_global_variable("V_B_mk311DIstate", res)
+  end  --function blockScriptFunc_check_mk311DI()
+
+--script function definition
+  function ifScriptFunc_0()
+    --(Logic tree item : Break) Break
+    do return false end
+  end
+
+  function loopScriptFunc_0()
+    --(Logic tree item : Script) check_mk311DI
+    set_current_logic_tree_item("9e327c2efc5b472b9a411433fea51d70")
+    blockScriptFunc_check_mk311DI()
+    set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_025s
+    set_current_logic_tree_item("8cf376b702c4489aa997b848f6cf7b9f")
+    sleep(0.25)
+    set_step_breakpoint()
+    --(Logic tree item : If) If
+    if (get_global_variable("V_B_mk311DIstate") == true) then
+      ifFuncRet = ifScriptFunc_0()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+  end
+
+  function loopScriptFunc_1()
+    --(Logic tree item : Wait) Wait_01s
+    set_current_logic_tree_item("647c6ae4820848f4820a7567bb4ca893")
+    sleep(0.1)
+    set_step_breakpoint()
+    --(Logic tree item : Script) check_mk311DI
+    set_current_logic_tree_item("3b10fb6f224545cba3a7637bd05ad657")
+    blockScriptFunc_check_mk311DI()
+    set_step_breakpoint()
+    --(Logic tree item : If) If
+    if (get_global_variable("V_B_mk311DIstate") == true) then
+      ifFuncRet = ifScriptFunc_1()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+  end
+
+  function ifScriptFunc_1()
+    --(Logic tree item : Break) Break
+    do return false end
+  end
+
+  function ifScriptFunc_2()
+    --(Logic tree item : Break) Break
+    do return false end
+  end
+
+  function loopScriptFunc_2()
+    --(Logic tree item : Script) check_mk311DI
+    set_current_logic_tree_item("8dd800d18ed24322b1e83b660962c02b")
+    blockScriptFunc_check_mk311DI()
+    set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_025s
+    set_current_logic_tree_item("1659fe0a9d304f0584da8652d9369b05")
+    sleep(0.25)
+    set_step_breakpoint()
+    --(Logic tree item : If) If
+    if (get_global_variable("V_B_mk311DIstate") == true) then
+      ifFuncRet = ifScriptFunc_2()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+  end
+
+--(Logic tree item : Procedure_Program) Procedure_Program
+  --(Logic tree item : Procedure) GripClose
+    --(Logic tree item : Set) Set_PositionFullClos
+    set_current_logic_tree_item("9a177f09f92c4f049ca5d39e2c770150")
+    set_modbus_io_status("Grip_Pos", 0)
+    set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_025s
+    set_current_logic_tree_item("30f19c17db894422a3297a0cb61918c6")
+    sleep(0.25)
+    set_step_breakpoint()
+    --(Logic tree item : Set) Set_DIOnumber5
+    set_current_logic_tree_item("539c1024f9b248e89549a086819f480f")
+    set_global_variable("V_I_DIOnumber", 5)
+    --(Logic tree item : Loop) Loop_always
+    while (true) do
+      sleep(0.001)
+      if (loopScriptFunc_0() == false) then
+        break
+      end
+    end
+  --(Logic tree item : Procedure) SatellitUnLock
+    --(Logic tree item : Set) Set_DIOnumber2
+    set_current_logic_tree_item("5f34c6d96d204128996c2a1c86aeadbb")
+    set_global_variable("V_I_DIOnumber", 2)
+    --(Logic tree item : Set) Set_stateDO312False
+    set_current_logic_tree_item("0e2304ea8ec84b369d6155fd77427ce0")
+    set_global_variable("V_B_mk312DOstate", false)
+    --(Logic tree item : Script) set_mk312DO
+    set_current_logic_tree_item("7de45c1373fc46db9ed110db8dd5dc5c")
+    blockScriptFunc_set_mk312DO()
+    set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_025s
+    set_current_logic_tree_item("ce3848b238aa474a92b516ce27efb526")
+    sleep(0.25)
+    set_step_breakpoint()
+    --(Logic tree item : Set) Set_DIOnumber1
+    set_current_logic_tree_item("9465b484f1484a54b86e71f9de358359")
+    set_global_variable("V_I_DIOnumber", 1)
+    --(Logic tree item : Set) Set_stateDO312True
+    set_current_logic_tree_item("7aaa199408bd45d69c2d956415b57909")
+    set_global_variable("V_B_mk312DOstate", true)
+    --(Logic tree item : Line_Comment) PnevmoUnlockCommand
+    --1
+    --(Logic tree item : Script) set_mk312DO
+    set_current_logic_tree_item("e19ee8a465434326913e382d9a621915")
+    blockScriptFunc_set_mk312DO()
+    set_step_breakpoint()
+    --(Logic tree item : Set) Set_DIOnumber6
+    set_current_logic_tree_item("7332d2d82c4e41fbbdd280b86d94834b")
+    set_global_variable("V_I_DIOnumber", 6)
+    --(Logic tree item : Loop) Loop
+    while (true) do
+      sleep(0.001)
+      if (loopScriptFunc_1() == false) then
+        break
+      end
+    end
+  --(Logic tree item : Move) Move_otUpora
+  init_global_move_profile()
+  set_end_maxvelc(1.000000)
+  set_end_maxacc(1.200000)
+    --(Logic tree item : Waypoint) Waypoint_V_P_mejduCentrami
+    set_current_logic_tree_item("ecc1a82be0e34cfc937f58649a2f9174")
+    move_line(get_global_variable("V_P_mejduCentrami"), true)
+    set_step_breakpoint()
+  --(Logic tree item : Move) Move_podyem
+  init_global_move_profile()
+  set_end_maxvelc(1.000000)
+  set_end_maxacc(1.200000)
+  set_relative_offset({0, 0, 0.15}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+    --(Logic tree item : Waypoint) Realtime_Waypoint
+    set_current_logic_tree_item("d787d7ed7e4a4b958a2f11bd90900181")
+    move_line(get_global_variable("Realtime_Waypoint"), true)
+    set_step_breakpoint()
+  --(Logic tree item : Move) Move_razvorot
+  init_global_move_profile()
+  set_joint_maxvelc({2.485349,2.485349,3.113667,2.485349,3.309144,3.309144})
+  set_joint_maxacc({10.471976,10.471976,15.707963,10.471976,10.471976,10.471976})
+  set_relative_offset({0, 0, 0.15}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+    --(Logic tree item : Waypoint) Waypoint_V_P_mejduCentrami180
+    set_current_logic_tree_item("1877cd87b39c43d0aa8eac572727be46")
+    move_joint(get_global_variable("V_P_mejduCentrami180"), true)
+    set_step_breakpoint()
+  --(Logic tree item : Move) Move_mejduCentrami18
+  init_global_move_profile()
+  set_end_maxvelc(1.000000)
+  set_end_maxacc(1.200000)
+    --(Logic tree item : Waypoint) Waypoint_V_P_mejduCentrami180
+    set_current_logic_tree_item("63076358f35a4ab9a3d02e16f6e25612")
+    move_line(get_global_variable("V_P_mejduCentrami180"), true)
+    set_step_breakpoint()
+  --(Logic tree item : Move) Move_vUpor
+  init_global_move_profile()
+  set_end_maxvelc(1.000000)
+  set_end_maxacc(1.200000)
+  set_relative_offset({0.027, 0, 0}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+    --(Logic tree item : Waypoint) Waypoint_V_P_mejduCentrami180
+    set_current_logic_tree_item("f943811352664bdcb55df8eed335b249")
+    move_line(get_global_variable("V_P_mejduCentrami180"), true)
+    set_step_breakpoint()
+  --(Logic tree item : Procedure) SatellitLock
+    --(Logic tree item : Set) Set_DIOnumber1
+    set_current_logic_tree_item("f6aadf88dabd468593ce8c6f4392a683")
+    set_global_variable("V_I_DIOnumber", 1)
+    --(Logic tree item : Set) Set_stateDO312False
+    set_current_logic_tree_item("9265f7afd6a64b2f981f555086296f09")
+    set_global_variable("V_B_mk312DOstate", false)
+    --(Logic tree item : Script) set_mk312DO
+    set_current_logic_tree_item("232f751d5ef042d4a705e1deffd9cc60")
+    blockScriptFunc_set_mk312DO()
+    set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_025s
+    set_current_logic_tree_item("66dc77500da9426c9666e570751347a8")
+    sleep(0.25)
+    set_step_breakpoint()
+    --(Logic tree item : Set) Set_DIOnumber2
+    set_current_logic_tree_item("ce47b753ecae4e308bbab20428938f50")
+    set_global_variable("V_I_DIOnumber", 2)
+    --(Logic tree item : Set) Set_stateDO312True
+    set_current_logic_tree_item("732c0bd226c643d0bb77619f064f70d5")
+    set_global_variable("V_B_mk312DOstate", true)
+    --(Logic tree item : Line_Comment) PnevmoLockCommand
+    --1
+    --(Logic tree item : Script) set_mk312DO
+    set_current_logic_tree_item("a549a44c2b524fb49f5d0a4097dd259a")
+    blockScriptFunc_set_mk312DO()
+    set_step_breakpoint()
+  --(Logic tree item : Wait) Wait_2s
+  set_current_logic_tree_item("865417fb57384e8d9a4fbcd3b2b45ccf")
+  sleep(2)
+  set_step_breakpoint()
+  --(Logic tree item : Procedure) GripOpen
+    --(Logic tree item : Set) Set_PositionFullOpen
+    set_current_logic_tree_item("0b8436d78b8f4a08944a2c723e835135")
+    set_modbus_io_status("Grip_Pos", 1000)
+    set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_025s
+    set_current_logic_tree_item("d8f2e0d76c2a46d4beab0c483cdd9d20")
+    sleep(0.25)
+    set_step_breakpoint()
+    --(Logic tree item : Set) Set_DIOnumber1
+    set_current_logic_tree_item("a483f9e0ac574bbb8c41066df38aa366")
+    set_global_variable("V_I_DIOnumber", 1)
+    --(Logic tree item : Loop) Loop_always
+    while (true) do
+      sleep(0.001)
+      if (loopScriptFunc_2() == false) then
+        break
+      end
+    end

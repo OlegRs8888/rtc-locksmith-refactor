@@ -1,0 +1,11 @@
+function bit(p)
+    return 2 ^ (p -  1)
+end
+function hasbit(x , p)
+     return x % (p + p) >= p
+end
+
+inp = get_modbus_io_status("mk312_DI")
+bitNum = get_global_variable("V_I_DIOnumber")
+res = hasbit(inp , bit(bitNum))
+set_global_variable("V_B_mk312DIstate", res)

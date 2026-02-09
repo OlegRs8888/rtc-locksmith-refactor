@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProcedureProgram>
+    <Condition ConditionType="Procedure_Program" ConditionAlias="Procedure_Program" ConditionUuid="a5547df0557d47dab73e579ebedd3394">
+        <Attribute/>
+        <Condition ConditionType="Set" ConditionAlias="Set" ConditionUuid="2c121a59bb26407cbcf930fed4fb4681">
+            <Attribute>
+                <SetConditionMode>Variable</SetConditionMode>
+                <VarAssignmentExp>4</VarAssignmentExp>
+                <VarName>V_I_CntTotalDetali</VarName>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Script" ConditionAlias="ChecPerChangTool" ConditionUuid="e75286faed4f4544adadd9d7468be602">
+            <Attribute>
+                <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                <MD5>ac4a57be379af7255cb4e5705cf52951</MD5>
+                <ScriptFileName>ChecPerChangTool</ScriptFileName>
+            </Attribute>
+        </Condition>
+    </Condition>
+</ProcedureProgram>

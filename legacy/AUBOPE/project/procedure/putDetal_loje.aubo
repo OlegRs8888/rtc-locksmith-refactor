@@ -1,0 +1,155 @@
+--Procedure Program
+
+--block script function definition
+  function blockScriptFunc_takeDetal_Loje()
+    function table2str(joint_table)  
+    	str = ''
+    	for i=1,#joint_table,1 do
+    		str = str..tostring(joint_table[i])..","
+    	end
+    	str = string.sub(str,1,-2) 
+    	return str 
+    end
+    --*************************основной код************************************
+    function TakeDetalFromLoje()
+        -- читаю iz SCADA код четвёрки углов оснастки для расчётов
+        satNum = get_modbus_io_status("globalR199h")
+        satNum = math.abs(satNum) -- нормализация, убираю знак
+        satNum = math.floor(satNum) -- нормализация, только целая часть
+        -- сброс флага состояния выполнения
+        set_modbus_io_status("synhr_c121h", 0)
+        -- количество ячеек по осям
+        xMax, yMax = 11,2 
+        -- Corner1-4 углы первого слоя
+        if satNum == 1 then
+            local_cor_1 = "V_P_C1_303153001303"
+            local_cor_2 = "V_P_C2_303153001303"
+            local_cor_3 = "V_P_C3_303153001303"
+            local_cor_4 = "V_P_C4_303153001303"
+        elseif satNum == 2 then
+            local_cor_1 = "V_P_C1_303151001102"
+            local_cor_2 = "V_P_C2_303151001102"
+            local_cor_3 = "V_P_C3_303151001102"
+            local_cor_4 = "V_P_C4_303151001102"
+        elseif satNum == 3 then
+            local_cor_1 = "V_P_C1_303151003102"
+            local_cor_2 = "V_P_C2_303151003102"
+            local_cor_3 = "V_P_C3_303151003102"
+            local_cor_4 = "V_P_C4_303151003102"
+        elseif satNum == 4 then
+            local_cor_1 = "V_P_C1_303185001006"
+            local_cor_2 = "V_P_C2_303185001006"
+            local_cor_3 = "V_P_C3_303185001006"
+            local_cor_4 = "V_P_C4_303185001006"
+        elseif satNum == 5 then
+            local_cor_1 = "V_P_C1_303185002006"
+            local_cor_2 = "V_P_C2_303185002006"
+            local_cor_3 = "V_P_C3_303185002006"
+            local_cor_4 = "V_P_C4_303185002006"
+        elseif satNum == 6 then
+            local_cor_1 = "V_P_C1_RPP100_02"
+            local_cor_2 = "V_P_C2_RPP100_02"
+            local_cor_3 = "V_P_C3_RPP100_02"
+            local_cor_4 = "V_P_C4_RPP100_02"
+        elseif satNum == 7 then
+            local_cor_1 = "V_P_C1_RSH382005"
+            local_cor_2 = "V_P_C2_RSH382005"
+            local_cor_3 = "V_P_C3_RSH382005"
+            local_cor_4 = "V_P_C4_RSH382005"
+        elseif satNum == 8 then
+            local_cor_1 = "V_P_C1_"
+            local_cor_2 = "V_P_C2_"
+            local_cor_3 = "V_P_C3_"
+            local_cor_4 = "V_P_C4_"
+        else -- если неверные входные данные
+            -- установ флага состояния выполнения
+            set_modbus_io_status("synhr_c121h", 1)
+            print("")
+            print("<<<<<<<<<<<<< takeDetal_Loje >>>>>>>>>>>>>")
+            print("<<<<< некорректные входные данные. Флаг synhr_c121h = 1 >>>>>>>>>>")
+            print("<<<<<<<<<<<<< takeDetal_Loje >>>>>>>>>>>>>")
+            print("")
+        return
+        end
+    
+        xCount = get_global_variable("V_I_lojeXcount")-1
+        yCount = get_global_variable("V_I_lojeYcount")-1
+        -- Здесь слои 1,3,5 и т.д.
+        script_cor_1 =  get_global_variable(local_cor_1) 
+        script_cor_2 =  get_global_variable(local_cor_2) 
+        script_cor_3 =  get_global_variable(local_cor_3) 
+        script_cor_4 =  get_global_variable(local_cor_4) 
+        posCorner1,oriCorner1 = base_to_user(script_cor_1,{0,0,0},{1,0,0,0})
+        posCorner2,oriCorner2 = base_to_user(script_cor_2,{0,0,0},{1,0,0,0})
+        posCorner3,oriCorner3 = base_to_user(script_cor_3,{0,0,0},{1,0,0,0})
+        posCorner4,oriCorner4 = base_to_user(script_cor_4,{0,0,0},{1,0,0,0})
+        posTargetPick = {0,0,0} -- расчёт координат позиции точки захвата
+        posTargetPick[1] = posCorner1[1] + (posCorner2[1] - posCorner1[1])*xCount/(xMax-1) + (posCorner4[1]-    posCorner1[1]+(posCorner3[1]-posCorner4[1]-posCorner2[1]+posCorner1[1])*xCount/(xMax-1))*yCount/(yMax-1)
+        posTargetPick[2] = posCorner1[2] + (posCorner2[2] - posCorner1[2])*xCount/(xMax-1) + (posCorner4[2]-posCorner1[2]+(posCorner3[2]-posCorner4[2]-posCorner2[2]+posCorner1[2])*xCount/(xMax-1))*yCount/(yMax-1)
+        posTargetPick[3] = posCorner1[3] + (posCorner2[3] - posCorner1[3])*xCount/(xMax-1) + (posCorner4[3]-posCorner1[3]+(posCorner3[3]-posCorner4[3]-posCorner2[3]+posCorner1[3])*xCount/(xMax-1))*yCount/(yMax-1)
+        oriTargetPick = {1,0,0,0}  -- расчёт углов ориентации точки захвата
+        oriTargetPick[1] = oriCorner1[1] + (oriCorner2[1] - oriCorner1[1])*xCount/(xMax-1) + (oriCorner4[1]-oriCorner1[1]+(oriCorner3[1]-oriCorner4[1]-oriCorner2[1]+oriCorner1[1])*xCount/(xMax-1))*yCount/(yMax-1)
+    oriTargetPick[2] = oriCorner1[2] + (oriCorner2[2] - oriCorner1[2])*xCount/(xMax-1) + (oriCorner4[2]-oriCorner1[2]+(oriCorner3[2]-oriCorner4[2]-oriCorner2[2]+oriCorner1[2])*xCount/(xMax-1))*yCount/(yMax-1)
+        oriTargetPick[3] = oriCorner1[3] + (oriCorner2[3] - oriCorner1[3])*xCount/(xMax-1) + (oriCorner4[3]-oriCorner1[3]+(oriCorner3[3]-oriCorner4[3]-oriCorner2[3]+oriCorner1[3])*xCount/(xMax-1))*yCount/(yMax-1)
+    oriTargetPick[4] = oriCorner1[4] + (oriCorner2[4] - oriCorner1[4])*xCount/(xMax-1) + (oriCorner4[4]-oriCorner1[4]+(oriCorner3[4]-oriCorner4[4]-oriCorner2[4]+oriCorner1[4])*xCount/(xMax-1))*yCount/(yMax-1)
+    
+        jointPick = get_target_pose(posTargetPick,oriTargetPick,false,{0,0,0},{1,0,0,0})
+        set_global_variable("V_P_lojePick","0,0,0,0,0,0,0,".. table2str(jointPick)) -- сохранить с переменную V_P_pick
+    end
+    --*************************основной код************************************
+    TakeDetalFromLoje()
+  end  --function blockScriptFunc_takeDetal_Loje()
+
+--script function definition
+  function ifScriptFunc_0()
+    --(Logic tree item : Message) Message
+    set_current_logic_tree_item("1eaf4cf30d0046c496f474cf47b34abd")
+    popup_message(0, "takeDetal_Loje: необрабатываемое исключение. Продолжение работы невозможно. Проект будет остановлен", true)
+  end
+
+--(Logic tree item : Procedure_Program) Procedure_Program
+  --(Logic tree item : Script) takeDetal_Loje
+  set_current_logic_tree_item("d9441bd01658489f9299520ccbcc4343")
+  blockScriptFunc_takeDetal_Loje()
+  set_step_breakpoint()
+  --(Logic tree item : If) If_inputDataInCorect
+  if (get_modbus_io_status("synhr_c121h") == 1) then
+    ifFuncRet = ifScriptFunc_0()
+    if (ifFuncRet ~= nil) then
+      do return ifFuncRet end
+    end
+  end
+  --(Logic tree item : Move) Move_prePick
+  init_global_move_profile()
+  set_joint_maxvelc({2.796017,2.796017,3.502876,2.796017,3.722787,3.722787})
+  set_joint_maxacc({10.471976,10.471976,15.707963,10.471976,10.471976,10.471976})
+  set_relative_offset({-0.045, 0, 0.1}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+    --(Logic tree item : Waypoint) Waypoint_V_P_lojePick
+    set_current_logic_tree_item("bb452b59ce6a4c3580cb62966246f67c")
+    move_joint(get_global_variable("V_P_lojePick"), true)
+    set_step_breakpoint()
+  --(Logic tree item : Move) Move_pick
+  init_global_move_profile()
+  set_end_maxvelc(0.800000)
+  set_end_maxacc(1.000000)
+    --(Logic tree item : Waypoint) Waypoint_V_P_lojePick
+    set_current_logic_tree_item("64742950248747ff9850c89c7151c3d7")
+    move_line(get_global_variable("V_P_lojePick"), true)
+    set_step_breakpoint()
+  --(Logic tree item : Set) Set_gripPos700
+  set_current_logic_tree_item("72043706f67c4a43b2d4c045702467cb")
+  set_modbus_io_status("Grip_Pos", 700)
+  set_step_breakpoint()
+  --(Logic tree item : Wait) Wait_1s
+  set_current_logic_tree_item("11abf18a3ade46f79148a6a8fa078ee2")
+  sleep(1)
+  set_step_breakpoint()
+  --(Logic tree item : Move) Move_PickUp
+  init_global_move_profile()
+  set_end_maxvelc(1.800000)
+  set_end_maxacc(1.800000)
+  set_relative_offset({-0.045, 0, 0.1}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+    --(Logic tree item : Waypoint) Waypoint_V_P_lojePick
+    set_current_logic_tree_item("5b71237c398240b8975ee221f314852f")
+    move_line(get_global_variable("V_P_lojePick"), true)
+    set_step_breakpoint()

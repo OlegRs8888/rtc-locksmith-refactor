@@ -1,0 +1,67 @@
+<window name="Сателлит привязка" color="0x748490ff" type="0" windowheight="1900" windowwidth="1200" usepassword="false" password="" groupname="" subgroupname="" posx="-1000" posy="-1000" accesslevel="0">
+   <objects>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="86.0" posy="226.0" width="248.0" height="1.0" angle="0" lock="false" color="0x000000ff" linewidth="15" linestyle="Solid" beginmarker="Arrow" endmarker="Arrow">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.ImageObjectView" name="Изображение0" posx="279.0" posy="317.0" width="800.0" height="400.0" angle="0" lock="false" imagebase="" filename="ЕРГУ.303151.001.102">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="81.0" posy="90.0" width="1.0" height="256.0" angle="0" lock="false" color="0x000000ff" linewidth="7" linestyle="Dot" beginmarker="Flat" endmarker="Flat">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="337.0" posy="140.0" width="1.0" height="190.0" angle="0" lock="true" color="0x000000ff" linewidth="3" linestyle="Dot" beginmarker="Flat" endmarker="Flat">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="574.0" posy="227.0" width="1.0" height="110.0" angle="0" lock="true" color="0x000000ff" linewidth="3" linestyle="Dot" beginmarker="Flat" endmarker="Flat">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="619.0" posy="140.0" width="1.0" height="175.0" angle="0" lock="false" color="0x000000ff" linewidth="3" linestyle="Dot" beginmarker="Flat" endmarker="Flat">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="851.0" posy="140.0" width="1.0" height="175.0" angle="0" lock="false" color="0x000000ff" linewidth="3" linestyle="Dot" beginmarker="Flat" endmarker="Flat">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="1020.0" posy="227.0" width="1.0" height="140.0" angle="0" lock="false" color="0x000000ff" linewidth="3" linestyle="Dot" beginmarker="Flat" endmarker="Flat">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="1071.0" posy="226.0" width="1.0" height="140.0" angle="0" lock="false" color="0x000000ff" linewidth="3" linestyle="Dot" beginmarker="Flat" endmarker="Flat">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="340.0" posy="226.0" width="230.0" height="1.0" angle="0" lock="false" color="0x000000ff" linewidth="4" linestyle="Solid" beginmarker="Arrow" endmarker="Arrow">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.TextView" name="LabIn_repeatToch" posx="155.0" posy="175.0" width="99.0" height="40.0" angle="0" lock="false" text="0.0" fonttype="1" fontsize="35" textplacement="1" textcolor="0x18ddc2ff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+         <scripts>
+            <string>recalculateYcoord</string>
+         </scripts>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.TextView" name="LabIn_repeatToch" posx="406.0" posy="176.0" width="99.0" height="40.0" angle="0" lock="false" text="0.0" fonttype="1" fontsize="35" textplacement="1" textcolor="0x18ddc2ff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+         <scripts>
+            <string>recalculateYcoord</string>
+         </scripts>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="340.0" posy="140.0" width="275.0" height="1.0" angle="0" lock="false" color="0x000000ff" linewidth="4" linestyle="Solid" beginmarker="Arrow" endmarker="Arrow">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.TextView" name="LabIn_repeatToch" posx="406.0" posy="90.0" width="99.0" height="40.0" angle="0" lock="false" text="0.0" fonttype="1" fontsize="35" textplacement="1" textcolor="0x18ddc2ff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+         <scripts>
+            <string>recalculateYcoord</string>
+         </scripts>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="620.0" posy="140.0" width="228.0" height="1.0" angle="0" lock="false" color="0x000000ff" linewidth="4" linestyle="Solid" beginmarker="Arrow" endmarker="Arrow">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.TextView" name="LabIn_repeatToch" posx="678.0" posy="90.0" width="99.0" height="40.0" angle="0" lock="false" text="0.0" fonttype="1" fontsize="35" textplacement="1" textcolor="0x18ddc2ff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+         <scripts>
+            <string>recalculateYcoord</string>
+         </scripts>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.LineView" name="Линия" posx="71.0" posy="727.0" width="120.0" height="120.0" angle="90" lock="false" color="0x000000ff" linewidth="7" linestyle="Solid" beginmarker="Arrow" endmarker="Arrow">
+         <property key="rotation">
+            <property class="tesla.scada2.model.properties.RotationProperty" tagname="accBigStep" rotationanglemin="0.0" rotationanglemax="45.0" rotationvaluemin="0.0" rotationvaluemax="45.0" pivotx="0.0" pivoty="120.0"/>
+         </property>
+         <scripts/>
+      </objectView>
+   </objects>
+   <scriptnames/>
+</window>

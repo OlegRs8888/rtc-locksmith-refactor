@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ThreadProgram>
+    <Condition ConditionType="Thread" ConditionAlias="ThreadOsnovnoy" ConditionUuid="2a13506e43f14dacbe2ed7178308d1ec">
+        <Attribute>
+            <ThreadName>ThreadOsnovnoy</ThreadName>
+        </Attribute>
+        <Condition ConditionType="Wait" ConditionAlias="Wait_1s" ConditionUuid="ef7e719c018a4bbcb64c5dddbf8205dd">
+            <Attribute>
+                <WaitConditionMode>Time</WaitConditionMode>
+                <WaitTime>1</WaitTime>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Loop" ConditionAlias="Loop" ConditionUuid="7fd77f93cb7c4c2e9852802a23cee0f5">
+            <Attribute>
+                <LoopConditionMode>Always</LoopConditionMode>
+            </Attribute>
+            <Condition ConditionType="Wait" ConditionAlias="Wait_033s" ConditionUuid="7dbadd2ab926411b826e74ac98c2ba80">
+                <Attribute>
+                    <WaitConditionMode>Time</WaitConditionMode>
+                    <WaitTime>0.33</WaitTime>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Empty" ConditionAlias="Empty" ConditionUuid="352bb11112434c5bb49f462c1c533c17">
+                <Attribute/>
+            </Condition>
+        </Condition>
+    </Condition>
+</ThreadProgram>

@@ -1,0 +1,4 @@
+package.path = "/root/AuboRobotWorkSpace/teachpendant/share/teachpendant/script/?.aubo"
+globP = require("globParam_modul")
+globP.GetGlobalParam()
+print("before start script END")

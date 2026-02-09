@@ -1,0 +1,555 @@
+<project projectname="ServoControl" projectauthor="Salynin Oleg" title="ServoDrive Control Panel" screenwidth="1200" screenheight="1900" screendiffers="false" runscreenwidth="800" runscreenheight="600" updateperiod="150" description="Панель управления сервомотором" eventsdbname="events" historydbname="history" usetableforeverytag="false" storagedbperiod="2" archivesince="9" notpriority="100" startscreen="Главный" defaultfont="0" certificatename="TeslaSCADA2" certperiod="3650" showserverevents="true" usetelegrambot="false" botnotpriority="-1" parentpath="C:\TeslaSCADA_IDE\app" bottokenuse="false" bottokenname="" ensavetags="false" maxattempts="12" savetagsdbname="savetagsdb" autologout="false" logouttime="15" usemultimonitors="false">
+   <windows>
+      <window name="Главный" color="0x748490ff" type="0" windowheight="1900" windowwidth="1200" usepassword="false" password="" groupname="" subgroupname="" posx="-1000" posy="-1000" accesslevel="0">
+         <objects>
+            <objectView class="tesla.scada2.model.objects.ButtonView" name="But1" posx="60.0" posy="60.0" width="200.0" height="100.0" angle="0" lock="false" text="G28" textcolor="0xe7223dff" fillcolor="0x0b7b7bff" type3d="0" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false">
+               <property key="buttoncontrol">
+                  <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="PR_50E" functiontype="4" value="0" title="Введите значение" screenname="" command=""/>
+               </property>
+               <scripts/>
+            </objectView>
+            <objectView class="tesla.scada2.model.objects.SliderAppleView" name="Ползунок Apple" posx="344.0" posy="29.0" width="101.0" height="604.0" angle="270" lock="false" color="0xe7223dff" fillcolor="0x18ddc2ff" type3d="0">
+               <property key="slidercontrol">
+                  <property class="tesla.scada2.model.properties.SliderControlProperty" tagname="tag_PosY" minimumvalue="-116000.0" maximumvalue="0.0" snaptotick="false" decimalpos="0"/>
+               </property>
+               <scripts/>
+               <udproperties/>
+            </objectView>
+            <objectView class="tesla.scada2.model.objects.TextView" name="LabXc" posx="989.0" posy="36.0" width="176.0" height="76.0" angle="0" lock="false" text="Y коорд" fonttype="1" fontsize="40" textplacement="1" textcolor="0x18ddc2ff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+               <scripts/>
+            </objectView>
+            <objectView class="tesla.scada2.model.objects.TextView" name="LabYcoord" posx="508.0" posy="102.0" width="248.0" height="75.0" angle="0" lock="false" text="0" fonttype="1" fontsize="40" textplacement="1" textcolor="0x18ddc2ff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+               <property key="textinput">
+                  <property class="tesla.scada2.model.properties.TextInputProperty" tagname="posYfact" value="0" type="0" truetext="" falsetext="" textbefore="mm " textafter="" decimalpos="3" beforedecimalpos="0">
+                     <textrange/>
+                  </property>
+               </property>
+               <scripts>
+                  <string>recalculateYcoord</string>
+               </scripts>
+            </objectView>
+            <objectView class="tesla.scada2.model.objects.ButtonView" name="ButInit" posx="60.0" posy="189.0" width="200.0" height="100.0" angle="0" lock="false" text="Init" textcolor="0xe7223dff" fillcolor="0x0b7b7bff" type3d="0" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false">
+               <property key="buttoncontrol">
+                  <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="btTag" functiontype="3" value="0" title="Введите значение" screenname="" command=""/>
+               </property>
+               <scripts>
+                  <string>InitServoButton</string>
+               </scripts>
+            </objectView>
+            <objectView class="tesla.scada2.model.objects.TextView" name="Lab1" posx="46.0" posy="793.0" width="248.0" height="75.0" angle="0" lock="false" text="tag PosY" fonttype="1" fontsize="30" textplacement="1" textcolor="0xe7223dff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+               <property key="textinput">
+                  <property class="tesla.scada2.model.properties.TextInputProperty" tagname="tag_PosY" value="0" type="0" truetext="" falsetext="" textbefore="tag PosY " textafter="" decimalpos="0" beforedecimalpos="0">
+                     <textrange/>
+                  </property>
+               </property>
+               <scripts/>
+            </objectView>
+            <objectView class="tesla.scada2.model.objects.TextView" name="Lab2" posx="11.0" posy="847.0" width="320.0" height="76.0" angle="0" lock="false" text="Full - Nan" fonttype="1" fontsize="30" textplacement="1" textcolor="0xe7223dff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+               <property key="textinput">
+                  <property class="tesla.scada2.model.properties.TextInputProperty" tagname="Full" value="0" type="0" truetext="" falsetext="" textbefore="Полный оборот " textafter="" decimalpos="3" beforedecimalpos="0">
+                     <textrange/>
+                  </property>
+               </property>
+               <scripts/>
+            </objectView>
+            <objectView class="tesla.scada2.model.objects.ButtonView" name="But3" posx="970.0" posy="193.0" width="200.0" height="100.0" angle="0" lock="false" text="Y -100" textcolor="0xe7223dff" fillcolor="0x0b7b7bff" type3d="0" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false">
+               <property key="buttoncontrol">
+                  <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="tag_PosY" functiontype="4" value="-100000" title="Введите значение" screenname="" command=""/>
+               </property>
+               <scripts/>
+            </objectView>
+            <objectView class="tesla.scada2.model.objects.TextView" name="Label3" posx="46.0" posy="899.0" width="248.0" height="75.0" angle="0" lock="false" text="Step -Nan" fonttype="1" fontsize="30" textplacement="1" textcolor="0xe7223dff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+               <property key="textinput">
+                  <property class="tesla.scada2.model.properties.TextInputProperty" tagname="OneStep" value="0" type="0" truetext="" falsetext="" textbefore="Один шаг " textafter="" decimalpos="3" beforedecimalpos="0">
+                     <textrange/>
+                  </property>
+               </property>
+               <scripts/>
+            </objectView>
+            <objectView class="tesla.scada2.model.objects.TextView" name="Lab4" posx="49.0" posy="946.0" width="248.0" height="75.0" angle="0" lock="false" text="startP - Nan " fonttype="1" fontsize="30" textplacement="1" textcolor="0xe7223dff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+               <property key="textinput">
+                  <property class="tesla.scada2.model.properties.TextInputProperty" tagname="StartPos" value="0" type="0" truetext="" falsetext="" textbefore="СтартПоз " textafter="" decimalpos="3" beforedecimalpos="0">
+                     <textrange/>
+                  </property>
+               </property>
+               <scripts/>
+            </objectView>
+            <objectView class="tesla.scada2.model.objects.TextView" name="Lab2" posx="46.0" posy="1087.0" width="248.0" height="75.0" angle="0" lock="false" text="CntB - Nan" fonttype="1" fontsize="30" textplacement="1" textcolor="0xe7223dff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+               <property key="textinput">
+                  <property class="tesla.scada2.model.properties.TextInputProperty" tagname="CntB" value="0" type="0" truetext="" falsetext="" textbefore="CntB " textafter="" decimalpos="0" beforedecimalpos="0">
+                     <textrange/>
+                  </property>
+               </property>
+               <scripts/>
+            </objectView>
+            <objectView class="tesla.scada2.model.objects.ButtonView" name="butDvij1" posx="390.0" posy="849.0" width="327.0" height="100.0" angle="0" lock="false" text="0" textcolor="0xe7223dff" fillcolor="0x0b7b7bff" type3d="0" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false">
+               <property key="buttoncontrol">
+                  <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="btTag" functiontype="3" value="-100000" title="Введите значение" screenname="" command=""/>
+               </property>
+               <scripts>
+                  <string>StepB</string>
+               </scripts>
+            </objectView>
+            <objectView class="tesla.scada2.model.objects.ButtonView" name="butDvij2" posx="390.0" posy="979.0" width="327.0" height="100.0" angle="0" lock="false" text="0" textcolor="0xe7223dff" fillcolor="0x0b7b7bff" type3d="0" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false">
+               <property key="buttoncontrol">
+                  <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="btTag" functiontype="3" value="-100000" title="Введите значение" screenname="" command=""/>
+               </property>
+               <scripts>
+                  <string>StepF</string>
+               </scripts>
+            </objectView>
+            <objectView class="tesla.scada2.model.objects.RecipeSelectorView" name="Выбор рецепта" posx="246.0" posy="344.0" width="673.0" height="117.0" angle="0" lock="false" recipename="ServoPos_recept10" textcolor="0xe7223dff" fillcolor="0x0b7b7bff" type3d="0">
+               <scripts/>
+            </objectView>
+         </objects>
+         <scriptnames/>
+      </window>
+      <window name="WaitPos" color="0xb2d0d8ff" type="1" windowheight="200" windowwidth="800" usepassword="false" password="" groupname="" subgroupname="" posx="200" posy="200" accesslevel="0">
+         <objects>
+            <objectView class="tesla.scada2.model.objects.ButtonView" name="HomeButton" posx="754.0" posy="3.0" width="42.0" height="43.0" angle="0" lock="false" text="X" textcolor="0xe7223dff" fillcolor="0x0b7b7bff" type3d="0" fonttype="0" fontsize="25" textplacement="1" animation="true" underline="false">
+               <property key="buttoncontrol">
+                  <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="Cntrl_50E" functiontype="8" value="3" title="Введите значение" screenname="" command=""/>
+               </property>
+               <scripts/>
+            </objectView>
+            <objectView class="tesla.scada2.model.objects.TextView" name="Lab3" posx="15.0" posy="45.0" width="770.0" height="75.0" angle="0" lock="false" text="Ожидание позиционирования" fonttype="1" fontsize="40" textplacement="1" textcolor="0xe7223dff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+               <scripts/>
+            </objectView>
+         </objects>
+         <scriptnames/>
+      </window>
+      <window name="ЭкранТаблицыПараметров" color="0x748490ff" type="0" windowheight="1900" windowwidth="1200" usepassword="false" password="" groupname="" subgroupname="" posx="-1000" posy="-1000" accesslevel="0">
+         <objects>
+            <objectView class="tesla.scada2.model.objects.RecipeTableView" name="Таблица рецептов" posx="17.0" posy="17.0" width="1164.0" height="450.0" angle="0" lock="false" recipename="ServoPos_recept10" title="Выбор сателлитов" fontsize="15" namecolumnwidth="240" othercolumnwidth="90" usetitle="true">
+               <scripts/>
+            </objectView>
+         </objects>
+         <scriptnames/>
+      </window>
+   </windows>
+   <scripts>
+      <script name="script_PosY" color="0xd3d3d3ff" type="0" windowheight="1900" windowwidth="1200" groupname="" subgroupname="" language="1" everycycle="false" extype="0" runonuithread="true">
+         <objects/>
+         <links/>
+         <sttext>/*Tags.PR99_Param = 458754;
+sleep(500);*/
+int coor = Tags.tag_PosY;
+
+Tags.PR99_Coordinata = coor;
+sleep(300);
+Tags.PR_50E = 99;</sttext>
+         <opcodes>
+            <opcode type="LOAD_TAG" datatype="-1">
+               <value>tag_PosY</value>
+            </opcode>
+            <opcode type="STORE" datatype="3">
+               <value>coor</value>
+            </opcode>
+            <opcode type="LOAD_FAST" datatype="-1">
+               <value>coor</value>
+            </opcode>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>PR99_Coordinata</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="4">
+               <value>99</value>
+            </opcode>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>PR_50E</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="4">
+               <value>1</value>
+            </opcode>
+            <opcode type="LOAD_TAG" datatype="-1">
+               <value>CntA</value>
+            </opcode>
+            <opcode type="BINARY_ADD" datatype="-1"/>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>CntA</value>
+            </opcode>
+         </opcodes>
+      </script>
+      <script name="StartProject" color="0xd3d3d3ff" type="0" windowheight="1900" windowwidth="1200" groupname="" subgroupname="" language="1" everycycle="false" extype="1" runonuithread="true">
+         <objects/>
+         <links/>
+         <sttext>Tags.StartInitTag = true;
+Tags.CntA = 0;
+Tags.CntB = 0;</sttext>
+         <opcodes>
+            <opcode type="LOAD_CONST" datatype="0">
+               <value>true</value>
+            </opcode>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>StartInitTag</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="4">
+               <value>0</value>
+            </opcode>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>CntA</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="4">
+               <value>0</value>
+            </opcode>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>CntB</value>
+            </opcode>
+         </opcodes>
+      </script>
+      <script name="InitServo" comment="Для активации серво при запуске" color="0xd3d3d3ff" type="0" windowheight="1900" windowwidth="1200" groupname="" subgroupname="" language="0" everycycle="false" extype="0" runonuithread="false">
+         <objects>
+            <scriptObject class="tesla.scada2.model.scriptobjects.InputTagScriptObject" posx="14.0" posy="25.0" tagname="StartInitTag"/>
+            <scriptObject class="tesla.scada2.model.scriptobjects.InputValueScriptObject" posx="12.0" posy="54.0" value="250"/>
+            <scriptObject class="tesla.scada2.model.scriptobjects.InputValueScriptObject" posx="186.0" posy="58.0" value="7680"/>
+            <scriptObject class="tesla.scada2.model.scriptobjects.SelEnableScriptObject" posx="263.0" posy="24.0"/>
+            <scriptObject class="tesla.scada2.model.scriptobjects.TONScriptObject" posx="108.0" posy="14.0"/>
+            <scriptObject class="tesla.scada2.model.scriptobjects.OutputTagScriptObject" posx="349.0" posy="47.0" tagname="DIconf_30C"/>
+            <scriptObject class="tesla.scada2.model.scriptobjects.OutputTagScriptObject" posx="373.0" posy="131.0" tagname="CntrlDI_40E"/>
+            <scriptObject class="tesla.scada2.model.scriptobjects.SelEnableScriptObject" posx="263.0" posy="108.0"/>
+            <scriptObject class="tesla.scada2.model.scriptobjects.InputValueScriptObject" posx="181.0" posy="142.0" value="7168"/>
+            <scriptObject class="tesla.scada2.model.scriptobjects.InputValueScriptObject" posx="182.0" posy="230.0" value="3000"/>
+            <scriptObject class="tesla.scada2.model.scriptobjects.OutputTagScriptObject" posx="371.0" posy="219.0" tagname="SpeedLim_16E"/>
+            <scriptObject class="tesla.scada2.model.scriptobjects.SelEnableScriptObject" posx="263.0" posy="196.0"/>
+            <scriptObject class="tesla.scada2.model.scriptobjects.TONScriptObject" posx="86.0" posy="97.0"/>
+            <scriptObject class="tesla.scada2.model.scriptobjects.InputValueScriptObject" posx="7.0" posy="131.0" value="50"/>
+            <scriptObject class="tesla.scada2.model.scriptobjects.InputValueScriptObject" posx="5.0" posy="218.0" value="50"/>
+            <scriptObject class="tesla.scada2.model.scriptobjects.TONScriptObject" posx="87.0" posy="184.0"/>
+            <scriptObject class="tesla.scada2.model.scriptobjects.TONScriptObject" posx="87.0" posy="271.0"/>
+            <scriptObject class="tesla.scada2.model.scriptobjects.SelEnableScriptObject" posx="262.0" posy="283.0"/>
+            <scriptObject class="tesla.scada2.model.scriptobjects.InputValueScriptObject" posx="5.0" posy="305.0" value="50"/>
+            <scriptObject class="tesla.scada2.model.scriptobjects.InputValueScriptObject" posx="179.0" posy="317.0" value="458754"/>
+            <scriptObject class="tesla.scada2.model.scriptobjects.OutputTagScriptObject" posx="374.0" posy="306.0" tagname="PR99_Param"/>
+         </objects>
+         <links>
+            <link FBDInId="2" FBDOutId="3" InId="0" OutId="1"/>
+            <link FBDInId="0" FBDOutId="4" InId="0" OutId="0"/>
+            <link FBDInId="1" FBDOutId="4" InId="0" OutId="1"/>
+            <link FBDInId="4" FBDOutId="3" InId="0" OutId="0"/>
+            <link FBDInId="3" FBDOutId="5" InId="0" OutId="0"/>
+            <link FBDInId="7" FBDOutId="6" InId="0" OutId="0"/>
+            <link FBDInId="8" FBDOutId="7" InId="0" OutId="1"/>
+            <link FBDInId="9" FBDOutId="11" InId="0" OutId="1"/>
+            <link FBDInId="11" FBDOutId="10" InId="0" OutId="0"/>
+            <link FBDInId="12" FBDOutId="7" InId="0" OutId="0"/>
+            <link FBDInId="13" FBDOutId="12" InId="0" OutId="1"/>
+            <link FBDInId="4" FBDOutId="12" InId="0" OutId="0"/>
+            <link FBDInId="14" FBDOutId="15" InId="0" OutId="1"/>
+            <link FBDInId="12" FBDOutId="15" InId="0" OutId="0"/>
+            <link FBDInId="15" FBDOutId="11" InId="0" OutId="0"/>
+            <link FBDInId="15" FBDOutId="16" InId="0" OutId="0"/>
+            <link FBDInId="16" FBDOutId="17" InId="0" OutId="0"/>
+            <link FBDInId="18" FBDOutId="16" InId="0" OutId="1"/>
+            <link FBDInId="19" FBDOutId="17" InId="0" OutId="1"/>
+            <link FBDInId="17" FBDOutId="20" InId="0" OutId="0"/>
+         </links>
+         <opcodes/>
+      </script>
+      <script name="StopProject" color="0xd3d3d3ff" type="0" windowheight="1900" windowwidth="1200" groupname="" subgroupname="" language="1" everycycle="false" extype="2" runonuithread="true">
+         <objects/>
+         <links/>
+         <sttext>Tags.StartInitTag = false;</sttext>
+         <opcodes>
+            <opcode type="LOAD_CONST" datatype="0">
+               <value>false</value>
+            </opcode>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>StartInitTag</value>
+            </opcode>
+         </opcodes>
+      </script>
+      <script name="InitServoButton" comment="Ручной инит серво" color="0xd3d3d3ff" type="3" windowheight="1900" windowwidth="1200" groupname="" subgroupname="" language="1" everycycle="false" extype="3" runonuithread="true">
+         <objects/>
+         <links/>
+         <sttext>Tags.DIconf_30C = 7680;
+sleep(50);
+Tags.CntrlDI_40E = 7168;
+sleep(50);
+Tags.SpeedLim_16E = 3000;
+sleep(50);
+Tags.PR99_Param = 458754;</sttext>
+         <opcodes>
+            <opcode type="LOAD_CONST" datatype="4">
+               <value>7680</value>
+            </opcode>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>DIconf_30C</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="4">
+               <value>50</value>
+            </opcode>
+            <opcode type="LOAD_FAST" datatype="-1">
+               <value>sleep</value>
+            </opcode>
+            <opcode type="CALL" datatype="-1">
+               <value>1</value>
+            </opcode>
+            <opcode type="POP_TOP" datatype="-1"/>
+            <opcode type="LOAD_CONST" datatype="4">
+               <value>7168</value>
+            </opcode>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>CntrlDI_40E</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="4">
+               <value>50</value>
+            </opcode>
+            <opcode type="LOAD_FAST" datatype="-1">
+               <value>sleep</value>
+            </opcode>
+            <opcode type="CALL" datatype="-1">
+               <value>1</value>
+            </opcode>
+            <opcode type="POP_TOP" datatype="-1"/>
+            <opcode type="LOAD_CONST" datatype="4">
+               <value>3000</value>
+            </opcode>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>SpeedLim_16E</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="4">
+               <value>50</value>
+            </opcode>
+            <opcode type="LOAD_FAST" datatype="-1">
+               <value>sleep</value>
+            </opcode>
+            <opcode type="CALL" datatype="-1">
+               <value>1</value>
+            </opcode>
+            <opcode type="POP_TOP" datatype="-1"/>
+            <opcode type="LOAD_CONST" datatype="4">
+               <value>458754</value>
+            </opcode>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>PR99_Param</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="4">
+               <value>50</value>
+            </opcode>
+            <opcode type="LOAD_FAST" datatype="-1">
+               <value>sleep</value>
+            </opcode>
+            <opcode type="CALL" datatype="-1">
+               <value>1</value>
+            </opcode>
+            <opcode type="POP_TOP" datatype="-1"/>
+            <opcode type="LOAD_CONST" datatype="4">
+               <value>0</value>
+            </opcode>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>PR99_Coordinata</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="4">
+               <value>99</value>
+            </opcode>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>PR_50E</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="4">
+               <value>1</value>
+            </opcode>
+            <opcode type="LOAD_TAG" datatype="-1">
+               <value>CntB</value>
+            </opcode>
+            <opcode type="BINARY_ADD" datatype="-1"/>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>CntB</value>
+            </opcode>
+         </opcodes>
+      </script>
+      <script name="recalculateYcoord" color="0xd3d3d3ff" type="3" windowheight="1900" windowwidth="1200" groupname="" subgroupname="" language="1" everycycle="false" extype="0" runonuithread="true">
+         <objects/>
+         <links/>
+         <sttext>Tags.posYfact = Tags.PUU_12 / 1000.000;</sttext>
+         <opcodes>
+            <opcode type="LOAD_CONST" datatype="6">
+               <value>1000.000</value>
+            </opcode>
+            <opcode type="LOAD_TAG" datatype="-1">
+               <value>PUU_12</value>
+            </opcode>
+            <opcode type="BINARY_DIV" datatype="-1"/>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>posYfact</value>
+            </opcode>
+         </opcodes>
+      </script>
+      <script name="FromReceptToButton" color="0xd3d3d3ff" type="3" windowheight="1900" windowwidth="1200" groupname="" subgroupname="" language="1" everycycle="false" extype="0" runonuithread="true">
+         <objects/>
+         <links/>
+         <sttext>Objects.butDvij1.text = Tags.OneStep;
+Objects.butDvij2.text = Tags.OneStepForward;
+int a =0;</sttext>
+         <opcodes>
+            <opcode type="LOAD_TAG" datatype="-1">
+               <value>OneStep</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>text</value>
+            </opcode>
+            <opcode type="STORE_OBJECT" datatype="-1">
+               <value>butDvij1</value>
+            </opcode>
+            <opcode type="LOAD_TAG" datatype="-1">
+               <value>OneStepForward</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>text</value>
+            </opcode>
+            <opcode type="STORE_OBJECT" datatype="-1">
+               <value>butDvij2</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="3">
+               <value>0</value>
+            </opcode>
+            <opcode type="STORE" datatype="3">
+               <value>a</value>
+            </opcode>
+         </opcodes>
+      </script>
+      <script name="StepB" color="0xd3d3d3ff" type="3" windowheight="1900" windowwidth="1200" groupname="" subgroupname="" language="1" everycycle="false" extype="3" runonuithread="true">
+         <objects/>
+         <links/>
+         <sttext>Tags.tag_PosY = Tags.tag_PosY - Tags.OneStep;</sttext>
+         <opcodes>
+            <opcode type="LOAD_TAG" datatype="-1">
+               <value>OneStep</value>
+            </opcode>
+            <opcode type="LOAD_TAG" datatype="-1">
+               <value>tag_PosY</value>
+            </opcode>
+            <opcode type="BINARY_REM" datatype="-1"/>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>tag_PosY</value>
+            </opcode>
+         </opcodes>
+      </script>
+      <script name="StepF" color="0xd3d3d3ff" type="3" windowheight="1900" windowwidth="1200" groupname="" subgroupname="" language="1" everycycle="false" extype="3" runonuithread="true">
+         <objects/>
+         <links/>
+         <sttext>Tags.tag_PosY = Tags.tag_PosY + Tags.OneStep;</sttext>
+         <opcodes>
+            <opcode type="LOAD_TAG" datatype="-1">
+               <value>OneStep</value>
+            </opcode>
+            <opcode type="LOAD_TAG" datatype="-1">
+               <value>tag_PosY</value>
+            </opcode>
+            <opcode type="BINARY_ADD" datatype="-1"/>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>tag_PosY</value>
+            </opcode>
+         </opcodes>
+      </script>
+   </scripts>
+   <servers>
+      <server class="tesla.scada2.model.servers.ModbusServer" name="w610" interval="200" ipaddress="192.168.1.77" port="8899" type="TCP" requesttype="0" rtuviatcp="false" withoutfun6="false"/>
+   </servers>
+   <tags>
+      <tag name="CntA" datatype="3" accessmode="1" initialpv="0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="Локальные" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="CntB" datatype="3" accessmode="1" initialpv="0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="Локальные" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="CntrlDI_40E" datatype="2" accessmode="2" initialpv="0" numberofelements="10" elementtype="-1" pvinputserver="w610" pvinputsource="s=127;pt=3;o=1038;dt=2;" outputdiffers="false" pvoutputserver="w610" pvoutputsource="s=127;pt=3;o=1038;dt=2;" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="РегистрыСерводрайвера" subgroupname="Управление" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="DIconf_30C" datatype="2" accessmode="2" initialpv="0" numberofelements="10" elementtype="-1" pvinputserver="w610" pvinputsource="s=127;pt=3;o=780;dt=2;" outputdiffers="false" pvoutputserver="w610" pvoutputsource="s=127;pt=3;o=780;dt=2;" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="РегистрыСерводрайвера" subgroupname="Управление" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="Full" datatype="5" accessmode="1" initialpv="0.0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="ДляРецетптов" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="Object10" datatype="5" accessmode="1" initialpv="0.0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="ДляРецетптов" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="Object4" datatype="5" accessmode="1" initialpv="0.0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="ДляРецетптов" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="Object5" datatype="5" accessmode="1" initialpv="0.0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="ДляРецетптов" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="Object6" datatype="5" accessmode="1" initialpv="0.0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="ДляРецетптов" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="Object7" datatype="5" accessmode="1" initialpv="0.0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="ДляРецетптов" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="Object8" datatype="5" accessmode="1" initialpv="0.0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="ДляРецетптов" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="Object9" datatype="5" accessmode="1" initialpv="0.0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="ДляРецетптов" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="OneStep" datatype="5" accessmode="1" initialpv="0.0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="ДляРецетптов" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="PR99_Coordinata" datatype="3" accessmode="2" initialpv="0" numberofelements="10" elementtype="-1" pvinputserver="w610" pvinputsource="s=127;pt=3;o=1990;dt=7;" outputdiffers="false" pvoutputserver="w610" pvoutputsource="s=127;pt=3;o=1990;dt=7;" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="РегистрыСерводрайвера" subgroupname="Регистры пути" subsubgroupname="" description="P7.099 Координата шага позиционирования 99" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="PR99_Param" datatype="3" accessmode="2" initialpv="0" numberofelements="10" elementtype="-1" pvinputserver="w610" pvinputsource="s=127;pt=3;o=1988;dt=6;" outputdiffers="false" pvoutputserver="w610" pvoutputsource="s=127;pt=3;o=1988;dt=6;" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="РегистрыСерводрайвера" subgroupname="Регистры пути" subsubgroupname="" description="P7.098 Параметры участка позиционирования 99" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="PR_50E" datatype="2" accessmode="2" initialpv="0" numberofelements="10" elementtype="-1" pvinputserver="w610" pvinputsource="s=127;pt=3;o=1294;dt=2;" outputdiffers="false" pvoutputserver="w610" pvoutputsource="s=127;pt=3;o=1294;dt=2;" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="РегистрыСерводрайвера" subgroupname="Управление" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="PR_50E_readOnly" datatype="2" accessmode="0" initialpv="0" numberofelements="10" elementtype="-1" pvinputserver="w610" pvinputsource="s=127;pt=3;o=1294;dt=2;" outputdiffers="false" pvoutputserver="w610" pvoutputsource="s=127;pt=3;o=1294;dt=2;" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="РегистрыСерводрайвера" subgroupname="Управление" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="PUU_12" datatype="3" accessmode="0" initialpv="0" numberofelements="10" elementtype="-1" pvinputserver="w610" pvinputsource="s=127;pt=3;o=18;dt=7;" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="РегистрыСерводрайвера" subgroupname="Мониторинг" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="SpeedLim_16E" datatype="2" accessmode="2" initialpv="0" numberofelements="10" elementtype="-1" pvinputserver="w610" pvinputsource="s=127;pt=3;o=366;dt=2;" outputdiffers="false" pvoutputserver="w610" pvoutputsource="s=127;pt=3;o=366;dt=2;" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="РегистрыСерводрайвера" subgroupname="Управление" subsubgroupname="" description="P1.055" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="StartInitTag" datatype="0" accessmode="1" initialpv="false" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="Локальные" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="StartPos" datatype="5" accessmode="1" initialpv="0.0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="ДляРецетптов" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="SystemCurrentDateTime" datatype="7" accessmode="1" initialpv="" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Current date and time" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentDateTimeDay" datatype="3" accessmode="1" initialpv="01" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Current day" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentDateTimeHour" datatype="3" accessmode="1" initialpv="0" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Current hour" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentDateTimeMinute" datatype="3" accessmode="1" initialpv="0" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Current minute" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentDateTimeMonth" datatype="3" accessmode="1" initialpv="01" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Current month" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentDateTimeNewDay" datatype="0" accessmode="1" initialpv="false" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="New day occur" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentDateTimeNewHour" datatype="0" accessmode="1" initialpv="false" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="New hour occur" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentDateTimeNewMinute" datatype="0" accessmode="1" initialpv="false" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="New minute occur" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentDateTimeSecond" datatype="3" accessmode="1" initialpv="0" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Current second" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentDateTimeYear" datatype="3" accessmode="1" initialpv="1970" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Current year" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentScreen" datatype="7" accessmode="1" initialpv="" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Current screen name" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentUserAccessLevel" datatype="3" accessmode="1" initialpv="0" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Current user access level" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentUserAccessLevelBelow500" datatype="0" accessmode="1" initialpv="true" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Current user access level below 500" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentUserAccessLevelGreater500" datatype="0" accessmode="1" initialpv="true" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Current user access level greater 500" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentUserName" datatype="7" accessmode="1" initialpv="" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Current user name" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemPreviousScreen" datatype="7" accessmode="1" initialpv="" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Previous screen name" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="btTag" datatype="0" accessmode="1" initialpv="false" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="Локальные" subgroupname="Бесполезные" subsubgroupname="" description="Чтобы кнопки нажимались" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="posYfact" datatype="5" accessmode="1" initialpv="0.0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="Локальные" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="tagTxt1" datatype="7" accessmode="1" initialpv="0" numberofelements="10" elementtype="0" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="script_cntr50E" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="Локальные" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="tag_PosY" datatype="3" accessmode="1" initialpv="0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="script_PosY" scriptvalue="-200000.0" scripttype="4" scriptdeadband="0.0" groupname="Локальные" subgroupname="" subsubgroupname="" description="Значение ползунка координаты линейной оси" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="vspom" datatype="3" accessmode="1" initialpv="25" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="script_cntr50E" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="Локальные" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+   </tags>
+   <users/>
+   <libraries/>
+   <recipes>
+      <recipe recipename="ServoPos_recept10" dbname="ServoP_recept10" tablename="ServoCoordinates10">
+         <ingredients>
+            <ingredient tagname="StartPos" ingredientname="P1" dbname="P1_db" unit=""/>
+            <ingredient tagname="OneStep" ingredientname="P2" dbname="P2_db" unit=""/>
+            <ingredient tagname="Full" ingredientname="P3" dbname="P3_db" unit=""/>
+            <ingredient tagname="Object4" ingredientname="P4" dbname="P4_db" unit=""/>
+            <ingredient tagname="Object5" ingredientname="P5" dbname="P5_db" unit=""/>
+            <ingredient tagname="Object6" ingredientname="P6" dbname="P6_db" unit=""/>
+            <ingredient tagname="Object7" ingredientname="P7" dbname="P7_db" unit=""/>
+            <ingredient tagname="Object8" ingredientname="P8" dbname="P8_db" unit=""/>
+            <ingredient tagname="Object9" ingredientname="P9" dbname="P9_db" unit=""/>
+            <ingredient tagname="Object10" ingredientname="P10" dbname="P10_db" unit=""/>
+         </ingredients>
+      </recipe>
+   </recipes>
+   <sounds/>
+   <botmessage></botmessage>
+   <mqttpublisher enabled="false" broker="tcp://m11.cloudmqtt.com:16160" Qos="0" enablessl="false" enableclientcert="false" pem="false" protocol="TLSv1.2" clientid="" format="" readformat="" sparkplugb="false" groupid="" edgenodeid="" deviceid="" version="0"/>
+   <emailclient enableclient="false" host="smtp.gmail.com" port="587" tlsssl="0" auth="true" emaildeponpr="false">
+      <message></message>
+      <emailsranges/>
+   </emailclient>
+   <gsmmodem enablegsmmodem="false" portid="" baudrate="9600" flowcontrol="0" databits="3" stopbits="0" parity="1" phonenumbers="" notpriority="-1">
+      <message></message>
+   </gsmmodem>
+   <groups>
+      <string>System</string>
+      <string>РегистрыСерводрайвера</string>
+      <string>Локальные</string>
+      <string>ДляРецетптов</string>
+   </groups>
+   <subgroups>
+      <subGroup group="РегистрыСерводрайвера">
+         <subgroups>
+            <string>Регистры пути</string>
+            <string>Мониторинг</string>
+            <string>Управление</string>
+         </subgroups>
+      </subGroup>
+      <subGroup group="Локальные">
+         <subgroups>
+            <string>Бесполезные</string>
+         </subgroups>
+      </subGroup>
+   </subgroups>
+   <subscreengroups/>
+   <subscriptgroups/>
+   <subrecipegroups/>
+   <opcuaserver enabled="false" tcpport="8666" useanonymouspolicy="true" useusernamepasswordpolicy="true" usesecuritynone="true" useBASIC128RSA15_SIGN="true" useBASIC128RSA15_SIGN_ENCRYPT="true" useBASIC256_SIGN="true" useBASIC256_SIGN_ENCRYPT="true" useBASIC256SHA256_SIGN="true" useBASIC256SHA256_SIGN_ENCRYPT="true" servercertificatename="opcuacertificate" servercertdays="3650"/>
+   <webserver enabled="false" http="true" host="localhost" httpport="8080" https="false" httpsport="8443" truestore="" truestorepassword="" keystore="" keystorepassword="" clientauthenabled="false" useotherproject="false" clientprojectfile=""/>
+   <httpserver enabled="false" host="localhost" port="8000" https="false"/>
+   <reports/>
+   <mainmenu enable="false" posy="0" width="200" height="400" color="0x808080ff" spacing="5" tail="5">
+      <buttons class="java.util.concurrent.CopyOnWriteArrayList"/>
+   </mainmenu>
+   <redundantserver enabled="false" uri="opc.tcp://192.168.0.102:4841" type="0"/>
+   <push enablepush="false" topic="" title="" priority="100">
+      <message></message>
+   </push>
+   <teslacloud enable="false" enableip="false" sparkplugb="false"/>
+   <monitors/>
+</project>

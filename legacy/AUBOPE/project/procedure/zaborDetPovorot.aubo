@@ -1,0 +1,231 @@
+--Procedure Program
+
+--block script function definition
+  function blockScriptFunc_set_mk312DO()
+    function bit(p)
+        return 2 ^ (p -  1)
+    end
+    function hasbit(x , p)
+         return x % (p + p) >= p
+    end
+    function setbit(x , p)
+         return hasbit(x , p) and x or x + p
+    end
+    function clearbit(x , p)
+         return hasbit(x , p) and x-p or x
+    end
+    
+    inp = get_modbus_io_status("mk312_DO")
+    bitNum = get_global_variable("V_I_DIOnumber")
+    bitState = get_global_variable("V_B_mk312DOstate")
+    if bitState == true then 
+        res = setbit(inp , bit(bitNum))
+    else 
+        res = clearbit(inp , bit(bitNum))
+    end
+    set_modbus_io_status("mk312_DO", res)
+  end  --function blockScriptFunc_set_mk312DO()
+
+  function blockScriptFunc_check_mk311DI()
+    function bit(p)
+        return 2 ^ (p -  1)
+    end
+    function hasbit(x , p)
+         return x % (p + p) >= p
+    end
+    
+    inp = get_modbus_io_status("mk311_DI")
+    bitNum = get_global_variable("V_I_DIOnumber")
+    res = hasbit(inp , bit(bitNum))
+    set_global_variable("V_B_mk311DIstate", res)
+  end  --function blockScriptFunc_check_mk311DI()
+
+--script function definition
+  function ifScriptFunc_0()
+    --(Logic tree item : Break) Break
+    do return false end
+  end
+
+  function loopScriptFunc_0()
+    --(Logic tree item : Script) check_mk311DI
+    set_current_logic_tree_item("1f3323a3c059405b95f79032ac685548")
+    blockScriptFunc_check_mk311DI()
+    set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_025s
+    set_current_logic_tree_item("33c2e28d3b844c84a98ebec7492a7255")
+    sleep(0.25)
+    set_step_breakpoint()
+    --(Logic tree item : If) If
+    if (get_global_variable("V_B_mk311DIstate") == true) then
+      ifFuncRet = ifScriptFunc_0()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+  end
+
+  function loopScriptFunc_1()
+    --(Logic tree item : Wait) Wait_01s
+    set_current_logic_tree_item("07a808dbd0784b2696785695385d8ec1")
+    sleep(0.1)
+    set_step_breakpoint()
+    --(Logic tree item : Script) check_mk311DI
+    set_current_logic_tree_item("4d2297302b88445fbe1e2cc18b9dd57b")
+    blockScriptFunc_check_mk311DI()
+    set_step_breakpoint()
+    --(Logic tree item : If) If
+    if (get_global_variable("V_B_mk311DIstate") == true) then
+      ifFuncRet = ifScriptFunc_1()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+  end
+
+  function ifScriptFunc_1()
+    --(Logic tree item : Break) Break
+    do return false end
+  end
+
+  function ifScriptFunc_2()
+    --(Logic tree item : Move) Move_centra180
+    init_global_move_profile()
+    set_end_maxvelc(1.200000)
+    set_end_maxacc(1.400000)
+      --(Logic tree item : Waypoint) Waypoint_V_P_mejduCentrami180
+      set_current_logic_tree_item("7cfd351833f748b3978e0e278eb4a228")
+      move_line(get_global_variable("V_P_mejduCentrami180"), true)
+      set_step_breakpoint()
+  end
+
+--(Logic tree item : Procedure_Program) Procedure_Program
+  --(Logic tree item : Set) Set_PR3
+  set_current_logic_tree_item("ffebf5e426e54ddaba41892c2e7077dd")
+  set_modbus_io_status("50E_PR", 3)
+  set_step_breakpoint()
+  --(Logic tree item : Wait) Wait_puuPR3
+  set_current_logic_tree_item("b345943576864ac1a512b265e362b458")
+  while (not (get_modbus_io_status("50E_PR") == 20003)) do
+    sleep(0.01)
+  end
+  set_step_breakpoint()
+  --(Logic tree item : Block_Comment) Block_init
+  --1
+    --(Logic tree item : Set) Set_toolZahvat
+    set_current_logic_tree_item("815cd822c3574bd8b70a601081ab84b3")
+    set_tool_kinematics_param(get_tool_kinematics_param("zahvat"))
+    set_tool_dynamics_param(get_tool_dynamics_param("zahvat"))
+    set_step_breakpoint()
+    --(Logic tree item : Set) Set_offset
+    set_current_logic_tree_item("f5a551b65fd147ba8fc0f7ef87318622")
+    set_global_variable("V_D_exchange1", get_modbus_io_status("M_F_globalR19Ch"))
+  --(Logic tree item : Move) Move_preCentra
+  init_global_move_profile()
+  set_joint_maxvelc({2.485349,2.485349,3.113667,2.485349,3.309144,3.309144})
+  set_joint_maxacc({10.471976,10.471976,15.707963,10.471976,10.471976,10.471976})
+  set_relative_offset({0, 0, 0.25}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+    --(Logic tree item : Waypoint) Waypoint_V_P_mejduCentrami180
+    set_current_logic_tree_item("0a3815fb50374074bed58ab30ad6bda5")
+    move_joint(get_global_variable("V_P_mejduCentrami180"), true)
+    set_step_breakpoint()
+  --(Logic tree item : Move) Move_vUpor
+  init_global_move_profile()
+  set_end_maxvelc(1.800000)
+  set_end_maxacc(2.000000)
+  set_relative_offset({0, 0, get_modbus_io_status("M_F_globalR19Ch") / 1000}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+    --(Logic tree item : Waypoint) Waypoint_V_P_mejduCentrami180
+    set_current_logic_tree_item("c55766d0387d401485167b2576475779")
+    move_line(get_global_variable("V_P_mejduCentrami180"), true)
+    set_step_breakpoint()
+  --(Logic tree item : Procedure) GripClose
+    --(Logic tree item : Set) Set_PositionFullClos
+    set_current_logic_tree_item("943e5107e5f64c30a5b99dc3f716f9e1")
+    set_modbus_io_status("Grip_Pos", 0)
+    set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_025s
+    set_current_logic_tree_item("3a5e7aa02d864326a4ee5361a7d26d27")
+    sleep(0.25)
+    set_step_breakpoint()
+    --(Logic tree item : Set) Set_DIOnumber5
+    set_current_logic_tree_item("77669be0a8dc4f769a4e309a5ffe4280")
+    set_global_variable("V_I_DIOnumber", 5)
+    --(Logic tree item : Loop) Loop_always
+    while (true) do
+      sleep(0.001)
+      if (loopScriptFunc_0() == false) then
+        break
+      end
+    end
+  --(Logic tree item : Procedure) SatellitUnLock
+    --(Logic tree item : Set) Set_DIOnumber2
+    set_current_logic_tree_item("3ab438f4d7764bffb321eaf2012700cb")
+    set_global_variable("V_I_DIOnumber", 2)
+    --(Logic tree item : Set) Set_stateDO312False
+    set_current_logic_tree_item("3b69cf897173450984142340ebf46241")
+    set_global_variable("V_B_mk312DOstate", false)
+    --(Logic tree item : Script) set_mk312DO
+    set_current_logic_tree_item("6f8e21196f404947abcb3ca41271bdee")
+    blockScriptFunc_set_mk312DO()
+    set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_025s
+    set_current_logic_tree_item("156e846e761e405cab929376b7a59b3d")
+    sleep(0.25)
+    set_step_breakpoint()
+    --(Logic tree item : Set) Set_DIOnumber1
+    set_current_logic_tree_item("6d79547281384ac5b14716f9260353e2")
+    set_global_variable("V_I_DIOnumber", 1)
+    --(Logic tree item : Set) Set_stateDO312True
+    set_current_logic_tree_item("3205f9fcfe234acd8401bbe4a12a124f")
+    set_global_variable("V_B_mk312DOstate", true)
+    --(Logic tree item : Line_Comment) PnevmoUnlockCommand
+    --1
+    --(Logic tree item : Script) set_mk312DO
+    set_current_logic_tree_item("367b0e105eaf45598d4e5d65032026cd")
+    blockScriptFunc_set_mk312DO()
+    set_step_breakpoint()
+    --(Logic tree item : Set) Set_DIOnumber6
+    set_current_logic_tree_item("330bccffb19849ecabd3238f23291279")
+    set_global_variable("V_I_DIOnumber", 6)
+    --(Logic tree item : Loop) Loop
+    while (true) do
+      sleep(0.001)
+      if (loopScriptFunc_1() == false) then
+        break
+      end
+    end
+  --(Logic tree item : Wait) Wait_1s
+  set_current_logic_tree_item("6b0160439355420a9dbbae6e4f104a6d")
+  sleep(1)
+  set_step_breakpoint()
+  --(Logic tree item : Move) Move_centra180
+  init_global_move_profile()
+  set_end_maxvelc(1.600000)
+  set_end_maxacc(1.600000)
+    --(Logic tree item : Waypoint) Waypoint_V_P_mejduCentrami180
+    set_current_logic_tree_item("52c407cbdb1047efaa52531cc88326f1")
+    move_line(get_global_variable("V_P_mejduCentrami180"), true)
+    set_step_breakpoint()
+  --(Logic tree item : Move) Move_preCentra
+  init_global_move_profile()
+  set_joint_maxvelc({2.796017,2.796017,3.502876,2.796017,3.722787,3.722787})
+  set_joint_maxacc({10.471976,10.471976,15.707963,10.471976,10.471976,10.471976})
+  set_relative_offset({0, 0, 0.1}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+    --(Logic tree item : Waypoint) Waypoint_V_P_mejduCentrami180
+    set_current_logic_tree_item("edd84d5d2e444df282067c7787338972")
+    move_joint(get_global_variable("V_P_mejduCentrami180"), true)
+    set_step_breakpoint()
+  --(Logic tree item : Move) Move_init
+  init_global_move_profile()
+  set_joint_maxvelc({2.796017,2.796017,3.502876,2.796017,3.722787,3.722787})
+  set_joint_maxacc({10.471976,10.471976,15.707963,10.471976,10.471976,10.471976})
+    --(Logic tree item : Waypoint) Waypoint_V_P_initPose
+    set_current_logic_tree_item("9e4b327ad56b47e092b27669e6b401fd")
+    move_joint(get_global_variable("V_P_initPose"), true)
+    set_step_breakpoint()
+  --(Logic tree item : If) If_never
+  if (false) then
+    ifFuncRet = ifScriptFunc_2()
+    if (ifFuncRet ~= nil) then
+      do return ifFuncRet end
+    end
+  end

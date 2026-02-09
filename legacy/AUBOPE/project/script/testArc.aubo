@@ -1,0 +1,24 @@
+package.path = "/root/AuboRobotWorkSpace/teachpendant/share/teachpendant/script/?.aubo"
+faska_m = require("faska_module")
+
+-- параметры системы координат instrumenta
+posDiscTool, oriDiscTool = get_tool_kinematics_param("drillDisc")
+-- dannye operacii pritupleniya faski
+glavUgolX, glavUgolY, glavUgolZ = faska_m.getDataFaska()
+s1right_Ori = rpy2quaternion({d2r(0 - glavUgolX), d2r(180 + glavUgolY), d2r(0 - glavUgolZ)})
+s1left_Ori = rpy2quaternion({d2r(0 - glavUgolX), d2r(180 - glavUgolY), d2r(0 - glavUgolZ)})
+s2right_Ori = rpy2quaternion({d2r(0 - glavUgolX), d2r(0 - glavUgolY), d2r(0 - glavUgolZ)})
+s2left_Ori = rpy2quaternion({d2r(0 - glavUgolX), d2r(0 + glavUgolY), d2r(0 - glavUgolZ)})
+-- startovaya tochka
+-- poziciya storona1 zub sleva. Napravlenie vzglyada vdol` polojitel`nogo napravleniya osi Z povorotki
+tPos1 = {250, 0, 0}
+faska_m.moveJoint_go(30, 30*4, tPos1, s1left_Ori, posDiscTool, oriDiscTool)
+
+-- dvijenie po duge
+-- poziciya storona1 zub sleva. Napravlenie vzglyada vdol` polojitel`nogo napravleniya osi Z povorotki
+tPos1 = {250, 0, 0}
+tPos2 = {220, -10, 0}
+tPos3 = {190, -60, 0}
+--faska_m.moveTrackArc(60, 60*4, tPos1, tPos2, tPos3, s1left_Ori, "drillDisc")
+
+print("Arc_end")

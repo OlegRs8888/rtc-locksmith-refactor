@@ -1,0 +1,62 @@
+<window name="SelOperation_#2" color="0x748490ff" type="0" windowheight="1900" windowwidth="1200" usepassword="false" password="" groupname="" subgroupname="" posx="-1000" posy="-1000" accesslevel="0">
+   <objects>
+      <objectView class="tesla.scada2.model.objects.ImageObjectView" name="img1" posx="840.0" posy="0.0" width="353.0" height="340.0" angle="0" lock="false" imagebase="" filename="4">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.ImageButtonView" name="Кнопка с изображением" posx="-20.0" posy="1690.0" width="240.0" height="240.0" angle="0" lock="false" text="Start" textcolor="0xffffffff" fillcolor="0xd3d3d3ff" type3d="1" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false" transparent="true">
+         <property key="image">
+            <property class="tesla.scada2.model.properties.ImageProperty" tagname="SatSelectBit" value="0" type="0" imagebasetrue="" imagebasefalse="" filenametrue="arrowL" filenamefalse="arrowL"/>
+         </property>
+         <property key="buttoncontrol">
+            <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="SatSelectBit" functiontype="6" value="0" title="Введите значение" screenname="SelectSatellit_main" command=""/>
+         </property>
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.ImageButtonView" name="Кнопка с изображением" posx="230.0" posy="280.0" width="260.0" height="330.0" angle="0" lock="false" text="Start" textcolor="0xffffffff" fillcolor="0xd3d3d3ff" type3d="1" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false" transparent="true">
+         <property key="image">
+            <property class="tesla.scada2.model.properties.ImageProperty" tagname="SatSelectBit" value="1" type="0" imagebasetrue="" imagebasefalse="" filenametrue="milling" filenamefalse="milling"/>
+         </property>
+         <property key="buttoncontrol">
+            <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="SatSelectBit" functiontype="3" value="0" title="Введите значение" screenname="" command=""/>
+         </property>
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.ImageButtonView" name="Кнопка с изображением" posx="480.0" posy="480.0" width="260.0" height="330.0" angle="0" lock="false" text="Start" textcolor="0xffffffff" fillcolor="0xd3d3d3ff" type3d="1" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false" transparent="true">
+         <property key="image">
+            <property class="tesla.scada2.model.properties.ImageProperty" tagname="SatSelectBit" value="1" type="0" imagebasetrue="" imagebasefalse="" filenametrue="drilling" filenamefalse="drilling"/>
+         </property>
+         <property key="buttoncontrol">
+            <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="SatSelectBit" functiontype="3" value="0" title="Введите значение" screenname="" command=""/>
+         </property>
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.ImageButtonView" name="Кнопка с изображением" posx="-20.0" posy="70.0" width="260.0" height="330.0" angle="0" lock="false" text="Start" textcolor="0xffffffff" fillcolor="0xd3d3d3ff" type3d="1" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false" transparent="true">
+         <property key="image">
+            <property class="tesla.scada2.model.properties.ImageProperty" tagname="SatSelectBit" value="1" type="0" imagebasetrue="" imagebasefalse="" filenametrue="drilling" filenamefalse="drilling"/>
+         </property>
+         <property key="buttoncontrol">
+            <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="SatSelectBit" functiontype="3" value="0" title="Введите значение" screenname="" command=""/>
+         </property>
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.TextView" name="Текст/Поле ввода" posx="140.0" posy="10.0" width="610.0" height="77.0" angle="0" lock="false" text="выбор типа операции" fonttype="1" fontsize="40" textplacement="1" textcolor="0xffffffff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.TextView" name="Текст/Поле ввода" posx="230.0" posy="110.0" width="460.0" height="77.0" angle="0" lock="false" text="притупление кромки зуба" fonttype="1" fontsize="35" textplacement="1" textcolor="0xffffffff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.TextView" name="Текст/Поле ввода" posx="230.0" posy="150.0" width="460.0" height="77.0" angle="0" lock="false" text="боковые венцы" fonttype="1" fontsize="30" textplacement="1" textcolor="0xffffffff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.TextView" name="Текст/Поле ввода" posx="727.0" posy="567.0" width="460.0" height="77.0" angle="0" lock="false" text="центральный венец" fonttype="1" fontsize="30" textplacement="1" textcolor="0xffffffff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.TextView" name="Текст/Поле ввода" posx="727.0" posy="527.0" width="460.0" height="77.0" angle="0" lock="false" text="притупление кромки зуба" fonttype="1" fontsize="35" textplacement="1" textcolor="0xffffffff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.TextView" name="Текст/Поле ввода" posx="470.0" posy="340.0" width="320.0" height="77.0" angle="0" lock="false" text="снятие заусенца" fonttype="1" fontsize="35" textplacement="1" textcolor="0xffffffff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+         <scripts/>
+      </objectView>
+   </objects>
+   <scriptnames/>
+</window>

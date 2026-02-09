@@ -1,0 +1,15 @@
+local function ServoPos(SrvP)
+    -- PR97param - 851970 - D0002h, ABSpos, speed2300, acc200
+    set_modbus_io_status("M_L_PR97coord", SrvP*1000) --
+    sleep(0.25)
+    set_modbus_io_status("50E_PR", 97) --
+    i = 0
+    while (i~=20097) do
+        i = get_modbus_io_status("50E_PR") --
+    end
+end
+
+P163_reykaZubright = get_modbus_io_status("M_F_faskaR250h") --Р163, позиция рейки,зубсправа;мм,float, 32bit
+P163_reykaZubright = -math.abs(P163_reykaZubright) -- нормализация, убираю знак
+-- позиция рейки Zub Sleva, absolutnyaya poziciya
+ServoPos(P163_reykaZubright)

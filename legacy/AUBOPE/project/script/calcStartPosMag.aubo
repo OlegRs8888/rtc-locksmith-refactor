@@ -1,0 +1,39 @@
+function calculateStartPos()
+--*************************основной код************************************
+    -- читаю из SCADA стартовую позицию магазина инструментов
+    startPos = get_modbus_io_status("globalR19Bh")
+    startPos = math.abs(startPos) -- нормализация, убираю знак
+    startPos = math.floor(startPos) -- нормализация, только целая часть
+    -- сброс флага состояния выполнения
+    set_modbus_io_status("synhr_c121h", 0)
+    -- количество ячеек по осям
+    xMax, yMax = 11, 2 
+    -- проверка входных данных
+    if startPos == 0 or startPos>22 then
+        set_modbus_io_status("synhr_c121h", 1)
+        print("")
+        print("<<<<<<<<<<<<< calcStartPosMag >>>>>>>>>>>>>")
+        print("<<<<< некорректные входные данные. Флаг synhr_c121h = 1 >>>>>>>>>>")
+        print("<<<<<<<<<<<<< calcStartPosMag >>>>>>>>>>>>>")
+        print("")
+        return
+    end
+    -- пересчёт из линейного порядка в X и Y
+    celka = startPos / xMax
+    celka = math.floor(celka) -- только целая часть
+    if (startPos % xMax) == 0 then
+        celka = celka - 1
+    end
+    celka = celka + 1
+--    print("целая часть - "..celka)
+    ostatok = startPos % xMax
+    if ostatok == 0 then
+        ostatok = xMax
+    end
+--    print("остаток - "..ostatok)
+    -- сохранение значений в переменных проекта
+    set_global_variable("V_I_magXcount", ostatok)
+    set_global_variable("V_I_magYcount", celka)
+--*************************основной код************************************
+end
+calculateStartPos()

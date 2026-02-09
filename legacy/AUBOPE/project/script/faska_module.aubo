@@ -1,0 +1,332 @@
+local mod_table={}
+
+local function moveLine_go(velc, acc, pos, posTool, oriTool)
+    Povorotka_UserSysCoord = "povorotnayaOsReal"
+    -- параметры системы координат поворотки
+    calMet, jP1, jP2, jP3, tP = get_user_coord_param(Povorotka_UserSysCoord)
+    -- обязательный сброс значений относительных перемещений
+    set_relative_offset({0,0,0})
+    pos[1] = pos[1]/1000 -- в метры
+    pos[2] = pos[2]/1000 -- в метры
+    pos[3] = pos[3]/1000 -- в метры
+    targetPos = get_target_pose(pos, false, posTool, oriTool, calMet, jP1, jP2, jP3, tP)
+    set_end_maxvelc(velc/1000) -- mm/s
+    set_end_maxacc(acc/1000) -- mm/s^2
+    move_line(targetPos, true) -- Line движение
+end
+local function moveLine_rel(velc, acc, Xoffset, Yoffset, Zoffset, toolName)
+    posTool, oriTool = get_tool_kinematics_param(toolName)
+    -- установ значений относительных перемещений
+    set_relative_offset({Xoffset/1000, Yoffset/1000, Zoffset/1000}, {1.0, 0.0, 0.0, 0.0}, posTool, oriTool)
+    wpCurr = get_current_waypoint()
+    jntCurr = {wpCurr.joint.j1, wpCurr.joint.j2, wpCurr.joint.j3, wpCurr.joint.j4, wpCurr.joint.j5, wpCurr.joint.j6}
+    set_end_maxvelc(velc/1000) -- mm/s
+    set_end_maxacc(acc/1000) -- mm/s^2
+    move_line(jntCurr, true) -- Line движение
+    -- обязательный сброс значений относительных перемещений
+    set_relative_offset({0,0,0}, {1.0, 0.0, 0.0, 0.0})
+end
+local function moveTrackArc(velc, acc, pos1, pos2, pos3, ori, toolName)
+    -- инициализация профиля движения
+    init_global_move_profile()
+    posTool, oriTool = get_tool_kinematics_param(toolName)
+    -- параметры системы координат поворотки
+    calMet, jP1, jP2, jP3, tP = get_user_coord_param("povorotnayaOsReal")
+    -- обязательный сброс значений относительных перемещений
+    set_relative_offset({0,0,0}, {1,0,0,0})
+    pos1[1] = pos1[1]/1000 -- в метры
+    pos1[2] = pos1[2]/1000 -- в метры
+    pos1[3] = pos1[3]/1000 -- в метры
+    pos2[1] = pos2[1]/1000 -- в метры
+    pos2[2] = pos2[2]/1000 -- в метры
+    pos2[3] = pos2[3]/1000 -- в метры
+    pos3[1] = pos3[1]/1000 -- в метры
+    pos3[2] = pos3[2]/1000 -- в метры
+    pos3[3] = pos3[3]/1000 -- в метры
+    targetPos = get_target_pose(pos1, ori, false, posTool, oriTool, calMet, jP1, jP2, jP3, tP)
+    add_waypoint(targetPos)
+    targetPos = get_target_pose(pos2, ori, false, posTool, oriTool, calMet, jP1, jP2, jP3, tP)
+    add_waypoint(targetPos)
+    targetPos = get_target_pose(pos3, ori, false, posTool, oriTool, calMet, jP1, jP2, jP3, tP)
+    add_waypoint(targetPos)
+--    print("line_track")
+    set_end_maxvelc(velc/1000) -- mm/s
+    set_end_maxacc(acc/1000) -- mm/s^2
+    move_track(MoveTrackType.Arc, true)
+--    move_line(targetPos, true) -- Line движение
+    clear_global_waypoint_list()
+    return 0
+end
+local function moveJoint_go(velc, acc, pos, ori, posTool, oriTool)
+    Povorotka_UserSysCoord = "povorotnayaOsReal"
+    -- параметры системы координат поворотки
+    calMet, jP1, jP2, jP3, tP = get_user_coord_param(Povorotka_UserSysCoord)
+    -- обязательный сброс значений относительных перемещений
+    set_relative_offset({0,0,0}, {1,0,0,0})
+    pos[1] = pos[1]/1000 -- в метры
+    pos[2] = pos[2]/1000 -- в метры
+    pos[3] = pos[3]/1000 -- в метры
+    targetPos = get_target_pose(pos, ori, false, posTool, oriTool, calMet, jP1, jP2, jP3, tP)
+    set_joint_maxvelc({velc, velc, velc, velc, velc, velc}) -- rad/s
+    set_joint_maxacc({acc, acc, acc, acc, acc, acc}) -- rad/s^2
+    move_joint(targetPos, true) -- Joint движение
+end
+local function moveJoint_rel(pos, ori, velc, acc, lin_offset, toolName, rot_offset)
+    Povorotka_UserSysCoord = "povorotnayaOsReal"
+    -- параметры системы координат поворотки
+    calMet, jP1, jP2, jP3, tP = get_user_coord_param(Povorotka_UserSysCoord)
+    -- параметры системы координат instrumenta
+    posTool, oriTool = get_tool_kinematics_param(toolName)
+    pos[1] = pos[1]/1000 -- в метры
+    pos[2] = pos[2]/1000 -- в метры
+    pos[3] = pos[3]/1000 -- в метры
+    ori_off = rpy2quaternion({d2r(rot_offset[1]), d2r(rot_offset[2]), d2r(rot_offset[3])})
+    -- установ значений относительных перемещений
+    set_relative_offset({lin_offset[1]/1000, lin_offset[2]/1000, lin_offset[3]/1000}, ori_off, posTool, oriTool)
+    set_joint_maxvelc({velc, velc, velc, velc, velc, velc}) -- rad/s
+    set_joint_maxacc({acc, acc, acc, acc, acc, acc}) -- rad/s^2
+    targetPos = get_target_pose(pos, ori, false, posTool, oriTool, calMet, jP1, jP2, jP3, tP)
+    move_joint(targetPos, true) -- Joint движение
+    -- обязательный сброс значений относительных перемещений
+    set_relative_offset({0,0,0}, {1.0, 0.0, 0.0, 0.0})
+end
+local function moveJoint_relRealTimeWP(velc, acc, lin_offset, toolName, rot_offset)
+    -- параметры системы координат instrumenta
+    posTool, oriTool = get_tool_kinematics_param(toolName)
+    ori_off = rpy2quaternion({d2r(rot_offset[1]), d2r(rot_offset[2]), d2r(rot_offset[3])})
+    -- установ значений относительных перемещений
+    set_relative_offset({lin_offset[1]/1000, lin_offset[2]/1000, lin_offset[3]/1000}, ori_off, posTool, oriTool)
+    set_joint_maxvelc({velc, velc, velc, velc, velc, velc}) -- rad/s
+    set_joint_maxacc({acc, acc, acc, acc, acc, acc}) -- rad/s^2
+    wpCurr = get_current_waypoint()
+    jntCurr = {wpCurr.joint.j1, wpCurr.joint.j2, wpCurr.joint.j3, wpCurr.joint.j4, wpCurr.joint.j5, wpCurr.joint.j6}
+    move_joint(jntCurr, true) -- Joint движение
+    -- обязательный сброс значений относительных перемещений
+    set_relative_offset({0,0,0}, {1.0, 0.0, 0.0, 0.0})
+end
+local function S1left_position(glavUgolX, glavUgolY, glavUgolZ, perevorotyX, velc)
+    -- начальные углы позиции
+    Ori_side1 = rpy2quaternion({d2r(-90), d2r(0), d2r(-90)})
+    -- параметры системы координат инструмента
+    posDiscTool, oriDiscTool = get_tool_kinematics_param("drillDisc")
+    -- координаты и углы в системах povorotka i driiDisc
+    tPos = {perevorotyX, 0, 0}
+    faska_m.moveJoint_rel(tPos, Ori_side1, velc, velc*3, {0,0,0}, "drillDisc", {0, 0, 0})
+    tPos = {perevorotyX, 0, 0}
+    faska_m.moveJoint_relRealTimeWP(velc, velc*3, {0,0,0}, "drillDisc", {-glavUgolX, 0, 0})
+    tPos = {perevorotyX, 0, 0}
+    faska_m.moveJoint_relRealTimeWP(velc, velc*3, {0,0,0}, "drillDisc", {0, glavUgolY, 0})
+    tPos = {perevorotyX, 0, 0}
+    faska_m.moveJoint_relRealTimeWP(velc, velc*3, {0,0,0}, "drillDisc", {0, 0, -glavUgolZ})
+end
+local function S1right_position(glavUgolX, glavUgolY, glavUgolZ, perevorotyX, velc)
+    -- начальные углы позиции
+    Ori_side2 = rpy2quaternion({d2r(90), d2r(0), d2r(90)})
+    -- параметры системы координат инструмента
+    posDiscTool, oriDiscTool = get_tool_kinematics_param("drillDisc")
+    -- координаты и углы в системах povorotka i driiDisc
+    tPos = {perevorotyX, 0, 0}
+    faska_m.moveJoint_rel(tPos, Ori_side2, velc, velc*3, {0,0,0}, "drillDisc", {0, 0, 0})
+    tPos = {perevorotyX, 0, 0}
+    faska_m.moveJoint_relRealTimeWP(velc, velc*3, {0,0,0}, "drillDisc", {glavUgolX, 0, 0})
+    tPos = {perevorotyX, 0, 0}
+    faska_m.moveJoint_relRealTimeWP(velc, velc*3, {0,0,0}, "drillDisc", {0, glavUgolY, 0})
+    tPos = {perevorotyX, 0, 0}
+    faska_m.moveJoint_relRealTimeWP(velc, velc*3, {0,0,0}, "drillDisc", {0, 0, glavUgolZ})
+end
+local function S2left_position(glavUgolX, glavUgolY, glavUgolZ, perevorotyX, velc)
+    -- начальные углы позиции
+    Ori_side2 = rpy2quaternion({d2r(90), d2r(0), d2r(90)})
+    -- параметры системы координат инструмента
+    posDiscTool, oriDiscTool = get_tool_kinematics_param("drillDisc")
+    -- координаты и углы в системах povorotka i driiDisc
+    tPos = {perevorotyX, 0, 0}
+    faska_m.moveJoint_rel(tPos, Ori_side2, velc, velc*3, {0,0,0}, "drillDisc", {0, 0, 0})
+    tPos = {perevorotyX, 0, 0}
+    faska_m.moveJoint_relRealTimeWP(velc, velc*3, {0,0,0}, "drillDisc", {-glavUgolX, 0, 0})
+    tPos = {perevorotyX, 0, 0}
+    faska_m.moveJoint_relRealTimeWP(velc, velc*3, {0,0,0}, "drillDisc", {0, -glavUgolY, 0})
+    tPos = {perevorotyX, 0, 0}
+    faska_m.moveJoint_relRealTimeWP(velc, velc*3, {0,0,0}, "drillDisc", {0, 0, -glavUgolZ/2})
+end
+local function S2right_position(glavUgolX, glavUgolY, glavUgolZ, perevorotyX, velc)
+    -- начальные углы позиции
+    Ori_side1 = rpy2quaternion({d2r(-90), d2r(0), d2r(-90)})
+    -- параметры системы координат инструмента
+    posDiscTool, oriDiscTool = get_tool_kinematics_param("drillDisc")
+    -- координаты и углы в системах povorotka i driiDisc
+    tPos = {perevorotyX, 0, 0}
+    faska_m.moveJoint_rel(tPos, Ori_side1, velc, velc*3, {0,0,0}, "drillDisc", {0, 0, 0})
+    tPos = {perevorotyX, 0, 0}
+    faska_m.moveJoint_relRealTimeWP(velc, velc*3, {0,0,0}, "drillDisc", {glavUgolX, 0, 0})
+    tPos = {perevorotyX, 0, 0}
+    faska_m.moveJoint_relRealTimeWP(velc, velc*3, {0,0,0}, "drillDisc", {0, -glavUgolY, 0})
+    tPos = {perevorotyX, 0, 0}
+    faska_m.moveJoint_relRealTimeWP(velc, velc*3, {0,0,0}, "drillDisc", {0, 0, -glavUgolZ+15})
+end
+local function getDataFaska()
+    P150_Ddisc = get_modbus_io_status("M_F_faskaR240h") -- Р150, диаметр наждачного диска; мм, float, 32bit
+    P150_Ddisc = math.abs(P150_Ddisc) -- нормализация, убираю знак
+    set_modbus_io_status("M_F_faskaR240h", P150_Ddisc)
+    P151_offsetDisc = get_modbus_io_status("M_F_faskaR242h") -- Р151, модуль калибровки диска: смешение за проход калибровки диска; мм, float, 32bit
+    P151_offsetDisc = math.abs(P151_offsetDisc) -- нормализация, убираю знак
+    set_modbus_io_status("M_F_faskaR242h", P151_offsetDisc)
+    P152_offsetTime = get_modbus_io_status("faskaR244h") -- Р152, модуль калибровки диска: количество проходов при калибровке; шт, uint, 16bit
+    P152_offsetTime = math.abs(P152_offsetTime) -- нормализация, убираю знак
+    P152_offsetTime = math.floor(P152_offsetTime) -- нормализация, только целая часть
+    set_modbus_io_status("faskaR244h", P152_offsetTime)
+    P156_operationX = get_modbus_io_status("faskaR245h") -- Р156, координата X по G54 плоскости операции; мм, uint, 16bit
+    P156_operationX = math.abs(P156_operationX) -- нормализация, убираю знак
+    P156_operationX = math.floor(P156_operationX) -- нормализация, только целая часть
+    set_modbus_io_status("faskaR245h", P156_operationX)
+    P157_glavUgolX= get_modbus_io_status("M_F_faskaR246h") -- Р157, главные углы, Венец1Сторона1ЗубСлева: угол вокруг оси X; град, float, 32bit
+    P157_glavUgolX = math.abs(P157_glavUgolX) -- нормализация, убираю знак
+    set_modbus_io_status("M_F_faskaR246h", P157_glavUgolX)
+    P158_glavUgolY= get_modbus_io_status("M_F_faskaR248h") -- Р158, главные углы, Венец1Сторона1ЗубСлева: угол вокруг оси Y; град, float, 32bit
+    P158_glavUgolY = math.abs(P158_glavUgolY) -- нормализация, убираю знак
+    set_modbus_io_status("M_F_faskaR248h", P158_glavUgolY)
+    P159_glavUgolZ = get_modbus_io_status("M_F_faskaR24Ah") -- Р159, главные углы, Венец1Сторона1ЗубСлева: угол вокруг оси Z; град, float, 32bit
+    P159_glavUgolZ = math.abs(P159_glavUgolZ) -- нормализация, убираю знак
+    set_modbus_io_status("M_F_faskaR24Ah", P159_glavUgolZ)
+    P160_perevorotyX = get_modbus_io_status("faskaR24Ch") -- Р160, координата X по G54 плоскости разворотов робота; мм, uint, 16bit
+    P160_perevorotyX = math.abs(P160_perevorotyX) -- нормализация, убираю знак
+    P160_perevorotyX = math.floor(P160_perevorotyX) -- нормализация, только целая часть
+    set_modbus_io_status("faskaR24Ch", P160_perevorotyX)
+    P161_saftyX = get_modbus_io_status("faskaR24Dh") -- Р161, координата X по G54 плоскости безопасности; мм, uint, 16bit
+    P161_saftyX = math.abs(P161_saftyX) -- нормализация, убираю знак
+    P161_saftyX = math.floor(P161_saftyX) -- нормализация, только целая часть
+    set_modbus_io_status("faskaR24Dh", P161_saftyX)
+    P162_reykaZubleft = get_modbus_io_status("M_F_faskaR24Eh") -- Р162, позиция рейки, зуб слева; мм, float, 32bit
+    P162_reykaZubleft = -math.abs(P162_reykaZubleft ) -- нормализация, убираю знак
+    set_modbus_io_status("M_F_faskaR24Eh", P162_reykaZubleft )
+    P163_reykaZubright = get_modbus_io_status("M_F_faskaR250h") -- Р163, позиция рейки, зуб справа; мм, float, 32bit
+    P163_reykaZubright = -math.abs(P163_reykaZubright) -- нормализация, убираю знак
+    set_modbus_io_status("M_F_faskaR250h", P163_reykaZubright)
+    P164_operationY = get_modbus_io_status("faskaR252h") -- Р164, координата Y по G54 при отводе до плоскости операции; мм, uint, 16bit
+    P164_operationY = math.abs(P164_operationY) -- нормализация, убираю знак
+    P164_operationY = math.floor(P164_operationY) -- нормализация, только целая часть
+    set_modbus_io_status("faskaR252h", P164_operationY)
+
+    P165_venec1Storona = get_modbus_io_status("faskaR254h") -- Р165, венец 1, параметр выбора торца для фаски или нет обработки: 0 - нет обработки; 1 - ближний к упору торец; 2 - дальний от упора торец; 3 - оба
+    P165_venec1Storona = math.abs(P165_venec1Storona) -- нормализация, убираю знак
+    P165_venec1Storona = math.floor(P165_venec1Storona) -- нормализация, только целая часть
+    set_modbus_io_status("faskaR254h", P165_venec1Storona)
+    P166_venec2Storona = get_modbus_io_status("faskaR255h") -- Р166, венец 2, параметр выбора торца для фаски или нет обработки: 0 - нет обработки; 1 - ближний к упору торец; 2 - дальний от упора торец; 3 - оба
+    P166_venec2Storona = math.abs(P166_venec2Storona) -- нормализация, убираю знак
+    P166_venec2Storona = math.floor(P166_venec2Storona) -- нормализация, только целая часть
+    set_modbus_io_status("faskaR255h", P166_venec2Storona)
+    P167_venec3Storona = get_modbus_io_status("faskaR256h") -- Р167, венец 3, параметр выбора торца для фаски или нет обработки: 0 - нет обработки; 1 - ближний к упору торец; 2 - дальний от упора торец; 3 - оба
+    P167_venec3Storona = math.abs(P167_venec3Storona) -- нормализация, убираю знак
+    P167_venec3Storona = math.floor(P167_venec3Storona) -- нормализация, только целая часть
+    set_modbus_io_status("faskaR256h", P167_venec3Storona)
+    P168_IDstring = get_modbus_io_status("faskaR257h") -- Р168, ID строки; uint, 16bit
+    P168_IDstring = math.abs(P168_IDstring) -- нормализация, убираю знак
+    P168_IDstring = math.floor(P168_IDstring) -- нормализация, только целая часть
+    set_modbus_io_status("faskaR257h", P168_IDstring)
+    -- correctory
+    P169_v1s1leftCorrectorZ = get_modbus_io_status("M_F_faskaR258h") -- Р169, Венец1Сторона1ЗубСлева - корректор по Z поворотки; мм, float, 32bit
+    P170_v1s2leftCorrectorZ = get_modbus_io_status("M_F_faskaR25Ah") -- Р170, Венец1Сторона2ЗубСлева - корректор по Z поворотки; мм, float, 32bit
+    P171_v2s1leftCorrectorZ = get_modbus_io_status("M_F_faskaR25Ch") -- Р171, Венец2Сторона1ЗубСлева - корректор по Z поворотки; мм, float, 32bit
+    P172_v2s2leftCorrectorZ = get_modbus_io_status("M_F_faskaR25Eh") -- Р172, Венец2Сторона2ЗубСлева - корректор по Z поворотки; мм, float, 32bit
+    P173_v3s1leftCorrectorZ = get_modbus_io_status("M_F_faskaR260h") -- Р173, Венец3Сторона1ЗубСлева - корректор по Z поворотки; мм, float, 32bit
+    P174_v3s2leftCorrectorZ = get_modbus_io_status("M_F_faskaR262h") -- Р174, Венец3Сторона2ЗубСлева - корректор по Z поворотки; мм, float, 32bit
+    P175_v1s1rightCorrectorZ = get_modbus_io_status("M_F_faskaR264h") -- Р175, Венец1Сторона1ЗубСправа - корректор по Z поворотки; мм, float, 32bit
+    P176_v1s2rightCorrectorZ = get_modbus_io_status("M_F_faskaR266h") -- Р176, Венец1Сторона2ЗубСправа - корректор по Z поворотки; мм, float, 32bit
+    P177_v2s1rightCorrectorZ = get_modbus_io_status("M_F_faskaR268h") -- Р177, Венец2Сторона1ЗубСправа - корректор по Z поворотки; мм, float, 32bit
+    P178_v2s2rightCorrectorZ = get_modbus_io_status("M_F_faskaR276h") -- Р178, Венец2Сторона2ЗубСправа - корректор по Z поворотки; мм, float, 32bit
+    P185_v3s1rightCorrectorZ = get_modbus_io_status("M_F_faskaR278h") -- Р185, Венец3Сторона1ЗубСправа - корректор по Z поворотки; мм, float, 32bit
+    P186_v3s2rightCorrectorZ = get_modbus_io_status("M_F_faskaR27Ah") -- Р186, Венец3Сторона2ЗубСправа - корректор по Z поворотки; мм, float, 32bit
+
+    P187_venec1StoronaV = get_modbus_io_status("faskaR27Ch") -- Р187, венец 1, параметр выбора торца для притупления вершины зуба или нет обработки: 0 - нет обработки; 1 - ближний к упору торец; 2 - дальний от упора торец; 3 - оба
+    P187_venec1StoronaV = math.abs(P187_venec1StoronaV) -- нормализация, убираю знак
+    P187_venec1StoronaV = math.floor(P187_venec1StoronaV) -- нормализация, только целая часть
+    set_modbus_io_status("faskaR27Ch", P187_venec1StoronaV)
+    P188_venec2StoronaV = get_modbus_io_status("faskaR27Dh") -- Р188, венец 1, параметр выбора торца для притупления вершины зуба или нет обработки: 0 - нет обработки; 1 - ближний к упору торец; 2 - дальний от упора торец; 3 - оба
+    P188_venec2StoronaV = math.abs(P188_venec2StoronaV) -- нормализация, убираю знак
+    P188_venec2StoronaV = math.floor(P188_venec2StoronaV) -- нормализация, только целая часть
+    set_modbus_io_status("faskaR27Dh", P188_venec2StoronaV)
+    P189_venec3StoronaV = get_modbus_io_status("faskaR27Eh") -- Р189, венец 1, параметр выбора торца для притупления вершины зуба или нет обработки: 0 - нет обработки; 1 - ближний к упору торец; 2 - дальний от упора торец; 3 - оба
+    P189_venec3StoronaV = math.abs(P189_venec3StoronaV) -- нормализация, убираю знак
+    P189_venec3StoronaV = math.floor(P189_venec3StoronaV) -- нормализация, только целая часть
+    set_modbus_io_status("faskaR27Eh", P189_venec3StoronaV)
+
+    -- флаги
+    P153_printDbgFlag = get_modbus_io_status("faska_c1B0h") -- Р153, флаг вывода отладочной информации;	
+    P154_backDisk = get_modbus_io_status("faska_c1B1h") -- Р154, модуль калибровки диска: флаг активации этапа обработки задней части диска;	
+    P155_zausDisk = get_modbus_io_status("faska_c1B2h") -- Р155, модуль калибровки диска: флаг активации этапа удаления заусенца на задней части диска;	
+
+    if P153_printDbgFlag == 1 then -- вывод в консоль, если разрешён
+    print("P150_Ddisc = "..tostring(P150_Ddisc))
+    print("P151_offsetDisc = "..tostring(P151_offsetDisc))
+    print("P152_offsetTime = "..tostring(P152_offsetTime))
+    print("P154_backDisk = "..tostring(P154_backDisk))
+    print("P155_zausDisk = "..tostring(P155_zausDisk))
+    print("P156_operationX = "..tostring(P156_operationX))
+    print("P157_glavUgolX = "..tostring(P157_glavUgolX))
+    print("P158_glavUgolY = "..tostring(P158_glavUgolY))
+    print("P159_glavUgolZ = "..tostring(P159_glavUgolZ))
+    print("P160_perevorotyX = "..tostring(P160_perevorotyX))
+    print("P161_saftyX = "..tostring(P161_saftyX))
+    print("P162_reykaZubleft = "..tostring(P162_reykaZubleft))
+    print("P163_reykaZubright = "..tostring(P163_reykaZubright))
+    print("P164_operationY = "..tostring(P164_operationY))
+    print("P165_venec1Storona = "..tostring(P165_venec1Storona))
+    print("P166_venec2Storona = "..tostring(P166_venec2Storona))
+    print("P167_venec3Storona = "..tostring(P167_venec3Storona))
+    print("P168_IDstring = "..tostring(P168_IDstring))
+    print("P169_v1s1leftCorrectorZ = "..tostring(P169_v1s1leftCorrectorZ))
+    print("P170_v1s2leftCorrectorZ = "..tostring(P170_v1s2leftCorrectorZ))
+    print("P171_v2s1leftCorrectorZ = "..tostring(P171_v2s1leftCorrectorZ))
+    print("P172_v2s2leftCorrectorZ = "..tostring(P172_v2s2leftCorrectorZ))
+    print("P173_v3s1leftCorrectorZ = "..tostring(P173_v3s1leftCorrectorZ))
+    print("P174_v3s2leftCorrectorZ = "..tostring(P174_v3s2leftCorrectorZ))
+    print("P175_v1s1rightCorrectorZ = "..tostring(P175_v1s1rightCorrectorZ))
+    print("P176_v1s2rightCorrectorZ = "..tostring(P176_v1s2rightCorrectorZ))
+    print("P177_v2s1rightCorrectorZ = "..tostring(P177_v2s1rightCorrectorZ))
+    print("P178_v2s2rightCorrectorZ = "..tostring(P178_v2s2rightCorrectorZ))
+    print("P185_v3s1rightCorrectorZ = "..tostring(P185_v3s1rightCorrectorZ))
+    print("P186_v3s2rightCorrectorZ = "..tostring(P186_v3s2rightCorrectorZ))
+    print("P187_venec1StoronaV = "..tostring(P187_venec1StoronaV))
+    print("P188_venec2StoronaV = "..tostring(P188_venec2StoronaV))
+    print("P189_venec3StoronaV = "..tostring(P189_venec3StoronaV))
+    end
+
+    return P150_Ddisc, P151_offsetDisc, P152_offsetTime, P153_printDbgFlag, P154_backDisk, P155_zausDisk, P156_operationX, P157_glavUgolX, P158_glavUgolY, P159_glavUgolZ, P160_perevorotyX, P161_saftyX, P162_reykaZubleft, P163_reykaZubright, P164_operationY, P165_venec1Storona, P166_venec2Storona, P167_venec3Storona, P168_IDstring, P169_v1s1leftCorrectorZ, P170_v1s2leftCorrectorZ, P171_v2s1leftCorrectorZ, P172_v2s2leftCorrectorZ,     P173_v3s1leftCorrectorZ, P174_v3s2leftCorrectorZ, P175_v1s1rightCorrectorZ, P176_v1s2rightCorrectorZ,   P177_v2s1rightCorrectorZ, P178_v2s2rightCorrectorZ, P185_v3s1rightCorrectorZ, P186_v3s2rightCorrectorZ, P187_venec1StoronaV, P188_venec2StoronaV, P189_venec3StoronaV
+end
+function checkDataFaska(P150_Ddisc, P151_offsetDisc, P152_offsetTime, P153_printDbgFlag, P154_backDisk, P155_zausDisk, P156_operationX, P157_glavUgolX, P158_glavUgolY, P159_glavUgolZ, P160_perevorotyX, P161_saftyX, P162_reykaZubleft, P163_reykaZubright, P164_operationY, P165_venec1Storona, P166_venec2Storona, P167_venec3Storona, P168_IDstring, P169_v1s1leftCorrectorZ, P170_v1s2leftCorrectorZ, P171_v2s1leftCorrectorZ, P172_v2s2leftCorrectorZ,     P173_v3s1leftCorrectorZ, P174_v3s2leftCorrectorZ, P175_v1s1rightCorrectorZ, P176_v1s2rightCorrectorZ,   P177_v2s1rightCorrectorZ, P178_v2s2rightCorrectorZ, P185_v3s1rightCorrectorZ, P186_v3s2rightCorrectorZ, P187_venec1StoronaV, P188_venec2StoronaV, P189_venec3StoronaV)
+--*******************критические проверки************************************
+
+--*******************критические проверки************************************
+    if P150_Ddisc<7 then
+        print("faska_module: diametr diska ochen` mal")
+        return -1 
+    end
+    if P160_perevorotyX<100 or P161_saftyX<40 or P156_operationX<3 then
+        print("faska_module: urovni bezopasnosti, operacii ili perevorotov maly")
+        return -1 
+    end
+    if P165_venec1Storona==0 and P166_venec2Storona==0 and P167_venec3Storona==0 then
+        print("faska_module: dannye vybora storony nevernye")
+        return -1 
+    end
+    if P165_venec1Storona>3 or P166_venec2Storona>3 or P167_venec3Storona>3 then
+        print("faska_module: dannye vybora storony nevernye")
+        return -1 
+    end
+    return 0
+end
+
+-- таблица экспорта
+mod_table.moveLine_go = moveLine_go
+mod_table.moveJoint_go = moveJoint_go
+mod_table.moveLine_rel = moveLine_rel
+mod_table.getDataFaska = getDataFaska
+mod_table.checkDataFaska = checkDataFaska
+mod_table.moveTrackArc = moveTrackArc
+mod_table.moveJoint_rel = moveJoint_rel
+mod_table.moveJoint_relRealTimeWP = moveJoint_relRealTimeWP
+mod_table.S1left_position = S1left_position
+mod_table.S1right_position = S1right_position
+mod_table.S2left_position = S2left_position
+mod_table.S2right_position = S2right_position
+return mod_table

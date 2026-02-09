@@ -1,0 +1,133 @@
+<window name="SelectSatellit_main" color="0x748490ff" type="0" windowheight="1900" windowwidth="1200" usepassword="false" password="" groupname="" subgroupname="" posx="-1000" posy="-1000" accesslevel="0">
+   <objects>
+      <objectView class="tesla.scada2.model.objects.TextView" name="Текст/Поле ввода" posx="150.0" posy="10.0" width="900.0" height="76.0" angle="0" lock="false" text="пусти в работу, что бы детали летали" fonttype="1" fontsize="40" textplacement="1" textcolor="0xffffffff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.ImageButtonView" name="SatSelectButton2" posx="350.0" posy="60.0" width="500.0" height="430.0" angle="0" lock="false" text="Start" textcolor="0xffffffff" fillcolor="0xd3d3d3ff" type3d="1" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false" transparent="true">
+         <property key="image">
+            <property class="tesla.scada2.model.properties.ImageProperty" tagname="satSelButtNum" value="2" type="0" imagebasetrue="" imagebasefalse="" filenametrue="2" filenamefalse="2"/>
+         </property>
+         <property key="buttoncontrol">
+            <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="satSelButtNum" functiontype="4" value="2" title="Введите значение" screenname="" command=""/>
+         </property>
+         <scripts/>
+         <udproperties/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.ImageButtonView" name="SatSelectButton3" posx="750.0" posy="60.0" width="500.0" height="430.0" angle="0" lock="false" text="Start" textcolor="0xffffffff" fillcolor="0xd3d3d3ff" type3d="1" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false" transparent="true">
+         <property key="image">
+            <property class="tesla.scada2.model.properties.ImageProperty" tagname="satSelButtNum" value="3" type="0" imagebasetrue="" imagebasefalse="" filenametrue="3" filenamefalse="3"/>
+         </property>
+         <property key="buttoncontrol">
+            <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="satSelButtNum" functiontype="4" value="3" title="Введите значение" screenname="" command=""/>
+         </property>
+         <scripts/>
+         <udproperties/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.ImageButtonView" name="SatSelectButton1" posx="-50.0" posy="60.0" width="500.0" height="430.0" angle="0" lock="false" text="Start" textcolor="0xffffffff" fillcolor="0xd3d3d3ff" type3d="1" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false" transparent="true">
+         <property key="image">
+            <property class="tesla.scada2.model.properties.ImageProperty" tagname="SatSelectNum" value="1" type="0" imagebasetrue="" imagebasefalse="" filenametrue="1" filenamefalse="1"/>
+         </property>
+         <property key="buttoncontrol">
+            <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="satSelButtNum" functiontype="4" value="1" title="Введите значение" screenname="" command=""/>
+         </property>
+         <scripts/>
+         <udproperties/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.ImageButtonView" name="SatSelectButton6" posx="750.0" posy="400.0" width="500.0" height="430.0" angle="0" lock="false" text="Start" textcolor="0xffffffff" fillcolor="0xd3d3d3ff" type3d="1" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false" transparent="true">
+         <property key="image">
+            <property class="tesla.scada2.model.properties.ImageProperty" tagname="satSelButtNum" value="6" type="0" imagebasetrue="" imagebasefalse="" filenametrue="6" filenamefalse="6"/>
+         </property>
+         <property key="buttoncontrol">
+            <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="satSelButtNum" functiontype="4" value="6" title="Введите значение" screenname="" command=""/>
+         </property>
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.ImageButtonView" name="SatSelectButton5" posx="350.0" posy="400.0" width="500.0" height="430.0" angle="0" lock="false" text="Start" textcolor="0xffffffff" fillcolor="0xd3d3d3ff" type3d="1" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false" transparent="true">
+         <property key="image">
+            <property class="tesla.scada2.model.properties.ImageProperty" tagname="satSelButtNum" value="5" type="0" imagebasetrue="" imagebasefalse="" filenametrue="5" filenamefalse="5"/>
+         </property>
+         <property key="buttoncontrol">
+            <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="satSelButtNum" functiontype="4" value="5" title="Введите значение" screenname="" command=""/>
+         </property>
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.ImageButtonView" name="SatSelectButton4" posx="-50.0" posy="400.0" width="500.0" height="430.0" angle="0" lock="false" text="Start" textcolor="0xffffffff" fillcolor="0xd3d3d3ff" type3d="1" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false" transparent="true">
+         <property key="image">
+            <property class="tesla.scada2.model.properties.ImageProperty" tagname="satSelButtNum" value="4" type="0" imagebasetrue="" imagebasefalse="" filenametrue="4" filenamefalse="4"/>
+         </property>
+         <property key="buttoncontrol">
+            <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="satSelButtNum" functiontype="4" value="4" title="Введите значение" screenname="" command=""/>
+         </property>
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.ImageButtonView" name="SatSelectButton7" posx="-50.0" posy="740.0" width="500.0" height="430.0" angle="0" lock="false" text="Start" textcolor="0xffffffff" fillcolor="0xd3d3d3ff" type3d="1" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false" transparent="true">
+         <property key="image">
+            <property class="tesla.scada2.model.properties.ImageProperty" tagname="satSelButtNum" value="7" type="0" imagebasetrue="" imagebasefalse="" filenametrue="7" filenamefalse="7"/>
+         </property>
+         <property key="buttoncontrol">
+            <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="satSelButtNum" functiontype="4" value="7" title="Введите значение" screenname="" command=""/>
+         </property>
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.ImageButtonView" name="SatSelectButton8" posx="350.0" posy="740.0" width="500.0" height="430.0" angle="0" lock="false" text="Start" textcolor="0xffffffff" fillcolor="0xd3d3d3ff" type3d="1" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false" transparent="true">
+         <property key="image">
+            <property class="tesla.scada2.model.properties.ImageProperty" tagname="satSelButtNum" value="8" type="0" imagebasetrue="" imagebasefalse="" filenametrue="8" filenamefalse="8"/>
+         </property>
+         <property key="buttoncontrol">
+            <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="satSelButtNum" functiontype="4" value="8" title="Введите значение" screenname="" command=""/>
+         </property>
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.ImageButtonView" name="SatSelectButton9" posx="750.0" posy="740.0" width="500.0" height="430.0" angle="0" lock="false" text="Start" textcolor="0xffffffff" fillcolor="0xd3d3d3ff" type3d="1" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false" transparent="true">
+         <property key="image">
+            <property class="tesla.scada2.model.properties.ImageProperty" tagname="satSelButtNum" value="9" type="0" imagebasetrue="" imagebasefalse="" filenametrue="9" filenamefalse="9"/>
+         </property>
+         <property key="buttoncontrol">
+            <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="satSelButtNum" functiontype="4" value="9" title="Введите значение" screenname="" command=""/>
+         </property>
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.ImageButtonView" name="SatSelectButton10" posx="-50.0" posy="1080.0" width="500.0" height="430.0" angle="0" lock="false" text="Start" textcolor="0xffffffff" fillcolor="0xd3d3d3ff" type3d="1" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false" transparent="true">
+         <property key="image">
+            <property class="tesla.scada2.model.properties.ImageProperty" tagname="satSelButtNum" value="10" type="0" imagebasetrue="" imagebasefalse="" filenametrue="10" filenamefalse="10"/>
+         </property>
+         <property key="buttoncontrol">
+            <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="satSelButtNum" functiontype="4" value="10" title="Введите значение" screenname="" command=""/>
+         </property>
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.ImageButtonView" name="SatSelectButton11" posx="350.0" posy="1080.0" width="500.0" height="430.0" angle="0" lock="false" text="Start" textcolor="0xffffffff" fillcolor="0xd3d3d3ff" type3d="1" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false" transparent="true">
+         <property key="image">
+            <property class="tesla.scada2.model.properties.ImageProperty" tagname="satSelButtNum" value="11" type="0" imagebasetrue="" imagebasefalse="" filenametrue="11" filenamefalse="11"/>
+         </property>
+         <property key="buttoncontrol">
+            <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="satSelButtNum" functiontype="4" value="11" title="Введите значение" screenname="" command=""/>
+         </property>
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.ImageButtonView" name="Кнопка с изображением" posx="750.0" posy="1520.0" width="500.0" height="430.0" angle="0" lock="false" text="Start" textcolor="0xffffffff" fillcolor="0xd3d3d3ff" type3d="1" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false" transparent="true">
+         <property key="image">
+            <property class="tesla.scada2.model.properties.ImageProperty" tagname="SatSelectBit" value="0" type="0" imagebasetrue="" imagebasefalse="" filenametrue="пнр" filenamefalse="пнр"/>
+         </property>
+         <property key="buttoncontrol">
+            <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="SatSelectBit" functiontype="3" value="0" title="Введите значение" screenname="" command=""/>
+         </property>
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.ImageButtonView" name="Кнопка с изображением" posx="890.0" posy="1140.0" width="320.0" height="320.0" angle="0" lock="false" text="Start" textcolor="0xffffffff" fillcolor="0xd3d3d3ff" type3d="1" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false" transparent="true">
+         <property key="image">
+            <property class="tesla.scada2.model.properties.ImageProperty" tagname="SatSelectBit" value="0" type="0" imagebasetrue="" imagebasefalse="" filenametrue="arrowR" filenamefalse="arrowR"/>
+         </property>
+         <property key="visibility">
+            <property class="tesla.scada2.model.properties.VisibilityProperty" tagname="SatSelectNum" value="0" type="5"/>
+         </property>
+         <property key="buttoncontrol">
+            <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="SatSelectBit" functiontype="6" value="0" title="Введите значение" screenname="SelOperation_#2" command=""/>
+         </property>
+         <scripts/>
+      </objectView>
+   </objects>
+   <scriptnames>
+      <string>startInit</string>
+   </scriptnames>
+</window>

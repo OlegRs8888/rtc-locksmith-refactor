@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProcedureProgram>
+    <Condition ConditionType="Procedure_Program" ConditionAlias="Procedure_Program" ConditionUuid="a9266bebae2a44cb86ab2c64d40d9c39">
+        <Attribute/>
+        <Condition ConditionType="Set" ConditionAlias="Set_DI_conf" ConditionUuid="07a83c2a66e3496596c28ee48f119329">
+            <Attribute>
+                <SetConditionMode>IO</SetConditionMode>
+                <IOCategory>Modbus</IOCategory>
+                <IOName>30C_DIconf</IOName>
+                <IOValue>7680</IOValue>
+                <ModbusIOType>ModbusAO</ModbusIOType>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Set" ConditionAlias="Set_DI_control" ConditionUuid="604cb2209a4b465c83058d163cc691f9">
+            <Attribute>
+                <SetConditionMode>IO</SetConditionMode>
+                <IOCategory>Modbus</IOCategory>
+                <IOName>40E_ctrlDI</IOName>
+                <IOValue>7680</IOValue>
+                <ModbusIOType>ModbusAO</ModbusIOType>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Wait" ConditionAlias="Wait_02s" ConditionUuid="bbad809e00794b519095144c22c970c5">
+            <Attribute>
+                <WaitConditionMode>Time</WaitConditionMode>
+                <WaitTime>0.2</WaitTime>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Set" ConditionAlias="Set_DI_control" ConditionUuid="2a0b32e88aaf45c7aaccbb2084713406">
+            <Attribute>
+                <SetConditionMode>IO</SetConditionMode>
+                <IOCategory>Modbus</IOCategory>
+                <IOName>40E_ctrlDI</IOName>
+                <IOValue>7168</IOValue>
+                <ModbusIOType>ModbusAO</ModbusIOType>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Set" ConditionAlias="Set_PR98_Param" ConditionUuid="c9661646b5564b0ab48c897ffcbb8d47">
+            <Attribute>
+                <SetConditionMode>IO</SetConditionMode>
+                <IOCategory>Modbus</IOCategory>
+                <IOName>M_L_PR98param</IOName>
+                <IOValue>458754</IOValue>
+                <ModbusIOType>ModbusAO</ModbusIOType>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Set" ConditionAlias="Set_speed3000" ConditionUuid="15a8d9a43e3c400f94674995ae725ba1">
+            <Attribute>
+                <SetConditionMode>IO</SetConditionMode>
+                <IOCategory>Modbus</IOCategory>
+                <IOName>16EspeedLim</IOName>
+                <IOValue>3000</IOValue>
+                <ModbusIOType>ModbusAO</ModbusIOType>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Set" ConditionAlias="Set_zeroPos" ConditionUuid="ec804e66ce3f4def9a4b55f58385a230">
+            <Attribute>
+                <SetConditionMode>IO</SetConditionMode>
+                <IOCategory>Modbus</IOCategory>
+                <IOName>50E_PR</IOName>
+                <IOValue>0</IOValue>
+                <ModbusIOType>ModbusAO</ModbusIOType>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Wait" ConditionAlias="Wait_puu0" ConditionUuid="764cd446eaaf4f679d3b6599024143ae">
+            <Attribute>
+                <WaitConditionMode>Exp</WaitConditionMode>
+                <WaitConditionExp>(M)50E_PR == 20000</WaitConditionExp>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Procedure" ConditionAlias="beep300" ConditionUuid="413bd6ba750e4defaa37df5241898763">
+            <Attribute>
+                <MD5>6aa19509fb39642f72c5c35fcfd61b4b</MD5>
+                <ProcedureName>beep300</ProcedureName>
+            </Attribute>
+            <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber7" ConditionUuid="92e7c3ebc5624e36a622a056d50620d4">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>7</VarAssignmentExp>
+                    <VarName>V_I_DIOnumber</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_stateTrue" ConditionUuid="728498a1d3a24bd2a0f990c41622b34a">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>true</VarAssignmentExp>
+                    <VarName>V_B_mk311DOstate</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="dfcd94a165ba47f5af643d756878daef">
+                <Attribute>
+                    <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                    <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                    <ScriptFileName>set_mk311DO</ScriptFileName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Wait" ConditionAlias="Wait_03s" ConditionUuid="5c51b4391a7742d19eee458ea9d42c91">
+                <Attribute>
+                    <WaitConditionMode>Time</WaitConditionMode>
+                    <WaitTime>0.3</WaitTime>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_stateFalse" ConditionUuid="d12a27cec62b48f980b480995df5989d">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>false</VarAssignmentExp>
+                    <VarName>V_B_mk311DOstate</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="30209d95d4644992b690420a12fcaafa">
+                <Attribute>
+                    <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                    <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                    <ScriptFileName>set_mk311DO</ScriptFileName>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Script" ConditionAlias="Script" ConditionUuid="66a02c2343a541bea0431775b34508dc">
+            <Attribute>
+                <ScriptConditionMode>LineScript</ScriptConditionMode>
+                <LineScriptContent>print(&quot;home ok&quot;)</LineScriptContent>
+            </Attribute>
+        </Condition>
+    </Condition>
+</ProcedureProgram>

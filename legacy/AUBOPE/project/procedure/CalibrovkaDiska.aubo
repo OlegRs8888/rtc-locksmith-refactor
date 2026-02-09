@@ -1,0 +1,419 @@
+--Procedure Program
+
+--block script function definition
+  function blockScriptFunc_set_mk311DO()
+    function bit(p)
+        return 2 ^ (p -  1)
+    end
+    function hasbit(x , p)
+         return x % (p + p) >= p
+    end
+    function setbit(x , p)
+         return hasbit(x , p) and x or x + p
+    end
+    function clearbit(x , p)
+         return hasbit(x , p) and x-p or x
+    end
+    
+    inp = get_modbus_io_status("mk311_DO")
+    bitNum = get_global_variable("V_I_DIOnumber")
+    bitState = get_global_variable("V_B_mk311DOstate")
+    if bitState == true then 
+        res = setbit(inp , bit(bitNum))
+    else 
+        res = clearbit(inp , bit(bitNum))
+    end
+    set_modbus_io_status("mk311_DO", res)
+  end  --function blockScriptFunc_set_mk311DO()
+
+  function blockScriptFunc_check_mk312DO()
+    function bit(p)
+        return 2 ^ (p -  1)
+    end
+    function hasbit(x , p)
+         return x % (p + p) >= p
+    end
+    
+    inp = get_modbus_io_status("mk312_DO")
+    bitNum = get_global_variable("V_I_DIOnumber")
+    res = hasbit(inp , bit(bitNum))
+    set_global_variable("V_B_mk312DOstate", res)
+  end  --function blockScriptFunc_check_mk312DO()
+
+--script function definition
+  function loopScriptFunc_0()
+    --(Logic tree item : Script) check_mk312DO
+    set_current_logic_tree_item("4fc714d21add4b49927b9ea89bc13089")
+    blockScriptFunc_check_mk312DO()
+    set_step_breakpoint()
+    --(Logic tree item : If) If
+    if (get_global_variable("V_B_mk312DOstate") == false) then
+      ifFuncRet = ifScriptFunc_3()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : Message) Message
+    set_current_logic_tree_item("19030bc104364f65bb419d21465010cb")
+    popup_message(0, "запуск шпинделя невозможен - пневмозамок адаптера активен", false)
+  end
+
+  function ifScriptFunc_0()
+    --(Logic tree item : Message) MessageDataIncorrect
+    set_current_logic_tree_item("d32d8a65660f48c59e74c1743def3042")
+    popup_message(2, "modul CalibrovkaDiska: vxodnye dannye nekorrectnye", true)
+  end
+
+  function ifScriptFunc_1()
+    --(Logic tree item : Message) MessageDataIncorrect
+    set_current_logic_tree_item("11c1e4a7a28543ebbf98d6c4b6b3f897")
+    popup_message(2, "modul CalibrovkaDiska: vxodnye dannye nekorrectnye", true)
+  end
+
+  function loopScriptFunc_1()
+    --(Logic tree item : Block_Comment) Block_calibrate
+    --calibr
+      --(Logic tree item : Move) Move_preCalibr
+      init_global_move_profile()
+      set_end_maxvelc(1.000000)
+      set_end_maxacc(1.200000)
+      set_relative_offset({( ( get_modbus_io_status("M_F_faskaR240h") / 2 ) + 9.58 ) / 1000 + ( ( get_global_variable("V_I_CntC") - 1 ) * get_modbus_io_status("M_F_faskaR242h") / 1000 ), 0, -0.012}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("KamenN"))
+        --(Logic tree item : Waypoint) W_centerKamnya
+        set_current_logic_tree_item("1bb3d333e6584cd98e1d39f474080480")
+        move_line({-3.744371, 0.666950, -1.420300, -0.516381, -1.570683, -3.744371}, true)
+        set_step_breakpoint()
+      --(Logic tree item : Move) Move_Calibr
+      init_global_move_profile()
+      set_end_maxvelc(0.020000)
+      set_end_maxacc(0.040000)
+      set_relative_offset({( ( get_modbus_io_status("M_F_faskaR240h") / 2 ) + 9.58 ) / 1000 + ( ( get_global_variable("V_I_CntC") - 1 ) * get_modbus_io_status("M_F_faskaR242h") / 1000 ), 0, -0.025}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("KamenN"))
+        --(Logic tree item : Waypoint) W_centerKamnya
+        set_current_logic_tree_item("67a94297997449d18a24a75f6eb96f50")
+        move_line({-3.744371, 0.666950, -1.420300, -0.516381, -1.570683, -3.744371}, true)
+        set_step_breakpoint()
+      --(Logic tree item : Move) Move_otvod
+      init_global_move_profile()
+      set_end_maxvelc(1.000000)
+      set_end_maxacc(1.200000)
+      set_relative_offset({0.035, 0, -0.02}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("KamenN"))
+        --(Logic tree item : Waypoint) W_centerKamnya
+        set_current_logic_tree_item("542ef60ec5324f7298bf71fe2a4ea884")
+        move_line({-3.744371, 0.666950, -1.420300, -0.516381, -1.570683, -3.744371}, true)
+        set_step_breakpoint()
+    --(Logic tree item : Set) Set_decCnt
+    set_current_logic_tree_item("1e2bf71c38c648acb8466575e20812c6")
+    set_global_variable("V_I_CntC", get_global_variable("V_I_CntC") - 1)
+  end
+
+  function ifScriptFunc_2()
+    --(Logic tree item : Set) Set_cnt1
+    set_current_logic_tree_item("d47139a109834800abb432c95f41d6ca")
+    set_global_variable("V_I_CntC", 1)
+  end
+
+  function ifScriptFunc_3()
+    --(Logic tree item : Break) Break
+    do return false end
+  end
+
+  function ifScriptFunc_4()
+    --(Logic tree item : Block_Comment) Block_Zadok
+    --skosy
+      --(Logic tree item : Move) Move_preZadok
+      init_global_move_profile()
+      set_joint_maxvelc({2.796017,2.796017,3.502876,2.796017,3.722787,3.722787})
+      set_joint_maxacc({10.471976,10.471976,15.707963,10.471976,10.471976,10.471976})
+      set_relative_offset({0.00661 + ( get_modbus_io_status("M_F_faskaR240h") / 1000 / 2 ), 0, 0.15}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("KamenN"))
+        --(Logic tree item : Waypoint) W_zadok
+        set_current_logic_tree_item("bf69e95d74dd4e1d8575e44d22095c31")
+        move_joint({-3.840499, 0.878401, -1.053163, 0.916717, -0.736995, -1.295966}, true)
+        set_step_breakpoint()
+      --(Logic tree item : Move) Move_startZadok
+      init_global_move_profile()
+      set_end_maxvelc(1.000000)
+      set_end_maxacc(1.200000)
+      set_relative_offset({0.00661 + ( get_modbus_io_status("M_F_faskaR240h") / 1000 / 2 ), 0, -0.012}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("KamenN"))
+        --(Logic tree item : Waypoint) W_zadok
+        set_current_logic_tree_item("ab3b3f444dad4b51a62169a82540508d")
+        move_line({-3.840499, 0.878401, -1.053163, 0.916717, -0.736995, -1.295966}, true)
+        set_step_breakpoint()
+      --(Logic tree item : Move) Move_endZadok
+      init_global_move_profile()
+      set_end_maxvelc(0.020000)
+      set_end_maxacc(0.040000)
+      set_relative_offset({0.00661 + ( get_modbus_io_status("M_F_faskaR240h") / 1000 / 2 ), 0, -0.027}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+        --(Logic tree item : Waypoint) W_zadok
+        set_current_logic_tree_item("4ff1956e4d0f435cad8f033c425d6ab0")
+        move_line({-3.840499, 0.878401, -1.053163, 0.916717, -0.736995, -1.295966}, true)
+        set_step_breakpoint()
+      --(Logic tree item : Move) Move_otvod
+      init_global_move_profile()
+      set_end_maxvelc(1.000000)
+      set_end_maxacc(1.200000)
+      set_relative_offset({0.00661 + ( get_modbus_io_status("M_F_faskaR240h") / 1000 / 2 ) + 0.01, 0, -0.027}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+        --(Logic tree item : Waypoint) W_zadok
+        set_current_logic_tree_item("44d82e61cbad406e98847d6e35fc8fd9")
+        move_line({-3.840499, 0.878401, -1.053163, 0.916717, -0.736995, -1.295966}, true)
+        set_step_breakpoint()
+      --(Logic tree item : Move) Move_otvodVverx
+      init_global_move_profile()
+      set_end_maxvelc(1.600000)
+      set_end_maxacc(2.000000)
+      set_relative_offset({0.00661 + ( get_modbus_io_status("M_F_faskaR240h") / 1000 / 2 ) + 0.01, 0, 0.06}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+        --(Logic tree item : Waypoint) W_zadok
+        set_current_logic_tree_item("9a7c8669fcaf4efebc75997dbe3330f2")
+        move_line({-3.840499, 0.878401, -1.053163, 0.916717, -0.736995, -1.295966}, true)
+        set_step_breakpoint()
+  end
+
+  function ifScriptFunc_5()
+    --(Logic tree item : Block_Comment) Block_Shtok
+    --snatie zausencev
+      --(Logic tree item : Move) Move_nadShtokom
+      init_global_move_profile()
+      set_joint_maxvelc({2.485349,2.485349,3.113667,2.485349,3.309144,3.309144})
+      set_joint_maxacc({10.471976,10.471976,15.707963,10.471976,10.471976,10.471976})
+        --(Logic tree item : Waypoint) Waypoint
+        set_current_logic_tree_item("18901d81a78b43abb719c3bc7f32d784")
+        move_joint({-3.858619, 0.923166, -0.961060, 1.148016, -0.736107, -1.436719}, true)
+        set_step_breakpoint()
+      --(Logic tree item : Move) Move_preShtok
+      init_global_move_profile()
+      set_end_maxvelc(1.000000)
+      set_end_maxacc(1.200000)
+      set_relative_offset({0, 0, 0.012}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+        --(Logic tree item : Waypoint) W_zadokShok
+        set_current_logic_tree_item("934a078e6d3a4836b688820816189477")
+        move_line({-3.858469, 0.947855, -0.984577, 1.099752, -0.735960, -1.436679}, true)
+        set_step_breakpoint()
+      --(Logic tree item : Move) Move_Shtok
+      init_global_move_profile()
+      set_end_maxvelc(0.060000)
+      set_end_maxacc(0.040000)
+        --(Logic tree item : Waypoint) W_zadokShok
+        set_current_logic_tree_item("b2617fdb305d4a1dbd5e28577c0ed07f")
+        move_line({-3.858469, 0.947855, -0.984577, 1.099752, -0.735960, -1.436679}, true)
+        set_step_breakpoint()
+      --(Logic tree item : Wait) Wait_1s
+      set_current_logic_tree_item("4ce5b6b0e5ee4cdc898b3c3a3cfdffda")
+      sleep(1)
+      set_step_breakpoint()
+      --(Logic tree item : Move) Move_preShtok
+      init_global_move_profile()
+      set_end_maxvelc(1.000000)
+      set_end_maxacc(1.200000)
+      set_relative_offset({0, 0.012, 0.012}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+        --(Logic tree item : Waypoint) W_zadokShok
+        set_current_logic_tree_item("80e6816a3a7c40818fdc823024c90d03")
+        move_line({-3.858469, 0.947855, -0.984577, 1.099752, -0.735960, -1.436679}, true)
+        set_step_breakpoint()
+      --(Logic tree item : Move) Move_preZadok
+      init_global_move_profile()
+      set_end_maxvelc(1.600000)
+      set_end_maxacc(2.000000)
+      set_relative_offset({0, 0, 0.15}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+        --(Logic tree item : Waypoint) W_zadok
+        set_current_logic_tree_item("06651ae07ced4cb98f90f58223778023")
+        move_line({-3.840499, 0.878401, -1.053163, 0.916717, -0.736995, -1.295966}, true)
+        set_step_breakpoint()
+  end
+
+  function ifScriptFunc_6()
+    --(Logic tree item : Block_Comment) Block_calibrate
+    --calibr
+      --(Logic tree item : Move) Move_nadKamnem
+      init_global_move_profile()
+      set_joint_maxvelc({2.796017,2.796017,3.502876,2.796017,3.722787,3.722787})
+      set_joint_maxacc({10.471976,10.471976,15.707963,10.471976,10.471976,10.471976})
+        --(Logic tree item : Waypoint) Waypoint
+        set_current_logic_tree_item("49bd0d968ab2475fad2e0d9b6f991dba")
+        move_joint({-3.723742, 0.646659, -1.251147, -0.326950, -1.570679, -3.723757}, true)
+        set_step_breakpoint()
+      --(Logic tree item : Move) Move_preCalibr
+      init_global_move_profile()
+      set_end_maxvelc(1.000000)
+      set_end_maxacc(1.200000)
+      set_relative_offset({( ( get_modbus_io_status("M_F_faskaR240h") / 2 ) + 9.58 ) / 1000, 0, -0.012}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("KamenN"))
+        --(Logic tree item : Waypoint) W_centerKamnya
+        set_current_logic_tree_item("d766ef152c36448183ab08606997f42d")
+        move_line({-3.744371, 0.666950, -1.420300, -0.516381, -1.570683, -3.744371}, true)
+        set_step_breakpoint()
+      --(Logic tree item : Move) Move_Calibr
+      init_global_move_profile()
+      set_end_maxvelc(0.020000)
+      set_end_maxacc(0.040000)
+      set_relative_offset({( ( get_modbus_io_status("M_F_faskaR240h") / 2 ) + 9.58 ) / 1000, 0, -0.025}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("KamenN"))
+        --(Logic tree item : Waypoint) W_centerKamnya
+        set_current_logic_tree_item("530b93cc99ae46a2a93e8d6248000d76")
+        move_line({-3.744371, 0.666950, -1.420300, -0.516381, -1.570683, -3.744371}, true)
+        set_step_breakpoint()
+      --(Logic tree item : Move) Move_otvod
+      init_global_move_profile()
+      set_end_maxvelc(1.000000)
+      set_end_maxacc(1.200000)
+      set_relative_offset({0.035, 0, -0.02}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("KamenN"))
+        --(Logic tree item : Waypoint) W_centerKamnya
+        set_current_logic_tree_item("3b3ae381f4744057abdc03e97f2ad93c")
+        move_line({-3.744371, 0.666950, -1.420300, -0.516381, -1.570683, -3.744371}, true)
+        set_step_breakpoint()
+      --(Logic tree item : Procedure) SpindelStop
+        --(Logic tree item : Set) Set_DIOnumber3
+        set_current_logic_tree_item("107174c8b11c4706a16d26d64f918603")
+        set_global_variable("V_I_DIOnumber", 3)
+        --(Logic tree item : Set) Set_stateFalse
+        set_current_logic_tree_item("db0d380db0b445d5870168bb9aacff64")
+        set_global_variable("V_B_mk311DOstate", false)
+        --(Logic tree item : Line_Comment) stopSpindelCommand
+        --1
+        --(Logic tree item : Script) set_mk311DO
+        set_current_logic_tree_item("3d9ae82b3fb74410914a7920c4621c03")
+        blockScriptFunc_set_mk311DO()
+        set_step_breakpoint()
+      --(Logic tree item : Move) Move_nadKamnem
+      init_global_move_profile()
+      set_joint_maxvelc({2.330015,2.330015,2.919063,2.330015,3.102323,3.102323})
+      set_joint_maxacc({9.424778,9.424778,14.137167,9.424778,9.424778,9.424778})
+        --(Logic tree item : Waypoint) Waypoint
+        set_current_logic_tree_item("04dad48d607e435aad121d8f4cee96ab")
+        move_joint({-3.723742, 0.646651, -1.251141, -0.326950, -1.570679, -3.723757}, true)
+        set_step_breakpoint()
+  end
+
+--(Logic tree item : Procedure_Program) Procedure_Program
+  --(Logic tree item : Set) Set_drillDisk
+  set_current_logic_tree_item("47e8085218e048a9853fd9a1eac534df")
+  set_tool_kinematics_param(get_tool_kinematics_param("drillDisc"))
+  set_tool_dynamics_param(get_tool_dynamics_param("drillDisc"))
+  set_step_breakpoint()
+  --(Logic tree item : Set) Set_cnt
+  set_current_logic_tree_item("2528b1f4a8ec4bfebc7af8ef44cf6fc2")
+  set_global_variable("V_I_CntC", get_modbus_io_status("faskaR244h"))
+  --(Logic tree item : If) If_inDataCorrect
+  if (get_modbus_io_status("M_F_faskaR240h") == 0 or get_modbus_io_status("M_F_faskaR240h") <= 7) then
+    ifFuncRet = ifScriptFunc_0()
+    if (ifFuncRet ~= nil) then
+      do return ifFuncRet end
+    end
+  end
+  --(Logic tree item : If) If_inDataCorrect
+  if (( get_modbus_io_status("faskaR244h") * get_modbus_io_status("M_F_faskaR242h") ) >= 10 or get_global_variable("V_I_CntC") > 8) then
+    ifFuncRet = ifScriptFunc_1()
+    if (ifFuncRet ~= nil) then
+      do return ifFuncRet end
+    end
+  end
+  --(Logic tree item : Move) Move_init
+  init_global_move_profile()
+  set_joint_maxvelc({2.485349,2.485349,3.113667,2.485349,3.309144,3.309144})
+  set_joint_maxacc({10.471976,10.471976,15.707963,10.471976,10.471976,10.471976})
+    --(Logic tree item : Waypoint) Waypoint_V_P_initPose
+    set_current_logic_tree_item("15c39e5b9c1b4172bf19602002d7fe6c")
+    move_joint(get_global_variable("V_P_initPose"), true)
+    set_step_breakpoint()
+  --(Logic tree item : If) If_cnt0
+  if (get_global_variable("V_I_CntC") == 0) then
+    ifFuncRet = ifScriptFunc_2()
+    if (ifFuncRet ~= nil) then
+      do return ifFuncRet end
+    end
+  end
+  --(Logic tree item : Move) Move_nadKamnem
+  init_global_move_profile()
+  set_joint_maxvelc({2.796017,2.796017,3.502876,2.796017,3.722787,3.722787})
+  set_joint_maxacc({10.471976,10.471976,15.707963,10.471976,10.471976,10.471976})
+    --(Logic tree item : Waypoint) Waypoint
+    set_current_logic_tree_item("370828f6ee004e9a96e6de5e5e8a103b")
+    move_joint({-3.723742, 0.646659, -1.251147, -0.326950, -1.570679, -3.723757}, true)
+    set_step_breakpoint()
+  --(Logic tree item : Procedure) SpindelStart
+    --(Logic tree item : Set) Set_DIOnumber3
+    set_current_logic_tree_item("0380c135db484b78ab8b68948259f78b")
+    set_global_variable("V_I_DIOnumber", 3)
+    --(Logic tree item : Loop) Loop_always
+    while (true) do
+      sleep(0.001)
+      if (loopScriptFunc_0() == false) then
+        break
+      end
+    end
+    --(Logic tree item : Set) Set_DIOnumber3
+    set_current_logic_tree_item("96b05bd1b0e34f51830c21164fd1742d")
+    set_global_variable("V_I_DIOnumber", 3)
+    --(Logic tree item : Set) Set_stateTrue
+    set_current_logic_tree_item("1f5f297a096d47cf845b651420c56e08")
+    set_global_variable("V_B_mk311DOstate", true)
+    --(Logic tree item : Line_Comment) startSpindelCommand
+    --1
+    --(Logic tree item : Script) set_mk311DO
+    set_current_logic_tree_item("18157db1b1c14d1a8f721911c3341a9a")
+    blockScriptFunc_set_mk311DO()
+    set_step_breakpoint()
+  --(Logic tree item : Wait) Wait1s
+  set_current_logic_tree_item("a8c81d3bcde24df1baa38940669bfd25")
+  sleep(1)
+  set_step_breakpoint()
+  --(Logic tree item : Loop) Loop
+  while (get_global_variable("V_I_CntC") ~= 0) do
+    sleep(0.001)
+    if (loopScriptFunc_1() == false) then
+      break
+    end
+  end
+  --(Logic tree item : Move) Move_nadKamnem
+  init_global_move_profile()
+  set_joint_maxvelc({2.330015,2.330015,2.919063,2.330015,3.102323,3.102323})
+  set_joint_maxacc({9.424778,9.424778,14.137167,9.424778,9.424778,9.424778})
+    --(Logic tree item : Waypoint) Waypoint
+    set_current_logic_tree_item("fa36ba6105074ff1b35f97387eefd470")
+    move_joint({-3.723742, 0.646651, -1.251141, -0.326950, -1.570679, -3.723757}, true)
+    set_step_breakpoint()
+  --(Logic tree item : If) If_nujno_skosy
+  if (get_modbus_io_status("faska_c1B1h") == 1) then
+    ifFuncRet = ifScriptFunc_4()
+    if (ifFuncRet ~= nil) then
+      do return ifFuncRet end
+    end
+  end
+  --(Logic tree item : If) If_nujnoZausenec
+  if (get_modbus_io_status("faska_c1B2h") == 1) then
+    ifFuncRet = ifScriptFunc_5()
+    if (ifFuncRet ~= nil) then
+      do return ifFuncRet end
+    end
+  end
+  --(Logic tree item : Move) Move_nadKamnem
+  init_global_move_profile()
+  set_joint_maxvelc({2.796017,2.796017,3.502876,2.796017,3.722787,3.722787})
+  set_joint_maxacc({10.471976,10.471976,15.707963,10.471976,10.471976,10.471976})
+    --(Logic tree item : Waypoint) Waypoint
+    set_current_logic_tree_item("253ff8dab6434ce687cd469f79a479e4")
+    move_joint({-3.723745, 0.646662, -1.251153, -0.326950, -1.570683, -3.723757}, true)
+    set_step_breakpoint()
+  --(Logic tree item : If) If_finishCalibrate
+  if (true) then
+    ifFuncRet = ifScriptFunc_6()
+    if (ifFuncRet ~= nil) then
+      do return ifFuncRet end
+    end
+  end
+  --(Logic tree item : Procedure) SpindelStop
+    --(Logic tree item : Set) Set_DIOnumber3
+    set_current_logic_tree_item("81f39bd78c524847b40d2197e6fb924a")
+    set_global_variable("V_I_DIOnumber", 3)
+    --(Logic tree item : Set) Set_stateFalse
+    set_current_logic_tree_item("a1707424cdb246659efb62ecd7fd30b8")
+    set_global_variable("V_B_mk311DOstate", false)
+    --(Logic tree item : Line_Comment) stopSpindelCommand
+    --1
+    --(Logic tree item : Script) set_mk311DO
+    set_current_logic_tree_item("002b3c0be79c4e51bfebf17de16ea7dd")
+    blockScriptFunc_set_mk311DO()
+    set_step_breakpoint()
+  --(Logic tree item : Move) MoveL_init
+  init_global_move_profile()
+  set_end_maxvelc(1.800000)
+  set_end_maxacc(2.000000)
+    --(Logic tree item : Waypoint) Waypoint_V_P_initPose
+    set_current_logic_tree_item("fd2c6d79e80645319923bdb18086c4b0")
+    move_line(get_global_variable("V_P_initPose"), true)
+    set_step_breakpoint()

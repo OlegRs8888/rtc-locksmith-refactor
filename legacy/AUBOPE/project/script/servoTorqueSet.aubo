@@ -1,0 +1,6 @@
+package.path = "/root/AuboRobotWorkSpace/teachpendant/share/teachpendant/script/?.aubo"
+s_m = require("service_module")
+-- беру значение момента SCADA
+torq = get_modbus_io_status("globalR1B4h")
+-- запись значения момента в регистр серводрайвера
+s_m.setTorqueServo(torq)

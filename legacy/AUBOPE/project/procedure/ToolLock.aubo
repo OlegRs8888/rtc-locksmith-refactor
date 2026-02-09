@@ -1,0 +1,88 @@
+--Procedure Program
+
+--block script function definition
+  function blockScriptFunc_set_mk312DO()
+    function bit(p)
+        return 2 ^ (p -  1)
+    end
+    function hasbit(x , p)
+         return x % (p + p) >= p
+    end
+    function setbit(x , p)
+         return hasbit(x , p) and x or x + p
+    end
+    function clearbit(x , p)
+         return hasbit(x , p) and x-p or x
+    end
+    
+    inp = get_modbus_io_status("mk312_DO")
+    bitNum = get_global_variable("V_I_DIOnumber")
+    bitState = get_global_variable("V_B_mk312DOstate")
+    if bitState == true then 
+        res = setbit(inp , bit(bitNum))
+    else 
+        res = clearbit(inp , bit(bitNum))
+    end
+    set_modbus_io_status("mk312_DO", res)
+  end  --function blockScriptFunc_set_mk312DO()
+
+  function blockScriptFunc_check_mk311DO()
+    function bit(p)
+        return 2 ^ (p -  1)
+    end
+    function hasbit(x , p)
+         return x % (p + p) >= p
+    end
+    
+    inp = get_modbus_io_status("mk311_DO")
+    bitNum = get_global_variable("V_I_DIOnumber")
+    res = hasbit(inp , bit(bitNum))
+    set_global_variable("V_B_mk311DOstate", res)
+  end  --function blockScriptFunc_check_mk311DO()
+
+--script function definition
+  function ifScriptFunc_0()
+    --(Logic tree item : Break) Break
+    do return false end
+  end
+
+  function loopScriptFunc_0()
+    --(Logic tree item : Script) check_mk311DO
+    set_current_logic_tree_item("f5bcb260f3024dcf8a6b6de4f955aa0c")
+    blockScriptFunc_check_mk311DO()
+    set_step_breakpoint()
+    --(Logic tree item : If) If
+    if (get_global_variable("V_B_mk311DOstate") == false) then
+      ifFuncRet = ifScriptFunc_0()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : Message) Message
+    set_current_logic_tree_item("6bf6d75bb69a4170b4530ceed0e4b8c4")
+    popup_message(0, "zahvat instrumenta nevozmojen, spindel vklyuchen", false)
+  end
+
+--(Logic tree item : Procedure_Program) Procedure_Program
+  --(Logic tree item : Set) Set_DIOnumber3
+  set_current_logic_tree_item("107521ce65114470a7f02ce9bdf71dad")
+  set_global_variable("V_I_DIOnumber", 3)
+  --(Logic tree item : Loop) Loop_always
+  while (true) do
+    sleep(0.001)
+    if (loopScriptFunc_0() == false) then
+      break
+    end
+  end
+  --(Logic tree item : Set) Set_DIOnumber3
+  set_current_logic_tree_item("edeabc9567df4d4b9276b3e9962af010")
+  set_global_variable("V_I_DIOnumber", 3)
+  --(Logic tree item : Set) Set_stateDO312False
+  set_current_logic_tree_item("56817c3984ef478993b971a3debaf7de")
+  set_global_variable("V_B_mk312DOstate", false)
+  --(Logic tree item : Line_Comment) toolLockCommand
+  --1
+  --(Logic tree item : Script) set_mk312DO
+  set_current_logic_tree_item("ab5c7bd53d674f86aef1b0d0bc2f6011")
+  blockScriptFunc_set_mk312DO()
+  set_step_breakpoint()

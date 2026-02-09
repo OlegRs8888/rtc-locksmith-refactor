@@ -1,0 +1,50 @@
+--Procedure Program
+
+--block script function definition
+  function blockScriptFunc_set_mk311DO()
+    function bit(p)
+        return 2 ^ (p -  1)
+    end
+    function hasbit(x , p)
+         return x % (p + p) >= p
+    end
+    function setbit(x , p)
+         return hasbit(x , p) and x or x + p
+    end
+    function clearbit(x , p)
+         return hasbit(x , p) and x-p or x
+    end
+    
+    inp = get_modbus_io_status("mk311_DO")
+    bitNum = get_global_variable("V_I_DIOnumber")
+    bitState = get_global_variable("V_B_mk311DOstate")
+    if bitState == true then 
+        res = setbit(inp , bit(bitNum))
+    else 
+        res = clearbit(inp , bit(bitNum))
+    end
+    set_modbus_io_status("mk311_DO", res)
+  end  --function blockScriptFunc_set_mk311DO()
+
+--(Logic tree item : Procedure_Program) Procedure_Program
+  --(Logic tree item : Set) Set_DIOnumber7
+  set_current_logic_tree_item("967ea38e8ee346528c702d805dc1d54c")
+  set_global_variable("V_I_DIOnumber", 7)
+  --(Logic tree item : Set) Set_stateTrue
+  set_current_logic_tree_item("8d32eb7f47ac4edbb4805ec8ff949360")
+  set_global_variable("V_B_mk311DOstate", true)
+  --(Logic tree item : Script) set_mk311DO
+  set_current_logic_tree_item("ae50c7145f644221ac132b90aa691c55")
+  blockScriptFunc_set_mk311DO()
+  set_step_breakpoint()
+  --(Logic tree item : Wait) Wait_1i5s
+  set_current_logic_tree_item("c884ffd66b2846b78442b1b550ab7b57")
+  sleep(1.5)
+  set_step_breakpoint()
+  --(Logic tree item : Set) Set_stateFalse
+  set_current_logic_tree_item("f6396a4ff2be4b9ca92c8d436038dcc2")
+  set_global_variable("V_B_mk311DOstate", false)
+  --(Logic tree item : Script) set_mk311DO
+  set_current_logic_tree_item("2afad69a95f64f7d9070e1d779d8f370")
+  blockScriptFunc_set_mk311DO()
+  set_step_breakpoint()

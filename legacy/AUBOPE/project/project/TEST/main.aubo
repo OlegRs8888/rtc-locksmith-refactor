@@ -1,0 +1,17 @@
+--Main Program
+
+--(Logic tree item : Project_Program) Project_Program
+  --(Logic tree item : Set) Set
+  set_current_logic_tree_item("a2a4e534711b40379e439dddfb3880e4")
+  set_tool_kinematics_param(get_tool_kinematics_param("zahvat"))
+  set_tool_dynamics_param(get_tool_dynamics_param("zahvat"))
+  set_step_breakpoint()
+  --(Logic tree item : Move) Move_TEST
+  init_global_move_profile()
+  set_joint_maxvelc({1.553343,1.553343,1.946042,1.553343,2.068215,2.068215})
+  set_joint_maxacc({10.471976,10.471976,15.707963,10.471976,10.471976,10.471976})
+  set_relative_offset({0, 0, 0}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_user_coord_param("povorotnayaOsReal"))
+    --(Logic tree item : Waypoint) Waypoint
+    set_current_logic_tree_item("c5f2a5faf0e343ba8219f7488cf0fbb5")
+    move_joint({-3.731562, 0.197123, -1.990001, -0.840008, -2.331311, -0.314137}, true)
+    set_step_breakpoint()

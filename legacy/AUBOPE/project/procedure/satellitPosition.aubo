@@ -1,0 +1,412 @@
+--Procedure Program
+
+--block script function definition
+  function blockScriptFunc_set_mk311DO()
+    function bit(p)
+        return 2 ^ (p -  1)
+    end
+    function hasbit(x , p)
+         return x % (p + p) >= p
+    end
+    function setbit(x , p)
+         return hasbit(x , p) and x or x + p
+    end
+    function clearbit(x , p)
+         return hasbit(x , p) and x-p or x
+    end
+    
+    inp = get_modbus_io_status("mk311_DO")
+    bitNum = get_global_variable("V_I_DIOnumber")
+    bitState = get_global_variable("V_B_mk311DOstate")
+    if bitState == true then 
+        res = setbit(inp , bit(bitNum))
+    else 
+        res = clearbit(inp , bit(bitNum))
+    end
+    set_modbus_io_status("mk311_DO", res)
+  end  --function blockScriptFunc_set_mk311DO()
+
+  function blockScriptFunc_servoTorqueSet()
+    package.path = "/root/AuboRobotWorkSpace/teachpendant/share/teachpendant/script/?.aubo"
+    s_m = require("service_module")
+    -- беру значение момента SCADA
+    torq = get_modbus_io_status("globalR1B4h")
+    -- запись значения момента в регистр серводрайвера
+    s_m.setTorqueServo(torq)
+  end  --function blockScriptFunc_servoTorqueSet()
+
+  function blockScriptFunc_check_mk311DI()
+    function bit(p)
+        return 2 ^ (p -  1)
+    end
+    function hasbit(x , p)
+         return x % (p + p) >= p
+    end
+    
+    inp = get_modbus_io_status("mk311_DI")
+    bitNum = get_global_variable("V_I_DIOnumber")
+    res = hasbit(inp , bit(bitNum))
+    set_global_variable("V_B_mk311DIstate", res)
+  end  --function blockScriptFunc_check_mk311DI()
+
+--script function definition
+  function ifScriptFunc_0()
+    --(Logic tree item : Line_Comment) rejim_PR
+    --перевод драйвера в режим PR
+    --(Logic tree item : Set) Set_DI_control
+    set_current_logic_tree_item("9f3919ee08f940dcbc06d12a9bbcd684")
+    set_modbus_io_status("40E_ctrlDI", 7168)
+    set_step_breakpoint()
+    --(Logic tree item : Set) Set_speed3000
+    set_current_logic_tree_item("baa42d50a8ef4f90b9e79561649e1d14")
+    set_modbus_io_status("16EspeedLim", 3000)
+    set_step_breakpoint()
+    --(Logic tree item : Procedure) beep300
+      --(Logic tree item : Set) Set_DIOnumber7
+      set_current_logic_tree_item("df2470eb1b0b4fa88d21ffdee0785b95")
+      set_global_variable("V_I_DIOnumber", 7)
+      --(Logic tree item : Set) Set_stateTrue
+      set_current_logic_tree_item("32035c8766ff4b64b8906e4e4dc6a690")
+      set_global_variable("V_B_mk311DOstate", true)
+      --(Logic tree item : Script) set_mk311DO
+      set_current_logic_tree_item("70877d3406e94451a5b0a2951c7144cc")
+      blockScriptFunc_set_mk311DO()
+      set_step_breakpoint()
+      --(Logic tree item : Wait) Wait_03s
+      set_current_logic_tree_item("7736d0a2ca26408bbcb13807f699e77b")
+      sleep(0.3)
+      set_step_breakpoint()
+      --(Logic tree item : Set) Set_stateFalse
+      set_current_logic_tree_item("a6906600360b406293d75eb21a0350b7")
+      set_global_variable("V_B_mk311DOstate", false)
+      --(Logic tree item : Script) set_mk311DO
+      set_current_logic_tree_item("1b49cd24e10640e9a4af094be058aa66")
+      blockScriptFunc_set_mk311DO()
+      set_step_breakpoint()
+    --(Logic tree item : Set) Set_fatalFlagFalse
+    set_current_logic_tree_item("9ffbdc1ab2924791a214a1a85de70ff1")
+    set_global_variable("V_B_fatalFlag", false)
+    --(Logic tree item : Break) Break
+    do return false end
+  end
+
+  function loopScriptFunc_0()
+    --(Logic tree item : Set) Set_fatalFlagTrue
+    set_current_logic_tree_item("257b0d0582fa40f49341e3f4ef4f5998")
+    set_global_variable("V_B_fatalFlag", true)
+    --(Logic tree item : Set) Set_speed50
+    set_current_logic_tree_item("e86ecc78dffa46e38179ad541ca1a5eb")
+    set_modbus_io_status("16EspeedLim", 50)
+    set_step_breakpoint()
+    --(Logic tree item : Script) servoTorqueSet
+    set_current_logic_tree_item("d5f3b805c56341dd8ece583fb53ac78e")
+    blockScriptFunc_servoTorqueSet()
+    set_step_breakpoint()
+    --(Logic tree item : Line_Comment) rejim_momenta
+    --перевод драйвера в режим момента
+    --(Logic tree item : Set) Set_DI_control
+    set_current_logic_tree_item("24a6c492d0464b508c82b80236fdabf1")
+    set_modbus_io_status("40E_ctrlDI", 5120)
+    set_step_breakpoint()
+    --(Logic tree item : Wait) WaitSpeed5
+    set_current_logic_tree_item("bb9ea382882e474a815a8d103db8a6a2")
+    while (not (get_modbus_io_status("16_speed1") <= 5)) do
+      sleep(0.01)
+    end
+    set_step_breakpoint()
+    --(Logic tree item : Set) Set_OKposCalculate
+    set_current_logic_tree_item("ee93cfedc1044b05a015557534cd80d6")
+    set_global_variable("V_D_OKpos", get_modbus_io_status("M_F_globalR1ACh") * 1000)
+    --(Logic tree item : If) If_OK
+    if (get_modbus_io_status("M_L_12_PUU") <  get_global_variable("V_D_OKpos") ) then
+      ifFuncRet = ifScriptFunc_0()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : Line_Comment) rejim_PR
+    --perevod drayivera v rejim PR
+    --(Logic tree item : Set) Set_DI_control
+    set_current_logic_tree_item("ade5aa0657cd4aab961d67595725d1ab")
+    set_modbus_io_status("40E_ctrlDI", 7168)
+    set_step_breakpoint()
+    --(Logic tree item : Set) Set_speed3000
+    set_current_logic_tree_item("95d91fcc2bd942dcad5e414560c1d560")
+    set_modbus_io_status("16EspeedLim", 3000)
+    set_step_breakpoint()
+    --(Logic tree item : Set) Set_torque60
+    set_current_logic_tree_item("fad5f655aac64798827a5ab7ee045bb7")
+    set_modbus_io_status("118_setTorq", 60)
+    set_step_breakpoint()
+    --(Logic tree item : Set) Set_PR2
+    set_current_logic_tree_item("a1b3ae058e074915bfdc8abdabb87b4a")
+    set_modbus_io_status("50E_PR", 2)
+    set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_puuPR2
+    set_current_logic_tree_item("7db5b2dd045543b1b8a3a3140be5a37a")
+    while (not (get_modbus_io_status("50E_PR") == 20002)) do
+      sleep(0.01)
+    end
+    set_step_breakpoint()
+    --(Logic tree item : Move) Move_povorot3grad
+    init_global_move_profile()
+    set_end_maxvelc(0.200000)
+    set_end_maxacc(0.120000)
+    set_relative_offset({0, 0, 0}, rpy2quaternion({d2r(0.6754), d2r(2.8285), d2r(0)}), get_tool_kinematics_param("zahvat"))
+      --(Logic tree item : Waypoint) Realtime_Waypoint
+      set_current_logic_tree_item("7958d93b8ea7488f9591d0b781e034f8")
+      move_line(get_global_variable("Realtime_Waypoint"), true)
+      set_step_breakpoint()
+    --(Logic tree item : Set) Set_inc_cntA
+    set_current_logic_tree_item("4afb2ee46ad542c9ad87eb21caa44488")
+    set_global_variable("V_I_CntA", get_global_variable("V_I_CntA") + 1)
+  end
+
+  function ifScriptFunc_1()
+    --(Logic tree item : Procedure) beep1500
+      --(Logic tree item : Set) Set_DIOnumber7
+      set_current_logic_tree_item("077af01ccc344fdbb892b1002c5daa56")
+      set_global_variable("V_I_DIOnumber", 7)
+      --(Logic tree item : Set) Set_stateTrue
+      set_current_logic_tree_item("6259ac18c1194aaa921dccd4324e6556")
+      set_global_variable("V_B_mk311DOstate", true)
+      --(Logic tree item : Script) set_mk311DO
+      set_current_logic_tree_item("8454b40cb5fb4ceb8dabb50f1ac8512d")
+      blockScriptFunc_set_mk311DO()
+      set_step_breakpoint()
+      --(Logic tree item : Wait) Wait_1i5s
+      set_current_logic_tree_item("a33a9dc267f14738808421b7af2bf421")
+      sleep(1.5)
+      set_step_breakpoint()
+      --(Logic tree item : Set) Set_stateFalse
+      set_current_logic_tree_item("af036ad504764711836eb7ae8fea82cf")
+      set_global_variable("V_B_mk311DOstate", false)
+      --(Logic tree item : Script) set_mk311DO
+      set_current_logic_tree_item("8f38a735f9cf47c2808e1b8caad5520d")
+      blockScriptFunc_set_mk311DO()
+      set_step_breakpoint()
+    --(Logic tree item : Message) StopProject
+    set_current_logic_tree_item("c7fcce60777a4396add1280ed69a81ca")
+    popup_message(2, "не удаётся выйти на зуб!!!!!", true)
+  end
+
+  function loopScriptFunc_1()
+    --(Logic tree item : Set) Set_DIOnumber1
+    set_current_logic_tree_item("2c1e7da9e55f43ef988cd0e8a1a7dd33")
+    set_global_variable("V_I_DIOnumber", 1)
+    --(Logic tree item : Script) check_mk311DI
+    set_current_logic_tree_item("407c3a46d3e4404f87651a1ee5177ef8")
+    blockScriptFunc_check_mk311DI()
+    set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_025s
+    set_current_logic_tree_item("31726433288647289191827a315e5418")
+    sleep(0.25)
+    set_step_breakpoint()
+    --(Logic tree item : If) If
+    if (get_global_variable("V_B_mk311DIstate") == true) then
+      ifFuncRet = ifScriptFunc_2()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+  end
+
+  function ifScriptFunc_2()
+    --(Logic tree item : Break) Break
+    do return false end
+  end
+
+  function ifScriptFunc_3()
+    --(Logic tree item : Procedure) beep1500
+      --(Logic tree item : Set) Set_DIOnumber7
+      set_current_logic_tree_item("c4182bb6b4cc4f7b8818ae77af4e9835")
+      set_global_variable("V_I_DIOnumber", 7)
+      --(Logic tree item : Set) Set_stateTrue
+      set_current_logic_tree_item("30f8edca00234cefbeef24c072ad225b")
+      set_global_variable("V_B_mk311DOstate", true)
+      --(Logic tree item : Script) set_mk311DO
+      set_current_logic_tree_item("214bed91c9734b39b0860fb5ef74d666")
+      blockScriptFunc_set_mk311DO()
+      set_step_breakpoint()
+      --(Logic tree item : Wait) Wait_1i5s
+      set_current_logic_tree_item("bbb9beb9d628440eae9c2562c53a02b3")
+      sleep(1.5)
+      set_step_breakpoint()
+      --(Logic tree item : Set) Set_stateFalse
+      set_current_logic_tree_item("6c267681c2f2445189e7da2786cc0cfd")
+      set_global_variable("V_B_mk311DOstate", false)
+      --(Logic tree item : Script) set_mk311DO
+      set_current_logic_tree_item("fb0ab12e4ae740b6a3923a01dad4bb9d")
+      blockScriptFunc_set_mk311DO()
+      set_step_breakpoint()
+    --(Logic tree item : Message) Message
+    set_current_logic_tree_item("86dbd26dc600435fb11c4b5082ad9a92")
+    popup_message(2, "oshibka pozicionirovaniya", true)
+  end
+
+  function ifScriptFunc_4()
+    --(Logic tree item : Procedure) beep1500
+      --(Logic tree item : Set) Set_DIOnumber7
+      set_current_logic_tree_item("33e5d75d667f47348ea2cdaea947bfb9")
+      set_global_variable("V_I_DIOnumber", 7)
+      --(Logic tree item : Set) Set_stateTrue
+      set_current_logic_tree_item("26a145e9bccc45d8935f461f0ad6d431")
+      set_global_variable("V_B_mk311DOstate", true)
+      --(Logic tree item : Script) set_mk311DO
+      set_current_logic_tree_item("5affe7fc03204fe18f8b51d93b885620")
+      blockScriptFunc_set_mk311DO()
+      set_step_breakpoint()
+      --(Logic tree item : Wait) Wait_1i5s
+      set_current_logic_tree_item("546834ffbdf94a7ab5842fac5a989ad1")
+      sleep(1.5)
+      set_step_breakpoint()
+      --(Logic tree item : Set) Set_stateFalse
+      set_current_logic_tree_item("d54b015d3be54c0faa90d0f8a2421820")
+      set_global_variable("V_B_mk311DOstate", false)
+      --(Logic tree item : Script) set_mk311DO
+      set_current_logic_tree_item("ab19ffc9454749539fae4113478dea08")
+      blockScriptFunc_set_mk311DO()
+      set_step_breakpoint()
+    --(Logic tree item : Message) Message
+    set_current_logic_tree_item("768d559102c94ea2b22ef588a15cf332")
+    popup_message(2, "oshibka pozicionirovaniya", true)
+  end
+
+--(Logic tree item : Procedure_Program) Procedure_Program
+  --(Logic tree item : Set) Set_cntA_0
+  set_current_logic_tree_item("be4c9484700f42c69831c45629e69103")
+  set_global_variable("V_I_CntA", 0)
+  --(Logic tree item : Set) Set_DI_conf
+  set_current_logic_tree_item("cf0bb2ec746e457e9a80ea3a5d2c13a1")
+  set_modbus_io_status("30C_DIconf", 7680)
+  set_step_breakpoint()
+  --(Logic tree item : Set) Set_DI_control
+  set_current_logic_tree_item("1551c676a4a6499f86a0f2b71965a2ba")
+  set_modbus_io_status("40E_ctrlDI", 7168)
+  set_step_breakpoint()
+  --(Logic tree item : Set) Set_speed3000
+  set_current_logic_tree_item("91204446a27c45ef99ea12def9508b0b")
+  set_modbus_io_status("16EspeedLim", 3000)
+  set_step_breakpoint()
+  --(Logic tree item : Set) Set_PR3
+  set_current_logic_tree_item("2cf4d26c9b5a4389bbb83425d5c7de24")
+  set_modbus_io_status("50E_PR", 3)
+  set_step_breakpoint()
+  --(Logic tree item : Wait) Wait_puuPR3
+  set_current_logic_tree_item("1c6c423554264e5584f728e2f3f61bbb")
+  while (not (get_modbus_io_status("50E_PR") == 20003)) do
+    sleep(0.01)
+  end
+  set_step_breakpoint()
+  --(Logic tree item : Set) Set_PR1
+  set_current_logic_tree_item("c1db17975a4f478db8b8f45b2b702b96")
+  set_modbus_io_status("50E_PR", 1)
+  set_step_breakpoint()
+  --(Logic tree item : Wait) Wait_puuPR1
+  set_current_logic_tree_item("38b8e250684c45ccacb7c35e28064a4e")
+  while (not (get_modbus_io_status("50E_PR") == 20001)) do
+    sleep(0.01)
+  end
+  set_step_breakpoint()
+  --(Logic tree item : Loop) Loop_poiskZuba
+  local loop_times_flag_0 = 0
+  while (loop_times_flag_0 < 7) do
+    loop_times_flag_0 = loop_times_flag_0 + 1
+    sleep(0.001)
+    if (loopScriptFunc_0() == false) then
+      break
+    end
+  end
+  --(Logic tree item : If) If_fatalFlag
+  if (get_global_variable("V_B_fatalFlag") == true) then
+    ifFuncRet = ifScriptFunc_1()
+    if (ifFuncRet ~= nil) then
+      do return ifFuncRet end
+    end
+  end
+  --(Logic tree item : Set) Set_torque60
+  set_current_logic_tree_item("1f7f5ef3596c470ba6a19b9726cd6b03")
+  set_modbus_io_status("118_setTorq", 60)
+  set_step_breakpoint()
+  --(Logic tree item : Procedure) GripOpen
+    --(Logic tree item : Set) Set_PositionFullOpen
+    set_current_logic_tree_item("2330f9180c8443c89774c49095ce7bc4")
+    set_modbus_io_status("Grip_Pos", 1000)
+    set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_025s
+    set_current_logic_tree_item("03b753263ed4430ab82613994f581ae8")
+    sleep(0.25)
+    set_step_breakpoint()
+    --(Logic tree item : Loop) Loop_always
+    while (true) do
+      sleep(0.001)
+      if (loopScriptFunc_1() == false) then
+        break
+      end
+    end
+  --(Logic tree item : Wait) Wait_07s
+  set_current_logic_tree_item("a52ad29a14c3473c8f12ae62b18d1553")
+  sleep(0.7)
+  set_step_breakpoint()
+  --(Logic tree item : Set) Set_PR7
+  set_current_logic_tree_item("cb012b7f10c04daabd0a36624c6e411f")
+  set_modbus_io_status("50E_PR", 7)
+  set_step_breakpoint()
+  --(Logic tree item : Wait) Wait_puuPR7
+  set_current_logic_tree_item("2359c37e570c450aa2ce479448c7dfa3")
+  while (not (get_modbus_io_status("50E_PR") == 20007)) do
+    sleep(0.01)
+  end
+  set_step_breakpoint()
+  --(Logic tree item : If) If_errorPosition
+  if (get_modbus_io_status("02_errorCod") ~= 0) then
+    ifFuncRet = ifScriptFunc_3()
+    if (ifFuncRet ~= nil) then
+      do return ifFuncRet end
+    end
+  end
+  --(Logic tree item : Move) Move_povorotNazad
+  init_global_move_profile()
+  set_end_maxvelc(0.400000)
+  set_end_maxacc(0.320000)
+  set_relative_offset({0, 0, 0}, rpy2quaternion({d2r(get_global_variable("V_I_CntA") * -0.6754), d2r(get_global_variable("V_I_CntA") * -2.8285), d2r(0)}), get_tool_kinematics_param("zahvat"))
+    --(Logic tree item : Waypoint) Realtime_Waypoint
+    set_current_logic_tree_item("00a575e467de4d75a491887e7d9c9bf9")
+    move_line(get_global_variable("Realtime_Waypoint"), true)
+    set_step_breakpoint()
+  --(Logic tree item : Move) Move_vverh
+  init_global_move_profile()
+  set_end_maxvelc(0.800000)
+  set_end_maxacc(0.800000)
+  set_relative_offset({0, 0, -0.29}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}), get_tool_kinematics_param("zahvat"))
+    --(Logic tree item : Waypoint) Realtime_Waypoint
+    set_current_logic_tree_item("c5f70d63c84141a689f5aa220784d241")
+    move_line(get_global_variable("Realtime_Waypoint"), true)
+    set_step_breakpoint()
+  --(Logic tree item : Set) Set_PR13
+  set_current_logic_tree_item("1e9fa14384d3414ab9715537dba4c0df")
+  set_modbus_io_status("50E_PR", 13)
+  set_step_breakpoint()
+  --(Logic tree item : Wait) Wait_puuPR13
+  set_current_logic_tree_item("924e66007b0042b3a6e5194f320d6e5f")
+  while (not (get_modbus_io_status("50E_PR") == 20013)) do
+    sleep(0.01)
+  end
+  set_step_breakpoint()
+  --(Logic tree item : Set) Set_PR7
+  set_current_logic_tree_item("7ba44fa1b951464fab9d893f7f28bd3f")
+  set_modbus_io_status("50E_PR", 7)
+  set_step_breakpoint()
+  --(Logic tree item : Wait) Wait_puuPR7
+  set_current_logic_tree_item("4b1e88e8eb674794b2b6487b2186114c")
+  while (not (get_modbus_io_status("50E_PR") == 20007)) do
+    sleep(0.01)
+  end
+  set_step_breakpoint()
+  --(Logic tree item : If) If_errorPosition
+  if (get_modbus_io_status("02_errorCod") ~= 0) then
+    ifFuncRet = ifScriptFunc_4()
+    if (ifFuncRet ~= nil) then
+      do return ifFuncRet end
+    end
+  end

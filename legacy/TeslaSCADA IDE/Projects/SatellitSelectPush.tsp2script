@@ -1,0 +1,43 @@
+<script name="SatellitSelectPush" color="0xd3d3d3ff" type="2" windowheight="1900" windowwidth="1200" groupname="" subgroupname="" language="1" everycycle="false" extype="0" runonuithread="true">
+   <objects/>
+   <links/>
+   <sttext>Tags.Tag_cnt1 = Tags.Tag_cnt1 + 1;
+Tags.SatSelectNum = Tags.satSelButtNum;
+Objects.img1.filename = Tags.satSelButtNum;
+Tags.satSelButtNum = 100;
+//callscreen(&quot;SelOperation_#2&quot;);
+</sttext>
+   <opcodes>
+      <opcode type="LOAD_CONST" datatype="4">
+         <value>1</value>
+      </opcode>
+      <opcode type="LOAD_TAG" datatype="-1">
+         <value>Tag_cnt1</value>
+      </opcode>
+      <opcode type="BINARY_ADD" datatype="-1"/>
+      <opcode type="STORE_TAG" datatype="-1">
+         <value>Tag_cnt1</value>
+      </opcode>
+      <opcode type="LOAD_TAG" datatype="-1">
+         <value>satSelButtNum</value>
+      </opcode>
+      <opcode type="STORE_TAG" datatype="-1">
+         <value>SatSelectNum</value>
+      </opcode>
+      <opcode type="LOAD_TAG" datatype="-1">
+         <value>satSelButtNum</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="7">
+         <value>filename</value>
+      </opcode>
+      <opcode type="STORE_OBJECT" datatype="-1">
+         <value>img1</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="4">
+         <value>100</value>
+      </opcode>
+      <opcode type="STORE_TAG" datatype="-1">
+         <value>satSelButtNum</value>
+      </opcode>
+   </opcodes>
+</script>

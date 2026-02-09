@@ -1,0 +1,36 @@
+package.path = "/root/AuboRobotWorkSpace/teachpendant/share/teachpendant/script/?.aubo"
+faska_m = require("faska_module")
+s_m = require("service_module")
+mill_m = require("milling_module")
+
+local function preStartFaska()
+    -- sbros флага состояния выполнения
+    set_modbus_io_status("synhr_c121h", 0)
+    -- данные операции притупления фаски
+    P150_Ddisc, P151_offsetDisc, P152_offsetTime, P153_printDbgFlag, P154_backDisk, P155_zausDisk, P156_operationX, P157_glavUgolX, P158_glavUgolY, P159_glavUgolZ, P160_perevorotyX, P161_saftyX, P162_reykaZubleft, P163_reykaZubright, P164_operationY, P165_venec1Storona, P166_venec2Storona, P167_venec3Storona, P168_IDstring, P169_v1s1leftCorrectorZ, P170_v1s2leftCorrectorZ, P171_v2s1leftCorrectorZ, P172_v2s2leftCorrectorZ,     P173_v3s1leftCorrectorZ, P174_v3s2leftCorrectorZ, P175_v1s1rightCorrectorZ, P176_v1s2rightCorrectorZ,   P177_v2s1rightCorrectorZ, P178_v2s2rightCorrectorZ, P185_v3s1rightCorrectorZ, P186_v3s2rightCorrectorZ, P187_venec1StoronaV, P188_venec2StoronaV, P189_venec3StoronaV = faska_m.getDataFaska()
+    -- proverka dannyx
+    faska_checkStatusDetect = faska_m.checkDataFaska(P150_Ddisc, P151_offsetDisc, P152_offsetTime, P153_printDbgFlag, P154_backDisk, P155_zausDisk, P156_operationX, P157_glavUgolX, P158_glavUgolY, P159_glavUgolZ, P160_perevorotyX, P161_saftyX, P162_reykaZubleft, P163_reykaZubright, P164_operationY, P165_venec1Storona, P166_venec2Storona, P167_venec3Storona, P168_IDstring, P169_v1s1leftCorrectorZ, P170_v1s2leftCorrectorZ, P171_v2s1leftCorrectorZ, P172_v2s2leftCorrectorZ,     P173_v3s1leftCorrectorZ, P174_v3s2leftCorrectorZ, P175_v1s1rightCorrectorZ, P176_v1s2rightCorrectorZ,   P177_v2s1rightCorrectorZ, P178_v2s2rightCorrectorZ, P185_v3s1rightCorrectorZ, P186_v3s2rightCorrectorZ, P187_venec1StoronaV, P188_venec2StoronaV, P189_venec3StoronaV)
+    -- если данные не корректные, то выход с кодом -1
+    if faska_checkStatusDetect ~= 0 then
+        -- установ флага состояния выполнения
+        set_modbus_io_status("synhr_c121h", 1)
+        s_m.beep(1.5)
+        print("")
+        print("<<<<<<<<<<<<< preStartFaska >>>>>>>>>>>>>")
+        print("<<<<< некорректные входные данные. kод выхода -1 >>>>>>>>>>")
+        print("<<<<<<<<<<<<< preStartFaska >>>>>>>>>>>>>")
+        print("")
+        return
+    end
+    -- читаю Z координату точек касания(povorotka, tool - probeRobot)
+    v1s1_Ztorca, v1s2_Ztorca, v2s1_Ztorca, v2s2_Ztorca, v3s1_Ztorca, v3s2_Ztorca = mill_m.getXcoordObmera()
+    set_global_variable("V_D_v1s1_Ztorca", v1s1_Ztorca)
+    set_global_variable("V_D_v1s2_Ztorca", v1s2_Ztorca)
+    set_global_variable("V_D_v2s1_Ztorca", v2s1_Ztorca)
+    set_global_variable("V_D_v2s2_Ztorca", v2s2_Ztorca)
+    set_global_variable("V_D_v3s1_Ztorca", v3s1_Ztorca)
+    set_global_variable("V_D_v3s2_Ztorca", v3s2_Ztorca)
+end
+--*************************основной код************************************
+preStartFaska()
+--*************************основной код************************************

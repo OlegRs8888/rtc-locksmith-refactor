@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MainProgram>
+    <Condition ConditionType="Project_Program" ConditionAlias="Project_Program" ConditionUuid="dd5729bc9aec47f88efbd27f0e8fc681">
+        <Attribute>
+            <md5OfProjectContinueFile></md5OfProjectContinueFile>
+            <md5OfProjectPauseFile></md5OfProjectPauseFile>
+            <md5OfProjectStopFile></md5OfProjectStopFile>
+            <projectContinueFile></projectContinueFile>
+            <projectPauseFile></projectPauseFile>
+            <projectStopFile></projectStopFile>
+            <selectProjectContinue>false</selectProjectContinue>
+            <selectProjectPause>false</selectProjectPause>
+            <selectProjectStop>false</selectProjectStop>
+        </Attribute>
+        <Condition ConditionType="Set" ConditionAlias="Set" ConditionUuid="a2a4e534711b40379e439dddfb3880e4">
+            <Attribute>
+                <SetConditionMode>ToolParam</SetConditionMode>
+                <ToolName>zahvat</ToolName>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Move" ConditionAlias="Move_TEST" ConditionUuid="ce13dce9c66e4cf7b9fde91603526cf5">
+            <Attribute>
+                <MoveConditionMode>MoveJoint</MoveConditionMode>
+                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                <ArrivalAheadType>None</ArrivalAheadType>
+                <EnableArrivalAhead>false</EnableArrivalAhead>
+                <EnableOffset>true</EnableOffset>
+                <JointAcc>50,50,50,50,50,50</JointAcc>
+                <JointSpeed>50,50,50,50,50,50</JointSpeed>
+                <OffsetCoordName>povorotnayaOsReal</OffsetCoordName>
+                <OffsetCoordType>UserCoord</OffsetCoordType>
+                <OffsetRX>0</OffsetRX>
+                <OffsetRY>0</OffsetRY>
+                <OffsetRZ>0</OffsetRZ>
+                <OffsetX>0</OffsetX>
+                <OffsetY>0</OffsetY>
+                <OffsetZ>0</OffsetZ>
+                <angleJerkRatio>0.25</angleJerkRatio>
+                <isInGluing>false</isInGluing>
+                <isInMoveGroup>false</isInMoveGroup>
+                <jerkRatio>0.25</jerkRatio>
+            </Attribute>
+            <Condition ConditionType="Waypoint" ConditionAlias="Waypoint" ConditionUuid="c5f2a5faf0e343ba8219f7488cf0fbb5">
+                <Attribute>
+                    <WaypointConditionMode>FixedPoint</WaypointConditionMode>
+                    <FixedPoint>0.684021,-0.293684,0.406887,0.218617,0.760990,0.523555,-0.314627,-3.731562,0.197123,-1.990001,-0.840008,-2.331311,-0.314137</FixedPoint>
+                </Attribute>
+            </Condition>
+        </Condition>
+    </Condition>
+</MainProgram>

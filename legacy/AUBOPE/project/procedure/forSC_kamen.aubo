@@ -1,0 +1,209 @@
+--Procedure Program
+
+--script function definition
+  function ifScriptFunc_0()
+    --(Logic tree item : Move) Move_nadYminus
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+      --(Logic tree item : Waypoint) Waypoint
+      set_current_logic_tree_item("348f72903ba44c0286578bf612a243d5")
+      move_line({-3.760128, 0.660318, -1.386507, -0.475945, -1.570690, -3.760143}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Move) Move_Yminus
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+      --(Logic tree item : Waypoint) Waypoint
+      set_current_logic_tree_item("dc6715d276b940a393e82cc6c898420d")
+      move_line({-3.760128, 0.698525, -1.414038, -0.541683, -1.570686, -3.760143}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Move) Move_YminusKasanie
+    init_global_move_profile()
+    set_end_maxvelc(0.200000)
+    set_end_maxacc(0.200000)
+    set_relative_offset({0, 0.0031, 0}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+      --(Logic tree item : Waypoint) Waypoint
+      set_current_logic_tree_item("c351333eea3e4e92ad4772c2e0687beb")
+      move_line({-3.760128, 0.698525, -1.414038, -0.541683, -1.570686, -3.760143}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Message) Message
+    set_current_logic_tree_item("70c01b20507e4323802529b2abda80a9")
+    popup_message(0, "izmerenie", false)
+    --(Logic tree item : Move) Move_nadYminus
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+      --(Logic tree item : Waypoint) Waypoint
+      set_current_logic_tree_item("cdae39fc95314a47a0e96f9b455f9b21")
+      move_line({-3.760128, 0.660318, -1.386507, -0.475945, -1.570686, -3.760143}, true)
+      set_step_breakpoint()
+  end
+
+  function ifScriptFunc_1()
+    --(Logic tree item : Move) Move_nadYplus
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+      --(Logic tree item : Waypoint) Waypoint
+      set_current_logic_tree_item("b41096d7a95e44a88cb312dde7445782")
+      move_line({-3.723045, 0.634675, -1.430994, -0.494791, -1.570686, -3.723059}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Move) Move_Yplus
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+      --(Logic tree item : Waypoint) Waypoint
+      set_current_logic_tree_item("c8c3e602d9664d35ad29b5b492d30e36")
+      move_line({-3.723048, 0.673934, -1.458342, -0.561399, -1.570686, -3.723059}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Move) Move_YplusKasanie
+    init_global_move_profile()
+    set_end_maxvelc(0.200000)
+    set_end_maxacc(0.200000)
+    set_relative_offset({0, -0.00953, 0}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+      --(Logic tree item : Waypoint) Waypoint
+      set_current_logic_tree_item("1e7ffdd21b614dd395b0878b6d9f2a27")
+      move_line({-3.723048, 0.673934, -1.458342, -0.561399, -1.570686, -3.723059}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Message) Message
+    set_current_logic_tree_item("e03547173799487baa74f40d46b36dbb")
+    popup_message(0, "izmerenie", false)
+    --(Logic tree item : Move) Move_nadYplus
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+      --(Logic tree item : Waypoint) Waypoint
+      set_current_logic_tree_item("70a7857a317243008d3add63dc5dc949")
+      move_line({-3.723045, 0.634675, -1.430994, -0.494791, -1.570686, -3.723059}, true)
+      set_step_breakpoint()
+  end
+
+  function ifScriptFunc_2()
+    --(Logic tree item : Move) Move_nadXplus
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+      --(Logic tree item : Waypoint) Waypoint
+      set_current_logic_tree_item("4156113986ee42c688f997e5daf6622f")
+      move_line({-3.730718, 0.679022, -1.353814, -0.461933, -1.570697, -3.730729}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Move) Move_Xplus
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+      --(Logic tree item : Waypoint) Waypoint
+      set_current_logic_tree_item("956eadfe1bfb45b88f1fffc636a45dfa")
+      move_line({-3.730715, 0.716483, -1.381513, -0.527088, -1.570697, -3.730729}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Move) Move_XplusKasanie
+    init_global_move_profile()
+    set_end_maxvelc(0.200000)
+    set_end_maxacc(0.200000)
+    set_relative_offset({-0.00683, 0, 0}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+      --(Logic tree item : Waypoint) Waypoint
+      set_current_logic_tree_item("c98bc06bc2f34bef933931d7fbb29c6f")
+      move_line({-3.730718, 0.716483, -1.381513, -0.527088, -1.570697, -3.730729}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Message) Message
+    set_current_logic_tree_item("1f8d493c92e84d6a8a9b1e5b6460ba33")
+    popup_message(0, "izmerenie", false)
+    --(Logic tree item : Move) Move_nadXminus
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+      --(Logic tree item : Waypoint) Waypoint
+      set_current_logic_tree_item("cfc0beac8a48496a80338daa720af624")
+      move_line({-3.730715, 0.679014, -1.353808, -0.461933, -1.570694, -3.730729}, true)
+      set_step_breakpoint()
+  end
+
+  function ifScriptFunc_3()
+    --(Logic tree item : Move) Move_nadXminus
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+      --(Logic tree item : Waypoint) Waypoint
+      set_current_logic_tree_item("f96bec7f1b544f02b0a663e73c811816")
+      move_line({-3.754454, 0.623037, -1.451039, -0.503187, -1.570701, -3.754465}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Move) Move_Xminus
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+      --(Logic tree item : Waypoint) Waypoint
+      set_current_logic_tree_item("036d0693b97247b394dde4582e3f69df")
+      move_line({-3.754454, 0.662802, -1.478332, -0.570221, -1.570701, -3.754465}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Move) Move_XminusKasanie
+    init_global_move_profile()
+    set_end_maxvelc(0.200000)
+    set_end_maxacc(0.200000)
+    set_relative_offset({0.00307, 0, 0}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+      --(Logic tree item : Waypoint) Waypoint
+      set_current_logic_tree_item("49b73e38db0b48d1986f29e57d2cd3d1")
+      move_line({-3.754454, 0.662802, -1.478332, -0.570221, -1.570701, -3.754465}, true)
+      set_step_breakpoint()
+    --(Logic tree item : Message) Message
+    set_current_logic_tree_item("098523a3e9a34f68ab7b613b647e151d")
+    popup_message(0, "izmerenie", false)
+    --(Logic tree item : Move) Move_nadXminus
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+      --(Logic tree item : Waypoint) Waypoint
+      set_current_logic_tree_item("8c0d42742da54673b2b5566c27d0bf3c")
+      move_line({-3.754630, 0.622725, -1.450470, -0.502289, -1.570705, -3.754645}, true)
+      set_step_breakpoint()
+  end
+
+--(Logic tree item : Procedure_Program) Procedure_Program
+  --(Logic tree item : Set) Set_drill
+  set_current_logic_tree_item("adb23a161ee54c129a88eb9a0558dd8c")
+  set_tool_kinematics_param(get_tool_kinematics_param("drill1"))
+  set_tool_dynamics_param(get_tool_dynamics_param("drill1"))
+  set_step_breakpoint()
+  --(Logic tree item : Move) Move_centerKamen
+  init_global_move_profile()
+  set_joint_maxvelc({1.553343,1.553343,1.946042,1.553343,2.068215,2.068215})
+  set_joint_maxacc({6.283185,6.283185,9.424778,6.283185,6.283185,6.283185})
+    --(Logic tree item : Waypoint) Waypoint
+    set_current_logic_tree_item("e5b9f7b9170b4b56ab5dbe31679f6048")
+    move_joint({-3.744371, 0.648933, -1.406298, -0.484359, -1.570686, -3.744385}, true)
+    set_step_breakpoint()
+  --(Logic tree item : If) If_Yminus
+  if (true) then
+    ifFuncRet = ifScriptFunc_0()
+    if (ifFuncRet ~= nil) then
+      do return ifFuncRet end
+    end
+  end
+  --(Logic tree item : If) If_Yplus
+  if (true) then
+    ifFuncRet = ifScriptFunc_1()
+    if (ifFuncRet ~= nil) then
+      do return ifFuncRet end
+    end
+  end
+  --(Logic tree item : If) If_Xplus
+  if (true) then
+    ifFuncRet = ifScriptFunc_2()
+    if (ifFuncRet ~= nil) then
+      do return ifFuncRet end
+    end
+  end
+  --(Logic tree item : If) If_Xminus
+  if (true) then
+    ifFuncRet = ifScriptFunc_3()
+    if (ifFuncRet ~= nil) then
+      do return ifFuncRet end
+    end
+  end
+  --(Logic tree item : Move) Move_centerKamen
+  init_global_move_profile()
+  set_joint_maxvelc({1.553343,1.553343,1.946042,1.553343,2.068215,2.068215})
+  set_joint_maxacc({6.283185,6.283185,9.424778,6.283185,6.283185,6.283185})
+    --(Logic tree item : Waypoint) Waypoint
+    set_current_logic_tree_item("582e82c7fe2f4fda9ae009963685780d")
+    move_joint({-3.744371, 0.648933, -1.406298, -0.484359, -1.570686, -3.744385}, true)
+    set_step_breakpoint()

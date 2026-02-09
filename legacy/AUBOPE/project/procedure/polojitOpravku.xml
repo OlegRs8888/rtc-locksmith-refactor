@@ -1,0 +1,763 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProcedureProgram>
+    <Condition ConditionType="Procedure_Program" ConditionAlias="Procedure_Program" ConditionUuid="3fb10b1f19114a2d8a2fb8f20ef3a913">
+        <Attribute/>
+        <Condition ConditionType="Block_Comment" ConditionAlias="Block_init" ConditionUuid="7aeb2618f3f94f8d9b715c65735a56c9">
+            <Attribute>
+                <CommentContent>init</CommentContent>
+            </Attribute>
+            <Condition ConditionType="Set" ConditionAlias="Set_drillTool" ConditionUuid="29a52e2164a647c8922504a9dbc9faf4">
+                <Attribute>
+                    <SetConditionMode>ToolParam</SetConditionMode>
+                    <ToolName>drill1</ToolName>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="If" ConditionAlias="If_Y_ravno1" ConditionUuid="9955e64c5972402abef2fb095017341b">
+            <Attribute>
+                <Exp>V_I_magYcount == 1</Exp>
+            </Attribute>
+            <Condition ConditionType="Move" ConditionAlias="Move_prePickVH" ConditionUuid="72bd0f0fa9b5462aac388104d5cb63e4">
+                <Attribute>
+                    <MoveConditionMode>MoveJoint</MoveConditionMode>
+                    <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                    <ArrivalAheadType>None</ArrivalAheadType>
+                    <EnableArrivalAhead>false</EnableArrivalAhead>
+                    <EnableOffset>true</EnableOffset>
+                    <JointAcc>50,50,50,50,50,50</JointAcc>
+                    <JointSpeed>80,80,80,80,80,80</JointSpeed>
+                    <OffsetCoordName>Base</OffsetCoordName>
+                    <OffsetCoordType>BaseCoord</OffsetCoordType>
+                    <OffsetRX>0</OffsetRX>
+                    <OffsetRY>0</OffsetRY>
+                    <OffsetRZ>0</OffsetRZ>
+                    <OffsetX>( ( V_I_magXcount - 1 ) * 0.052 ) - ( ( V_I_magYcount - 1 ) * 0.0007 )</OffsetX>
+                    <OffsetY>0.06 + ( ( V_I_magXcount - 1 ) * -0.00022 ) - ( ( V_I_magYcount - 1 ) * 0.115 )</OffsetY>
+                    <OffsetZ>0.15 - ( ( V_I_magYcount - 1 ) * 0.001 ) - ( ( V_I_magXcount - 1 ) * 0.00007 )</OffsetZ>
+                    <angleJerkRatio>0.25</angleJerkRatio>
+                    <isInGluing>false</isInGluing>
+                    <isInMoveGroup>false</isInMoveGroup>
+                    <jerkRatio>0.25</jerkRatio>
+                </Attribute>
+                <Condition ConditionType="Waypoint" ConditionAlias="Waypoint_V_P_magazin_C1" ConditionUuid="9f74bf5ba3b1499d8030c31686e35754">
+                    <Attribute>
+                        <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                        <VarPoint>V_P_magazin_C1</VarPoint>
+                    </Attribute>
+                </Condition>
+            </Condition>
+            <Condition ConditionType="Move" ConditionAlias="Move_prePickH" ConditionUuid="8c59eab5cb6d42f1b0c943c3e2898c60">
+                <Attribute>
+                    <MoveConditionMode>MoveLine</MoveConditionMode>
+                    <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                    <ArrivalAheadType>None</ArrivalAheadType>
+                    <EnableArrivalAhead>false</EnableArrivalAhead>
+                    <EnableOffset>true</EnableOffset>
+                    <EndAngleAcc>50</EndAngleAcc>
+                    <EndAngleSpeed>50</EndAngleSpeed>
+                    <EndLinearAcc>30</EndLinearAcc>
+                    <EndLinearSpeed>50</EndLinearSpeed>
+                    <OffsetCoordName>Base</OffsetCoordName>
+                    <OffsetCoordType>BaseCoord</OffsetCoordType>
+                    <OffsetRX>0</OffsetRX>
+                    <OffsetRY>0</OffsetRY>
+                    <OffsetRZ>0</OffsetRZ>
+                    <OffsetX>0</OffsetX>
+                    <OffsetY>0</OffsetY>
+                    <OffsetZ>-0.15</OffsetZ>
+                    <angleJerkRatio>0.25</angleJerkRatio>
+                    <isInGluing>false</isInGluing>
+                    <isInMoveGroup>false</isInMoveGroup>
+                    <jerkRatio>0.25</jerkRatio>
+                </Attribute>
+                <Condition ConditionType="Waypoint" ConditionAlias="Realtime_Waypoint" ConditionUuid="c72a8947efa94d7094c84e6b377bc389">
+                    <Attribute>
+                        <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                        <VarPoint>Realtime_Waypoint</VarPoint>
+                    </Attribute>
+                </Condition>
+            </Condition>
+            <Condition ConditionType="Move" ConditionAlias="Move_Pick" ConditionUuid="1899ff4accea47c5ac6dd94f48085ad5">
+                <Attribute>
+                    <MoveConditionMode>MoveLine</MoveConditionMode>
+                    <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                    <ArrivalAheadType>None</ArrivalAheadType>
+                    <EnableArrivalAhead>false</EnableArrivalAhead>
+                    <EnableOffset>true</EnableOffset>
+                    <EndAngleAcc>50</EndAngleAcc>
+                    <EndAngleSpeed>50</EndAngleSpeed>
+                    <EndLinearAcc>3</EndLinearAcc>
+                    <EndLinearSpeed>5</EndLinearSpeed>
+                    <OffsetCoordName>Base</OffsetCoordName>
+                    <OffsetCoordType>BaseCoord</OffsetCoordType>
+                    <OffsetRX>0</OffsetRX>
+                    <OffsetRY>0</OffsetRY>
+                    <OffsetRZ>0</OffsetRZ>
+                    <OffsetX>0</OffsetX>
+                    <OffsetY>-0.06</OffsetY>
+                    <OffsetZ>0</OffsetZ>
+                    <angleJerkRatio>0.25</angleJerkRatio>
+                    <isInGluing>false</isInGluing>
+                    <isInMoveGroup>false</isInMoveGroup>
+                    <jerkRatio>0.25</jerkRatio>
+                </Attribute>
+                <Condition ConditionType="Waypoint" ConditionAlias="Realtime_Waypoint" ConditionUuid="74df2a0ca5eb480da644498a25402138">
+                    <Attribute>
+                        <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                        <VarPoint>Realtime_Waypoint</VarPoint>
+                    </Attribute>
+                </Condition>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Else" ConditionAlias="Else" ConditionUuid="6e35dad9e6794c71b85f4e9d9bd821fa">
+            <Attribute/>
+            <Condition ConditionType="Move" ConditionAlias="Move_prePickVH" ConditionUuid="af50cecabd2043bfaa98c74884b900c1">
+                <Attribute>
+                    <MoveConditionMode>MoveJoint</MoveConditionMode>
+                    <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                    <ArrivalAheadType>None</ArrivalAheadType>
+                    <EnableArrivalAhead>false</EnableArrivalAhead>
+                    <EnableOffset>true</EnableOffset>
+                    <JointAcc>30,30,30,30,30,30</JointAcc>
+                    <JointSpeed>50,50,50,50,50,50</JointSpeed>
+                    <OffsetCoordName>Base</OffsetCoordName>
+                    <OffsetCoordType>BaseCoord</OffsetCoordType>
+                    <OffsetRX>0</OffsetRX>
+                    <OffsetRY>0</OffsetRY>
+                    <OffsetRZ>0</OffsetRZ>
+                    <OffsetX>( ( V_I_magXcount - 1 ) * 0.052 ) - ( ( V_I_magYcount - 1 ) * 0.0007 )</OffsetX>
+                    <OffsetY>-0.06 + ( ( V_I_magXcount - 1 ) * -0.00022 ) - ( ( V_I_magYcount - 1 ) * 0.115 )</OffsetY>
+                    <OffsetZ>0.15 - ( ( V_I_magYcount - 1 ) * 0.001 ) - ( ( V_I_magXcount - 1 ) * 0.00007 )</OffsetZ>
+                    <angleJerkRatio>0.25</angleJerkRatio>
+                    <isInGluing>false</isInGluing>
+                    <isInMoveGroup>false</isInMoveGroup>
+                    <jerkRatio>0.25</jerkRatio>
+                </Attribute>
+                <Condition ConditionType="Waypoint" ConditionAlias="Waypoint_V_P_magazin_C1" ConditionUuid="e37017cacabc4955aefa8ca85405b84b">
+                    <Attribute>
+                        <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                        <VarPoint>V_P_magazin_C1</VarPoint>
+                    </Attribute>
+                </Condition>
+            </Condition>
+            <Condition ConditionType="Move" ConditionAlias="Move_rotate" ConditionUuid="38596ac624714e0fa48de627fe8817bc">
+                <Attribute>
+                    <MoveConditionMode>MoveJoint</MoveConditionMode>
+                    <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                    <ArrivalAheadType>None</ArrivalAheadType>
+                    <EnableArrivalAhead>false</EnableArrivalAhead>
+                    <EnableOffset>true</EnableOffset>
+                    <JointAcc>30,30,30,30,30,30</JointAcc>
+                    <JointSpeed>50,50,50,50,50,50</JointSpeed>
+                    <OffsetCoordName>drill1</OffsetCoordName>
+                    <OffsetCoordType>ToolCoord</OffsetCoordType>
+                    <OffsetRX>0</OffsetRX>
+                    <OffsetRY>0</OffsetRY>
+                    <OffsetRZ>( V_I_magYcount - 1 ) * -30</OffsetRZ>
+                    <OffsetX>0</OffsetX>
+                    <OffsetY>0</OffsetY>
+                    <OffsetZ>0</OffsetZ>
+                    <angleJerkRatio>0.25</angleJerkRatio>
+                    <isInGluing>false</isInGluing>
+                    <isInMoveGroup>false</isInMoveGroup>
+                    <jerkRatio>0.25</jerkRatio>
+                </Attribute>
+                <Condition ConditionType="Waypoint" ConditionAlias="Realtime_Waypoint" ConditionUuid="7eec0a46ec7b4ec48cee0a006cba7b41">
+                    <Attribute>
+                        <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                        <VarPoint>Realtime_Waypoint</VarPoint>
+                    </Attribute>
+                </Condition>
+            </Condition>
+            <Condition ConditionType="Move" ConditionAlias="Move_prePickH" ConditionUuid="7af688f1ae0741dbbc3175c4034391a6">
+                <Attribute>
+                    <MoveConditionMode>MoveLine</MoveConditionMode>
+                    <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                    <ArrivalAheadType>None</ArrivalAheadType>
+                    <EnableArrivalAhead>false</EnableArrivalAhead>
+                    <EnableOffset>true</EnableOffset>
+                    <EndAngleAcc>50</EndAngleAcc>
+                    <EndAngleSpeed>50</EndAngleSpeed>
+                    <EndLinearAcc>30</EndLinearAcc>
+                    <EndLinearSpeed>50</EndLinearSpeed>
+                    <OffsetCoordName>Base</OffsetCoordName>
+                    <OffsetCoordType>BaseCoord</OffsetCoordType>
+                    <OffsetRX>0</OffsetRX>
+                    <OffsetRY>0</OffsetRY>
+                    <OffsetRZ>0</OffsetRZ>
+                    <OffsetX>0</OffsetX>
+                    <OffsetY>0</OffsetY>
+                    <OffsetZ>-0.15</OffsetZ>
+                    <angleJerkRatio>0.25</angleJerkRatio>
+                    <isInGluing>false</isInGluing>
+                    <isInMoveGroup>false</isInMoveGroup>
+                    <jerkRatio>0.25</jerkRatio>
+                </Attribute>
+                <Condition ConditionType="Waypoint" ConditionAlias="Realtime_Waypoint" ConditionUuid="c9162f4e9175461e85fb462f26484511">
+                    <Attribute>
+                        <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                        <VarPoint>Realtime_Waypoint</VarPoint>
+                    </Attribute>
+                </Condition>
+            </Condition>
+            <Condition ConditionType="Move" ConditionAlias="Move_Pick" ConditionUuid="fa2e11f5ba244708b4ae84acd5abe772">
+                <Attribute>
+                    <MoveConditionMode>MoveLine</MoveConditionMode>
+                    <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                    <ArrivalAheadType>None</ArrivalAheadType>
+                    <EnableArrivalAhead>false</EnableArrivalAhead>
+                    <EnableOffset>true</EnableOffset>
+                    <EndAngleAcc>50</EndAngleAcc>
+                    <EndAngleSpeed>50</EndAngleSpeed>
+                    <EndLinearAcc>3</EndLinearAcc>
+                    <EndLinearSpeed>5</EndLinearSpeed>
+                    <OffsetCoordName>Base</OffsetCoordName>
+                    <OffsetCoordType>BaseCoord</OffsetCoordType>
+                    <OffsetRX>0</OffsetRX>
+                    <OffsetRY>0</OffsetRY>
+                    <OffsetRZ>0</OffsetRZ>
+                    <OffsetX>0</OffsetX>
+                    <OffsetY>0.06</OffsetY>
+                    <OffsetZ>0</OffsetZ>
+                    <angleJerkRatio>0.25</angleJerkRatio>
+                    <isInGluing>false</isInGluing>
+                    <isInMoveGroup>false</isInMoveGroup>
+                    <jerkRatio>0.25</jerkRatio>
+                </Attribute>
+                <Condition ConditionType="Waypoint" ConditionAlias="Realtime_Waypoint" ConditionUuid="cf87e9f55385468e8d1819865e6bd95d">
+                    <Attribute>
+                        <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                        <VarPoint>Realtime_Waypoint</VarPoint>
+                    </Attribute>
+                </Condition>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Move" ConditionAlias="Move_v" ConditionUuid="0bf667de10c3456cb896e47f987e98fe">
+            <Attribute>
+                <MoveConditionMode>MoveLine</MoveConditionMode>
+                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                <ArrivalAheadType>None</ArrivalAheadType>
+                <EnableArrivalAhead>false</EnableArrivalAhead>
+                <EnableOffset>true</EnableOffset>
+                <EndAngleAcc>50</EndAngleAcc>
+                <EndAngleSpeed>50</EndAngleSpeed>
+                <EndLinearAcc>3</EndLinearAcc>
+                <EndLinearSpeed>5</EndLinearSpeed>
+                <OffsetCoordName>Base</OffsetCoordName>
+                <OffsetCoordType>BaseCoord</OffsetCoordType>
+                <OffsetRX>0</OffsetRX>
+                <OffsetRY>0</OffsetRY>
+                <OffsetRZ>0</OffsetRZ>
+                <OffsetX>0</OffsetX>
+                <OffsetY>0</OffsetY>
+                <OffsetZ>0.00</OffsetZ>
+                <angleJerkRatio>0.25</angleJerkRatio>
+                <isInGluing>false</isInGluing>
+                <isInMoveGroup>false</isInMoveGroup>
+                <jerkRatio>0.25</jerkRatio>
+            </Attribute>
+            <Condition ConditionType="Waypoint" ConditionAlias="Realtime_Waypoint" ConditionUuid="3e3315b36b1d4520902fefe38bb9cac2">
+                <Attribute>
+                    <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                    <VarPoint>Realtime_Waypoint</VarPoint>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Procedure" ConditionAlias="ToolUnlock" ConditionUuid="180de69753db4aea93b973508915cd84">
+            <Attribute>
+                <MD5>df1dd2dd7ed2bb8532bc5094c64f2a1a</MD5>
+                <ProcedureName>ToolUnlock</ProcedureName>
+            </Attribute>
+            <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber3" ConditionUuid="8602d72c31c648bb858834e4262fb6d4">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>3</VarAssignmentExp>
+                    <VarName>V_I_DIOnumber</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_stateDO312True" ConditionUuid="0bc13ee16c7f4f3f9bf29b7132d6daba">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>true</VarAssignmentExp>
+                    <VarName>V_B_mk312DOstate</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Line_Comment" ConditionAlias="toolUnlockCommand" ConditionUuid="370f7e16abba49f6a8ac74135e656e08">
+                <Attribute>
+                    <CommentContent>1</CommentContent>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Script" ConditionAlias="set_mk312DO" ConditionUuid="bcd4144fb7f4428e86026ce924e76208">
+                <Attribute>
+                    <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                    <MD5>8d51f8919ddbf1208b94ac32d644a3cd</MD5>
+                    <ScriptFileName>set_mk312DO</ScriptFileName>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Wait" ConditionAlias="Wait_07s" ConditionUuid="b14fc3a6a6e14e7999039dd279f2cdb5">
+            <Attribute>
+                <WaitConditionMode>Time</WaitConditionMode>
+                <WaitTime>0.7</WaitTime>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Move" ConditionAlias="Move_vverh" ConditionUuid="27ee3cf149334d8092221bf4f29bbe9e">
+            <Attribute>
+                <MoveConditionMode>MoveLine</MoveConditionMode>
+                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                <ArrivalAheadType>None</ArrivalAheadType>
+                <EnableArrivalAhead>false</EnableArrivalAhead>
+                <EnableOffset>true</EnableOffset>
+                <EndAngleAcc>50</EndAngleAcc>
+                <EndAngleSpeed>50</EndAngleSpeed>
+                <EndLinearAcc>30</EndLinearAcc>
+                <EndLinearSpeed>50</EndLinearSpeed>
+                <OffsetCoordName>Base</OffsetCoordName>
+                <OffsetCoordType>BaseCoord</OffsetCoordType>
+                <OffsetRX>0</OffsetRX>
+                <OffsetRY>0</OffsetRY>
+                <OffsetRZ>0</OffsetRZ>
+                <OffsetX>0</OffsetX>
+                <OffsetY>0</OffsetY>
+                <OffsetZ>0.15</OffsetZ>
+                <angleJerkRatio>0.25</angleJerkRatio>
+                <isInGluing>false</isInGluing>
+                <isInMoveGroup>false</isInMoveGroup>
+                <jerkRatio>0.25</jerkRatio>
+            </Attribute>
+            <Condition ConditionType="Waypoint" ConditionAlias="Realtime_Waypoint" ConditionUuid="9caeb531f05847ffbce13645e6f73d8b">
+                <Attribute>
+                    <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                    <VarPoint>Realtime_Waypoint</VarPoint>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Procedure" ConditionAlias="ToolLock" ConditionUuid="7530dc6b4bf64379a8d53d42445fda8e">
+            <Attribute>
+                <MD5>b3231e310f6f688251fee4584b2f0a11</MD5>
+                <ProcedureName>ToolLock</ProcedureName>
+            </Attribute>
+            <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber3" ConditionUuid="80ecc9f7a1b04469920863969751ff5c">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>3</VarAssignmentExp>
+                    <VarName>V_I_DIOnumber</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Loop" ConditionAlias="Loop_always" ConditionUuid="47befe13e4584b00a18b6889446a17ab">
+                <Attribute>
+                    <LoopConditionMode>Always</LoopConditionMode>
+                </Attribute>
+                <Condition ConditionType="Script" ConditionAlias="check_mk311DO" ConditionUuid="c2851311e25e4c0eb77b8448c1c73dc5">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>251b3ef0d3ffbf89305c23244b7b5d24</MD5>
+                        <ScriptFileName>check_mk311DO</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="If" ConditionAlias="If" ConditionUuid="34adae44abdd48d5a31011c0e639fdbf">
+                    <Attribute>
+                        <Exp>V_B_mk311DOstate == false</Exp>
+                    </Attribute>
+                    <Condition ConditionType="Break" ConditionAlias="Break" ConditionUuid="174943a8e49144aeacae2fbdc947e9b3">
+                        <Attribute/>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Message" ConditionAlias="Message" ConditionUuid="500ef99edeae46c48836b9388f68c7d4">
+                    <Attribute>
+                        <EnableStopProgramRunningWhenMessagePopsUp>false</EnableStopProgramRunningWhenMessagePopsUp>
+                        <MessageContent>zahvat instrumenta nevozmojen, spindel vklyuchen</MessageContent>
+                        <MessageType>Information</MessageType>
+                    </Attribute>
+                </Condition>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber3" ConditionUuid="ff7fc3ed82694da8b18d9f6851a0579e">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>3</VarAssignmentExp>
+                    <VarName>V_I_DIOnumber</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Set" ConditionAlias="Set_stateDO312False" ConditionUuid="eb50841d52064217bf9d0be86cd5f7e4">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>false</VarAssignmentExp>
+                    <VarName>V_B_mk312DOstate</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Line_Comment" ConditionAlias="toolLockCommand" ConditionUuid="e407633124a84d82b48afdbbf347ec45">
+                <Attribute>
+                    <CommentContent>1</CommentContent>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Script" ConditionAlias="set_mk312DO" ConditionUuid="f8da9aea4f52494eab52411993849572">
+                <Attribute>
+                    <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                    <MD5>8d51f8919ddbf1208b94ac32d644a3cd</MD5>
+                    <ScriptFileName>set_mk312DO</ScriptFileName>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Procedure" ConditionAlias="checkToolMissing" ConditionUuid="44108125f61f493cb76e4a85b26c7617">
+            <Attribute>
+                <MD5>5af2645646dddd818b5ad6ea51c86036</MD5>
+                <ProcedureName>checkToolMissing</ProcedureName>
+            </Attribute>
+            <Condition ConditionType="Set" ConditionAlias="Set_drillTool" ConditionUuid="44944233b57f49d39b384968452460ed">
+                <Attribute>
+                    <SetConditionMode>ToolParam</SetConditionMode>
+                    <ToolName>drill1</ToolName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Move" ConditionAlias="Move_preControlVH" ConditionUuid="b212eb3b0f6e4b0fa13aa960215bf091">
+                <Attribute>
+                    <MoveConditionMode>MoveJoint</MoveConditionMode>
+                    <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                    <ArrivalAheadType>None</ArrivalAheadType>
+                    <EnableArrivalAhead>false</EnableArrivalAhead>
+                    <EnableOffset>true</EnableOffset>
+                    <JointAcc>50,50,50,50,50,50</JointAcc>
+                    <JointSpeed>80,80,80,80,80,80</JointSpeed>
+                    <OffsetCoordName>Base</OffsetCoordName>
+                    <OffsetCoordType>BaseCoord</OffsetCoordType>
+                    <OffsetRX>0</OffsetRX>
+                    <OffsetRY>0</OffsetRY>
+                    <OffsetRZ>0</OffsetRZ>
+                    <OffsetX>-0.05</OffsetX>
+                    <OffsetY>0</OffsetY>
+                    <OffsetZ>0.16</OffsetZ>
+                    <angleJerkRatio>0.25</angleJerkRatio>
+                    <isInGluing>false</isInGluing>
+                    <isInMoveGroup>false</isInMoveGroup>
+                    <jerkRatio>0.25</jerkRatio>
+                </Attribute>
+                <Condition ConditionType="Waypoint" ConditionAlias="Waypoint_V_P_controlTool" ConditionUuid="62b85af6c68f43e3912488e8fcad1312">
+                    <Attribute>
+                        <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                        <VarPoint>V_P_controlTool</VarPoint>
+                    </Attribute>
+                </Condition>
+            </Condition>
+            <Condition ConditionType="Loop" ConditionAlias="Loop" ConditionUuid="8a9e29a72367478589ddccfe47178663">
+                <Attribute>
+                    <LoopConditionMode>Always</LoopConditionMode>
+                </Attribute>
+                <Condition ConditionType="Move" ConditionAlias="Move_preControlH" ConditionUuid="2cd518c131e94965a3133d16828979c5">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>30</EndLinearAcc>
+                        <EndLinearSpeed>50</EndLinearSpeed>
+                        <OffsetCoordName>Base</OffsetCoordName>
+                        <OffsetCoordType>BaseCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>-0.05</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>0</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="Waypoint_V_P_controlTool" ConditionUuid="89f4894f145243a5b2bc286291a93574">
+                        <Attribute>
+                            <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                            <VarPoint>V_P_controlTool</VarPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_controlTool" ConditionUuid="f2f57ac4938044d6ae140ca27e9234a3">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>false</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>15</EndLinearAcc>
+                        <EndLinearSpeed>25</EndLinearSpeed>
+                        <OffsetCoordName>Base</OffsetCoordName>
+                        <OffsetCoordType>BaseCoord</OffsetCoordType>
+                        <OffsetRX></OffsetRX>
+                        <OffsetRY></OffsetRY>
+                        <OffsetRZ></OffsetRZ>
+                        <OffsetX></OffsetX>
+                        <OffsetY></OffsetY>
+                        <OffsetZ></OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="Waypoint_V_P_controlTool" ConditionUuid="6ed6a4544ab24718bb100e72c6506c3b">
+                        <Attribute>
+                            <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                            <VarPoint>V_P_controlTool</VarPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Wait" ConditionAlias="Wait_03s" ConditionUuid="389c688d017d4dc9b7be5810f9e03e02">
+                    <Attribute>
+                        <WaitConditionMode>Time</WaitConditionMode>
+                        <WaitTime>0.3</WaitTime>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Set" ConditionAlias="Set_bit2ToolSensor" ConditionUuid="84d96d1bd70e4f4f974a9e094f20745a">
+                    <Attribute>
+                        <SetConditionMode>Variable</SetConditionMode>
+                        <VarAssignmentExp>2</VarAssignmentExp>
+                        <VarName>V_I_DIOnumber</VarName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="check_mk311DI" ConditionUuid="48700a2bbe3748f48b3c1e37254a22bc">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>524d9f6fddd5a142b7c70439285eb24e</MD5>
+                        <ScriptFileName>check_mk311DI</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="If" ConditionAlias="If_netInstrumenta" ConditionUuid="8c067be0dbd1496dba41772e58a2ab37">
+                    <Attribute>
+                        <Exp>V_B_mk311DIstate == false</Exp>
+                    </Attribute>
+                    <Condition ConditionType="Procedure" ConditionAlias="beep300" ConditionUuid="262ff3dbdbd44d18afda5daf3232dc4c">
+                        <Attribute>
+                            <MD5>6aa19509fb39642f72c5c35fcfd61b4b</MD5>
+                            <ProcedureName>beep300</ProcedureName>
+                        </Attribute>
+                        <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber7" ConditionUuid="19a52deb33804d5ca07cf003934bca7e">
+                            <Attribute>
+                                <SetConditionMode>Variable</SetConditionMode>
+                                <VarAssignmentExp>7</VarAssignmentExp>
+                                <VarName>V_I_DIOnumber</VarName>
+                            </Attribute>
+                        </Condition>
+                        <Condition ConditionType="Set" ConditionAlias="Set_stateTrue" ConditionUuid="705c637db7b448f8a055f1cf685d2865">
+                            <Attribute>
+                                <SetConditionMode>Variable</SetConditionMode>
+                                <VarAssignmentExp>true</VarAssignmentExp>
+                                <VarName>V_B_mk311DOstate</VarName>
+                            </Attribute>
+                        </Condition>
+                        <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="6a08e9902f9548fdbea715717201869f">
+                            <Attribute>
+                                <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                                <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                                <ScriptFileName>set_mk311DO</ScriptFileName>
+                            </Attribute>
+                        </Condition>
+                        <Condition ConditionType="Wait" ConditionAlias="Wait_03s" ConditionUuid="e21c2dd4b1224b3e832ff74617683220">
+                            <Attribute>
+                                <WaitConditionMode>Time</WaitConditionMode>
+                                <WaitTime>0.3</WaitTime>
+                            </Attribute>
+                        </Condition>
+                        <Condition ConditionType="Set" ConditionAlias="Set_stateFalse" ConditionUuid="9f4ef4cb52d2454da2d2713aebccea89">
+                            <Attribute>
+                                <SetConditionMode>Variable</SetConditionMode>
+                                <VarAssignmentExp>false</VarAssignmentExp>
+                                <VarName>V_B_mk311DOstate</VarName>
+                            </Attribute>
+                        </Condition>
+                        <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="eedf9c5545484d468e73d1ffaccddaf1">
+                            <Attribute>
+                                <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                                <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                                <ScriptFileName>set_mk311DO</ScriptFileName>
+                            </Attribute>
+                        </Condition>
+                    </Condition>
+                    <Condition ConditionType="Move" ConditionAlias="Move_preControlH" ConditionUuid="492b263601694133b01bd4b3441009b5">
+                        <Attribute>
+                            <MoveConditionMode>MoveLine</MoveConditionMode>
+                            <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                            <ArrivalAheadType>None</ArrivalAheadType>
+                            <EnableArrivalAhead>false</EnableArrivalAhead>
+                            <EnableOffset>true</EnableOffset>
+                            <EndAngleAcc>50</EndAngleAcc>
+                            <EndAngleSpeed>50</EndAngleSpeed>
+                            <EndLinearAcc>30</EndLinearAcc>
+                            <EndLinearSpeed>50</EndLinearSpeed>
+                            <OffsetCoordName>Base</OffsetCoordName>
+                            <OffsetCoordType>BaseCoord</OffsetCoordType>
+                            <OffsetRX>0</OffsetRX>
+                            <OffsetRY>0</OffsetRY>
+                            <OffsetRZ>0</OffsetRZ>
+                            <OffsetX>-0.05</OffsetX>
+                            <OffsetY>0</OffsetY>
+                            <OffsetZ>0</OffsetZ>
+                            <angleJerkRatio>0.25</angleJerkRatio>
+                            <isInGluing>false</isInGluing>
+                            <isInMoveGroup>false</isInMoveGroup>
+                            <jerkRatio>0.25</jerkRatio>
+                        </Attribute>
+                        <Condition ConditionType="Waypoint" ConditionAlias="Waypoint_V_P_controlTool" ConditionUuid="649a1e780366437fa0262690a00f7c84">
+                            <Attribute>
+                                <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                                <VarPoint>V_P_controlTool</VarPoint>
+                            </Attribute>
+                        </Condition>
+                    </Condition>
+                    <Condition ConditionType="Move" ConditionAlias="Move_preControlVH" ConditionUuid="148ace4da0d94b28b8f5b6ccdfb41cf4">
+                        <Attribute>
+                            <MoveConditionMode>MoveLine</MoveConditionMode>
+                            <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                            <ArrivalAheadType>None</ArrivalAheadType>
+                            <EnableArrivalAhead>false</EnableArrivalAhead>
+                            <EnableOffset>true</EnableOffset>
+                            <EndAngleAcc>50</EndAngleAcc>
+                            <EndAngleSpeed>50</EndAngleSpeed>
+                            <EndLinearAcc>30</EndLinearAcc>
+                            <EndLinearSpeed>50</EndLinearSpeed>
+                            <OffsetCoordName>Base</OffsetCoordName>
+                            <OffsetCoordType>BaseCoord</OffsetCoordType>
+                            <OffsetRX>0</OffsetRX>
+                            <OffsetRY>0</OffsetRY>
+                            <OffsetRZ>0</OffsetRZ>
+                            <OffsetX>-0.05</OffsetX>
+                            <OffsetY>0</OffsetY>
+                            <OffsetZ>0.16</OffsetZ>
+                            <angleJerkRatio>0.25</angleJerkRatio>
+                            <isInGluing>false</isInGluing>
+                            <isInMoveGroup>false</isInMoveGroup>
+                            <jerkRatio>0.25</jerkRatio>
+                        </Attribute>
+                        <Condition ConditionType="Waypoint" ConditionAlias="Waypoint_V_P_controlTool" ConditionUuid="039c0ec9b164484caac4382fab8c47d4">
+                            <Attribute>
+                                <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                                <VarPoint>V_P_controlTool</VarPoint>
+                            </Attribute>
+                        </Condition>
+                    </Condition>
+                    <Condition ConditionType="Break" ConditionAlias="Break" ConditionUuid="c5726b401c544d24bbd8f6b82137e405">
+                        <Attribute/>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Procedure" ConditionAlias="beep1500" ConditionUuid="f5cacdb9c7c84e34aa41dce538b13ea6">
+                    <Attribute>
+                        <MD5>cafb3c67e975a917ba8a3bff8a3f2f11</MD5>
+                        <ProcedureName>beep1500</ProcedureName>
+                    </Attribute>
+                    <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber7" ConditionUuid="1b40e90c0de64aaf88381e243f435089">
+                        <Attribute>
+                            <SetConditionMode>Variable</SetConditionMode>
+                            <VarAssignmentExp>7</VarAssignmentExp>
+                            <VarName>V_I_DIOnumber</VarName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Set" ConditionAlias="Set_stateTrue" ConditionUuid="0e8a3db9418e480d8b75745f87055a5c">
+                        <Attribute>
+                            <SetConditionMode>Variable</SetConditionMode>
+                            <VarAssignmentExp>true</VarAssignmentExp>
+                            <VarName>V_B_mk311DOstate</VarName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="6e4d162d23764c5d9b542664bfbb102f">
+                        <Attribute>
+                            <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                            <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                            <ScriptFileName>set_mk311DO</ScriptFileName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Wait" ConditionAlias="Wait_1i5s" ConditionUuid="8cb626f5b801497783ba66be3ca45880">
+                        <Attribute>
+                            <WaitConditionMode>Time</WaitConditionMode>
+                            <WaitTime>1.5</WaitTime>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Set" ConditionAlias="Set_stateFalse" ConditionUuid="3ff0ece8f5354c6486485f5f91697f3d">
+                        <Attribute>
+                            <SetConditionMode>Variable</SetConditionMode>
+                            <VarAssignmentExp>false</VarAssignmentExp>
+                            <VarName>V_B_mk311DOstate</VarName>
+                        </Attribute>
+                    </Condition>
+                    <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="3f28af6b0b9747719324f20f02f1e2aa">
+                        <Attribute>
+                            <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                            <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                            <ScriptFileName>set_mk311DO</ScriptFileName>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_preControlH" ConditionUuid="4d54ea17fb4746bb934770e21d9b4f38">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>50</EndLinearAcc>
+                        <EndLinearSpeed>80</EndLinearSpeed>
+                        <OffsetCoordName>Base</OffsetCoordName>
+                        <OffsetCoordType>BaseCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>-0.05</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>0</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="Waypoint_V_P_controlTool" ConditionUuid="cb3460c87f734d7ca4ff7505bd50888d">
+                        <Attribute>
+                            <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                            <VarPoint>V_P_controlTool</VarPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Move" ConditionAlias="Move_preControlVH" ConditionUuid="d6dbc902f1134d8fb9cbeb5b5490a0ae">
+                    <Attribute>
+                        <MoveConditionMode>MoveLine</MoveConditionMode>
+                        <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                        <ArrivalAheadType>None</ArrivalAheadType>
+                        <EnableArrivalAhead>false</EnableArrivalAhead>
+                        <EnableOffset>true</EnableOffset>
+                        <EndAngleAcc>50</EndAngleAcc>
+                        <EndAngleSpeed>50</EndAngleSpeed>
+                        <EndLinearAcc>50</EndLinearAcc>
+                        <EndLinearSpeed>80</EndLinearSpeed>
+                        <OffsetCoordName>Base</OffsetCoordName>
+                        <OffsetCoordType>BaseCoord</OffsetCoordType>
+                        <OffsetRX>0</OffsetRX>
+                        <OffsetRY>0</OffsetRY>
+                        <OffsetRZ>0</OffsetRZ>
+                        <OffsetX>-0.05</OffsetX>
+                        <OffsetY>0</OffsetY>
+                        <OffsetZ>0.16</OffsetZ>
+                        <angleJerkRatio>0.25</angleJerkRatio>
+                        <isInGluing>false</isInGluing>
+                        <isInMoveGroup>false</isInMoveGroup>
+                        <jerkRatio>0.25</jerkRatio>
+                    </Attribute>
+                    <Condition ConditionType="Waypoint" ConditionAlias="Waypoint_V_P_controlTool" ConditionUuid="e9a4bd15c1d34b48b654d463dcae9fe5">
+                        <Attribute>
+                            <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                            <VarPoint>V_P_controlTool</VarPoint>
+                        </Attribute>
+                    </Condition>
+                </Condition>
+                <Condition ConditionType="Message" ConditionAlias="Message" ConditionUuid="8eef5a95ef9445d197b8aecde183df3c">
+                    <Attribute>
+                        <EnableStopProgramRunningWhenMessagePopsUp>false</EnableStopProgramRunningWhenMessagePopsUp>
+                        <MessageContent>убрать инструмент из шпинделя</MessageContent>
+                        <MessageType>Information</MessageType>
+                    </Attribute>
+                </Condition>
+            </Condition>
+        </Condition>
+    </Condition>
+</ProcedureProgram>

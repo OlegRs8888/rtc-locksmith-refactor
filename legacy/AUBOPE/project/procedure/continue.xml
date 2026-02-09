@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProcedureProgram>
+    <Condition ConditionType="Procedure_Program" ConditionAlias="Procedure_Program" ConditionUuid="8f3bc83a9d3b42ba91c8276ed5bfca21">
+        <Attribute/>
+        <Condition ConditionType="Script" ConditionAlias="continueScript" ConditionUuid="4311e4f9d5c549a3ab5a727bafaad675">
+            <Attribute>
+                <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                <MD5>60962c9e63f9be16195cedfe26741342</MD5>
+                <ScriptFileName>continueScript</ScriptFileName>
+            </Attribute>
+        </Condition>
+    </Condition>
+</ProcedureProgram>

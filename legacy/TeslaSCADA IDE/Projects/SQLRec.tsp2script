@@ -1,0 +1,189 @@
+<script name="but1Script" color="0xd3d3d3ff" type="3" windowheight="600" windowwidth="800" groupname="" subgroupname="" language="1" everycycle="false" extype="3" runonuithread="true">
+   <objects/>
+   <links/>
+   <sttext>createdbsqlliteconnection(&quot;recipesSQL&quot;);
+string nm[10]=[];
+bool bb;
+nm[1]=&quot;dfdf&quot;;
+/*string param1 = readvaluefromdb(&quot;recipesSQL&quot;,&quot;tablica1&quot;,&quot;_id&quot;,&quot;_id=1&quot;);
+nm[0] = readvaluefromdb(&quot;recipesSQL&quot;,&quot;tablica1&quot;,&quot;_id&quot;,&quot;_id&gt;=3&quot;);
+Tags.printTag_arrstr_2 = nm;
+//Tags.printTag_str_1 = param1;
+/*runsqlquery(“recipesSQL”, “select * from tablica1”, &quot;resultname&quot;);*/
+
+//runsqlquery(&quot;recipesSQL&quot;,&quot;select &apos;name&apos;,&apos;p1&apos; from tablica1&quot;,&quot;resname&quot;);
+
+runsqlquery(&quot;recipesSQL&quot;,&quot;SELECT COUNT(*)FROM tablica1&quot;,&quot;resname&quot;); // считать счётчик строк
+int num = rsgetcolnum(&quot;resname&quot;); // получить количество столбцов
+int num2 = rsreadintnum(&quot;resname&quot;,1); // значение счётчика в переменную
+
+runsqlquery(&quot;recipesSQL&quot;,&quot;SELECT * FROM tablica1 WHERE name = &apos;line2&apos;&quot;,&quot;resname&quot;); // считать счётчик
+Tags.printTag_bool_1 = rsreadbool(&quot;resname&quot;, &quot;p1&quot;);
+Tags.printTag_int_5 = rsreadint(&quot;resname&quot;,&quot;p2&quot;);
+Tags.printTag_int_1 = num;
+Tags.printTag_int_2 = num2;</sttext>
+   <opcodes>
+      <opcode type="LOAD_CONST" datatype="7">
+         <value>recipesSQL</value>
+      </opcode>
+      <opcode type="LOAD_FAST" datatype="-1">
+         <value>createdbsqlliteconnection</value>
+      </opcode>
+      <opcode type="CALL" datatype="-1">
+         <value>1</value>
+      </opcode>
+      <opcode type="POP_TOP" datatype="-1"/>
+      <opcode type="LOAD_CONST" datatype="7">
+         <value>0</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="7">
+         <value>0</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="7">
+         <value>0</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="7">
+         <value>0</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="7">
+         <value>0</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="7">
+         <value>0</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="7">
+         <value>0</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="7">
+         <value>0</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="7">
+         <value>0</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="7">
+         <value>0</value>
+      </opcode>
+      <opcode type="INIT_ARRAY" datatype="-1">
+         <value>10</value>
+      </opcode>
+      <opcode type="STORE" datatype="8">
+         <value>nm</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="0">
+         <value>0</value>
+      </opcode>
+      <opcode type="STORE" datatype="0">
+         <value>bb</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="7">
+         <value>dfdf</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="4">
+         <value>1</value>
+      </opcode>
+      <opcode type="STORE_MEMBER" datatype="-1">
+         <value>nm</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="7">
+         <value>resname</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="7">
+         <value>SELECT COUNT(*)FROM tablica1</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="7">
+         <value>recipesSQL</value>
+      </opcode>
+      <opcode type="LOAD_FAST" datatype="-1">
+         <value>runsqlquery</value>
+      </opcode>
+      <opcode type="CALL" datatype="-1">
+         <value>3</value>
+      </opcode>
+      <opcode type="POP_TOP" datatype="-1"/>
+      <opcode type="LOAD_CONST" datatype="7">
+         <value>resname</value>
+      </opcode>
+      <opcode type="LOAD_FAST" datatype="-1">
+         <value>rsgetcolnum</value>
+      </opcode>
+      <opcode type="CALL" datatype="-1">
+         <value>1</value>
+      </opcode>
+      <opcode type="STORE" datatype="3">
+         <value>num</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="4">
+         <value>1</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="7">
+         <value>resname</value>
+      </opcode>
+      <opcode type="LOAD_FAST" datatype="-1">
+         <value>rsreadintnum</value>
+      </opcode>
+      <opcode type="CALL" datatype="-1">
+         <value>2</value>
+      </opcode>
+      <opcode type="STORE" datatype="3">
+         <value>num2</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="7">
+         <value>resname</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="7">
+         <value>SELECT * FROM tablica1 WHERE name = &apos;line2&apos;</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="7">
+         <value>recipesSQL</value>
+      </opcode>
+      <opcode type="LOAD_FAST" datatype="-1">
+         <value>runsqlquery</value>
+      </opcode>
+      <opcode type="CALL" datatype="-1">
+         <value>3</value>
+      </opcode>
+      <opcode type="POP_TOP" datatype="-1"/>
+      <opcode type="LOAD_CONST" datatype="7">
+         <value>p1</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="7">
+         <value>resname</value>
+      </opcode>
+      <opcode type="LOAD_FAST" datatype="-1">
+         <value>rsreadbool</value>
+      </opcode>
+      <opcode type="CALL" datatype="-1">
+         <value>2</value>
+      </opcode>
+      <opcode type="STORE_TAG" datatype="-1">
+         <value>printTag_bool_1</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="7">
+         <value>p2</value>
+      </opcode>
+      <opcode type="LOAD_CONST" datatype="7">
+         <value>resname</value>
+      </opcode>
+      <opcode type="LOAD_FAST" datatype="-1">
+         <value>rsreadint</value>
+      </opcode>
+      <opcode type="CALL" datatype="-1">
+         <value>2</value>
+      </opcode>
+      <opcode type="STORE_TAG" datatype="-1">
+         <value>printTag_int_5</value>
+      </opcode>
+      <opcode type="LOAD_FAST" datatype="-1">
+         <value>num</value>
+      </opcode>
+      <opcode type="STORE_TAG" datatype="-1">
+         <value>printTag_int_1</value>
+      </opcode>
+      <opcode type="LOAD_FAST" datatype="-1">
+         <value>num2</value>
+      </opcode>
+      <opcode type="STORE_TAG" datatype="-1">
+         <value>printTag_int_2</value>
+      </opcode>
+   </opcodes>
+</script>

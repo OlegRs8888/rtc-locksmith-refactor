@@ -1,0 +1,404 @@
+<project projectname="sqlTest" projectauthor="Salynin Oleg" title="TeslaSCADA2 Runtime" screenwidth="1200" screenheight="1900" screendiffers="false" runscreenwidth="800" runscreenheight="600" updateperiod="300" eventsdbname="events" historydbname="history" usetableforeverytag="false" storagedbperiod="2" archivesince="9" notpriority="100" defaultfont="0" certificatename="TeslaSCADA2" certperiod="3650" showserverevents="true" usetelegrambot="false" botnotpriority="-1" parentpath="C:\TeslaSCADA_IDE\app" bottokenuse="false" bottokenname="" ensavetags="false" maxattempts="3" savetagsdbname="savetagsdb" autologout="false" logouttime="15" usemultimonitors="false">
+   <windows>
+      <window name="Экран0" color="0xd3d3d3ff" type="0" windowheight="1900" windowwidth="1200" usepassword="false" password="" groupname="" subgroupname="" posx="-1000" posy="-1000" accesslevel="0">
+         <objects>
+            <objectView class="tesla.scada2.model.objects.OvalLightButtonView" name="Овальная кнопка с подсветкой" posx="641.0" posy="781.0" width="131.0" height="126.0" angle="0" lock="false" text="ON" textcolor="0xffffffff" fillcolor="0x0000ffff" type3d="0" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false">
+               <property key="indicator">
+                  <property class="tesla.scada2.model.properties.IndicatorProperty" tagname="buttonsTag" value="1" type="0"/>
+               </property>
+               <property key="buttoncontrol">
+                  <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="buttonsTag" functiontype="3" value="0" title="Введите значение" screenname="" command=""/>
+               </property>
+               <scripts>
+                  <string>but1Script</string>
+               </scripts>
+            </objectView>
+            <objectView class="tesla.scada2.model.objects.TextView" name="Текст/Поле ввода" posx="19.0" posy="17.0" width="116.0" height="32.0" angle="0" lock="false" text="bTag1" fonttype="0" fontsize="20" textplacement="1" textcolor="0x0000ffff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+               <property key="textinput">
+                  <property class="tesla.scada2.model.properties.TextInputProperty" tagname="bTag1" value="0" type="0" truetext="" falsetext="" textbefore="bit " textafter="" decimalpos="0" beforedecimalpos="0">
+                     <textrange/>
+                  </property>
+               </property>
+               <scripts/>
+            </objectView>
+            <objectView class="tesla.scada2.model.objects.TextView" name="Текст/Поле ввода" posx="20.0" posy="40.0" width="116.0" height="32.0" angle="0" lock="false" text="intTag1" fonttype="0" fontsize="20" textplacement="1" textcolor="0x0000ffff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+               <property key="output">
+                  <property class="tesla.scada2.model.properties.OutputProperty" tagname="intTag1" title="Введите значение"/>
+               </property>
+               <property key="textinput">
+                  <property class="tesla.scada2.model.properties.TextInputProperty" tagname="intTag1" value="0" type="0" truetext="" falsetext="" textbefore="int " textafter="" decimalpos="0" beforedecimalpos="0">
+                     <textrange/>
+                  </property>
+               </property>
+               <scripts/>
+            </objectView>
+            <objectView class="tesla.scada2.model.objects.TextView" name="Текст/Поле ввода" posx="20.0" posy="60.0" width="116.0" height="32.0" angle="0" lock="false" text="floatTag1" fonttype="0" fontsize="20" textplacement="1" textcolor="0x0000ffff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+               <property key="textinput">
+                  <property class="tesla.scada2.model.properties.TextInputProperty" tagname="flTag1" value="0" type="0" truetext="" falsetext="" textbefore="float " textafter="" decimalpos="3" beforedecimalpos="0">
+                     <textrange/>
+                  </property>
+               </property>
+               <scripts/>
+            </objectView>
+            <objectView class="tesla.scada2.model.objects.RecipeTableView" name="tableRecept1" posx="46.0" posy="167.0" width="976.0" height="290.0" angle="0" lock="false" recipename="Recept1_tabl1" title="tablica1" fontsize="12" namecolumnwidth="90" othercolumnwidth="80" usetitle="true">
+               <scripts/>
+            </objectView>
+            <objectView class="tesla.scada2.model.objects.RecipeSelectorView" name="Выбор рецепта" posx="279.0" posy="801.0" width="214.0" height="83.0" angle="0" lock="false" recipename="Recept1_tabl1" textcolor="0xffffffff" fillcolor="0x808080ff" type3d="0">
+               <scripts/>
+            </objectView>
+            <objectView class="tesla.scada2.model.objects.RecipeTableView" name="Таблица рецептов2" posx="151.0" posy="14.0" width="789.0" height="159.0" angle="0" lock="false" recipename="Recept2_tabl2" title="tablica2" fontsize="12" namecolumnwidth="80" othercolumnwidth="70" usetitle="true">
+               <scripts/>
+            </objectView>
+            <objectView class="tesla.scada2.model.objects.TextView" name="Текст/Поле ввода" posx="20.0" posy="80.0" width="116.0" height="32.0" angle="0" lock="false" text="arrTag1" fonttype="0" fontsize="20" textplacement="1" textcolor="0x0000ffff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+               <property key="textinput">
+                  <property class="tesla.scada2.model.properties.TextInputProperty" tagname="arrTag1" value="0" type="0" truetext="" falsetext="" textbefore="arr " textafter="" decimalpos="0" beforedecimalpos="0">
+                     <textrange/>
+                  </property>
+               </property>
+               <scripts/>
+            </objectView>
+            <objectView class="tesla.scada2.model.objects.TextView" name="Текст/Поле ввода" posx="1023.0" posy="43.0" width="116.0" height="32.0" angle="0" lock="false" text="cntTag1" fonttype="0" fontsize="20" textplacement="1" textcolor="0x0000ffff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+               <property key="output">
+                  <property class="tesla.scada2.model.properties.OutputProperty" tagname="intTag1" title="Введите значение"/>
+               </property>
+               <property key="textinput">
+                  <property class="tesla.scada2.model.properties.TextInputProperty" tagname="incTag1" value="0" type="0" truetext="" falsetext="" textbefore="cnt " textafter="" decimalpos="0" beforedecimalpos="0">
+                     <textrange/>
+                  </property>
+               </property>
+               <scripts/>
+            </objectView>
+            <objectView class="tesla.scada2.model.objects.MenuBoxView" name="menuList" posx="29.0" posy="800.0" width="163.0" height="83.0" angle="0" lock="false" color="0x008000ff" fillcolor="0xd3d3d3ff" type3d="0" animation="true" expandedtype="0">
+               <property key="selector">
+                  <property class="tesla.scada2.model.properties.SelectorProperty">
+                     <textrange>
+                        <textValueRange value="0.0" text="Zero"/>
+                        <textValueRange value="1.0" text="One"/>
+                        <textValueRange value="2.0" text="Two"/>
+                     </textrange>
+                  </property>
+               </property>
+               <scripts/>
+            </objectView>
+            <objectView class="tesla.scada2.model.objects.ParameterTableView" name="Таблица параметров" posx="43.0" posy="477.0" width="1000.0" height="256.0" angle="0" lock="false" recipename="" parametercolumn="Parameter" valuecolumn="Value" dbcolumn="DB value" usedb="false" fontsize="12" namecolumnwidth="60" othercolumnwidth="40" rownumber="0">
+               <scripts/>
+               <parameters/>
+            </objectView>
+         </objects>
+         <scriptnames/>
+      </window>
+   </windows>
+   <scripts>
+      <script name="but1Script" color="0xd3d3d3ff" type="3" windowheight="600" windowwidth="800" groupname="" subgroupname="" language="1" everycycle="false" extype="3" runonuithread="true">
+         <objects/>
+         <links/>
+         <sttext>createdbsqlliteconnection(&quot;recipesSQL&quot;);
+string nm[10]=[];
+bool bb;
+nm[1]=&quot;dfdf&quot;;
+/*string param1 = readvaluefromdb(&quot;recipesSQL&quot;,&quot;tablica1&quot;,&quot;_id&quot;,&quot;_id=1&quot;);
+nm[0] = readvaluefromdb(&quot;recipesSQL&quot;,&quot;tablica1&quot;,&quot;_id&quot;,&quot;_id&gt;=3&quot;);
+Tags.printTag_arrstr_2 = nm;
+//Tags.printTag_str_1 = param1;
+/*runsqlquery(“recipesSQL”, “select * from tablica1”, &quot;resultname&quot;);*/
+
+//runsqlquery(&quot;recipesSQL&quot;,&quot;select &apos;name&apos;,&apos;p1&apos; from tablica1&quot;,&quot;resname&quot;);
+
+runsqlquery(&quot;recipesSQL&quot;,&quot;SELECT COUNT(*)FROM tablica1&quot;,&quot;resname&quot;); // считать счётчик строк
+int num = rsgetcolnum(&quot;resname&quot;); // получить количество столбцов
+int num2 = rsreadintnum(&quot;resname&quot;,1); // значение счётчика в переменную
+
+runsqlquery(&quot;recipesSQL&quot;,&quot;SELECT * FROM tablica1 WHERE name = &apos;line2&apos;&quot;,&quot;resname&quot;); // считать счётчик
+Tags.printTag_bool_1 = rsreadbool(&quot;resname&quot;, &quot;p1&quot;);
+Tags.printTag_int_5 = rsreadint(&quot;resname&quot;,&quot;p2&quot;);
+Tags.printTag_int_1 = num;
+Tags.printTag_int_2 = num2;</sttext>
+         <opcodes>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>recipesSQL</value>
+            </opcode>
+            <opcode type="LOAD_FAST" datatype="-1">
+               <value>createdbsqlliteconnection</value>
+            </opcode>
+            <opcode type="CALL" datatype="-1">
+               <value>1</value>
+            </opcode>
+            <opcode type="POP_TOP" datatype="-1"/>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>0</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>0</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>0</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>0</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>0</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>0</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>0</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>0</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>0</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>0</value>
+            </opcode>
+            <opcode type="INIT_ARRAY" datatype="-1">
+               <value>10</value>
+            </opcode>
+            <opcode type="STORE" datatype="8">
+               <value>nm</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="0">
+               <value>0</value>
+            </opcode>
+            <opcode type="STORE" datatype="0">
+               <value>bb</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>dfdf</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="4">
+               <value>1</value>
+            </opcode>
+            <opcode type="STORE_MEMBER" datatype="-1">
+               <value>nm</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>resname</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>SELECT COUNT(*)FROM tablica1</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>recipesSQL</value>
+            </opcode>
+            <opcode type="LOAD_FAST" datatype="-1">
+               <value>runsqlquery</value>
+            </opcode>
+            <opcode type="CALL" datatype="-1">
+               <value>3</value>
+            </opcode>
+            <opcode type="POP_TOP" datatype="-1"/>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>resname</value>
+            </opcode>
+            <opcode type="LOAD_FAST" datatype="-1">
+               <value>rsgetcolnum</value>
+            </opcode>
+            <opcode type="CALL" datatype="-1">
+               <value>1</value>
+            </opcode>
+            <opcode type="STORE" datatype="3">
+               <value>num</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="4">
+               <value>1</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>resname</value>
+            </opcode>
+            <opcode type="LOAD_FAST" datatype="-1">
+               <value>rsreadintnum</value>
+            </opcode>
+            <opcode type="CALL" datatype="-1">
+               <value>2</value>
+            </opcode>
+            <opcode type="STORE" datatype="3">
+               <value>num2</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>resname</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>SELECT * FROM tablica1 WHERE name = &apos;line2&apos;</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>recipesSQL</value>
+            </opcode>
+            <opcode type="LOAD_FAST" datatype="-1">
+               <value>runsqlquery</value>
+            </opcode>
+            <opcode type="CALL" datatype="-1">
+               <value>3</value>
+            </opcode>
+            <opcode type="POP_TOP" datatype="-1"/>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>p1</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>resname</value>
+            </opcode>
+            <opcode type="LOAD_FAST" datatype="-1">
+               <value>rsreadbool</value>
+            </opcode>
+            <opcode type="CALL" datatype="-1">
+               <value>2</value>
+            </opcode>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>printTag_bool_1</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>p2</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>resname</value>
+            </opcode>
+            <opcode type="LOAD_FAST" datatype="-1">
+               <value>rsreadint</value>
+            </opcode>
+            <opcode type="CALL" datatype="-1">
+               <value>2</value>
+            </opcode>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>printTag_int_5</value>
+            </opcode>
+            <opcode type="LOAD_FAST" datatype="-1">
+               <value>num</value>
+            </opcode>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>printTag_int_1</value>
+            </opcode>
+            <opcode type="LOAD_FAST" datatype="-1">
+               <value>num2</value>
+            </opcode>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>printTag_int_2</value>
+            </opcode>
+         </opcodes>
+      </script>
+      <script name="Скрипт1" color="0xd3d3d3ff" type="0" windowheight="600" windowwidth="800" groupname="" subgroupname="" language="1" everycycle="false" extype="3" runonuithread="true">
+         <objects/>
+         <links/>
+         <sttext>Tags.incTag1 = Tags.incTag1 + 1;</sttext>
+         <opcodes>
+            <opcode type="LOAD_CONST" datatype="4">
+               <value>1</value>
+            </opcode>
+            <opcode type="LOAD_TAG" datatype="-1">
+               <value>incTag1</value>
+            </opcode>
+            <opcode type="BINARY_ADD" datatype="-1"/>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>incTag1</value>
+            </opcode>
+         </opcodes>
+      </script>
+      <script name="scrStart" color="0xd3d3d3ff" type="0" windowheight="600" windowwidth="800" groupname="" subgroupname="" language="1" everycycle="false" extype="1" runonuithread="true">
+         <objects/>
+         <links/>
+         <sttext>Tags.incTag1 = 0;</sttext>
+         <opcodes>
+            <opcode type="LOAD_CONST" datatype="4">
+               <value>0</value>
+            </opcode>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>incTag1</value>
+            </opcode>
+         </opcodes>
+      </script>
+   </scripts>
+   <servers/>
+   <tags>
+      <tag name="SystemCurrentDateTime" datatype="7" accessmode="1" initialpv="" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Current date and time" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentDateTimeDay" datatype="3" accessmode="1" initialpv="01" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Current day" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentDateTimeHour" datatype="3" accessmode="1" initialpv="0" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Current hour" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentDateTimeMinute" datatype="3" accessmode="1" initialpv="0" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Current minute" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentDateTimeMonth" datatype="3" accessmode="1" initialpv="01" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Current month" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentDateTimeNewDay" datatype="0" accessmode="1" initialpv="false" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="New day occur" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentDateTimeNewHour" datatype="0" accessmode="1" initialpv="false" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="New hour occur" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentDateTimeNewMinute" datatype="0" accessmode="1" initialpv="false" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="New minute occur" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentDateTimeSecond" datatype="3" accessmode="1" initialpv="0" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Current second" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentDateTimeYear" datatype="3" accessmode="1" initialpv="1970" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Current year" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentScreen" datatype="7" accessmode="1" initialpv="" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Current screen name" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentUserAccessLevel" datatype="3" accessmode="1" initialpv="0" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Current user access level" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentUserAccessLevelBelow500" datatype="0" accessmode="1" initialpv="true" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Current user access level below 500" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentUserAccessLevelGreater500" datatype="0" accessmode="1" initialpv="true" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Current user access level greater 500" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemCurrentUserName" datatype="7" accessmode="1" initialpv="" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Current user name" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="SystemPreviousScreen" datatype="7" accessmode="1" initialpv="" numberofelements="10" elementtype="0" pvinputserver="" outputdiffers="false" pvoutputserver="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="System" subgroupname="" description="Previous screen name" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="true"/>
+      <tag name="arrTag1" datatype="8" accessmode="1" initialpv="[]" numberofelements="10" elementtype="0" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="Тэги рецептов" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="bTag1" datatype="0" accessmode="1" initialpv="false" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="Тэги рецептов" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="buttonsTag" datatype="0" accessmode="1" initialpv="false" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="тэги интерфейса" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="flTag1" datatype="5" accessmode="1" initialpv="0.0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="Тэги рецептов" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="incTag1" datatype="3" accessmode="1" initialpv="0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="intTag1" datatype="3" accessmode="1" initialpv="0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="Тэги рецептов" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="intTag2" datatype="3" accessmode="1" initialpv="0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="Тэги рецептов" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="lineTag" datatype="3" accessmode="1" initialpv="0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="Тэги рецептов" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="printTag_arrstr_2" datatype="8" accessmode="1" initialpv="[]" numberofelements="10" elementtype="0" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="тэги интерфейса" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="printTag_bool_1" datatype="0" accessmode="1" initialpv="false" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="тэги интерфейса" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="printTag_bool_2" datatype="0" accessmode="1" initialpv="false" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="тэги интерфейса" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="printTag_float_1" datatype="5" accessmode="1" initialpv="0.0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="тэги интерфейса" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="printTag_float_2" datatype="5" accessmode="1" initialpv="0.0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="тэги интерфейса" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="printTag_float_3" datatype="5" accessmode="1" initialpv="0.0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="тэги интерфейса" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="printTag_float_4" datatype="5" accessmode="1" initialpv="0.0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="тэги интерфейса" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="printTag_int_1" datatype="3" accessmode="1" initialpv="0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="тэги интерфейса" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="printTag_int_2" datatype="3" accessmode="1" initialpv="0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="тэги интерфейса" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="printTag_int_3" datatype="3" accessmode="1" initialpv="0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="тэги интерфейса" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="printTag_int_4" datatype="3" accessmode="1" initialpv="0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="тэги интерфейса" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="printTag_int_5" datatype="3" accessmode="1" initialpv="0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="тэги интерфейса" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="printTag_int_6" datatype="3" accessmode="1" initialpv="0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="тэги интерфейса" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="printTag_int_7" datatype="3" accessmode="1" initialpv="0" numberofelements="10" elementtype="-1" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="тэги интерфейса" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+      <tag name="printTag_str_1" datatype="7" accessmode="1" initialpv="" numberofelements="10" elementtype="0" pvinputserver="Локальный" pvinputsource="" outputdiffers="false" pvoutputserver="Локальный" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="тэги интерфейса" subgroupname="" subsubgroupname="" description="" usehistorydeadband="false" historydeadband="0.0" accesslevel="0" system="false"/>
+   </tags>
+   <users/>
+   <libraries/>
+   <recipes>
+      <recipe recipename="Recept1_tabl1" dbname="recipesSQL" tablename="tablica1" groupname="" subgroupname="">
+         <ingredients>
+            <ingredient tagname="bTag1" ingredientname="P1: bool1" dbname="p1" unit=""/>
+            <ingredient tagname="intTag1" ingredientname="P2: int1" dbname="p2" unit=""/>
+            <ingredient tagname="flTag1" ingredientname="P3: float1" dbname="p3" unit=""/>
+            <ingredient tagname="intTag2" ingredientname="P4: st1" dbname="st1" unit=""/>
+            <ingredient tagname="arrTag1" ingredientname="P5: arr" dbname="p5" unit=""/>
+         </ingredients>
+      </recipe>
+      <recipe recipename="Recept2_tabl2" dbname="recipesSQL" tablename="tablica2" groupname="" subgroupname="">
+         <ingredients>
+            <ingredient tagname="lineTag" ingredientname="Ingredient" dbname="ingredient0" unit=""/>
+         </ingredients>
+      </recipe>
+   </recipes>
+   <sounds/>
+   <botmessage></botmessage>
+   <mqttpublisher enabled="false" broker="tcp://m11.cloudmqtt.com:16160" Qos="0" enablessl="false" enableclientcert="false" pem="false" protocol="TLSv1.2" clientid="" format="" readformat="" sparkplugb="false" groupid="" edgenodeid="" deviceid="" version="0"/>
+   <emailclient enableclient="false" host="smtp.gmail.com" port="587" tlsssl="0" auth="true" emaildeponpr="false">
+      <message></message>
+      <emailsranges/>
+   </emailclient>
+   <gsmmodem enablegsmmodem="false" portid="" baudrate="9600" flowcontrol="0" databits="3" stopbits="0" parity="1" phonenumbers="" notpriority="-1">
+      <message></message>
+   </gsmmodem>
+   <groups>
+      <string>System</string>
+      <string>Тэги рецептов</string>
+      <string>тэги интерфейса</string>
+   </groups>
+   <subgroups/>
+   <subscreengroups/>
+   <subscriptgroups/>
+   <subrecipegroups/>
+   <opcuaserver enabled="false" tcpport="8666" useanonymouspolicy="true" useusernamepasswordpolicy="true" usesecuritynone="true" useBASIC128RSA15_SIGN="true" useBASIC128RSA15_SIGN_ENCRYPT="true" useBASIC256_SIGN="true" useBASIC256_SIGN_ENCRYPT="true" useBASIC256SHA256_SIGN="true" useBASIC256SHA256_SIGN_ENCRYPT="true" servercertificatename="opcuacertificate" servercertdays="3650"/>
+   <webserver enabled="false" http="true" host="localhost" httpport="8080" https="false" httpsport="8443" truestore="" truestorepassword="" keystore="" keystorepassword="" clientauthenabled="false" useotherproject="false" clientprojectfile=""/>
+   <httpserver enabled="false" host="localhost" port="8000" https="false"/>
+   <reports/>
+   <mainmenu enable="false" posy="0" width="200" height="400" color="0x808080ff" spacing="5" tail="5">
+      <buttons class="java.util.concurrent.CopyOnWriteArrayList"/>
+   </mainmenu>
+   <redundantserver enabled="false" uri="opc.tcp://192.168.0.102:4841" type="0"/>
+   <push enablepush="false" topic="" title="" priority="100">
+      <message></message>
+   </push>
+   <teslacloud enable="false" enableip="false" sparkplugb="false"/>
+   <monitors/>
+</project>

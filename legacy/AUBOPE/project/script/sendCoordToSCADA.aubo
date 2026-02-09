@@ -1,0 +1,11 @@
+-- параметры системы координат поворотки
+calMet, jP1, jP2, jP3, tP = get_user_coord_param("povorotnayaOsReal")
+-- параметры системы координат инструмента
+posDiscTool, oriDiscTool = get_tool_kinematics_param("drillDisc")
+-- vzyal tekushuyu posiziyu
+wpCurr = get_current_waypoint()
+jntCurr = {wpCurr.joint.j1, wpCurr.joint.j2, wpCurr.joint.j3, wpCurr.joint.j4, wpCurr.joint.j5, wpCurr.joint.j6}
+posCurr, oriCurr = base_to_user(jntCurr, posDiscTool, oriDiscTool, calMet, jP1, jP2, jP3, tP)
+set_modbus_io_status("M_F_faskaR26Ah", posCurr[1]*1000)
+set_modbus_io_status("M_F_faskaR26Ch", posCurr[2]*1000)
+set_modbus_io_status("M_F_faskaR26Eh", posCurr[3]*1000)

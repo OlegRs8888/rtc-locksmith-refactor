@@ -1,0 +1,475 @@
+package.path = "/root/AuboRobotWorkSpace/teachpendant/share/teachpendant/script/?.aubo"
+s_m = require("service_module")
+mill_m = require("milling_module")
+glob_m = require("globParam_modul")
+detect_m = require("detect_module")
+
+local function getMillData()
+    checkData = 0 -- флоаг корректности данных
+    cepochka_msg = "координата по цепочке размеров = "
+    pryamoe_msg = "координ по pryamomu измерению = "
+    prot_msg = "координ ot противоположного торца = "
+    -- чтение данных операции фрезеровки из AuboSlave
+P70podacha, P71saftyX, P72operationX, P73velcOperation, P74velcPodvod, P75velcStartPoint, P76ven1X, P77ven2X, P78ven3X, P79Dfrezy, P80pripuskV1, P90pripuskV2, P91pripuskV3, P81ven1storona, P82ven2storona, P83ven3storona, P85_Yoffset, P86perebeg, P87korrZminus, P88korrZplus, mill_printDbgFlag, mill_naladkaFlag = mill_m.getDataMill()
+    checkDataMill = mill_m.checkDataMill(P70podacha, P71saftyX, P72operationX, P73velcOperation, P74velcPodvod, P75velcStartPoint, P76ven1X, P77ven2X, P78ven3X, P79Dfrezy, P80pripuskV1, P90pripuskV2, P91pripuskV3, P81ven1storona, P82ven2storona, P83ven3storona, P85_Yoffset, P86perebeg, P87korrZminus, P88korrZplus, mill_printDbgFlag, mill_naladkaFlag)
+    if checkDataMill ~= 0 then
+        checkData = -1
+    end
+    -- чтение глобальных данных проекта из AuboSlave
+P102_zadanieDetals, P103_forProbeDrillTool, P105_IDdetectDetalZaus, P106_changeToolPeriod, P107_uborkaPeriod, P108_lojeScriptSelect, P109_lojeStartPos, P110_magazinStartPos, P111_ustSatelitOffset, P114_perehvatPos,  P112_modulSideVenec, P113_zSideVenec, P115_zStartObmer, P116_velcStartObmer, P117_ID_millZausenec, P118_ID_millFaska, P119_IDdetectDetalFaska, P120_stringIDglobal, P121_satellitSelect, P122_reykaStart, P123_reykaZacep, P124_operationSelect, P125_zCentrVenec, P126_modulCentrVenec, global_P100f, global_P101f, global_P102f, global_P103f, global_P104f, global_P105f, global_P106f, global_P107f, global_P108f, global_P109f, global_P110f, global_P111f, global_P112f, global_P113f, global_P114f, global_P115f, global_P116f, P127_ID_millFaskaCentr, P128_IDdetectDetalFaskaCentr, P129_servoTorgue = glob_m.GetGlobalParam()
+    -- проверка глобальных данных из AuboSlave
+checkGlobData = glob_m.checkGlobalParam(P102_zadanieDetals, P103_forProbeDrillTool, P105_IDdetectDetalZaus, P106_changeToolPeriod, P107_uborkaPeriod, P108_lojeScriptSelect, P109_lojeStartPos, P110_magazinStartPos, P111_ustSatelitOffset, P114_perehvatPos,  P112_modulSideVenec, P113_zSideVenec, P115_zStartObmer, P116_velcStartObmer, P117_ID_millZausenec, P118_ID_millFaska, P119_IDdetectDetalFaska, P120_stringIDglobal, P121_satellitSelect, P122_reykaStart, P123_reykaZacep, P124_operationSelect, P125_zCentrVenec, P126_modulCentrVenec, global_P100f, global_P101f, global_P102f, global_P103f, global_P104f, global_P105f, global_P106f, global_P107f, global_P108f, global_P109f, global_P110f, global_P111f, global_P112f, global_P113f, global_P114f, global_P115f, global_P116f, P127_ID_millFaskaCentr, P128_IDdetectDetalFaskaCentr, P129_servoTorgue)
+    if checkGlobData ~= 0 then
+        checkData = -1
+    end
+    -- чтение параметров детали и обмера из AuboSlave
+P19_ven1storona, P20_ven2storona, P21_ven3storona, P1_ven1corrX, P2_ven1corrZ, P3_ven2corrX, P4_ven2corrZ, P5_ven3corrX, P6_ven3corrZ, P7_ven1long, P8_ven2long, P9_ven3long, P10_ven1off, P11_ven2off, P12_ven3off, P13_saftyZ, P14_operationZ, P15_ServoStartPos, P22_velcSaftyZ, P23_accSaftyZ, P24_velcOperationZ, P25_accOperationZ, P26_ven1Table, P27_ven2Table, P28_ven3Table, out1_ven1_izmerenFlag, out2_ven2_izmerenFlag, out3_ven3_izmerenFlag, printDbg_Flag, R_probe, P_34saftyZdownshift, P30_ven1Brak, P30_ven2Brak, P32_ven3Brak = detect_m.GetParamDetect()
+    -- proverka parametrov detali i obmera
+checkDataDetect = detect_m.checkDataCorrectDetect(P19_ven1storona, P20_ven2storona, P21_ven3storona, P1_ven1corrX, P2_ven1corrZ, P3_ven2corrX, P4_ven2corrZ, P5_ven3corrX, P6_ven3corrZ, P7_ven1long, P8_ven2long, P9_ven3long, P10_ven1off, P11_ven2off, P12_ven3off, P13_saftyZ, P14_operationZ, P15_ServoStartPos, P22_velcSaftyZ, P23_accSaftyZ, P24_velcOperationZ, P25_accOperationZ, P26_ven1Table, P27_ven2Table, P28_ven3Table, out1_ven1_izmerenFlag, out2_ven2_izmerenFlag, out3_ven3_izmerenFlag, printDbg_Flag, R_probe, P_34saftyZdownshift, P30_ven1Brak, P30_ven2Brak, P32_ven3Brak)
+    if checkDataDetect ~= 0 then
+        checkData = -1
+    end
+    -- расчёт дополнительных параметров
+    -- читаю корректоры к торцам венцов
+    ven1s1_realKorrektor = get_modbus_io_status("M_F_detectR14Ah")
+    ven2s1_realKorrektor = get_modbus_io_status("M_F_detectR14Ch")
+    ven3s1_realKorrektor = get_modbus_io_status("M_F_detectR14Eh")
+    ven1s2_realKorrektor = get_modbus_io_status("M_F_detectR156h")
+    ven2s2_realKorrektor = get_modbus_io_status("M_F_detectR158h")
+    ven3s2_realKorrektor = get_modbus_io_status("M_F_detectR15Ah")
+    -- читаю флаги измерений торцев венцов
+    ven1S1_izmerenFlag = get_modbus_io_status("detec_c11Bh")
+    ven1S2_izmerenFlag = get_modbus_io_status("detec_c118h")
+    ven2S1_izmerenFlag = get_modbus_io_status("detec_c11Ch")
+    ven2S2_izmerenFlag = get_modbus_io_status("detec_c119h")
+    ven3S1_izmerenFlag = get_modbus_io_status("detec_c11Dh")
+    ven3S2_izmerenFlag = get_modbus_io_status("detec_c11Ah")
+    -- читаю X координату точек касания(BASE, tool - flange center)
+    v1s1_Ztorca, v1s2_Ztorca, v2s1_Ztorca, v2s2_Ztorca, v3s1_Ztorca, v3s2_Ztorca = mill_m.getXcoordObmera()
+    if mill_printDbgFlag == 1 then -- вывод в консоль, если разрешён
+        print("Венец1_Сторона1: измеренная Z торца = "..tostring(v1s1_Ztorca))
+        print("Венец1_Сторона2: измеренная Z торца = "..tostring(v1s2_Ztorca))
+        print("Венец2_Сторона1: измеренная Z торца = "..tostring(v2s1_Ztorca))
+        print("Венец2_Сторона2: измеренная Z торца = "..tostring(v2s2_Ztorca))
+        print("Венец3_Сторона1: измеренная Z торца = "..tostring(v3s1_Ztorca))
+        print("Венец3_Сторона2: измеренная Z торца = "..tostring(v3s2_Ztorca))
+    end
+    -- расчёт Z координат торцев венцов
+    -- Z координаты по умолчанию
+   v1s1_msg = "Вен1_Стор1: "..cepochka_msg
+   v1s2_msg = "Вен1_Стор2: "..cepochka_msg
+   v2s1_msg = "Вен2_Стор1: "..cepochka_msg
+   v2s2_msg = "Вен2_Стор2: "..cepochka_msg
+   v3s1_msg = "Вен3_Стор1: "..cepochka_msg
+   v3s2_msg = "Вен3_Стор2: "..cepochka_msg
+    ven1s1_Z = (P10_ven1off + ven1s1_realKorrektor) - P80pripuskV1 - (P79Dfrezy/2) - P87korrZminus
+    ven1s2_Z = (P10_ven1off + ven1s1_realKorrektor) + P7_ven1long + ven1s2_realKorrektor + P80pripuskV1 + (P79Dfrezy/2) + P88korrZplus
+    ven2s1_Z = (P10_ven1off + ven1s1_realKorrektor) + P11_ven2off + ven2s1_realKorrektor - P90pripuskV2 - (P79Dfrezy/2) - P87korrZminus
+    ven2s2_Z = (P10_ven1off + ven1s1_realKorrektor) + P11_ven2off + ven2s1_realKorrektor + P8_ven2long + ven2s2_realKorrektor + P90pripuskV2 + (P79Dfrezy/2) + P88korrZplus
+    ven3s1_Z = (P10_ven1off + ven1s1_realKorrektor) + P11_ven2off + P12_ven3off + ven3s1_realKorrektor - P91pripuskV3 - (P79Dfrezy/2) - P87korrZminus
+    ven3s2_Z = (P10_ven1off + ven1s1_realKorrektor) + P11_ven2off + ven2s1_realKorrektor + P12_ven3off + ven3s1_realKorrektor + P9_ven3long + ven3s2_realKorrektor + P91pripuskV3 + (P79Dfrezy/2) + P88korrZplus
+
+    -- Венец1
+    if P81ven1storona ~= 0 then
+        if P81ven1storona == 1 or P81ven1storona == 3 then
+            if ven1S1_izmerenFlag ==1  then
+                v1s1_msg = "Вен1_Стор1: "..pryamoe_msg
+                ven1s1_Z = v1s1_Ztorca - P80pripuskV1 - (P79Dfrezy/2) - P87korrZminus
+            else
+                if ven1S2_izmerenFlag ==1  then
+                    v1s1_msg = "Вен1_Стор1: "..prot_msg
+                    ven1s1_Z = v1s2_Ztorca - P7_ven1long - P80pripuskV1 - (P79Dfrezy/2) - P87korrZminus
+                else
+                    v1s1_msg = "Вен1_Стор1: "..cepochka_msg
+                    ven1s1_Z = (P10_ven1off + ven1s1_realKorrektor) - P80pripuskV1 - (P79Dfrezy/2) - P87korrZminus
+                end
+            end
+        end
+        if P81ven1storona == 2 or P81ven1storona == 3 then
+            if ven1S2_izmerenFlag ==1  then
+                v1s2_msg = "Вен1_Стор2: "..pryamoe_msg
+                ven1s2_Z = v1s2_Ztorca + P80pripuskV1 + (P79Dfrezy/2) + P88korrZplus
+            else
+                if ven1S1_izmerenFlag ==1  then
+                    v1s2_msg = "Вен1_Стор2: "..prot_msg
+                    ven1s2_Z = v1s1_Ztorca + P7_ven1long + P80pripuskV1 + (P79Dfrezy/2) + P88korrZplus
+                else
+                    v1s2_msg = "Вен1_Стор2: "..cepochka_msg
+                    ven1s2_Z = (P10_ven1off + ven1s1_realKorrektor) + P7_ven1long + P80pripuskV1 + (P79Dfrezy/2) + P88korrZplus
+                end
+            end
+        end
+    end
+    -- Венец2
+    if P82ven2storona ~= 0 then
+        if P82ven2storona == 1 or P82ven2storona == 3 then
+            if ven2S1_izmerenFlag ==1  then
+                v2s1_msg = "Вен2_Стор1: "..pryamoe_msg
+                ven2s1_Z = v2s1_Ztorca - P90pripuskV2 - (P79Dfrezy/2) - P87korrZminus
+            else
+                if ven2S2_izmerenFlag ==1  then
+                    v2s1_msg = "Вен2_Стор1: "..prot_msg
+                    ven2s1_Z = v2s2_Ztorca - P8_ven2long - P90pripuskV2 - (P79Dfrezy/2) - P87korrZminus
+                else
+                    v2s1_msg = "Вен2_Стор1: "..cepochka_msg
+                    ven2s1_Z = (P10_ven1off + ven1s1_realKorrektor) + P11_ven2off + ven2s1_realKorrektor - P90pripuskV2 - (P79Dfrezy/2) - P87korrZminus
+                end
+            end
+        end
+        if P82ven2storona == 2 or P82ven2storona == 3 then
+            if ven2S2_izmerenFlag ==1  then
+                v2s2_msg = "Вен2_Стор2: "..pryamoe_msg
+                ven2s2_Z = v2s2_Ztorca + P90pripuskV2 + (P79Dfrezy/2) + P88korrZplus
+            else
+                if ven2S1_izmerenFlag ==1  then
+                    v2s2_msg = "Вен2_Стор2: "..prot_msg
+                    ven2s2_Z = v2s1_Ztorca + P8_ven2long + P90pripuskV2 + (P79Dfrezy/2) + P88korrZplus
+                else
+                    v2s2_msg = "Вен2_Стор2: "..cepochka_msg
+                    ven2s2_Z = (P10_ven1off + ven1s1_realKorrektor) + P11_ven2off + ven2s1_realKorrektor + P8_ven2long + ven2s2_realKorrektor + P90pripuskV2 + (P79Dfrezy/2) + P88korrZplus
+                end
+            end
+        end
+    end
+    -- Венец3
+    if P83ven3storona ~= 0 then
+        if P83ven3storona == 1 or P83ven3storona == 3 then
+            if ven3S1_izmerenFlag ==1  then
+                v3s1_msg = "Вен3_Стор1: "..pryamoe_msg
+                ven3s1_Z = v3s1_Ztorca - P91pripuskV3 - (P79Dfrezy/2) - P87korrZminus
+            else
+                if ven3S2_izmerenFlag ==1  then
+                    v3s1_msg = "Вен3_Стор1: "..prot_msg
+                    ven3s1_Z = v3s2_Ztorca - P9_ven3long - P91pripuskV3 - (P79Dfrezy/2) - P87korrZminus
+                else
+                    v3s1_msg = "Вен3_Стор1: "..cepochka_msg
+                    ven3s1_Z = (P10_ven1off + ven1s1_realKorrektor) + P11_ven2off + P12_ven3off + ven3s1_realKorrektor - P91pripuskV3 - (P79Dfrezy/2) - P87korrZminus
+                end
+            end
+        end
+        if P83ven3storona == 2 or P83ven3storona == 3 then
+            if ven3S2_izmerenFlag ==1  then
+                v3s2_msg = "Вен3_Стор2: "..pryamoe_msg
+                ven3s2_Z = v3s2_Ztorca + P91pripuskV3 + (P79Dfrezy/2) + P88korrZplus
+            else
+                if ven3S1_izmerenFlag ==1  then
+                    v3s2_msg = "Вен3_Стор2: "..prot_msg
+                    ven3s2_Z = v3s1_Ztorca + P9_ven3long + P91pripuskV3 + (P79Dfrezy/2) + P88korrZplus
+                else
+                    v3s2_msg = "Вен3_Стор2: "..cepochka_msg
+                    ven3s2_Z = (P10_ven1off + ven1s1_realKorrektor) + P11_ven2off + ven2s1_realKorrektor + P12_ven3off + ven3s1_realKorrektor + P9_ven3long + ven3s2_realKorrektor + P91pripuskV3 + (P79Dfrezy/2) + P88korrZplus
+                end
+            end
+        end
+    end
+    -- длинна окружности полного оборота сателлита + перебег
+    fullOborot = (P112_modulSideVenec * P113_zSideVenec * math.pi)  + P86perebeg
+    -- расчёт скорости вращения вала сервомотора
+    uglovSpeed = (P70podacha / 4) * 10 -- itogovyi
+    -- запись в серводрайвер
+    set_modbus_io_status("M_L_P5_060", uglovSpeed)
+
+    if mill_printDbgFlag == 1 then -- вывод в консоль, если разрешён
+        print(v1s1_msg..tostring(ven1s1_Z))
+        print(v1s2_msg..tostring(ven1s2_Z))  
+        print(v2s1_msg..tostring(ven2s1_Z))
+        print(v2s2_msg..tostring(ven2s2_Z))
+        print(v3s1_msg..tostring(ven3s1_Z))
+        print(v3s2_msg..tostring(ven3s2_Z))
+        print("длинна окружности полного оборота сателлита + перебег = "..tostring(fullOborot).." mm")
+        print("угловая скорость вала сервомотора = "..tostring(uglovSpeed/10).." об/мин")
+--        print("Venec1: pripusk na kontur = "..tostring(P80pripuskV1).." мм")
+--        print("Venec2: pripusk na kontur = "..tostring(P90pripuskV2).." мм")
+--        print("Venec3: pripusk na kontur = "..tostring(P91pripuskV3).." мм")
+    end
+    if mill_naladkaFlag == 1 then
+--        robot_pause()
+    end
+
+    return P70podacha, P71saftyX, P72operationX, P73velcOperation, P74velcPodvod, P75velcStartPoint, P76ven1X, P77ven2X, P78ven3X, P79Dfrezy, P80pripuskV1, P90pripuskV2, P91pripuskV3, P81ven1storona, P82ven2storona, P83ven3storona, P85_Yoffset, P86perebeg, P87korrZminus, P88korrZplus, printDbgFlag, checkData, ven1s1_Z, ven1s2_Z, ven2s1_Z, ven2s2_Z, ven3s1_Z, ven3s2_Z, fullOborot, uglovSpeed, global_P116f, mill_naladkaFlag
+end
+function startDrill()
+--*************************основной код************************************
+    -- сброс флага состояния выполнения
+    set_modbus_io_status("synhr_c121h", 0)
+
+    P70podacha, P71saftyX, P72operationX, P73velcOperation, P74velcPodvod, P75velcStartPoint, P76ven1X, P77ven2X, P78ven3X, P79Dfrezy, P80pripuskV1, P90pripuskV2, P91pripuskV3, P81ven1storona, P82ven2storona, P83ven3storona, P85_Yoffset, P86perebeg, P87korrZminus, P88korrZplus, printDbgFlag, checkDataMill, ven1s1_Z, ven1s2_Z, ven2s1_Z, ven2s2_Z, ven3s1_Z, ven3s2_Z, fullOborot, uglovSpeed, aspiraciyaFlag, mill_naladkaFlag = getMillData()
+    -- если данные не корректные, то выход с кодом -1
+    if checkDataMill ~= 0 then
+        -- установ флага состояния выполнения
+        set_modbus_io_status("synhr_c121h", 1)
+        s_m.beep(1.5)
+        print("")
+        print("<<<<<<<<<<<<< milling_scr >>>>>>>>>>>>>")
+        print("<<<<< некорректные входные данные. kод выхода -1 >>>>>>>>>>")
+        print("<<<<<<<<<<<<< milling_scr >>>>>>>>>>>>>")
+        print("")
+        return
+    end
+    -- считал компонентy системы координат шпинделя с инструментом
+    posDrill, oriDrill = mill_m.getParamTool()
+    -- если система координат не создана, то выход с кодом -1
+    if (posDrill[1] + posDrill[2] + posDrill[3]) == 0 then
+        -- установ флага состояния выполнения
+        set_modbus_io_status("synhr_c121h", 1)
+        s_m.beep(1.5)
+        print("")
+        print("<<<<<<<<<<<<< milling_scr >>>>>>>>>>>>>")
+        print("<<<<< система координат шпиндель+фреза не создана. запустить обмер по датчику на столе. kод выхода -1 >>>>>>>>>>")
+        print("<<<<<<<<<<<<< milling_scr >>>>>>>>>>>>>")
+        print("")
+        return
+    end
+    -- PR13 zaranee sконфигурирован v scripte satellitPosition
+    fastSpeedServo = 655426 --A0042h - rel, speed1500, acc/dcc200
+    -- что бы двигаться на скорости из параметра P70podacha нужно в "M_L_PR13param"
+    -- записать код - 0042h
+    lowSpeedServo = 66 --42h - rel, speed7.5, acc/dcc200
+    reykaPosition = "in"
+    localP81ven1storona = P81ven1storona
+    localP82ven2storona = P82ven2storona
+    localP83ven3storona = P83ven3storona
+    if mill_naladkaFlag == 0 then
+        s_m.spindelSTART()
+        if  aspiraciyaFlag==1 then
+            s_m.aspiraciyaSTART()
+            sleep(1)
+        end
+    end
+    -- позиция над точкой фрезеровки и с отводом по Y, на уровне плоскости безопасности
+    tPos = {P71saftyX, P85_Yoffset, ven1s1_Z}
+    mill_m.moveLine_go(P73velcOperation, P73velcOperation*3, tPos, posDrill, oriDrill)
+    -----------------------------------------Венец 1
+    if localP81ven1storona ~= 0 then
+        if localP81ven1storona ~= 2 then   -- Сторона 1 и 3
+            -- позиция над точкой фрезеровки и с отводом по Y, на уровне плоскости операции
+            tPos = {P72operationX, P85_Yoffset, ven1s1_Z}
+            mill_m.moveLine_go(P73velcOperation, P73velcOperation*3, tPos, posDrill, oriDrill)
+            if reykaPosition == "out" then
+                set_modbus_io_status("M_L_PR13param", fastSpeedServo)  --A0042h - rel, speed1500, acc/dcc200
+                set_modbus_io_status("M_L_PR13coord", fullOborot*1000)
+                s_m.servoGo(13) -- быстро назад
+                reykaPosition = "in"
+            end
+            -- подготовка серводвижений для 1-ой стороны
+            set_modbus_io_status("M_L_PR13param", lowSpeedServo) --42h - rel, speed7.5, acc/dcc200
+            set_modbus_io_status("M_L_PR13coord", -fullOborot*1000)
+        -- позиция v точкe фрезеровки и с отводом по Y
+            tPos = {P76ven1X, P85_Yoffset, ven1s1_Z}
+            mill_m.moveLine_go(P74velcPodvod, P74velcPodvod*3, tPos, posDrill, oriDrill)
+        -- позиция v точкe фрезеровки
+            tPos = {P76ven1X, 0, ven1s1_Z}
+            mill_m.moveLine_go(P75velcStartPoint, P75velcStartPoint*3, tPos, posDrill, oriDrill)
+            -- погнали фрезеровать
+            if mill_naladkaFlag == 1 then
+                robot_pause()
+            else
+                s_m.servoGo(13)
+                reykaPosition = "out"
+            end
+        -- позиция v точкe фрезеровки и с отводом по Y
+            tPos = {P76ven1X, P85_Yoffset, ven1s1_Z}
+            mill_m.moveLine_go(P74velcPodvod, P74velcPodvod*3, tPos, posDrill, oriDrill)
+        -- позиция над точкой фрезеровки и с отводом по Y, на уровне плоскости операции
+            tPos = {P72operationX, P85_Yoffset, ven1s1_Z}
+            mill_m.moveLine_go(P73velcOperation, P73velcOperation*3, tPos, posDrill, oriDrill)
+        end
+        if localP81ven1storona == 3 then
+            localP81ven1storona = 2 -- оба торца
+        end
+        if localP81ven1storona == 2 then   -- Сторона 2
+            -- позиция над точкой фрезеровки и с отводом по Y, на уровне плоскости операции
+            tPos = {P72operationX, P85_Yoffset, ven1s2_Z}
+            mill_m.moveLine_go(P73velcOperation, P73velcOperation*3, tPos, posDrill, oriDrill)
+            if reykaPosition == "in" then
+                set_modbus_io_status("M_L_PR13param", fastSpeedServo)  --A0042h - rel, speed1500, acc/dcc200
+                set_modbus_io_status("M_L_PR13coord", -fullOborot*1000)
+                s_m.servoGo(13) -- bystro vpered
+                reykaPosition = "out"
+            end
+            -- подготовка серводвижений для 2-ой стороны
+            set_modbus_io_status("M_L_PR13param", lowSpeedServo) --42h - rel, speed7.5, acc/dcc200
+            set_modbus_io_status("M_L_PR13coord", fullOborot*1000)
+        -- позиция v точкe фрезеровки и с отводом по Y
+            tPos = {P76ven1X, P85_Yoffset, ven1s2_Z}
+            mill_m.moveLine_go(P74velcPodvod, P74velcPodvod*3, tPos, posDrill, oriDrill)
+        -- позиция v точкe фрезеровки
+            tPos = {P76ven1X, 0, ven1s2_Z}
+            mill_m.moveLine_go(P75velcStartPoint, P75velcStartPoint*3, tPos, posDrill, oriDrill)
+            -- погнали фрезеровать
+            if mill_naladkaFlag == 1 then
+                robot_pause()
+            else
+                s_m.servoGo(13)
+                reykaPosition = "in"
+            end
+        -- позиция v точкe фрезеровки и с отводом по Y
+            tPos = {P76ven1X, P85_Yoffset, ven1s2_Z}
+            mill_m.moveLine_go(P74velcPodvod, P74velcPodvod*3, tPos, posDrill, oriDrill)
+        -- позиция над точкой фрезеровки и с отводом по Y, на уровне плоскости операции
+            tPos = {P72operationX, P85_Yoffset, ven1s2_Z}
+            mill_m.moveLine_go(P73velcOperation, P73velcOperation*3, tPos, posDrill, oriDrill)
+        end
+    end
+    -----------------------------------------Венец 2
+    if localP82ven2storona ~= 0 then
+        if localP82ven2storona ~= 2 then   -- Сторона 1 i 3
+            -- позиция над точкой фрезеровки и с отводом по Y, на уровне плоскости операции
+            tPos = {P72operationX, P85_Yoffset, ven2s1_Z}
+            mill_m.moveLine_go(P73velcOperation, P73velcOperation*3, tPos, posDrill, oriDrill)
+            if reykaPosition == "out" then
+                set_modbus_io_status("M_L_PR13param", fastSpeedServo)  --A0042h - rel, speed1500, acc/dcc200
+                set_modbus_io_status("M_L_PR13coord", fullOborot*1000)
+                s_m.servoGo(13) -- bystro nazad
+                reykaPosition = "in"
+            end
+            -- подготовка серводвижений для 1-ой стороны
+            set_modbus_io_status("M_L_PR13param", lowSpeedServo) --42h - rel, speed7.5, acc/dcc200
+            set_modbus_io_status("M_L_PR13coord", -fullOborot*1000)
+        -- позиция v точкe фрезеровки и с отводом по Y
+            tPos = {P77ven2X, P85_Yoffset, ven2s1_Z}
+            mill_m.moveLine_go(P74velcPodvod, P74velcPodvod*3, tPos, posDrill, oriDrill)
+        -- позиция v точкe фрезеровки
+            tPos = {P77ven2X, 0, ven2s1_Z}
+            mill_m.moveLine_go(P75velcStartPoint, P75velcStartPoint*3, tPos, posDrill, oriDrill)
+            -- погнали фрезеровать
+            if mill_naladkaFlag == 1 then
+                robot_pause()
+            else
+                s_m.servoGo(13)
+                reykaPosition = "out"
+            end
+        -- позиция v точкe фрезеровки и с отводом по Y
+            tPos = {P77ven2X, P85_Yoffset, ven2s1_Z}
+            mill_m.moveLine_go(P74velcPodvod, P74velcPodvod*3, tPos, posDrill, oriDrill)
+        -- позиция над точкой фрезеровки и с отводом по Y, на уровне плоскости операции
+            tPos = {P72operationX, P85_Yoffset, ven2s1_Z}
+            mill_m.moveLine_go(P73velcOperation, P73velcOperation*3, tPos, posDrill, oriDrill)
+        end
+        if localP82ven2storona == 3 then
+            localP82ven2storona = 2 -- оба торца
+        end
+        if localP82ven2storona == 2 then   -- Сторона 2
+            -- позиция над точкой фрезеровки и с отводом по Y, на уровне плоскости операции
+            tPos = {P72operationX, P85_Yoffset, ven2s2_Z}
+            mill_m.moveLine_go(P73velcOperation, P73velcOperation*3, tPos, posDrill, oriDrill)
+            if reykaPosition == "in" then
+                set_modbus_io_status("M_L_PR13param", fastSpeedServo)  --A0042h - rel, speed1500, acc/dcc200
+                set_modbus_io_status("M_L_PR13coord", -fullOborot*1000)
+                s_m.servoGo(13) -- bystro vpered
+                reykaPosition = "out"
+            end
+            -- подготовка серводвижений для 2-ой стороны
+            set_modbus_io_status("M_L_PR13param", lowSpeedServo) --42h - rel, speed7.5, acc/dcc200
+            set_modbus_io_status("M_L_PR13coord", fullOborot*1000)
+        -- позиция v точкe фрезеровки и с отводом по Y
+            tPos = {P77ven2X, P85_Yoffset, ven2s2_Z}
+            mill_m.moveLine_go(P74velcPodvod, P74velcPodvod*3, tPos, posDrill, oriDrill)
+        -- позиция v точкe фрезеровки
+            tPos = {P77ven2X, 0, ven2s2_Z}
+            mill_m.moveLine_go(P75velcStartPoint, P75velcStartPoint*3, tPos, posDrill, oriDrill)
+            -- погнали фрезеровать
+            if mill_naladkaFlag == 1 then
+                robot_pause()
+            else
+                s_m.servoGo(13)
+                reykaPosition = "in"
+            end
+        -- позиция v точкe фрезеровки и с отводом по Y
+            tPos = {P77ven2X, P85_Yoffset, ven2s2_Z}
+            mill_m.moveLine_go(P74velcPodvod, P74velcPodvod*3, tPos, posDrill, oriDrill)
+        -- позиция над точкой фрезеровки и с отводом по Y, на уровне плоскости операции
+            tPos = {P72operationX, P85_Yoffset, ven2s2_Z}
+            mill_m.moveLine_go(P73velcOperation, P73velcOperation*3, tPos, posDrill, oriDrill)
+        end
+    end
+    -----------------------------------------Венец 3
+    if localP83ven3storona ~= 0 then
+        if localP83ven3storona ~= 2 then   -- Сторона 1 i 3
+            -- позиция над точкой фрезеровки и с отводом по Y, на уровне плоскости операции
+            tPos = {P72operationX, P85_Yoffset, ven3s1_Z}
+            mill_m.moveLine_go(P73velcOperation, P73velcOperation*3, tPos, posDrill, oriDrill)
+            if reykaPosition == "out" then
+                set_modbus_io_status("M_L_PR13param", fastSpeedServo)  --A0042h - rel, speed1500, acc/dcc200
+                set_modbus_io_status("M_L_PR13coord", fullOborot*1000)
+                s_m.servoGo(13) -- bystro nazad
+                reykaPosition = "in"
+            end
+            -- подготовка серводвижений для 1-ой стороны
+            set_modbus_io_status("M_L_PR13param", lowSpeedServo) --42h - rel, speed7.5, acc/dcc200
+            set_modbus_io_status("M_L_PR13coord", -fullOborot*1000)
+        -- позиция v точкe фрезеровки и с отводом по Y
+            tPos = {P78ven3X, P85_Yoffset, ven3s1_Z}
+            mill_m.moveLine_go(P74velcPodvod, P74velcPodvod*3, tPos, posDrill, oriDrill)
+        -- позиция v точкe фрезеровки
+            tPos = {P78ven3X, 0, ven3s1_Z}
+            mill_m.moveLine_go(P75velcStartPoint, P75velcStartPoint*3, tPos, posDrill, oriDrill)
+            -- погнали фрезеровать
+            if mill_naladkaFlag == 1 then
+                robot_pause()
+            else
+                s_m.servoGo(13)
+                reykaPosition = "out"
+            end
+        -- позиция v точкe фрезеровки и с отводом по Y
+            tPos = {P78ven3X, P85_Yoffset, ven3s1_Z}
+            mill_m.moveLine_go(P74velcPodvod, P74velcPodvod*3, tPos, posDrill, oriDrill)
+        -- позиция над точкой фрезеровки и с отводом по Y, на уровне плоскости операции
+            tPos = {P72operationX, P85_Yoffset, ven3s1_Z}
+            mill_m.moveLine_go(P73velcOperation, P73velcOperation*3, tPos, posDrill, oriDrill)
+        end
+        if localP83ven3storona == 3 then
+            localP83ven3storona = 2 -- oba torca
+        end
+        if localP83ven3storona == 2 then   -- Сторона 2
+            -- позиция над точкой фрезеровки и с отводом по Y, на уровне плоскости операции
+            tPos = {P72operationX, P85_Yoffset, ven3s2_Z}
+            mill_m.moveLine_go(P73velcOperation, P73velcOperation*3, tPos, posDrill, oriDrill)
+            if reykaPosition == "in" then
+                set_modbus_io_status("M_L_PR13param", fastSpeedServo)  --A0042h - rel, speed1500, acc/dcc200
+                set_modbus_io_status("M_L_PR13coord", -fullOborot*1000)
+                s_m.servoGo(13) -- bystro vpered
+                reykaPosition = "out"
+            end
+            -- подготовка серводвижений для 2-ой стороны
+            set_modbus_io_status("M_L_PR13param", lowSpeedServo) --42h - rel, speed7.5, acc/dcc200
+            set_modbus_io_status("M_L_PR13coord", fullOborot*1000)
+        -- позиция v точкe фрезеровки и с отводом по Y
+            tPos = {P78ven3X, P85_Yoffset, ven3s2_Z}
+            mill_m.moveLine_go(P74velcPodvod, P74velcPodvod*3, tPos, posDrill, oriDrill)
+        -- позиция v точкe фрезеровки
+            tPos = {P78ven3X, 0, ven3s2_Z}
+            mill_m.moveLine_go(P75velcStartPoint, P75velcStartPoint*3, tPos, posDrill, oriDrill)
+            -- погнали фрезеровать
+            if mill_naladkaFlag == 1 then
+                robot_pause()
+            else
+                s_m.servoGo(13)
+                reykaPosition = "in"
+            end
+        -- позиция v точкe фрезеровки и с отводом по Y
+            tPos = {P78ven3X, P85_Yoffset, ven3s2_Z}
+            mill_m.moveLine_go(P74velcPodvod, P74velcPodvod*3, tPos, posDrill, oriDrill)
+        -- позиция над точкой фрезеровки и с отводом по Y, на уровне плоскости операции
+            tPos = {P72operationX, P85_Yoffset, ven3s2_Z}
+            mill_m.moveLine_go(P73velcOperation, P73velcOperation*3, tPos, posDrill, oriDrill)
+            if reykaPosition == "out" then
+                set_modbus_io_status("M_L_PR13param", fastSpeedServo)  --A0042h - rel, speed1500, acc/dcc200
+                set_modbus_io_status("M_L_PR13coord", fullOborot*1000)
+                s_m.servoGo(13) -- bystro nazad
+                reykaPosition = "in"
+            end
+        end
+    end
+    s_m.spindelSTOP()
+    s_m.aspiraciyaSTOP()
+    print("")
+    print("<<<<<<<<<<<<< milling_scr >>>>>>>>>>>>>")
+    print("<<<<< Успешная отработка скрипта. >>>>>>>>>>")
+    print("<<<<<<<<<<<<< milling_scr >>>>>>>>>>>>>")
+    print("")
+    return
+end
+
+--*************************основной код************************************
+startDrill()

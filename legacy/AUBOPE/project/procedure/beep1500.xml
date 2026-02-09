@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProcedureProgram>
+    <Condition ConditionType="Procedure_Program" ConditionAlias="Procedure_Program" ConditionUuid="798199c232714f468e77fb5adaf494c0">
+        <Attribute/>
+        <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber7" ConditionUuid="967ea38e8ee346528c702d805dc1d54c">
+            <Attribute>
+                <SetConditionMode>Variable</SetConditionMode>
+                <VarAssignmentExp>7</VarAssignmentExp>
+                <VarName>V_I_DIOnumber</VarName>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Set" ConditionAlias="Set_stateTrue" ConditionUuid="8d32eb7f47ac4edbb4805ec8ff949360">
+            <Attribute>
+                <SetConditionMode>Variable</SetConditionMode>
+                <VarAssignmentExp>true</VarAssignmentExp>
+                <VarName>V_B_mk311DOstate</VarName>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="ae50c7145f644221ac132b90aa691c55">
+            <Attribute>
+                <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                <ScriptFileName>set_mk311DO</ScriptFileName>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Wait" ConditionAlias="Wait_1i5s" ConditionUuid="c884ffd66b2846b78442b1b550ab7b57">
+            <Attribute>
+                <WaitConditionMode>Time</WaitConditionMode>
+                <WaitTime>1.5</WaitTime>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Set" ConditionAlias="Set_stateFalse" ConditionUuid="f6396a4ff2be4b9ca92c8d436038dcc2">
+            <Attribute>
+                <SetConditionMode>Variable</SetConditionMode>
+                <VarAssignmentExp>false</VarAssignmentExp>
+                <VarName>V_B_mk311DOstate</VarName>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="2afad69a95f64f7d9070e1d779d8f370">
+            <Attribute>
+                <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                <ScriptFileName>set_mk311DO</ScriptFileName>
+            </Attribute>
+        </Condition>
+    </Condition>
+</ProcedureProgram>

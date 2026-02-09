@@ -1,0 +1,28 @@
+function moveLine_go(velc, acc, pos, posTool, oriTool)
+    Povorotka_UserSysCoord = "povorotnayaOsReal"
+    -- параметры системы координат поворотки
+    calMet, jP1, jP2, jP3, tP = get_user_coord_param(Povorotka_UserSysCoord)
+    -- обязательный сброс значений относительных перемещений
+    set_relative_offset({0,0,0})
+    pos[1] = pos[1]/1000 -- в метры
+    pos[2] = pos[2]/1000 -- в метры
+    pos[3] = pos[3]/1000 -- в метры
+    targetPos = get_target_pose(pos, false, posTool, oriTool, calMet, jP1, jP2, jP3, tP)
+    set_end_maxvelc(velc/1000) -- mm/s
+    set_end_maxacc(acc/1000) -- mm/s^2
+    move_line(targetPos, true) -- Line движение
+end
+
+-- чтение компонент системы координат шпинделя с инструментом, созданной и расчитанной в скрипте probeDrillTool
+posDrill[1] = get_modbus_io_status("M_F_tPosX_r170h")
+posDrill[2] = get_modbus_io_status("M_F_tPosY_r172h")
+posDrill[3] = get_modbus_io_status("M_F_tPosZ_r174h")
+oriDrill[2] = get_modbus_io_status("M_F_tOriX_r176h")
+oriDrill[3] = get_modbus_io_status("M_F_tOriY_r178h")
+oriDrill[4] = get_modbus_io_status("M_F_tOriZ_r17Ah")
+oriDrill[1] = get_modbus_io_status("M_F_tOriW_r17Ch")
+
+moveLine_go(680, 2000, {50, 0, 4}, posDrill, oriDrill)
+moveLine_go(150, 600, {13, 0, 4}, posDrill, oriDrill)
+
+print("toolTestPoint")

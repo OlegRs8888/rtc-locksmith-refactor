@@ -1,0 +1,22 @@
+function bit(p)
+    return 2 ^ (p -  1)
+end
+function hasbit(x , p)
+     return x % (p + p) >= p
+end
+function setbit(x , p)
+     return hasbit(x , p) and x or x + p
+end
+function clearbit(x , p)
+     return hasbit(x , p) and x-p or x
+end
+
+inp = get_modbus_io_status("mk312_DO")
+bitNum = get_global_variable("V_I_DIOnumber")
+bitState = get_global_variable("V_B_mk312DOstate")
+if bitState == true then 
+    res = setbit(inp , bit(bitNum))
+else 
+    res = clearbit(inp , bit(bitNum))
+end
+set_modbus_io_status("mk312_DO", res)

@@ -1,0 +1,104 @@
+<window name="Главный" color="0x748490ff" type="0" windowheight="1900" windowwidth="1200" usepassword="false" password="" groupname="" subgroupname="" posx="-1000" posy="-1000" accesslevel="0">
+   <objects>
+      <objectView class="tesla.scada2.model.objects.ButtonView" name="But1" posx="60.0" posy="60.0" width="200.0" height="100.0" angle="0" lock="false" text="G28" textcolor="0xe7223dff" fillcolor="0x0b7b7bff" type3d="0" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false">
+         <property key="buttoncontrol">
+            <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="PR_50E" functiontype="4" value="0" title="Введите значение" screenname="" command=""/>
+         </property>
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.SliderAppleView" name="Ползунок Apple" posx="344.0" posy="29.0" width="101.0" height="604.0" angle="270" lock="false" color="0xe7223dff" fillcolor="0x18ddc2ff" type3d="0">
+         <property key="slidercontrol">
+            <property class="tesla.scada2.model.properties.SliderControlProperty" tagname="tag_PosY" minimumvalue="-116000.0" maximumvalue="0.0" snaptotick="false" decimalpos="0"/>
+         </property>
+         <scripts/>
+         <udproperties/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.TextView" name="LabXc" posx="989.0" posy="36.0" width="176.0" height="76.0" angle="0" lock="false" text="Y коорд" fonttype="1" fontsize="40" textplacement="1" textcolor="0x18ddc2ff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.TextView" name="LabYcoord" posx="508.0" posy="102.0" width="248.0" height="75.0" angle="0" lock="false" text="0" fonttype="1" fontsize="40" textplacement="1" textcolor="0x18ddc2ff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+         <property key="textinput">
+            <property class="tesla.scada2.model.properties.TextInputProperty" tagname="posYfact" value="0" type="0" truetext="" falsetext="" textbefore="mm " textafter="" decimalpos="3" beforedecimalpos="0">
+               <textrange/>
+            </property>
+         </property>
+         <scripts>
+            <string>recalculateYcoord</string>
+         </scripts>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.ButtonView" name="ButInit" posx="60.0" posy="189.0" width="200.0" height="100.0" angle="0" lock="false" text="Init" textcolor="0xe7223dff" fillcolor="0x0b7b7bff" type3d="0" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false">
+         <property key="buttoncontrol">
+            <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="btTag" functiontype="3" value="0" title="Введите значение" screenname="" command=""/>
+         </property>
+         <scripts>
+            <string>InitServoButton</string>
+         </scripts>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.TextView" name="Lab1" posx="46.0" posy="793.0" width="248.0" height="75.0" angle="0" lock="false" text="tag PosY" fonttype="1" fontsize="30" textplacement="1" textcolor="0xe7223dff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+         <property key="textinput">
+            <property class="tesla.scada2.model.properties.TextInputProperty" tagname="tag_PosY" value="0" type="0" truetext="" falsetext="" textbefore="tag PosY " textafter="" decimalpos="0" beforedecimalpos="0">
+               <textrange/>
+            </property>
+         </property>
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.TextView" name="Lab2" posx="11.0" posy="847.0" width="320.0" height="76.0" angle="0" lock="false" text="Full - Nan" fonttype="1" fontsize="30" textplacement="1" textcolor="0xe7223dff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+         <property key="textinput">
+            <property class="tesla.scada2.model.properties.TextInputProperty" tagname="Full" value="0" type="0" truetext="" falsetext="" textbefore="Полный оборот " textafter="" decimalpos="3" beforedecimalpos="0">
+               <textrange/>
+            </property>
+         </property>
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.ButtonView" name="But3" posx="970.0" posy="193.0" width="200.0" height="100.0" angle="0" lock="false" text="Y -100" textcolor="0xe7223dff" fillcolor="0x0b7b7bff" type3d="0" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false">
+         <property key="buttoncontrol">
+            <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="tag_PosY" functiontype="4" value="-100000" title="Введите значение" screenname="" command=""/>
+         </property>
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.TextView" name="Label3" posx="46.0" posy="899.0" width="248.0" height="75.0" angle="0" lock="false" text="Step -Nan" fonttype="1" fontsize="30" textplacement="1" textcolor="0xe7223dff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+         <property key="textinput">
+            <property class="tesla.scada2.model.properties.TextInputProperty" tagname="OneStep" value="0" type="0" truetext="" falsetext="" textbefore="Один шаг " textafter="" decimalpos="3" beforedecimalpos="0">
+               <textrange/>
+            </property>
+         </property>
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.TextView" name="Lab4" posx="49.0" posy="946.0" width="248.0" height="75.0" angle="0" lock="false" text="startP - Nan " fonttype="1" fontsize="30" textplacement="1" textcolor="0xe7223dff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+         <property key="textinput">
+            <property class="tesla.scada2.model.properties.TextInputProperty" tagname="StartPos" value="0" type="0" truetext="" falsetext="" textbefore="СтартПоз " textafter="" decimalpos="3" beforedecimalpos="0">
+               <textrange/>
+            </property>
+         </property>
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.TextView" name="Lab2" posx="46.0" posy="1087.0" width="248.0" height="75.0" angle="0" lock="false" text="CntB - Nan" fonttype="1" fontsize="30" textplacement="1" textcolor="0xe7223dff" useborder="false" bordercolor="0x000000ff" linewidth="2" fill="false" fillcolor="0xffffffff" underline="false">
+         <property key="textinput">
+            <property class="tesla.scada2.model.properties.TextInputProperty" tagname="CntB" value="0" type="0" truetext="" falsetext="" textbefore="CntB " textafter="" decimalpos="0" beforedecimalpos="0">
+               <textrange/>
+            </property>
+         </property>
+         <scripts/>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.ButtonView" name="butDvij1" posx="390.0" posy="849.0" width="327.0" height="100.0" angle="0" lock="false" text="0" textcolor="0xe7223dff" fillcolor="0x0b7b7bff" type3d="0" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false">
+         <property key="buttoncontrol">
+            <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="btTag" functiontype="3" value="-100000" title="Введите значение" screenname="" command=""/>
+         </property>
+         <scripts>
+            <string>StepB</string>
+         </scripts>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.ButtonView" name="butDvij2" posx="390.0" posy="979.0" width="327.0" height="100.0" angle="0" lock="false" text="0" textcolor="0xe7223dff" fillcolor="0x0b7b7bff" type3d="0" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false">
+         <property key="buttoncontrol">
+            <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="btTag" functiontype="3" value="-100000" title="Введите значение" screenname="" command=""/>
+         </property>
+         <scripts>
+            <string>StepF</string>
+         </scripts>
+      </objectView>
+      <objectView class="tesla.scada2.model.objects.RecipeSelectorView" name="Выбор рецепта" posx="246.0" posy="344.0" width="673.0" height="117.0" angle="0" lock="false" recipename="ServoPos_recept10" textcolor="0xe7223dff" fillcolor="0x0b7b7bff" type3d="0">
+         <scripts/>
+      </objectView>
+   </objects>
+   <scriptnames/>
+</window>

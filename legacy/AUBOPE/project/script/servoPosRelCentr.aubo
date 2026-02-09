@@ -1,0 +1,10 @@
+package.path = "/root/AuboRobotWorkSpace/teachpendant/share/teachpendant/script/?.aubo"
+s_m = require("service_module")
+fastSpeedServo = 655426 --A0042h - rel, speed1500, acc/dcc200
+
+P126_modulCentrVenec = get_modbus_io_status("M_F_globalR1B0h") -- модуль центрального венца;
+P126_modulCentrVenec = math.abs(P126_modulCentrVenec) -- нормализация, убираю знак
+-- otnositel`noe peremeshenie na velichinu odnogo zuba central`nogo venca
+set_modbus_io_status("M_L_PR13param", fastSpeedServo)  --A0042h - rel, speed1500, acc/dcc200
+set_modbus_io_status("M_L_PR13coord", -P126_modulCentrVenec * math.pi * 1000)
+s_m.servoGo(13) -- быстро назад

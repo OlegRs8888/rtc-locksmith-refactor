@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProcedureProgram>
+    <Condition ConditionType="Procedure_Program" ConditionAlias="Procedure_Program" ConditionUuid="9ae47b56d2ed48c986879efaaa4230f3">
+        <Attribute/>
+        <Condition ConditionType="Set" ConditionAlias="Set_PositionFullOpen" ConditionUuid="9d8a344eac094f379361f62570de27a9">
+            <Attribute>
+                <SetConditionMode>IO</SetConditionMode>
+                <IOCategory>Modbus</IOCategory>
+                <IOName>Grip_Pos</IOName>
+                <IOValue>1000</IOValue>
+                <ModbusIOType>ModbusAO</ModbusIOType>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Wait" ConditionAlias="Wait_025s" ConditionUuid="de9ab46870a24a47977a261847b85c91">
+            <Attribute>
+                <WaitConditionMode>Time</WaitConditionMode>
+                <WaitTime>0.25</WaitTime>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Loop" ConditionAlias="Loop_always" ConditionUuid="f91f6b0f7a1c496cb8673564dcf8cb7f">
+            <Attribute>
+                <LoopConditionMode>Always</LoopConditionMode>
+            </Attribute>
+            <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber1" ConditionUuid="4f367ce0f9c54698941603776cfddd1f">
+                <Attribute>
+                    <SetConditionMode>Variable</SetConditionMode>
+                    <VarAssignmentExp>1</VarAssignmentExp>
+                    <VarName>V_I_DIOnumber</VarName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Script" ConditionAlias="check_mk311DI" ConditionUuid="f857865fa2484642a04f9d5e899a7899">
+                <Attribute>
+                    <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                    <MD5>524d9f6fddd5a142b7c70439285eb24e</MD5>
+                    <ScriptFileName>check_mk311DI</ScriptFileName>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Wait" ConditionAlias="Wait_025s" ConditionUuid="9dceaa9487a04db094761b23e5f86dd0">
+                <Attribute>
+                    <WaitConditionMode>Time</WaitConditionMode>
+                    <WaitTime>0.25</WaitTime>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="If" ConditionAlias="If" ConditionUuid="27f0e84161a34e9380eec2f7ec7a04fb">
+                <Attribute>
+                    <Exp>V_B_mk311DIstate == true</Exp>
+                </Attribute>
+                <Condition ConditionType="Break" ConditionAlias="Break" ConditionUuid="dfbf12f77ad64edf8cba898f7c6e3557">
+                    <Attribute/>
+                </Condition>
+            </Condition>
+        </Condition>
+    </Condition>
+</ProcedureProgram>

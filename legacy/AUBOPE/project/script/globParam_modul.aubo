@@ -1,0 +1,183 @@
+local module_table={}
+local function GetGlobalParam()-- чтение данных из AuboSlave
+-- parametry zadannye pol`zovatelem
+    P121_satellitSelect = get_modbus_io_status("globalR1A9h") -- 
+    P121_satellitSelect = math.abs(P121_satellitSelect) -- нормализация, убираю знак
+    P121_satellitSelect = math.floor(P121_satellitSelect) -- нормализация, только целая часть
+    set_modbus_io_status("globalR1A9h", P121_satellitSelect)
+    P124_operationSelect = get_modbus_io_status("globalR1AEh") -- 
+    P124_operationSelect = math.abs(P124_operationSelect) -- нормализация, убираю знак
+    P124_operationSelect = math.floor(P124_operationSelect) -- нормализация, только целая часть
+    set_modbus_io_status("globalR1AEh", P124_operationSelect)
+    -- регистры
+    P103_forProbeDrillTool = get_modbus_io_status("globalR193h") -- выбор схемы движения контактного датчика. Для скрипта probeDrillTool; ID строки таблицы probeParam_v?
+    P103_forProbeDrillTool = math.abs(P103_forProbeDrillTool) -- нормализация, убираю знак
+    P103_forProbeDrillTool = math.floor(P103_forProbeDrillTool) -- нормализация, только целая часть
+    set_modbus_io_status("globalR193h", P103_forProbeDrillTool)
+    P105_IDdetectDetalZaus = get_modbus_io_status("globalR196h") -- выбор способа обмера для операции удаления заусенца. Для скрипта detectDetal; ID строки таблицы detectDetal_v?
+    P105_IDdetectDetalZaus = math.abs(P105_IDdetectDetalZaus) -- нормализация, убираю знак
+    P105_IDdetectDetalZaus = math.floor(P105_IDdetectDetalZaus) -- нормализация, только целая часть
+    set_modbus_io_status("globalR196h", P105_IDdetectDetalZaus)
+    P106_changeToolPeriod = get_modbus_io_status("globalR197h") -- периодичность замены инструмента; через сколько деталей
+    P106_changeToolPeriod = math.abs(P106_changeToolPeriod) -- нормализация, убираю знак
+    P106_changeToolPeriod = math.floor(P106_changeToolPeriod) -- нормализация, только целая часть
+    set_modbus_io_status("globalR197h", P106_changeToolPeriod)
+    P107_uborkaPeriod = get_modbus_io_status("globalR198h") -- периодичность уборки; через сколько деталей
+    P107_uborkaPeriod = math.abs(P107_uborkaPeriod) -- нормализация, убираю знак
+    P107_uborkaPeriod = math.floor(P107_uborkaPeriod) -- нормализация, только целая часть
+    set_modbus_io_status("globalR198h", P107_uborkaPeriod)
+    P108_lojeScriptSelect = get_modbus_io_status("globalR199h") -- "четвёрка" углов оснастки(модуль takeDetal_Loje)
+    P108_lojeScriptSelect = math.abs(P108_lojeScriptSelect) -- нормализация, убираю знак
+    P108_lojeScriptSelect = math.floor(P108_lojeScriptSelect) -- нормализация, только целая часть
+    set_modbus_io_status("globalR199h", P108_lojeScriptSelect)
+    P109_lojeStartPos = get_modbus_io_status("globalR19Ah") -- начальная ячейка ложемента деталей
+    P109_lojeStartPos = math.abs(P109_lojeStartPos) -- нормализация, убираю знак
+    P109_lojeStartPos = math.floor(P109_lojeStartPos) -- нормализация, только целая часть
+    set_modbus_io_status("globalR19Ah", P109_lojeStartPos)
+    P110_magazinStartPos = get_modbus_io_status("globalR19Bh") -- начальная ячейка магазина инструментов
+    P110_magazinStartPos = math.abs(P110_magazinStartPos) -- нормализация, убираю знак
+    P110_magazinStartPos = math.floor(P110_magazinStartPos) -- нормализация, только целая часть
+    set_modbus_io_status("globalR19Bh", P110_magazinStartPos)
+    P111_ustSatelitOffset = get_modbus_io_status("M_F_globalR19Ch") -- дистанция перемещения захвата с сателлитом вдоль оси Z до упора при установе в поворотную ось. В координатах поворотной оси; мм
+    P112_modulSideVenec = get_modbus_io_status("M_F_globalR19Eh") -- модуль бокового венца;
+    P112_modulSideVenec = math.abs(P112_modulSideVenec) -- нормализация, убираю знак
+    set_modbus_io_status("M_F_globalR19Eh", P112_modulSideVenec)
+    P113_zSideVenec = get_modbus_io_status("globalR1A0h") -- z бокового венца
+    P113_zSideVenec = math.abs(P113_zSideVenec) -- нормализация, убираю знак
+    P113_zSideVenec = math.floor(P113_zSideVenec) -- нормализация, только целая часть
+    set_modbus_io_status("globalR1A0h", P113_zSideVenec)
+    P114_perehvatPos = get_modbus_io_status("M_F_globalR1A2h") -- блок позиционирования сателлита. Дистанция перемещения захвата вдоль оси Z в точку захвата сателлита для его фиксации при операции выхода на зуб, В координатах поворотной оси; мм
+    P115_zStartObmer = get_modbus_io_status("globalR1A1h") -- Z координата(Base) точки старта калибровки инструмента по датчику на столе. Для скрипта probeDrillTool
+    P115_zStartObmer = math.floor(P115_zStartObmer) -- нормализация, только целая часть
+    set_modbus_io_status("globalR1A1h", P115_zStartObmer)
+    P116_velcStartObmer = get_modbus_io_status("globalR1A4h") -- Скорость движения к точке старта калибровки инструмента по датчику на столе(Р115) Для скрипта probeDrillTool
+    P116_velcStartObmer = math.abs(P116_velcStartObmer) -- нормализация, убираю знак
+    P116_velcStartObmer = math.floor(P116_velcStartObmer) -- нормализация, только целая часть
+    set_modbus_io_status("globalR1A4h", P116_velcStartObmer)
+    P117_ID_millZausenec = get_modbus_io_status("globalR1A5h") -- выбор режимов фрезеровки для операции удаления заусенца. Для скрипта millZaus; ID строки таблицы millZausenec_v
+    P117_ID_millZausenec = math.abs(P117_ID_millZausenec) -- нормализация, убираю знак
+    P117_ID_millZausenec = math.floor(P117_ID_millZausenec) -- нормализация, только целая часть
+    set_modbus_io_status("globalR1A5h", P117_ID_millZausenec)
+    P118_ID_millFaska = get_modbus_io_status("globalR1A6h") -- выбор режимов фрезеровки для операции притупления кромки зуба. Для скрипта millFaska; ID строки таблицы millFaska_v
+    P118_ID_millFaska = math.abs(P118_ID_millFaska) -- нормализация, убираю знак
+    P118_ID_millFaska = math.floor(P118_ID_millFaska) -- нормализация, только целая часть
+    set_modbus_io_status("globalR1A6h", P118_ID_millFaska)
+    P119_IDdetectDetalFaska = get_modbus_io_status("globalR1A7h") -- выбор способа обмера для операции притупления кромки зуба. Для скрипта detectDetal; ID строки таблицы detectDetal_v
+    P119_IDdetectDetalFaska = math.abs(P119_IDdetectDetalFaska) -- нормализация, убираю знак
+    P119_IDdetectDetalFaska = math.floor(P119_IDdetectDetalFaska) -- нормализация, только целая часть
+    set_modbus_io_status("globalR1A7h", P119_IDdetectDetalFaska)
+    P120_stringIDglobal = get_modbus_io_status("globalR1A8h") -- ID этой строки
+    P120_stringIDglobal = math.abs(P120_stringIDglobal) -- нормализация, убираю знак
+    P120_stringIDglobal = math.floor(P120_stringIDglobal) -- нормализация, только целая часть
+    set_modbus_io_status("globalR1A8h", P120_stringIDglobal)
+    P122_reykaStart = get_modbus_io_status("M_F_globalR1AAh") -- блок позиционирования сателлита. Стартовая координата рейки; мм
+    P122_reykaStart = math.abs(P122_reykaStart) -- нормализация, убираю знак
+    P122_reykaStart = -P122_reykaStart
+    set_modbus_io_status("M_F_globalR1AAh", P122_reykaStart)
+    P123_reykaZacep = get_modbus_io_status("M_F_globalR1ACh") -- блок позиционирования сателлита. Координата рейки - гарантированное зацепление; мм
+    P123_reykaZacep = math.abs(P123_reykaZacep) -- нормализация, убираю знак
+    P123_reykaZacep = -P123_reykaZacep
+    set_modbus_io_status("M_F_globalR1ACh", P123_reykaZacep)
+    P125_zCentrVenec = get_modbus_io_status("globalR1AFh") -- z центрального венца;
+    P125_zCentrVenec = math.abs(P125_zCentrVenec) -- нормализация, убираю знак
+    P125_zCentrVenec = math.floor(P125_zCentrVenec) -- нормализация, только целая часть
+    set_modbus_io_status("globalR1AFh", P125_zCentrVenec)
+    P126_modulCentrVenec = get_modbus_io_status("M_F_globalR1B0h") -- модуль центрального венца;
+    P126_modulCentrVenec = math.abs(P126_modulCentrVenec) -- нормализация, убираю знак
+    set_modbus_io_status("M_F_globalR1B0h",P126_modulCentrVenec)
+    P102_zadanieDetals = get_modbus_io_status("globalR192h") -- задание на обработку количества деталей;
+    P102_zadanieDetals = math.abs(P102_zadanieDetals) -- нормализация, убираю знак
+    P102_zadanieDetals = math.floor(P102_zadanieDetals) -- нормализация, только целая часть
+    set_modbus_io_status("globalR192h", P102_zadanieDetals)
+    P127_ID_millFaskaCentr = get_modbus_io_status("globalR1B2h") -- выбор режимов фрезеровки для операции притупления кромки зуба(центральный венец)
+    P127_ID_millFaskaCentr = math.abs(P127_ID_millFaskaCentr) -- нормализация, убираю знак
+    P127_ID_millFaskaCentr = math.floor(P127_ID_millFaskaCentr) -- нормализация, только целая часть
+    set_modbus_io_status("globalR1B2h", P127_ID_millFaskaCentr)
+
+    P128_IDdetectDetalFaskaCentr = get_modbus_io_status("globalR1B3h") -- выбор способа обмера для операции притупления кромки зуба(центральный венец)
+    P128_IDdetectDetalFaskaCentr = math.abs(P128_IDdetectDetalFaskaCentr) -- нормализация, убираю знак
+    P128_IDdetectDetalFaskaCentr = math.floor(P128_IDdetectDetalFaskaCentr) -- нормализация, только целая часть
+    set_modbus_io_status("globalR1B3h", P128_IDdetectDetalFaskaCentr)
+    P129_servoTorgue = get_modbus_io_status("globalR1B4h") -- сателлита, момент серводвигателя при операции выхода на зуб
+    P129_servoTorgue = math.abs(P129_servoTorgue) -- нормализация, убираю знак
+    P129_servoTorgue = math.floor(P129_servoTorgue) -- нормализация, только целая часть
+    set_modbus_io_status("globalR1B4h", P129_servoTorgue)
+
+--    = get_modbus_io_status("globalR19Ah") -- 
+--    = math.abs() -- нормализация, убираю знак
+--    = math.floor() -- нормализация, только целая часть
+    -- флаги
+    global_P100f = get_modbus_io_status("globalC160h") -- флаг вывода отладочной информации
+    global_P101f = get_modbus_io_status("globalC161h") -- взять инструмент с магазина при старте проекта
+    global_P102f = get_modbus_io_status("globalC162h") -- калибровка инструмента контактным датчиком на столе при старте проекта
+    global_P103f = get_modbus_io_status("globalC163h") -- взять деталь с ложемента
+    global_P104f = get_modbus_io_status("globalC164h") -- установить деталь в поворотную ось
+    global_P105f = get_modbus_io_status("globalC165h") -- калибровать инструмент на камне
+    global_P106f = get_modbus_io_status("globalC166h") -- обмер детали контактным датчиком
+    global_P107f = get_modbus_io_status("globalC167h") -- обработка детали
+    global_P108f = get_modbus_io_status("globalC168h") -- забрать деталь из поворотной оси
+    global_P109f = get_modbus_io_status("globalC169h") -- уложить деталь на ложемент
+    global_P110f = get_modbus_io_status("globalC16Ah") -- уборка территории
+    global_P111f = get_modbus_io_status("globalC16Bh") -- блок инициализации 1
+    global_P112f = get_modbus_io_status("globalC16Ch") -- блок инициализации 2
+    global_P113f = get_modbus_io_status("globalC16Dh") -- блок инициализации 3
+    global_P114f = get_modbus_io_status("globalC16Eh") -- смена инструмента в цикле обработки, в соответствии с параметром Р106
+    global_P115f = get_modbus_io_status("globalC16Fh") -- калибровка инструмента контактным датчиком на столе, в цикле обработки, в соответствии с параметром Р106
+    global_P116f = get_modbus_io_status("globalC170h") -- флаг включения аспирации при старте шпинделя
+
+    if global_P100f == 1 then -- вывод в консоль, если разрешён
+        print("P102_zadanieDetals = "..tostring(P102_zadanieDetals))
+        print("P103_forProbeDrillTool = "..tostring(P103_forProbeDrillTool))
+        print("P105_IDdetectDetalZaus = "..tostring(P105_IDdetectDetalZaus))
+        print("P106_changeToolPeriod = "..tostring(P106_changeToolPeriod))
+        print("P107_uborkaPeriod = "..tostring(P107_uborkaPeriod))
+        print("P108_lojeScriptSelect = "..tostring(P108_lojeScriptSelect))
+        print("P109_lojeStartPos = "..tostring(P109_lojeStartPos))
+        print("P110_magazinStartPos = "..tostring(P110_magazinStartPos))
+        print("P111_ustSatelitOffset = "..tostring(P111_ustSatelitOffset))
+        print("P112_modulSideVenec = "..tostring(P112_modulSideVenec))
+        print("P113_zSideVenec = "..tostring(P113_zSideVenec))
+        print("P114_perehvatPos = "..tostring(P114_perehvatPos))
+        print("P115_zStartObmer = "..tostring(P115_zStartObmer))
+        print("P116_velcStartObmer = "..tostring(P116_velcStartObmer))
+        print("P117_ID_millZausenec = "..tostring(P117_ID_millZausenec))
+        print("P118_ID_millFaska = "..tostring(P118_ID_millFaska))
+        print("P119_IDdetectDetalFaska = "..tostring(P119_IDdetectDetalFaska))
+        print("P120_stringIDglobal = "..tostring(P120_stringIDglobal))
+        print("P121_satellitSelect = "..tostring(P121_satellitSelect))
+        print("P122_reykaStart = "..tostring(P122_reykaStart))
+        print("P123_reykaZacep = "..tostring(P123_reykaZacep))
+        print("P124_operationSelect = "..tostring(P124_operationSelect))
+        print("P125_zCentrVenec = "..tostring(P125_zCentrVenec))
+        print("P126_modulCentrVenec = "..tostring(P126_modulCentrVenec))
+        print("P127_ID_millFaskaCentr = "..tostring(P127_ID_millFaskaCentr))
+        print("P128_IDdetectDetalFaskaCentr = "..tostring(P128_IDdetectDetalFaskaCentr))
+        print("P129_servoTorgue = "..tostring(P129_servoTorgue))
+        print("флаг вывода отладочной информации = "..tostring(global_P100f))
+        print("взять инструмент с магазина при старте проекта = "..tostring(global_P101f))
+        print("калибровка инструмента контактным датчиком на столе при старте проекта = "..tostring(global_P102f))
+        print("взять деталь с ложемента = "..tostring(global_P103f))
+        print("установить деталь в поворотную ось = "..tostring(global_P104f))
+        print("калибровать инструмент на камне = "..tostring(global_P105f))
+        print("обмер детали контактным датчиком = "..tostring(global_P106f))
+        print("обработка детали = "..tostring(global_P107f))
+        print("забрать деталь из поворотной оси = "..tostring(global_P108f))
+        print("уложить деталь на ложемент = "..tostring(global_P109f))
+        print("уборка территории = "..tostring(global_P110f))
+        print("блок инициализации 1 = "..tostring(global_P111f))
+        print("блок инициализации 2 = "..tostring(global_P112f))
+        print("блок инициализации 3 = "..tostring(global_P113f))
+        print("смена инструмента в цикле обработки, в соответствии с параметром Р106 = "..tostring(global_P114f))
+        print("калибровка инструмента контактным датчиком на столе, в цикле обработки, в соответствии с параметром Р106 = "..tostring(global_P115f))
+        print("флаг включения аспирации при старте шпинделя = "..tostring(global_P116f))
+--        print(" = "..tostring())
+    end
+    return P102_zadanieDetals, P103_forProbeDrillTool, P105_IDdetectDetalZaus, P106_changeToolPeriod, P107_uborkaPeriod, P108_lojeScriptSelect, P109_lojeStartPos, P110_magazinStartPos, P111_ustSatelitOffset, P114_perehvatPos,  P112_modulSideVenec, P113_zSideVenec, P115_zStartObmer, P116_velcStartObmer, P117_ID_millZausenec, P118_ID_millFaska, P119_IDdetectDetalFaska, P120_stringIDglobal, P121_satellitSelect, P122_reykaStart, P123_reykaZacep, P124_operationSelect, P125_zCentrVenec, P126_modulCentrVenec, global_P100f, global_P101f, global_P102f, global_P103f, global_P104f, global_P105f, global_P106f, global_P107f, global_P108f, global_P109f, global_P110f, global_P111f, global_P112f, global_P113f, global_P114f, global_P115f, global_P116f, P127_ID_millFaskaCentr, P128_IDdetectDetalFaskaCentr, P129_servoTorgue
+end
+local function checkGlobalParam(P102_zadanieDetals, P103_forProbeDrillTool, P105_IDdetectDetalZaus, P106_changeToolPeriod, P107_uborkaPeriod, P108_lojeScriptSelect, P109_lojeStartPos, P110_magazinStartPos, P111_ustSatelitOffset, P114_perehvatPos,  P112_modulSideVenec, P113_zSideVenec, P115_zStartObmer, P116_velcStartObmer, P117_ID_millZausenec, P118_ID_millFaska, P119_IDdetectDetalFaska, P120_stringIDglobal, P121_satellitSelect, P122_reykaStart, P123_reykaZacep, P124_operationSelect, P125_zCentrVenec, P126_modulCentrVenec, global_P100f, global_P101f, global_P102f, global_P103f, global_P104f, global_P105f, global_P106f, global_P107f, global_P108f, global_P109f, global_P110f, global_P111f, global_P112f, global_P113f, global_P114f, global_P115f, global_P116f, P127_ID_millFaskaCentr, P128_IDdetectDetalFaskaCentr, P129_servoTorgue)
+    return 0
+end
+
+module_table.checkGlobalParam = checkGlobalParam
+module_table.GetGlobalParam = GetGlobalParam
+return module_table

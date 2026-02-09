@@ -1,0 +1,48 @@
+function satellitPosition()
+--*************************основной код************************************
+    -- сброс флага состояния выполнения
+    set_modbus_io_status("synhr_c121h", 0)
+
+    param1 = 458818 --70042h - rel, speed800, acc/dcc200
+    -- читаю из SCADA модуль зуба активного венца
+    modul = get_modbus_io_status("M_F_globalR19Eh")
+    modul = math.abs(modul) -- нормализация, убираю знак
+    -- читаю из SCADA количество зубов активного венца
+    zVenca = get_modbus_io_status("globalR1A0h")
+    zVenca = math.abs(zVenca) -- нормализация, убираю знак
+    zVenca = math.floor(zVenca) -- нормализация, только целая часть
+    -- читаю из SCADA startovuyu poziciyu reyki
+    starPosReyka = get_modbus_io_status("M_F_globalR1AAh")
+    starPosReyka = math.abs(starPosReyka) -- нормализация, убираю знак
+    starPosReyka = -starPosReyka*1000 -- otricatel`noe znachenie
+    -- проверка входных данных
+    if  modul == 0  or zVenca == 0 then
+        set_modbus_io_status("synhr_c121h", 1)
+        print("")
+        print("<<<<<<<<<<<<< satellitPosition >>>>>>>>>>>>>")
+        print("<<<<< некорректные входные данные. Флаг synhr_c121h = 1 >>>>>>>>>>")
+        print("<<<<<<<<<<<<< satellitPosition >>>>>>>>>>>>>")
+        print("")
+        return
+    end
+    -- длинна окружности полного оборота сателлита
+    fullOborot = modul * zVenca * math.pi
+    -- длинна окружности для поворота на один зуб
+    oneZub = fullOborot / zVenca
+    -- конфигурирование PR13 - движение вперёд на полный оборот сателлита
+    set_modbus_io_status("M_L_PR13param", param1)
+    set_modbus_io_status("M_L_PR13coord", -fullOborot*1000)
+    -- конфигурирование PR14 - движение назад на полный оборот сателлита
+    set_modbus_io_status("M_L_PR14param", param1)
+    set_modbus_io_status("M_L_PR14coord", fullOborot*1000)
+    -- конфигурирование PR15 - движение вперёд на один зуб сателлита
+    set_modbus_io_status("M_L_PR15param", param1)
+    set_modbus_io_status("M_L_PR15coord", -oneZub*1000)
+    -- конфигурирование PR16 - движение назад на один зуб сателлита
+    set_modbus_io_status("M_L_PR16param", param1)
+    set_modbus_io_status("M_L_PR16coord", oneZub*1000)
+    -- конфигурирование PR7 - startovaya poziciya reyki
+    set_modbus_io_status("M_L_PR7coord", starPosReyka)
+--*************************основной код************************************
+end
+satellitPosition()

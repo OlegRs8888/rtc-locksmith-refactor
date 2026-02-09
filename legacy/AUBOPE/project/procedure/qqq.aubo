@@ -1,0 +1,7 @@
+--Procedure Program
+
+--(Logic tree item : Procedure_Program) Procedure_Program
+  --(Logic tree item : Wait) Wait
+  set_current_logic_tree_item("7b983181549b41afa0636cf5f490bf68")
+  sleep(100)
+  set_step_breakpoint()

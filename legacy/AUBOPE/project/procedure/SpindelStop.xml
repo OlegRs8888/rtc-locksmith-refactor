@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProcedureProgram>
+    <Condition ConditionType="Procedure_Program" ConditionAlias="Procedure_Program" ConditionUuid="7b7d3cf7b2c24b37b3b1e49ca78d89dd">
+        <Attribute/>
+        <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber3" ConditionUuid="edeabc9567df4d4b9276b3e9962af010">
+            <Attribute>
+                <SetConditionMode>Variable</SetConditionMode>
+                <VarAssignmentExp>3</VarAssignmentExp>
+                <VarName>V_I_DIOnumber</VarName>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Set" ConditionAlias="Set_stateFalse" ConditionUuid="56817c3984ef478993b971a3debaf7de">
+            <Attribute>
+                <SetConditionMode>Variable</SetConditionMode>
+                <VarAssignmentExp>false</VarAssignmentExp>
+                <VarName>V_B_mk311DOstate</VarName>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Line_Comment" ConditionAlias="stopSpindelCommand" ConditionUuid="cdbfda2cd4a14ce6a153d37133522709">
+            <Attribute>
+                <CommentContent>1</CommentContent>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Script" ConditionAlias="set_mk311DO" ConditionUuid="ab5c7bd53d674f86aef1b0d0bc2f6011">
+            <Attribute>
+                <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                <MD5>ebdde28a3baa4459219e85fd6b6e5e16</MD5>
+                <ScriptFileName>set_mk311DO</ScriptFileName>
+            </Attribute>
+        </Condition>
+    </Condition>
+</ProcedureProgram>

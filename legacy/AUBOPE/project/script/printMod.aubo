@@ -1,0 +1,86 @@
+package.path = "/root/AuboRobotWorkSpace/teachpendant/share/teachpendant/script/?.aubo"
+s_m = require("service_module")
+mill_m = require("milling_module")
+if false then
+print("*******************Венец1***************************")
+print(string.format("Вен1Стор1: BASE_flange X kasaniya  %4.2f", get_modbus_io_status("M_F_detectR1E0h")))
+print(string.format("Вен1Стор1: BASE_flange Y kasaniya  %4.2f", get_modbus_io_status("M_F_detectR1E2h")))
+print(string.format("Вен1Стор1: BASE_flange Z kasaniya  %4.2f", get_modbus_io_status("M_F_detectR1E4h")))
+print(string.format("Вен1Стор2: BASE_flange X kasaniya  %4.2f", get_modbus_io_status("M_F_detectR1E6h")))
+print(string.format("Вен1Стор2: BASE_flange Y kasaniya  %4.2f", get_modbus_io_status("M_F_detectR1E8h")))
+print(string.format("Вен1Стор2: BASE_flange Z kasaniya  %4.2f", get_modbus_io_status("M_F_detectR1EAh")))
+print("*******************Венец2***************************")
+print(string.format("Вен2Стор1: BASE_flange X kasaniya  %4.2f", get_modbus_io_status("M_F_detectR1ECh")))
+print(string.format("Вен2Стор1: BASE_flange Y kasaniya  %4.2f", get_modbus_io_status("M_F_detectR1EEh")))
+print(string.format("Вен2Стор1: BASE_flange Z kasaniya  %4.2f", get_modbus_io_status("M_F_detectR1F0h")))
+print(string.format("Вен2Стор2: BASE_flange X kasaniya  %4.2f", get_modbus_io_status("M_F_detectR1F2h")))
+print(string.format("Вен2Стор2: BASE_flange Y kasaniya  %4.2f", get_modbus_io_status("M_F_detectR1F4h")))
+print(string.format("Вен2Стор2: BASE_flange Z kasaniya  %4.2f", get_modbus_io_status("M_F_detectR1F6h")))
+print("*******************Венец3***************************")
+print(string.format("Вен3Стор1: BASE_flange X kasaniya  %4.2f", get_modbus_io_status("M_F_detectR1F8h")))
+print(string.format("Вен3Стор1: BASE_flange Y kasaniya  %4.2f", get_modbus_io_status("M_F_detectR1FAh")))
+print(string.format("Вен3Стор1: BASE_flange Z kasaniya  %4.2f", get_modbus_io_status("M_F_detectR1FCh")))
+print(string.format("Вен3Стор2: BASE_flange X kasaniya  %4.2f", get_modbus_io_status("M_F_detectR1FEh")))
+print(string.format("Вен3Стор2: BASE_flange Y kasaniya  %4.2f", get_modbus_io_status("M_F_detectR200h")))
+print(string.format("Вен3Стор2: BASE_flange Z kasaniya  %4.2f", get_modbus_io_status("M_F_detectR202h")))
+end
+    jointsObmerPoint = {0,0,0,0,0,0}
+    jointsObmerPoint[1] = get_modbus_io_status("M_F_detectR204h")-- wpCurrent.joint.j1
+    jointsObmerPoint[2] = get_modbus_io_status("M_F_detectR206h")-- wpCurrent.joint.j2
+    jointsObmerPoint[3] = get_modbus_io_status("M_F_detectR208h")-- wpCurrent.joint.j3
+    jointsObmerPoint[4] = get_modbus_io_status("M_F_detectR20Ah")-- wpCurrent.joint.j4
+    jointsObmerPoint[5] = get_modbus_io_status("M_F_detectR20Ch")-- wpCurrent.joint.j5
+    jointsObmerPoint[6] = get_modbus_io_status("M_F_detectR20Eh")-- wpCurrent.joint.j6
+
+    -- schital компонентy системы координат шпинделя с инструментом
+    posTool, oriTool = mill_m.getParamTool()
+    -- schital компонентy системы координат шпинделя с инструментом
+    posRprobe, oriRprobe = get_tool_kinematics_param("probeR")
+    posDrill, oriDrill = get_tool_kinematics_param("drill1")
+    Povorotka_UserSysCoord = "povorotnayaOsReal"
+    print(string.format("Drill X  %4.2f", posDrill[1]*1000))
+    print(string.format("Drill Y  %4.2f", posDrill[2]*1000))
+    print(string.format("Drill Z  %4.2f", posDrill[3]*1000))
+    print(string.format("probe X  %4.2f", posRprobe[1]*1000))
+    print(string.format("probe Y  %4.2f", posRprobe[2]*1000))
+    print(string.format("probe Z  %4.2f", posRprobe[3]*1000))
+    print(string.format("Drill+freza X  %4.2f", posTool[1]*1000))
+    print(string.format("Drill+freza Y  %4.2f", posTool[2]*1000))
+    print(string.format("Drill+freza Z  %4.2f", posTool[3]*1000))
+    print(string.format("Vylet frezy Z  %4.2f", posTool[3]*1000-(posDrill[3]*1000)))
+    -- параметры системы координат поворотки
+    calMet, jP1, jP2, jP3, tP = get_user_coord_param(Povorotka_UserSysCoord)
+    posWp = {0,0,0}
+    oriWp = {0,0,0,0}        
+    posWp[1] = get_modbus_io_status("M_F_detectR1E0h")/1000 -- в метры
+    posWp[2] = get_modbus_io_status("M_F_detectR1E2h")/1000 -- в метры
+    posWp[3] = get_modbus_io_status("M_F_detectR1E4h")/1000 -- в метры
+    -- обязательный сброс значений относительных перемещений
+    set_relative_offset({0,0,0})
+--    print(posWp[1])
+--    print(posWp[2])
+--    print(posWp[3])
+    jointTarget = get_target_pose(posWp, false, posTool, oriTool, calMet, jP1, jP2, jP3, tP)
+--    jointTarget = get_target_pose(posWp, false, {0,0,0}, {1,0,0,0}, calMet, jP1, jP2, jP3, tP)
+--    set_end_maxvelc(20/1000) -- mm/s
+--    set_end_maxacc(80/1000) -- mm/s^2
+--    move_line(jointTarget, true) -- Line движение
+    posTarget,oriTarget = base_to_user(jointsObmerPoint, posTool, oriTool, calMet, jP1, jP2, jP3, posTool)--{0,0,0}
+--    posTarget,oriTarget = base_to_user(jointsObmerPoint, posRprobe, oriRprobe, calMet, jP1, jP2, jP3, tP)
+--    posTarget,oriTarget = base_to_user(jointTarget)
+--    print(type(joint))
+--    print(#joint)
+    posTarget,oriTarget = base_to_user(jointsObmerPoint, posTool, oriTool, calMet, jP1, jP2, jP3, posTool)--{0,0,0}
+    print("*******************Венец1***************************")
+    print(string.format("Вен1Стор1: Povorotka_tool X kasaniya  %4.2f", posTarget[1]*1000))
+    print(string.format("Вен1Стор1: Povorotka_tool Y kasaniya  %4.2f", posTarget[2]*1000))
+    print(string.format("Вен1Стор1: Povorotka_tool Z kasaniya  %4.2f", posTarget[3]*1000))
+
+    posTarget,oriTarget = base_to_user(jointsObmerPoint, posRprobe, oriRprobe, calMet, jP1, jP2, jP3, tP)--{0,0,0}
+    print("*******************Венец1***************************")
+    print(string.format("Вен1Стор1: Povorotka_probe X kasaniya  %4.2f", posTarget[1]*1000))
+    print(string.format("Вен1Стор1: Povorotka_probe Y kasaniya  %4.2f", posTarget[2]*1000))
+    print(string.format("Вен1Стор1: Povorotka_probe Z kasaniya  %4.2f", posTarget[3]*1000))
+
+print("OK")
+

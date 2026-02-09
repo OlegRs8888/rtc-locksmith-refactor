@@ -1,0 +1,60 @@
+--Procedure Program
+
+--block script function definition
+  function blockScriptFunc_check_mk311DI()
+    function bit(p)
+        return 2 ^ (p -  1)
+    end
+    function hasbit(x , p)
+         return x % (p + p) >= p
+    end
+    
+    inp = get_modbus_io_status("mk311_DI")
+    bitNum = get_global_variable("V_I_DIOnumber")
+    res = hasbit(inp , bit(bitNum))
+    set_global_variable("V_B_mk311DIstate", res)
+  end  --function blockScriptFunc_check_mk311DI()
+
+--script function definition
+  function ifScriptFunc_0()
+    --(Logic tree item : Break) Break
+    do return false end
+  end
+
+  function loopScriptFunc_0()
+    --(Logic tree item : Set) Set_DIOnumber1
+    set_current_logic_tree_item("4f367ce0f9c54698941603776cfddd1f")
+    set_global_variable("V_I_DIOnumber", 1)
+    --(Logic tree item : Script) check_mk311DI
+    set_current_logic_tree_item("f857865fa2484642a04f9d5e899a7899")
+    blockScriptFunc_check_mk311DI()
+    set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_025s
+    set_current_logic_tree_item("9dceaa9487a04db094761b23e5f86dd0")
+    sleep(0.25)
+    set_step_breakpoint()
+    --(Logic tree item : If) If
+    if (get_global_variable("V_B_mk311DIstate") == true) then
+      ifFuncRet = ifScriptFunc_0()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+  end
+
+--(Logic tree item : Procedure_Program) Procedure_Program
+  --(Logic tree item : Set) Set_PositionFullOpen
+  set_current_logic_tree_item("9d8a344eac094f379361f62570de27a9")
+  set_modbus_io_status("Grip_Pos", 1000)
+  set_step_breakpoint()
+  --(Logic tree item : Wait) Wait_025s
+  set_current_logic_tree_item("de9ab46870a24a47977a261847b85c91")
+  sleep(0.25)
+  set_step_breakpoint()
+  --(Logic tree item : Loop) Loop_always
+  while (true) do
+    sleep(0.001)
+    if (loopScriptFunc_0() == false) then
+      break
+    end
+  end

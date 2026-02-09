@@ -1,0 +1,426 @@
+--Procedure Program
+
+--block script function definition
+  function blockScriptFunc_check_mk311DO()
+    function bit(p)
+        return 2 ^ (p -  1)
+    end
+    function hasbit(x , p)
+         return x % (p + p) >= p
+    end
+    
+    inp = get_modbus_io_status("mk311_DO")
+    bitNum = get_global_variable("V_I_DIOnumber")
+    res = hasbit(inp , bit(bitNum))
+    set_global_variable("V_B_mk311DOstate", res)
+  end  --function blockScriptFunc_check_mk311DO()
+
+  function blockScriptFunc_StackMagazin()
+    function table2str(joint_table)  
+    	str = ''
+    	for i=1,#joint_table,1 do
+    		str = str..tostring(joint_table[i])..","
+    	end
+    	str = string.sub(str,1,-2) 
+    	return str 
+    end
+    
+    -- Corner1-4 углы первого слоя
+    
+    -- Введите между кавычками имя точки 1 угла:
+    local_cor_1 = "V_P_magazin_C1"
+    -- Введите между кавычками имя точки 2 угла:
+    local_cor_2 = "V_P_magazin_C2"
+    -- Введите между кавычками имя точки 3 угла:
+    local_cor_3 = "V_P_magazin_C3"
+    -- Введите между кавычками имя точки 4 угла:
+    local_cor_4 = "V_P_magazin_C4"
+    
+    xMax, yMax = 2,11 -- количество ячеек по осям
+    xCount = get_global_variable("V_I_magXcount")-1
+    yCount = get_global_variable("V_I_magYcount")-1
+    
+     -- Здесь слои 1,3,5 и т.д.
+        script_cor_1 =  get_global_variable(local_cor_1) 
+        script_cor_2 =  get_global_variable(local_cor_2) 
+        script_cor_3 =  get_global_variable(local_cor_3) 
+        script_cor_4 =  get_global_variable(local_cor_4) 
+        posCorner1,oriCorner1 = base_to_user(script_cor_1,{0,0,0},{1,0,0,0})
+        posCorner2,oriCorner2 = base_to_user(script_cor_2,{0,0,0},{1,0,0,0})
+        posCorner3,oriCorner3 = base_to_user(script_cor_3,{0,0,0},{1,0,0,0})
+        posCorner4,oriCorner4 = base_to_user(script_cor_4,{0,0,0},{1,0,0,0})
+        posTargetPick = {0,0,0} -- raschet coordinaty posizii tochki zahvata 
+        posTargetPick[1] = posCorner1[1] + (posCorner2[1] - posCorner1[1])*xCount/(xMax-1) + (posCorner4[1]-posCorner1[1]+(posCorner3[1]-posCorner4[1]-posCorner2[1]+posCorner1[1])*xCount/(xMax-1))*yCount/(yMax-1)
+        posTargetPick[2] = posCorner1[2] + (posCorner2[2] - posCorner1[2])*xCount/(xMax-1) + (posCorner4[2]-posCorner1[2]+(posCorner3[2]-posCorner4[2]-posCorner2[2]+posCorner1[2])*xCount/(xMax-1))*yCount/(yMax-1)
+        posTargetPick[3] = posCorner1[3] + (posCorner2[3] - posCorner1[3])*xCount/(xMax-1) + (posCorner4[3]-posCorner1[3]+(posCorner3[3]-posCorner4[3]-posCorner2[3]+posCorner1[3])*xCount/(xMax-1))*yCount/(yMax-1)
+        oriTargetPick = {1,0,0,0}  -- raschet ugla orientacii tochki zahvata
+        oriTargetPick[1] = oriCorner1[1] + (oriCorner2[1] - oriCorner1[1])*xCount/(xMax-1) + (oriCorner4[1]-oriCorner1[1]+(oriCorner3[1]-oriCorner4[1]-oriCorner2[1]+oriCorner1[1])*xCount/(xMax-1))*yCount/(yMax-1)
+        oriTargetPick[2] = oriCorner1[2] + (oriCorner2[2] - oriCorner1[2])*xCount/(xMax-1) + (oriCorner4[2]-oriCorner1[2]+(oriCorner3[2]-oriCorner4[2]-oriCorner2[2]+oriCorner1[2])*xCount/(xMax-1))*yCount/(yMax-1)
+        oriTargetPick[3] = oriCorner1[3] + (oriCorner2[3] - oriCorner1[3])*xCount/(xMax-1) + (oriCorner4[3]-oriCorner1[3]+(oriCorner3[3]-oriCorner4[3]-oriCorner2[3]+oriCorner1[3])*xCount/(xMax-1))*yCount/(yMax-1)
+        oriTargetPick[4] = oriCorner1[4] + (oriCorner2[4] - oriCorner1[4])*xCount/(xMax-1) + (oriCorner4[4]-oriCorner1[4]+(oriCorner3[4]-oriCorner4[4]-oriCorner2[4]+oriCorner1[4])*xCount/(xMax-1))*yCount/(yMax-1)
+    
+    jointPick = get_target_pose(posTargetPick,oriTargetPick,false,{0,0,0},{1,0,0,0})
+    
+    set_global_variable("V_P_magPick","0,0,0,0,0,0,0,".. table2str(jointPick)) -- сохранить с переменную V_P_pick
+  end  --function blockScriptFunc_StackMagazin()
+
+  function blockScriptFunc_set_mk312DO()
+    function bit(p)
+        return 2 ^ (p -  1)
+    end
+    function hasbit(x , p)
+         return x % (p + p) >= p
+    end
+    function setbit(x , p)
+         return hasbit(x , p) and x or x + p
+    end
+    function clearbit(x , p)
+         return hasbit(x , p) and x-p or x
+    end
+    
+    inp = get_modbus_io_status("mk312_DO")
+    bitNum = get_global_variable("V_I_DIOnumber")
+    bitState = get_global_variable("V_B_mk312DOstate")
+    if bitState == true then 
+        res = setbit(inp , bit(bitNum))
+    else 
+        res = clearbit(inp , bit(bitNum))
+    end
+    set_modbus_io_status("mk312_DO", res)
+  end  --function blockScriptFunc_set_mk312DO()
+
+  function blockScriptFunc_set_mk311DO()
+    function bit(p)
+        return 2 ^ (p -  1)
+    end
+    function hasbit(x , p)
+         return x % (p + p) >= p
+    end
+    function setbit(x , p)
+         return hasbit(x , p) and x or x + p
+    end
+    function clearbit(x , p)
+         return hasbit(x , p) and x-p or x
+    end
+    
+    inp = get_modbus_io_status("mk311_DO")
+    bitNum = get_global_variable("V_I_DIOnumber")
+    bitState = get_global_variable("V_B_mk311DOstate")
+    if bitState == true then 
+        res = setbit(inp , bit(bitNum))
+    else 
+        res = clearbit(inp , bit(bitNum))
+    end
+    set_modbus_io_status("mk311_DO", res)
+  end  --function blockScriptFunc_set_mk311DO()
+
+  function blockScriptFunc_check_mk311DI()
+    function bit(p)
+        return 2 ^ (p -  1)
+    end
+    function hasbit(x , p)
+         return x % (p + p) >= p
+    end
+    
+    inp = get_modbus_io_status("mk311_DI")
+    bitNum = get_global_variable("V_I_DIOnumber")
+    res = hasbit(inp , bit(bitNum))
+    set_global_variable("V_B_mk311DIstate", res)
+  end  --function blockScriptFunc_check_mk311DI()
+
+--script function definition
+  function ifScriptFunc_0()
+    --(Logic tree item : Break) Break
+    do return false end
+  end
+
+  function loopScriptFunc_0()
+    --(Logic tree item : Script) check_mk311DO
+    set_current_logic_tree_item("41fa10e7ad43441cb9edfe3fa33754f4")
+    blockScriptFunc_check_mk311DO()
+    set_step_breakpoint()
+    --(Logic tree item : If) If
+    if (get_global_variable("V_B_mk311DOstate") == false) then
+      ifFuncRet = ifScriptFunc_0()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : Message) Message
+    set_current_logic_tree_item("3f937cd8f147480a8ce510da27b7b5ef")
+    popup_message(0, "zahvat instrumenta nevozmojen, spindel vklyuchen", false)
+  end
+
+  function loopScriptFunc_1()
+    --(Logic tree item : Move) Move_preControlH
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+    set_relative_offset({-0.05, 0, 0}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+      --(Logic tree item : Waypoint) Waypoint_V_P_controlTool
+      set_current_logic_tree_item("6f1fa5507d664e618146cd71fb97d506")
+      move_line(get_global_variable("V_P_controlTool"), true)
+      set_step_breakpoint()
+    --(Logic tree item : Move) Move_controlTool
+    init_global_move_profile()
+    set_end_maxvelc(0.500000)
+    set_end_maxacc(0.600000)
+      --(Logic tree item : Waypoint) Waypoint_V_P_controlTool
+      set_current_logic_tree_item("86862ae803a647a594c5af8d58547b4f")
+      move_line(get_global_variable("V_P_controlTool"), true)
+      set_step_breakpoint()
+    --(Logic tree item : Wait) Wait_03s
+    set_current_logic_tree_item("7a73f2279230425d8e28a824ffc7cf3d")
+    sleep(0.3)
+    set_step_breakpoint()
+    --(Logic tree item : Set) Set_bit2ToolSensor
+    set_current_logic_tree_item("eec4aa13108045c5bc4ba2dd33ea1ece")
+    set_global_variable("V_I_DIOnumber", 2)
+    --(Logic tree item : Script) check_mk311DI
+    set_current_logic_tree_item("da97be3ef6a14a52a82a2850b25342f4")
+    blockScriptFunc_check_mk311DI()
+    set_step_breakpoint()
+    --(Logic tree item : If) If_estInstrument
+    if (get_global_variable("V_B_mk311DIstate") == true) then
+      ifFuncRet = ifScriptFunc_3()
+      if (ifFuncRet ~= nil) then
+        do return ifFuncRet end
+      end
+    end
+    --(Logic tree item : Procedure) beep1500
+      --(Logic tree item : Set) Set_DIOnumber7
+      set_current_logic_tree_item("bc4b1ccdefe74561ba9811d9c5d00202")
+      set_global_variable("V_I_DIOnumber", 7)
+      --(Logic tree item : Set) Set_stateTrue
+      set_current_logic_tree_item("6ae03e6a96e84b019eeb5262b3b849f1")
+      set_global_variable("V_B_mk311DOstate", true)
+      --(Logic tree item : Script) set_mk311DO
+      set_current_logic_tree_item("deee6e1edcfb4643b8ff6f69d2257630")
+      blockScriptFunc_set_mk311DO()
+      set_step_breakpoint()
+      --(Logic tree item : Wait) Wait_1i5s
+      set_current_logic_tree_item("5e95f01230c240359294b17a805b0626")
+      sleep(1.5)
+      set_step_breakpoint()
+      --(Logic tree item : Set) Set_stateFalse
+      set_current_logic_tree_item("0847be484cd5486d94d2fefee25eee6a")
+      set_global_variable("V_B_mk311DOstate", false)
+      --(Logic tree item : Script) set_mk311DO
+      set_current_logic_tree_item("a98cdadd81bb4bdea0d80aad37340073")
+      blockScriptFunc_set_mk311DO()
+      set_step_breakpoint()
+    --(Logic tree item : Move) Move_preControlH
+    init_global_move_profile()
+    set_end_maxvelc(1.600000)
+    set_end_maxacc(2.000000)
+    set_relative_offset({-0.05, 0, 0}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+      --(Logic tree item : Waypoint) Waypoint_V_P_controlTool
+      set_current_logic_tree_item("529f28b1e0e9401296c4ad17bb2d785a")
+      move_line(get_global_variable("V_P_controlTool"), true)
+      set_step_breakpoint()
+    --(Logic tree item : Move) Move_preControlVH
+    init_global_move_profile()
+    set_end_maxvelc(1.600000)
+    set_end_maxacc(2.000000)
+    set_relative_offset({-0.05, 0, 0.16}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+      --(Logic tree item : Waypoint) Waypoint_V_P_controlTool
+      set_current_logic_tree_item("498f509a72bd4376a3e046c3a4dcf284")
+      move_line(get_global_variable("V_P_controlTool"), true)
+      set_step_breakpoint()
+    --(Logic tree item : Message) Message
+    set_current_logic_tree_item("b92d442e767e42e0ae3d48a81eb96863")
+    popup_message(0, "в шпинделе отсутствует инструмент", false)
+  end
+
+  function ifScriptFunc_1()
+    --(Logic tree item : Move) Move_prePickH
+    init_global_move_profile()
+    set_end_maxvelc(0.100000)
+    set_end_maxacc(0.120000)
+    set_relative_offset({0, 0.06, 0}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+      --(Logic tree item : Waypoint) Realtime_Waypoint
+      set_current_logic_tree_item("2b995f384861481d98e8137dafd09c66")
+      move_line(get_global_variable("Realtime_Waypoint"), true)
+      set_step_breakpoint()
+  end
+
+  function ifScriptFunc_2()
+    --(Logic tree item : Move) Move_prePickH2
+    init_global_move_profile()
+    set_end_maxvelc(0.100000)
+    set_end_maxacc(0.120000)
+    set_relative_offset({0, -0.06, 0}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+      --(Logic tree item : Waypoint) Realtime_Waypoint
+      set_current_logic_tree_item("2d935ba360b14d7da040f9914456fbe5")
+      move_line(get_global_variable("Realtime_Waypoint"), true)
+      set_step_breakpoint()
+  end
+
+  function ifScriptFunc_3()
+    --(Logic tree item : Procedure) beep300
+      --(Logic tree item : Set) Set_DIOnumber7
+      set_current_logic_tree_item("5388b256fc58455caf9d2c3c84663b91")
+      set_global_variable("V_I_DIOnumber", 7)
+      --(Logic tree item : Set) Set_stateTrue
+      set_current_logic_tree_item("d70fc2104b7a4ec782e9b6e78bd57e60")
+      set_global_variable("V_B_mk311DOstate", true)
+      --(Logic tree item : Script) set_mk311DO
+      set_current_logic_tree_item("a1a66a6b75b748278a1b555cc1b086cd")
+      blockScriptFunc_set_mk311DO()
+      set_step_breakpoint()
+      --(Logic tree item : Wait) Wait_03s
+      set_current_logic_tree_item("9352bdb265204f70ad2753abd4ceb764")
+      sleep(0.3)
+      set_step_breakpoint()
+      --(Logic tree item : Set) Set_stateFalse
+      set_current_logic_tree_item("fbf5d1205ca04dc3bf2e4fa4233b5ded")
+      set_global_variable("V_B_mk311DOstate", false)
+      --(Logic tree item : Script) set_mk311DO
+      set_current_logic_tree_item("3ba8f15608874eed9609e35ad6eb94cb")
+      blockScriptFunc_set_mk311DO()
+      set_step_breakpoint()
+    --(Logic tree item : Move) Move_preControlH
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+    set_relative_offset({-0.05, 0, 0}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+      --(Logic tree item : Waypoint) Waypoint_V_P_controlTool
+      set_current_logic_tree_item("830e0f4b700342ce94ad17b2059113ce")
+      move_line(get_global_variable("V_P_controlTool"), true)
+      set_step_breakpoint()
+    --(Logic tree item : Move) Move_preControlVH
+    init_global_move_profile()
+    set_end_maxvelc(1.000000)
+    set_end_maxacc(1.200000)
+    set_relative_offset({-0.05, 0, 0.16}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+      --(Logic tree item : Waypoint) Waypoint_V_P_controlTool
+      set_current_logic_tree_item("50b4f875e2184ee4abe398e462d92844")
+      move_line(get_global_variable("V_P_controlTool"), true)
+      set_step_breakpoint()
+    --(Logic tree item : Break) Break
+    do return false end
+  end
+
+--(Logic tree item : Procedure_Program) Procedure_Program
+  --(Logic tree item : Block_Comment) Block_init
+  --init
+    --(Logic tree item : Set) Set_drillTool
+    set_current_logic_tree_item("29a52e2164a647c8922504a9dbc9faf4")
+    set_tool_kinematics_param(get_tool_kinematics_param("drill1"))
+    set_tool_dynamics_param(get_tool_dynamics_param("drill1"))
+    set_step_breakpoint()
+  --(Logic tree item : Script) StackMagazin
+  set_current_logic_tree_item("ae6b23aa72a94a9eb6ec2651a1bc8afd")
+  blockScriptFunc_StackMagazin()
+  set_step_breakpoint()
+  --(Logic tree item : Move) Move_prePickV
+  init_global_move_profile()
+  set_joint_maxvelc({2.485349,2.485349,3.113667,2.485349,3.309144,3.309144})
+  set_joint_maxacc({10.471976,10.471976,15.707963,10.471976,10.471976,10.471976})
+  set_relative_offset({( ( get_global_variable("V_I_magXcount") - 1 ) * 0.052 ) - ( ( get_global_variable("V_I_magYcount") - 1 ) * 0.0007 ), ( ( get_global_variable("V_I_magXcount") - 1 ) * -0.00022 ) - ( ( get_global_variable("V_I_magYcount") - 1 ) * 0.115 ), 0.15 - ( ( get_global_variable("V_I_magYcount") - 1 ) * 0.001 ) - ( ( get_global_variable("V_I_magXcount") - 1 ) * 0.00007 )}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+    --(Logic tree item : Waypoint) Waypoint_V_P_magazin_C1
+    set_current_logic_tree_item("48143d12f55d468f965e798fef198c84")
+    move_joint(get_global_variable("V_P_magazin_C1"), true)
+    set_step_breakpoint()
+  --(Logic tree item : Move) Move_rotate
+  init_global_move_profile()
+  set_joint_maxvelc({1.553343,1.553343,1.946042,1.553343,2.068215,2.068215})
+  set_joint_maxacc({6.283185,6.283185,9.424778,6.283185,6.283185,6.283185})
+  set_relative_offset({0, 0, 0}, rpy2quaternion({d2r(0), d2r(0), d2r(( get_global_variable("V_I_magYcount") - 1 ) * -30)}), get_tool_kinematics_param("drill1"))
+    --(Logic tree item : Waypoint) Realtime_Waypoint
+    set_current_logic_tree_item("6f7a1bfc2485467d806b0b5a96601ed8")
+    move_joint(get_global_variable("Realtime_Waypoint"), true)
+    set_step_breakpoint()
+  --(Logic tree item : Procedure) ToolUnlock
+    --(Logic tree item : Set) Set_DIOnumber3
+    set_current_logic_tree_item("8602d72c31c648bb858834e4262fb6d4")
+    set_global_variable("V_I_DIOnumber", 3)
+    --(Logic tree item : Set) Set_stateDO312True
+    set_current_logic_tree_item("0bc13ee16c7f4f3f9bf29b7132d6daba")
+    set_global_variable("V_B_mk312DOstate", true)
+    --(Logic tree item : Line_Comment) toolUnlockCommand
+    --1
+    --(Logic tree item : Script) set_mk312DO
+    set_current_logic_tree_item("bcd4144fb7f4428e86026ce924e76208")
+    blockScriptFunc_set_mk312DO()
+    set_step_breakpoint()
+  --(Logic tree item : Move) Move_Pick
+  init_global_move_profile()
+  set_end_maxvelc(0.200000)
+  set_end_maxacc(0.200000)
+  set_relative_offset({0, 0, -0.15}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+    --(Logic tree item : Waypoint) Realtime_Waypoint
+    set_current_logic_tree_item("9cf472cb0448473bafd46681abb5312f")
+    move_line(get_global_variable("Realtime_Waypoint"), true)
+    set_step_breakpoint()
+  --(Logic tree item : Procedure) ToolLock
+    --(Logic tree item : Set) Set_DIOnumber3
+    set_current_logic_tree_item("4fa625b88c5446c4a41f0ff3dacd72d3")
+    set_global_variable("V_I_DIOnumber", 3)
+    --(Logic tree item : Loop) Loop_always
+    while (true) do
+      sleep(0.001)
+      if (loopScriptFunc_0() == false) then
+        break
+      end
+    end
+    --(Logic tree item : Set) Set_DIOnumber3
+    set_current_logic_tree_item("abb9e5290c9a41b8929ab5daafc7e55d")
+    set_global_variable("V_I_DIOnumber", 3)
+    --(Logic tree item : Set) Set_stateDO312False
+    set_current_logic_tree_item("ac47013f799e476991893138a81d68fe")
+    set_global_variable("V_B_mk312DOstate", false)
+    --(Logic tree item : Line_Comment) toolLockCommand
+    --1
+    --(Logic tree item : Script) set_mk312DO
+    set_current_logic_tree_item("9f69de181ae048039f6e1aa6a5cd21dc")
+    blockScriptFunc_set_mk312DO()
+    set_step_breakpoint()
+  --(Logic tree item : Wait) Wait_07s
+  set_current_logic_tree_item("35c24f100f584adc819136ce02f14742")
+  sleep(0.7)
+  set_step_breakpoint()
+  --(Logic tree item : If) If_Y_ravno1
+  if (get_global_variable("V_I_magYcount") == 1) then
+    ifFuncRet = ifScriptFunc_1()
+    if (ifFuncRet ~= nil) then
+      do return ifFuncRet end
+    end
+  --(Logic tree item : Else) Else
+  else
+    ifFuncRet = ifScriptFunc_2()
+    if (ifFuncRet ~= nil) then
+      do return ifFuncRet end
+    end
+  end
+  --(Logic tree item : Move) Move_vverh
+  init_global_move_profile()
+  set_end_maxvelc(1.600000)
+  set_end_maxacc(1.600000)
+  set_relative_offset({0, 0, 0.15}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+    --(Logic tree item : Waypoint) Realtime_Waypoint
+    set_current_logic_tree_item("b7e774389b234cb9a54240ab58b8b0eb")
+    move_line(get_global_variable("Realtime_Waypoint"), true)
+    set_step_breakpoint()
+  --(Logic tree item : Procedure) checkToolPresent
+    --(Logic tree item : Set) Set_drillTool
+    set_current_logic_tree_item("d1aea5730990489b80d7550addf8770b")
+    set_tool_kinematics_param(get_tool_kinematics_param("drill1"))
+    set_tool_dynamics_param(get_tool_dynamics_param("drill1"))
+    set_step_breakpoint()
+    --(Logic tree item : Move) Move_preControlVH
+    init_global_move_profile()
+    set_joint_maxvelc({2.485349,2.485349,3.113667,2.485349,3.309144,3.309144})
+    set_joint_maxacc({10.471976,10.471976,15.707963,10.471976,10.471976,10.471976})
+    set_relative_offset({-0.05, 0, 0.16}, rpy2quaternion({d2r(0), d2r(0), d2r(0)}))
+      --(Logic tree item : Waypoint) Waypoint_V_P_controlTool
+      set_current_logic_tree_item("d61dc23f0e0141c0b585fedbb944388d")
+      move_joint(get_global_variable("V_P_controlTool"), true)
+      set_step_breakpoint()
+    --(Logic tree item : Loop) Loop
+    while (true) do
+      sleep(0.001)
+      if (loopScriptFunc_1() == false) then
+        break
+      end
+    end

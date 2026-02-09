@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProcedureProgram>
+    <Condition ConditionType="Procedure_Program" ConditionAlias="Procedure_Program" ConditionUuid="a9c708ca750549c98531572900d1c243">
+        <Attribute/>
+        <Condition ConditionType="Set" ConditionAlias="Set_drill1" ConditionUuid="1ca9c861949c4378b5d327570000258b">
+            <Attribute>
+                <SetConditionMode>ToolParam</SetConditionMode>
+                <ToolName>drill1</ToolName>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="Move" ConditionAlias="Move_initDrill" ConditionUuid="78a2297a6ae047e99136544954049d5d">
+            <Attribute>
+                <MoveConditionMode>MoveJoint</MoveConditionMode>
+                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                <ArrivalAheadType>None</ArrivalAheadType>
+                <EnableArrivalAhead>false</EnableArrivalAhead>
+                <EnableOffset>false</EnableOffset>
+                <JointAcc>45,45,45,45,45,45</JointAcc>
+                <JointSpeed>90,90,90,90,90,90</JointSpeed>
+                <OffsetCoordName>Base</OffsetCoordName>
+                <OffsetCoordType>BaseCoord</OffsetCoordType>
+                <OffsetRX></OffsetRX>
+                <OffsetRY></OffsetRY>
+                <OffsetRZ></OffsetRZ>
+                <OffsetX></OffsetX>
+                <OffsetY></OffsetY>
+                <OffsetZ></OffsetZ>
+                <angleJerkRatio>0.25</angleJerkRatio>
+                <isInGluing>false</isInGluing>
+                <isInMoveGroup>false</isInMoveGroup>
+                <jerkRatio>0.25</jerkRatio>
+            </Attribute>
+            <Condition ConditionType="Waypoint" ConditionAlias="Waypoint_V_P_DrillInit" ConditionUuid="302490ebd0644c24856b4c87f41f10c4">
+                <Attribute>
+                    <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                    <VarPoint>V_P_DrillInit</VarPoint>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Set" ConditionAlias="Set_PositionFullClos" ConditionUuid="4d26aedc7c1943dcb652d13fa1c202ec">
+            <Attribute>
+                <SetConditionMode>IO</SetConditionMode>
+                <IOCategory>Modbus</IOCategory>
+                <IOName>Grip_Pos</IOName>
+                <IOValue>0</IOValue>
+                <ModbusIOType>ModbusAO</ModbusIOType>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="If" ConditionAlias="If" ConditionUuid="f151b12061a44510b79cc590c14bbd8b">
+            <Attribute>
+                <Exp>true</Exp>
+            </Attribute>
+            <Condition ConditionType="Block_Comment" ConditionAlias="Block_ServoInit" ConditionUuid="ecb69d05055a47489c91d5037fafa643">
+                <Attribute>
+                    <CommentContent>1</CommentContent>
+                </Attribute>
+                <Condition ConditionType="Set" ConditionAlias="Set_DI_conf" ConditionUuid="a1c5bff56ef94499b88dc1b0492cb61e">
+                    <Attribute>
+                        <SetConditionMode>IO</SetConditionMode>
+                        <IOCategory>Modbus</IOCategory>
+                        <IOName>30C_DIconf</IOName>
+                        <IOValue>7680</IOValue>
+                        <ModbusIOType>ModbusAO</ModbusIOType>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Set" ConditionAlias="Set_DI_control" ConditionUuid="baa869c4445141068d7529836832e3d3">
+                    <Attribute>
+                        <SetConditionMode>IO</SetConditionMode>
+                        <IOCategory>Modbus</IOCategory>
+                        <IOName>40E_ctrlDI</IOName>
+                        <IOValue>7168</IOValue>
+                        <ModbusIOType>ModbusAO</ModbusIOType>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Set" ConditionAlias="Set_speed3000" ConditionUuid="29d4eabd4b704b499ac8c45703ec91aa">
+                    <Attribute>
+                        <SetConditionMode>IO</SetConditionMode>
+                        <IOCategory>Modbus</IOCategory>
+                        <IOName>16EspeedLim</IOName>
+                        <IOValue>3000</IOValue>
+                        <ModbusIOType>ModbusAO</ModbusIOType>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Set" ConditionAlias="Set_torque100" ConditionUuid="c667acf309494de7bd530f52d7e9328e">
+                    <Attribute>
+                        <SetConditionMode>IO</SetConditionMode>
+                        <IOCategory>Modbus</IOCategory>
+                        <IOName>118_setTorq</IOName>
+                        <IOValue>100</IOValue>
+                        <ModbusIOType>ModbusAO</ModbusIOType>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Set" ConditionAlias="Set_PR7" ConditionUuid="bc13a04339954f33a4c0d1dcbda46cc1">
+                    <Attribute>
+                        <SetConditionMode>IO</SetConditionMode>
+                        <IOCategory>Modbus</IOCategory>
+                        <IOName>50E_PR</IOName>
+                        <IOValue>7</IOValue>
+                        <ModbusIOType>ModbusAO</ModbusIOType>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Wait" ConditionAlias="Wait_puuPR7" ConditionUuid="c9a9315d7a1647aa88db8f3c3a2a9baf">
+                    <Attribute>
+                        <WaitConditionMode>Exp</WaitConditionMode>
+                        <WaitConditionExp>(M)50E_PR == 20007</WaitConditionExp>
+                    </Attribute>
+                </Condition>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Script" ConditionAlias="milling_scr" ConditionUuid="06dd3276a6224caf80f54c6faace2833">
+            <Attribute>
+                <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                <MD5>5658eed147d7a4337be08855c5f33370</MD5>
+                <ScriptFileName>milling_scr</ScriptFileName>
+            </Attribute>
+        </Condition>
+        <Condition ConditionType="If" ConditionAlias="If_inputDataInCorect" ConditionUuid="b42328f3eb29439f8f7005e81e8038c2">
+            <Attribute>
+                <Exp>(M)synhr_c121h == 1</Exp>
+            </Attribute>
+            <Condition ConditionType="Message" ConditionAlias="Message" ConditionUuid="cfea7506baa34581af16221383d4662f">
+                <Attribute>
+                    <EnableStopProgramRunningWhenMessagePopsUp>true</EnableStopProgramRunningWhenMessagePopsUp>
+                    <MessageContent>takeDetal_Loje: необрабатываемое исключение. Продолжение работы невозможно. Проект будет остановлен</MessageContent>
+                    <MessageType>Information</MessageType>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Move" ConditionAlias="Move_initDrill" ConditionUuid="8ed8e838395f4d9c938ad4b3cf9edc55">
+            <Attribute>
+                <MoveConditionMode>MoveJoint</MoveConditionMode>
+                <ArrivalAheadThreshold>0.000000</ArrivalAheadThreshold>
+                <ArrivalAheadType>None</ArrivalAheadType>
+                <EnableArrivalAhead>false</EnableArrivalAhead>
+                <EnableOffset>false</EnableOffset>
+                <JointAcc>45,45,45,45,45,45</JointAcc>
+                <JointSpeed>90,90,90,90,90,90</JointSpeed>
+                <OffsetCoordName>Base</OffsetCoordName>
+                <OffsetCoordType>BaseCoord</OffsetCoordType>
+                <OffsetRX></OffsetRX>
+                <OffsetRY></OffsetRY>
+                <OffsetRZ></OffsetRZ>
+                <OffsetX></OffsetX>
+                <OffsetY></OffsetY>
+                <OffsetZ></OffsetZ>
+                <angleJerkRatio>0.25</angleJerkRatio>
+                <isInGluing>false</isInGluing>
+                <isInMoveGroup>false</isInMoveGroup>
+                <jerkRatio>0.25</jerkRatio>
+            </Attribute>
+            <Condition ConditionType="Waypoint" ConditionAlias="Waypoint_V_P_DrillInit" ConditionUuid="3126c2f94b2d4721aea6141e61b787ef">
+                <Attribute>
+                    <WaypointConditionMode>VarPoint</WaypointConditionMode>
+                    <VarPoint>V_P_DrillInit</VarPoint>
+                </Attribute>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Procedure" ConditionAlias="GripOpen" ConditionUuid="02c17c9996da4202860085a9c046821b">
+            <Attribute>
+                <MD5>aa13537dbab74c970c71b204954cf396</MD5>
+                <ProcedureName>GripOpen</ProcedureName>
+            </Attribute>
+            <Condition ConditionType="Set" ConditionAlias="Set_PositionFullOpen" ConditionUuid="27fe620552a245b8a12ee7fead1c6d6a">
+                <Attribute>
+                    <SetConditionMode>IO</SetConditionMode>
+                    <IOCategory>Modbus</IOCategory>
+                    <IOName>Grip_Pos</IOName>
+                    <IOValue>1000</IOValue>
+                    <ModbusIOType>ModbusAO</ModbusIOType>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Wait" ConditionAlias="Wait_025s" ConditionUuid="aab498cee0814a2c9e42b3640f372eb5">
+                <Attribute>
+                    <WaitConditionMode>Time</WaitConditionMode>
+                    <WaitTime>0.25</WaitTime>
+                </Attribute>
+            </Condition>
+            <Condition ConditionType="Loop" ConditionAlias="Loop_always" ConditionUuid="f3e63176a2534793871dd3d0353c0da1">
+                <Attribute>
+                    <LoopConditionMode>Always</LoopConditionMode>
+                </Attribute>
+                <Condition ConditionType="Set" ConditionAlias="Set_DIOnumber1" ConditionUuid="0411918c602e46d89cf0116f085e8178">
+                    <Attribute>
+                        <SetConditionMode>Variable</SetConditionMode>
+                        <VarAssignmentExp>1</VarAssignmentExp>
+                        <VarName>V_I_DIOnumber</VarName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Script" ConditionAlias="check_mk311DI" ConditionUuid="872eb4c025304afc9baac2703490e981">
+                    <Attribute>
+                        <ScriptConditionMode>BlockScript</ScriptConditionMode>
+                        <MD5>524d9f6fddd5a142b7c70439285eb24e</MD5>
+                        <ScriptFileName>check_mk311DI</ScriptFileName>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="Wait" ConditionAlias="Wait_025s" ConditionUuid="01954201c5ec4f618e84009e63dd3a95">
+                    <Attribute>
+                        <WaitConditionMode>Time</WaitConditionMode>
+                        <WaitTime>0.25</WaitTime>
+                    </Attribute>
+                </Condition>
+                <Condition ConditionType="If" ConditionAlias="If" ConditionUuid="0071beaeafe64b578e70478d4029a2da">
+                    <Attribute>
+                        <Exp>V_B_mk311DIstate == true</Exp>
+                    </Attribute>
+                    <Condition ConditionType="Break" ConditionAlias="Break" ConditionUuid="29c2b5d2295f456cadaeb6cdd6d1a9c1">
+                        <Attribute/>
+                    </Condition>
+                </Condition>
+            </Condition>
+        </Condition>
+        <Condition ConditionType="Script" ConditionAlias="Script_printEnd" ConditionUuid="07be4cee09b74ae18bb66252bab73f76">
+            <Attribute>
+                <ScriptConditionMode>LineScript</ScriptConditionMode>
+                <LineScriptContent>print(&quot;операция снятия заусенца выполнена&quot;)</LineScriptContent>
+            </Attribute>
+        </Condition>
+    </Condition>
+</ProcedureProgram>

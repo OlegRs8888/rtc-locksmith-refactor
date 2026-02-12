@@ -1,0 +1,72 @@
+[
+    {
+        "baud": "",
+        "data_bits": "",
+        "device": "",
+        "frequency": "0",
+        "ip": "192.168.1.40",
+        "modbus_mode": "TCP",
+        "modbus_name": "mk311",
+        "parity": "",
+        "port": "502",
+        "response": "50",
+        "slave": "1",
+        "stop_bits": ""
+    },
+    {
+        "baud": "",
+        "data_bits": "",
+        "device": "",
+        "frequency": "0",
+        "ip": "192.168.1.41",
+        "modbus_mode": "TCP",
+        "modbus_name": "mk312",
+        "parity": "",
+        "port": "502",
+        "response": "50",
+        "slave": "1",
+        "stop_bits": ""
+    },
+    {
+        "baud": "",
+        "data_bits": "",
+        "device": "",
+        "frequency": "0",
+        "ip": "192.168.1.77",
+        "modbus_mode": "TCP",
+        "modbus_name": "Gripper",
+        "parity": "",
+        "port": "8899",
+        "response": "300",
+        "slave": "8",
+        "stop_bits": ""
+    },
+    {
+        "baud": "",
+        "data_bits": "",
+        "device": "",
+        "frequency": "0",
+        "ip": "192.168.1.77",
+        "modbus_mode": "TCP",
+        "modbus_name": "Servo",
+        "parity": "",
+        "port": "8899",
+        "response": "300",
+        "slave": "7F",
+        "stop_bits": ""
+    },
+    {
+        "baud": "",
+        "data_bits": "",
+        "device": "",
+        "frequency": "0",
+        "ip": "192.168.1.50",
+        "modbus_mode": "TCP",
+        "modbus_name": "auboSlave",
+        "parity": "",
+        "port": "502",
+        "response": "300",
+        "slave": "1",
+        "stop_bits": ""
+    }
+]

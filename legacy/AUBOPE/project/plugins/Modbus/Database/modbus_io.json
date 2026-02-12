@@ -1,0 +1,1736 @@
+[
+    {
+        "addr": "104",
+        "addr_type": "RegisterOutput",
+        "io_name": "Grip_Force",
+        "modbus_name": "Gripper"
+    },
+    {
+        "addr": "103",
+        "addr_type": "RegisterOutput",
+        "io_name": "Grip_Pos",
+        "modbus_name": "Gripper"
+    },
+    {
+        "addr": "101",
+        "addr_type": "RegisterOutput",
+        "io_name": "Grip_Speed",
+        "modbus_name": "Gripper"
+    },
+    {
+        "addr": "50E",
+        "addr_type": "RegisterOutput",
+        "io_name": "50E_PR",
+        "modbus_name": "Servo"
+    },
+    {
+        "addr": "40E",
+        "addr_type": "RegisterOutput",
+        "io_name": "40E_ctrlDI",
+        "modbus_name": "Servo"
+    },
+    {
+        "addr": "18",
+        "addr_type": "RegisterOutputSigned",
+        "io_name": "M_S_18_moment",
+        "modbus_name": "Servo"
+    },
+    {
+        "addr": "30C",
+        "addr_type": "RegisterOutput",
+        "io_name": "30C_DIconf",
+        "modbus_name": "Servo"
+    },
+    {
+        "addr": "33",
+        "addr_type": "ReisterInput",
+        "io_name": "mk311_DI",
+        "modbus_name": "mk311"
+    },
+    {
+        "addr": "1D6",
+        "addr_type": "RegisterOutput",
+        "io_name": "mk311_DO",
+        "modbus_name": "mk311"
+    },
+    {
+        "addr": "33",
+        "addr_type": "ReisterInput",
+        "io_name": "mk312_DI",
+        "modbus_name": "mk312"
+    },
+    {
+        "addr": "1D6",
+        "addr_type": "RegisterOutput",
+        "io_name": "mk312_DO",
+        "modbus_name": "mk312"
+    },
+    {
+        "addr": "12",
+        "addr_type": "RegisterOutputLong",
+        "io_name": "M_L_12_PUU",
+        "modbus_name": "Servo"
+    },
+    {
+        "addr": "16",
+        "addr_type": "RegisterOutputLong",
+        "io_name": "M_L_16_speed",
+        "modbus_name": "Servo"
+    },
+    {
+        "addr": "16E",
+        "addr_type": "RegisterOutput",
+        "io_name": "16EspeedLim",
+        "modbus_name": "Servo"
+    },
+    {
+        "addr": "118",
+        "addr_type": "RegisterOutput",
+        "io_name": "118_setTorq",
+        "modbus_name": "Servo"
+    },
+    {
+        "addr": "16",
+        "addr_type": "RegisterOutput",
+        "io_name": "16_speed1",
+        "modbus_name": "Servo"
+    },
+    {
+        "addr": "2",
+        "addr_type": "RegisterOutput",
+        "io_name": "02_errorCod",
+        "modbus_name": "Servo"
+    },
+    {
+        "addr": "C8",
+        "addr_type": "DigitalOutput",
+        "io_name": "syncMove",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "100",
+        "addr_type": "RegisterOutput",
+        "io_name": "probe_r100h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "101",
+        "addr_type": "RegisterOutput",
+        "io_name": "probe_r101h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "10A",
+        "addr_type": "RegisterOutput",
+        "io_name": "probe_r10Ah",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "100",
+        "addr_type": "DigitalOutput",
+        "io_name": "probe_c100h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "102",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_probe_r102h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "101",
+        "addr_type": "DigitalOutput",
+        "io_name": "probe_c101h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "102",
+        "addr_type": "DigitalOutput",
+        "io_name": "probe_c102h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "103",
+        "addr_type": "DigitalOutput",
+        "io_name": "probe_c103h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "104",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_probe_r104h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "106",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_probe_r106h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "108",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_probe_r108h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "10B",
+        "addr_type": "RegisterOutput",
+        "io_name": "probe_r10Bh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "10C",
+        "addr_type": "RegisterOutput",
+        "io_name": "probe_r10Ch",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "10D",
+        "addr_type": "RegisterOutput",
+        "io_name": "probe_r10Dh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "10E",
+        "addr_type": "RegisterOutput",
+        "io_name": "probe_r10Eh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "10F",
+        "addr_type": "RegisterOutput",
+        "io_name": "probe_r10Fh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "10F",
+        "addr_type": "DigitalOutput",
+        "io_name": "probe_c10Fh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "11E",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_probe_r11Eh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "11D",
+        "addr_type": "RegisterOutput",
+        "io_name": "probe_r11Dh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "120",
+        "addr_type": "RegisterOutput",
+        "io_name": "detectR120h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "121",
+        "addr_type": "RegisterOutput",
+        "io_name": "detectR121h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "122",
+        "addr_type": "RegisterOutput",
+        "io_name": "detectR122h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "124",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR124h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "126",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR126h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "128",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR128h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "12A",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR12Ah",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "12C",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR12Ch",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "12E",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR12Eh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "130",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR130h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "132",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR132h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "134",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR134h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "136",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR136h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "138",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR138h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "13A",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR13Ah",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "13C",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR13Ch",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "13E",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR13Eh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "140",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR140h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "14A",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR14Ah",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "14C",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR14Ch",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "14E",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR14Eh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "142",
+        "addr_type": "RegisterOutput",
+        "io_name": "detectR142h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "143",
+        "addr_type": "RegisterOutput",
+        "io_name": "detectR143h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "144",
+        "addr_type": "RegisterOutput",
+        "io_name": "detectR144h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "145",
+        "addr_type": "RegisterOutput",
+        "io_name": "detectR145h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "146",
+        "addr_type": "RegisterOutput",
+        "io_name": "detectR146h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "147",
+        "addr_type": "RegisterOutput",
+        "io_name": "detectR147h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "148",
+        "addr_type": "RegisterOutput",
+        "io_name": "detectR148h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "7C0",
+        "addr_type": "RegisterOutputLong",
+        "io_name": "M_L_PR98param",
+        "modbus_name": "Servo"
+    },
+    {
+        "addr": "7C2",
+        "addr_type": "RegisterOutputLong",
+        "io_name": "M_L_PR98coord",
+        "modbus_name": "Servo"
+    },
+    {
+        "addr": "11F",
+        "addr_type": "DigitalOutput",
+        "io_name": "detec_c11Fh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "149",
+        "addr_type": "RegisterOutput",
+        "io_name": "detectR149h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "11E",
+        "addr_type": "DigitalOutput",
+        "io_name": "detec_c11Eh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "110",
+        "addr_type": "DigitalOutput",
+        "io_name": "detec_c110h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "11D",
+        "addr_type": "DigitalOutput",
+        "io_name": "detec_c11Dh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "11C",
+        "addr_type": "DigitalOutput",
+        "io_name": "detec_c11Ch",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "11B",
+        "addr_type": "DigitalOutput",
+        "io_name": "detec_c11Bh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "110",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_probe_r110h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "160",
+        "addr_type": "RegisterOutput",
+        "io_name": "synhr_r160h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "112",
+        "addr_type": "RegisterOutput",
+        "io_name": "probe_r112h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "123",
+        "addr_type": "RegisterOutput",
+        "io_name": "detectR123h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "120",
+        "addr_type": "DigitalOutput",
+        "io_name": "synhr_c120h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "111",
+        "addr_type": "DigitalOutput",
+        "io_name": "detec_c111h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "150",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR150h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "152",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR152h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "154",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR154h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "190",
+        "addr_type": "RegisterOutput",
+        "io_name": "globalR190h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "191",
+        "addr_type": "RegisterOutput",
+        "io_name": "globalR191h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "192",
+        "addr_type": "RegisterOutput",
+        "io_name": "globalR192h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "194",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_globalR194h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "170",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_tPosX_r170h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "172",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_tPosY_r172h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "174",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_tPosZ_r174h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "176",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_tOriX_r176h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "178",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_tOriY_r178h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "17A",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_tOriZ_r17Ah",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "17C",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_tOriW_r17Ch",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "193",
+        "addr_type": "RegisterOutput",
+        "io_name": "globalR193h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "196",
+        "addr_type": "RegisterOutput",
+        "io_name": "globalR196h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "197",
+        "addr_type": "RegisterOutput",
+        "io_name": "globalR197h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "199",
+        "addr_type": "RegisterOutput",
+        "io_name": "globalR199h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "160",
+        "addr_type": "DigitalOutput",
+        "io_name": "globalC160h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "161",
+        "addr_type": "DigitalOutput",
+        "io_name": "globalC161h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "162",
+        "addr_type": "DigitalOutput",
+        "io_name": "globalC162h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "163",
+        "addr_type": "DigitalOutput",
+        "io_name": "globalC163h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "164",
+        "addr_type": "DigitalOutput",
+        "io_name": "globalC164h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "165",
+        "addr_type": "DigitalOutput",
+        "io_name": "globalC165h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "166",
+        "addr_type": "DigitalOutput",
+        "io_name": "globalC166h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "167",
+        "addr_type": "DigitalOutput",
+        "io_name": "globalC167h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "168",
+        "addr_type": "DigitalOutput",
+        "io_name": "globalC168h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "169",
+        "addr_type": "DigitalOutput",
+        "io_name": "globalC169h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "16A",
+        "addr_type": "DigitalOutput",
+        "io_name": "globalC16Ah",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "198",
+        "addr_type": "RegisterOutput",
+        "io_name": "globalR198h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "16B",
+        "addr_type": "DigitalOutput",
+        "io_name": "globalC16Bh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "16C",
+        "addr_type": "DigitalOutput",
+        "io_name": "globalC16Ch",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "16D",
+        "addr_type": "DigitalOutput",
+        "io_name": "globalC16Dh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "121",
+        "addr_type": "DigitalOutput",
+        "io_name": "synhr_c121h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "16E",
+        "addr_type": "DigitalOutput",
+        "io_name": "globalC16Eh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "16F",
+        "addr_type": "DigitalOutput",
+        "io_name": "globalC16Fh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "19A",
+        "addr_type": "RegisterOutput",
+        "io_name": "globalR19Ah",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "19B",
+        "addr_type": "RegisterOutput",
+        "io_name": "globalR19Bh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "19C",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_globalR19Ch",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "19E",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_globalR19Eh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "634",
+        "addr_type": "RegisterOutputLong",
+        "io_name": "M_L_PR13param",
+        "modbus_name": "Servo"
+    },
+    {
+        "addr": "636",
+        "addr_type": "RegisterOutputLong",
+        "io_name": "M_L_PR13coord",
+        "modbus_name": "Servo"
+    },
+    {
+        "addr": "63A",
+        "addr_type": "RegisterOutputLong",
+        "io_name": "M_L_PR14coord",
+        "modbus_name": "Servo"
+    },
+    {
+        "addr": "638",
+        "addr_type": "RegisterOutputLong",
+        "io_name": "M_L_PR14param",
+        "modbus_name": "Servo"
+    },
+    {
+        "addr": "63C",
+        "addr_type": "RegisterOutputLong",
+        "io_name": "M_L_PR15param",
+        "modbus_name": "Servo"
+    },
+    {
+        "addr": "63E",
+        "addr_type": "RegisterOutputLong",
+        "io_name": "M_L_PR15coord",
+        "modbus_name": "Servo"
+    },
+    {
+        "addr": "640",
+        "addr_type": "RegisterOutputLong",
+        "io_name": "M_L_PR16param",
+        "modbus_name": "Servo"
+    },
+    {
+        "addr": "642",
+        "addr_type": "RegisterOutputLong",
+        "io_name": "M_L_PR16coord",
+        "modbus_name": "Servo"
+    },
+    {
+        "addr": "1A0",
+        "addr_type": "RegisterOutput",
+        "io_name": "globalR1A0h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "578",
+        "addr_type": "RegisterOutputLong",
+        "io_name": "M_L_P5_060",
+        "modbus_name": "Servo"
+    },
+    {
+        "addr": "122",
+        "addr_type": "DigitalOutput",
+        "io_name": "synhr_c122h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "123",
+        "addr_type": "DigitalOutput",
+        "io_name": "synhr_c123h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "161",
+        "addr_type": "RegisterOutput",
+        "io_name": "synhr_r161h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "162",
+        "addr_type": "RegisterOutput",
+        "io_name": "synhr_r162h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "170",
+        "addr_type": "DigitalOutput",
+        "io_name": "globalC170h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1A1",
+        "addr_type": "RegisterOutput",
+        "io_name": "globalR1A1h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1A4",
+        "addr_type": "RegisterOutput",
+        "io_name": "globalR1A4h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1A5",
+        "addr_type": "RegisterOutput",
+        "io_name": "globalR1A5h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1A6",
+        "addr_type": "RegisterOutput",
+        "io_name": "globalR1A6h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1A7",
+        "addr_type": "RegisterOutput",
+        "io_name": "globalR1A7h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1A8",
+        "addr_type": "RegisterOutput",
+        "io_name": "globalR1A8h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1A9",
+        "addr_type": "RegisterOutput",
+        "io_name": "globalR1A9h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1A2",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_globalR1A2h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1AA",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_globalR1AAh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1AC",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_globalR1ACh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1AE",
+        "addr_type": "RegisterOutput",
+        "io_name": "globalR1AEh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1AF",
+        "addr_type": "RegisterOutput",
+        "io_name": "globalR1AFh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1B0",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_globalR1B0h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1B2",
+        "addr_type": "RegisterOutput",
+        "io_name": "globalR1B2h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1B3",
+        "addr_type": "RegisterOutput",
+        "io_name": "globalR1B3h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1B4",
+        "addr_type": "RegisterOutput",
+        "io_name": "globalR1B4h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "61E",
+        "addr_type": "RegisterOutputLong",
+        "io_name": "M_L_PR7coord",
+        "modbus_name": "Servo"
+    },
+    {
+        "addr": "156",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR156h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "158",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR158h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "15A",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR15Ah",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "11A",
+        "addr_type": "DigitalOutput",
+        "io_name": "detec_c11Ah",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "119",
+        "addr_type": "DigitalOutput",
+        "io_name": "detec_c119h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "118",
+        "addr_type": "DigitalOutput",
+        "io_name": "detec_c118h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1C0",
+        "addr_type": "RegisterOutput",
+        "io_name": "millZR1C0h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1C1",
+        "addr_type": "RegisterOutput",
+        "io_name": "millZR1C1h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1C2",
+        "addr_type": "RegisterOutput",
+        "io_name": "millZR1C2h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1C3",
+        "addr_type": "RegisterOutput",
+        "io_name": "millZR1C3h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1C4",
+        "addr_type": "RegisterOutput",
+        "io_name": "millZR1C4h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1C5",
+        "addr_type": "RegisterOutput",
+        "io_name": "millZR1C5h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1CC",
+        "addr_type": "RegisterOutput",
+        "io_name": "millZR1CCh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "190",
+        "addr_type": "DigitalOutput",
+        "io_name": "millZ_c190h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1D0",
+        "addr_type": "RegisterOutput",
+        "io_name": "millZR1D0h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1D1",
+        "addr_type": "RegisterOutput",
+        "io_name": "millZR1D1h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1D2",
+        "addr_type": "RegisterOutput",
+        "io_name": "millZR1D2h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1D3",
+        "addr_type": "RegisterOutput",
+        "io_name": "millZR1D3h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1C6",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_millZR1C6h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1C8",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_millZR1C8h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1CA",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_millZR1CAh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1CC",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_millZR1CCh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1CE",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_millZR1CEh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1D4",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_millZR1D4h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1D6",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_millZR1D6h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1D8",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_millZR1D8h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1DA",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_millZR1DAh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "116",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_probe_r116h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "118",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_probe_r118h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "11A",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_probe_r11Ah",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1E0",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR1E0h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1E2",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR1E2h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1E4",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR1E4h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1E6",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR1E6h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1E8",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR1E8h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1EA",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR1EAh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1EC",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR1ECh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1EE",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR1EEh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1F0",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR1F0h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1F2",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR1F2h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1F4",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR1F4h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1F6",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR1F6h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1F8",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR1F8h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1FA",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR1FAh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1FC",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR1FCh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1FE",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR1FEh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "200",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR200h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "202",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR202h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "204",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR204h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "206",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR206h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "208",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR208h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "20A",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR20Ah",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "20C",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR20Ch",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "20E",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR20Eh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "210",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR210h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "212",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR212h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "214",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR214h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "216",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR216h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "218",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR218h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "21A",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR21Ah",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "21C",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR21Ch",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "21E",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR21Eh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "220",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR220h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "222",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR222h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "224",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR224h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "226",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR226h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "228",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR228h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "22A",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR22Ah",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "22C",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR22Ch",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "22E",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR22Eh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "230",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR230h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "232",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_detectR232h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1DC",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_millZR1DCh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1DE",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_millZR1DEh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "191",
+        "addr_type": "DigitalOutput",
+        "io_name": "millZ_c191h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1B0",
+        "addr_type": "DigitalOutput",
+        "io_name": "faska_c1B0h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1B1",
+        "addr_type": "DigitalOutput",
+        "io_name": "faska_c1B1h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1B2",
+        "addr_type": "DigitalOutput",
+        "io_name": "faska_c1B2h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "240",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR240h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "242",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR242h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "244",
+        "addr_type": "RegisterOutput",
+        "io_name": "probe_r244h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "244",
+        "addr_type": "RegisterOutput",
+        "io_name": "faskaR244h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1B3",
+        "addr_type": "DigitalOutput",
+        "io_name": "manSc_c1B3h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "245",
+        "addr_type": "RegisterOutput",
+        "io_name": "faskaR245h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "24C",
+        "addr_type": "RegisterOutput",
+        "io_name": "faskaR24Ch",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "24D",
+        "addr_type": "RegisterOutput",
+        "io_name": "faskaR24Dh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "246",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR246h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "248",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR248h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "24A",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR24Ah",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "24E",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR24Eh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1B4",
+        "addr_type": "DigitalOutput",
+        "io_name": "manSc_c1B4h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1B5",
+        "addr_type": "DigitalOutput",
+        "io_name": "manSc_c1B5h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1B6",
+        "addr_type": "DigitalOutput",
+        "io_name": "manSc_c1B6h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1B7",
+        "addr_type": "DigitalOutput",
+        "io_name": "manSc_c1B7h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "250",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR250h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "258",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR258h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "25C",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR25Ch",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "25E",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR25Eh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "260",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR260h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "262",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR262h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "268",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR268h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1B8",
+        "addr_type": "DigitalOutput",
+        "io_name": "manSc_c1B8h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1B9",
+        "addr_type": "DigitalOutput",
+        "io_name": "manSc_c1B9h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "25B",
+        "addr_type": "RegisterOutput",
+        "io_name": "manSR25Bh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1BA",
+        "addr_type": "DigitalOutput",
+        "io_name": "manSc_c1BAh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1BB",
+        "addr_type": "DigitalOutput",
+        "io_name": "manSc_c1BBh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "26A",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR26Ah",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "26C",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR26Ch",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "26E",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR26Eh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1BC",
+        "addr_type": "DigitalOutput",
+        "io_name": "manSc_c1BCh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "1BD",
+        "addr_type": "DigitalOutput",
+        "io_name": "manSc_c1BDh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "270",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR270h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "272",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR272h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "274",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR274h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "252",
+        "addr_type": "RegisterOutput",
+        "io_name": "faskaR252h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "253",
+        "addr_type": "RegisterOutput",
+        "io_name": "faskaR253h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "254",
+        "addr_type": "RegisterOutput",
+        "io_name": "faskaR254h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "255",
+        "addr_type": "RegisterOutput",
+        "io_name": "faskaR255h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "256",
+        "addr_type": "RegisterOutput",
+        "io_name": "faskaR256h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "257",
+        "addr_type": "RegisterOutput",
+        "io_name": "faskaR257h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "27C",
+        "addr_type": "RegisterOutput",
+        "io_name": "faskaR27Ch",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "27D",
+        "addr_type": "RegisterOutput",
+        "io_name": "faskaR27Dh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "27E",
+        "addr_type": "RegisterOutput",
+        "io_name": "faskaR27Eh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "27F",
+        "addr_type": "RegisterOutput",
+        "io_name": "faskaR27Fh",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "25A",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR25Ah",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "264",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR264h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "266",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR266h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "276",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR276h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "278",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR278h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "27A",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR27Ah",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "280",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR280h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "282",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR282h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "284",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR284h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "286",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR286h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "288",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR288h",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "28A",
+        "addr_type": "RegistersOutputFloat",
+        "io_name": "M_F_faskaR28Ah",
+        "modbus_name": "auboSlave"
+    },
+    {
+        "addr": "7BE",
+        "addr_type": "RegisterOutputLong",
+        "io_name": "M_L_PR97coord",
+        "modbus_name": "Servo"
+    }
+]

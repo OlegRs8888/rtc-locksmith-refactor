@@ -1,0 +1,182 @@
+[
+    {
+        "key": "",
+        "value": ""
+    },
+    {
+        "key": "CO0",
+        "value": "CO0"
+    },
+    {
+        "key": "CO1",
+        "value": "CO1"
+    },
+    {
+        "key": "T_DI/O_00",
+        "value": "T_DI/O_00"
+    },
+    {
+        "key": "T_DI/O_01",
+        "value": "T_DI/O_01"
+    },
+    {
+        "key": "T_DI/O_02",
+        "value": "T_DI/O_02"
+    },
+    {
+        "key": "T_DI/O_03",
+        "value": "T_DI/O_03"
+    },
+    {
+        "key": "U_DI_00",
+        "value": "ProbeStol"
+    },
+    {
+        "key": "U_DI_01",
+        "value": "ProbeRobot"
+    },
+    {
+        "key": "U_DI_02",
+        "value": "U_DI_02"
+    },
+    {
+        "key": "U_DI_03",
+        "value": "U_DI_03"
+    },
+    {
+        "key": "U_DI_04",
+        "value": "U_DI_04"
+    },
+    {
+        "key": "U_DI_05",
+        "value": "U_DI_05"
+    },
+    {
+        "key": "U_DI_06",
+        "value": "U_DI_06"
+    },
+    {
+        "key": "U_DI_07",
+        "value": "U_DI_07"
+    },
+    {
+        "key": "U_DI_10",
+        "value": "U_DI_10"
+    },
+    {
+        "key": "U_DI_11",
+        "value": "U_DI_11"
+    },
+    {
+        "key": "U_DI_12",
+        "value": "U_DI_12"
+    },
+    {
+        "key": "U_DI_13",
+        "value": "U_DI_13"
+    },
+    {
+        "key": "U_DI_14",
+        "value": "U_DI_14"
+    },
+    {
+        "key": "U_DI_15",
+        "value": "U_DI_15"
+    },
+    {
+        "key": "U_DI_16",
+        "value": "U_DI_16"
+    },
+    {
+        "key": "U_DI_17",
+        "value": "U_DI_17"
+    },
+    {
+        "key": "U_DO_00",
+        "value": "U_DO_00"
+    },
+    {
+        "key": "U_DO_01",
+        "value": "U_DO_01"
+    },
+    {
+        "key": "U_DO_02",
+        "value": "U_DO_02"
+    },
+    {
+        "key": "U_DO_03",
+        "value": "U_DO_03"
+    },
+    {
+        "key": "U_DO_04",
+        "value": "U_DO_04"
+    },
+    {
+        "key": "U_DO_05",
+        "value": "U_DO_05"
+    },
+    {
+        "key": "U_DO_06",
+        "value": "U_DO_06"
+    },
+    {
+        "key": "U_DO_07",
+        "value": "obduv"
+    },
+    {
+        "key": "U_DO_10",
+        "value": "U_DO_10"
+    },
+    {
+        "key": "U_DO_11",
+        "value": "U_DO_11"
+    },
+    {
+        "key": "U_DO_12",
+        "value": "U_DO_12"
+    },
+    {
+        "key": "U_DO_13",
+        "value": "U_DO_13"
+    },
+    {
+        "key": "U_DO_14",
+        "value": "U_DO_14"
+    },
+    {
+        "key": "U_DO_15",
+        "value": "U_DO_15"
+    },
+    {
+        "key": "U_DO_16",
+        "value": "U_DO_16"
+    },
+    {
+        "key": "U_DO_17",
+        "value": "U_DO_17"
+    },
+    {
+        "key": "VI0",
+        "value": "VI0"
+    },
+    {
+        "key": "VI1",
+        "value": "VI1"
+    },
+    {
+        "key": "VI2",
+        "value": "VI2"
+    },
+    {
+        "key": "VI3",
+        "value": "VI3"
+    },
+    {
+        "key": "VO0",
+        "value": "VO0"
+    },
+    {
+        "key": "VO1",
+        "value": "VO1"
+    }
+]

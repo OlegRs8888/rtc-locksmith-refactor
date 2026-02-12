@@ -1,0 +1,47 @@
+[
+    {
+        "dynamics_name": "flange_center",
+        "kinematics_name": "flange_center",
+        "tool_name": "flange_center"
+    },
+    {
+        "dynamics_name": "zahvat",
+        "kinematics_name": "zahvat",
+        "tool_name": "zahvat3"
+    },
+    {
+        "dynamics_name": "navesnoe",
+        "kinematics_name": "zahvat",
+        "tool_name": "zahvat"
+    },
+    {
+        "dynamics_name": "navesnoe",
+        "kinematics_name": "drill",
+        "tool_name": "drill"
+    },
+    {
+        "dynamics_name": "navesnoe",
+        "kinematics_name": "probeR",
+        "tool_name": "probeR"
+    },
+    {
+        "dynamics_name": "navesnoe",
+        "kinematics_name": "drillKinemat",
+        "tool_name": "drill1"
+    },
+    {
+        "dynamics_name": "navesnoe",
+        "kinematics_name": "drillDiskKinemat",
+        "tool_name": "drillDisk"
+    },
+    {
+        "dynamics_name": "navesnoe",
+        "kinematics_name": "drillKinematDisk",
+        "tool_name": "drillDisc"
+    },
+    {
+        "dynamics_name": "navesnoe",
+        "kinematics_name": "probeR_visual",
+        "tool_name": "probeR_visual"
+    }
+]
